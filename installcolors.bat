@@ -1,2 +1,1 @@
-npm install colors
-exit
+npm install colors && exit

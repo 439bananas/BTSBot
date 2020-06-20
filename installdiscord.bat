@@ -1,2 +1,1 @@
-npm install discord.js
-exit
+npm install discord.js && exit
