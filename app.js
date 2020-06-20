@@ -34,12 +34,12 @@ client.on('error', (error) => {
 
 client.on("guildMemberAdd", (member) => {
     if (member.user.bot) {
-        console.log(`${colours.cyan(`${new Date()}`)} - ${'INFO:'.green} ${member.tag} (${member.id}) was added to ${message.guild.name} (${message.guild.id}), #${message.channel.name} (${message.channel.id}). The "Bots" role was assigned automatically`);
+        console.log(`${colours.cyan(`${new Date()}`)} - ${'INFO:'.green} ${member.tag} (${member.id}) was added to ${member.guild.name} (${member.guild.id}). The "Bots" role was assigned automatically`);
         client.channels.fetch(conf.logchannelID)
         .then(channel => channel.send({
             embed: {
               color: 0x9b59b6,
-              description: `${colours.cyan(`${new Date()}`)} - INFO: ${member.tag} (${member.id}) was added to ${message.guild.name} (${message.guild.id}), #${message.channel.name} (${message.channel.id}). The "Bots" role was assigned automatically`,
+              description: `${colours.cyan(`${new Date()}`)} - INFO: ${member.tag} (${member.id}) was added to ${member.guild.name} (${member.guild.id}). The "Bots" role was assigned automatically`,
             },
           }).catch(O_o=>{})
         )
