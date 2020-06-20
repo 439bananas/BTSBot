@@ -18,6 +18,24 @@ Prerequisites:
 * Git (if on Windows, just ensure that it's on your path so you can properly clone it)
 
 ### Installation
-Run the respective command for your operating system:\
-Windows: `powershell iwr -outf setup.bat https://439bananas.com/projects/btsbot && setup.bat`
+* Run the respective command for your operating system:\
+Windows: `powershell iwr -outf setup.bat https://439bananas.com/projects/btsbot && setup.bat`\
 Linux/Unix/MacOS: `wget https://439bananas.com/projects/btsbot/setup.sh && bash setup.sh`
+* Create a conf.json:\
+`{`\
+    `"token" : "token goes here",`\
+    `"prefix" : ",",`\
+    `"pstatus" : "DM me to privately speak to a moderator | Run ,help to see all available commands",`\
+    `"ostatus" : "dnd",`\
+    `"logchannelID" : "logging channel ID",`\
+    `"OwnerID" : "owner's ID"`\
+`}`
+* (optional) Create a roles.json:\
+`{`\
+`"role name" : "role ID"`\
+`}`
+
+#### Adding to your server
+BTS Bot only requires the `MANAGE_ROLES` permission if you intend on using this feature. It, however, is imperative that give it permission to send messages in the logging channel.
+
+### Quick setup tutorial
