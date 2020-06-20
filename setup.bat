@@ -3,6 +3,7 @@ echo Starting setup of BTS Bot...
 echo You will be required to enter configuration settings in the form of JSON. If you do not do this, BTS Bot will throw errors or crash!
 pause 
 git clone https://github.com/439bananas/BTSBot
+cd BTSBot
 npm install colors
 npm install discord.js
 echo You are now required to provide the following: token, prefix, pstatus, ostatus, logchannelID, OwnerID
