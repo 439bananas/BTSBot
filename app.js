@@ -59,7 +59,7 @@ client.on("message", async (message) => {
         .then(channel => channel.send({
             embed: {
               color: 0x9b59b6,
-              description: `${colours.cyan(`${new Date()}`)} - INFO: ${message.author.tag} (${message.author.id}) sent a modmail message with the content "${message.content}" in ${message.channel.id}.`,
+              description: `${new Date()} - INFO: ${message.author.tag} (${message.author.id}) sent a modmail message with the content "${message.content}" in ${message.channel.id}.`,
             },
           }).catch(O_o=>{})
         )
