@@ -35,6 +35,9 @@ Linux/Unix/MacOS: `wget https://439bananas.com/projects/btsbot/setup.sh && bash 
 `"role name" : "role ID"`\
 `}`
 
+#### Running
+Like any bot, all you use to run BTS Bot is `node app.js`
+
 #### Adding to your server
 BTS Bot only requires the `MANAGE_ROLES` permission if you intend on using this feature. It, however, is imperative that give it permission to send messages in the logging channel.
 
