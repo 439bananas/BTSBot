@@ -263,7 +263,6 @@ client.on("message", async (message) => {
     if (command == "role") {
         let role = args.slice(0).join(" ");
         var lowercaserole = role.toLowerCase()
-        console.log(rolenames[lowercaserole])
         if (message.guild.id == "361233849847644160") {
             if (role && rolenames[lowercaserole] == null && role.toLowerCase() != "tbmping" && role.toLowerCase() != "list") {
                 message.channel.send({
