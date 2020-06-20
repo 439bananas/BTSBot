@@ -19,7 +19,7 @@ Prerequisites:
 
 ### Installation
 * Run the respective command for your operating system:\
-Windows: `powershell iwr -outf setup.bat https://439bananas.com/projects/btsbot && setup.bat`\
+Windows: `powershell iwr -outf setup.bat https://439bananas.com/projects/btsbot/setup.bat && setup.bat`\
 Linux/Unix/MacOS: `wget https://439bananas.com/projects/btsbot/setup.sh && bash setup.sh`
 * Create a conf.json:\
 `{`\
