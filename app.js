@@ -443,7 +443,7 @@ if (command == "request") {
                   },
                   {
                     name: "OAuth2 link",
-                    value: "[clientid](https://discord.com/oauth2/authorize?scope=bot&guild_id=" + message.guild.id + "&disable_guild_select=true&client_id=" + clientid + ")"
+                    value: "[" + clientid + "](https://discord.com/oauth2/authorize?scope=bot&guild_id=" + message.guild.id + "&disable_guild_select=true&client_id=" + clientid + ")"
                   }
                 ],
                 timestamp: new Date(),
