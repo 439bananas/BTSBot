@@ -35,6 +35,15 @@ client.on('error', (error) => {
 
 client.on("guildMemberAdd", (member) => {
     if (member.user.bot) {
+        console.log(`${colours.cyan(`${new Date()}`)} - ${'INFO:'.green} ${member.tag} (${member.id}) was added to ${message.guild.name} (${message.guild.id}), #${message.channel.name} (${message.channel.id}). The "Bots" role was assigned automatically`);
+        client.channels.fetch(conf.logchannelID)
+        .then(channel => channel.send({
+            embed: {
+              color: 0x9b59b6,
+              description: `${colours.cyan(`${new Date()}`)} - INFO: ${member.tag} (${member.id}) was added to ${message.guild.name} (${message.guild.id}), #${message.channel.name} (${message.channel.id}). The "Bots" role was assigned automatically`,
+            },
+          }).catch(O_o=>{})
+        )
         if (member.guild.id == "361233849847644160") {
             member.guild.members.fetch(member.id).then(gm => gm.roles.add("402560844841615373"))
         }
@@ -46,6 +55,15 @@ client.on("guildMemberAdd", (member) => {
 
 client.on("message", async (message) => {
     if (!message.author.bot && message.channel.type == "dm") {
+        console.log(`${colours.cyan(`${new Date()}`)} - ${'INFO:'.green} ${message.author.tag} (${message.author.id}) sent a modmail message with the content "${message.content}" in ${message.channel.id}.`);
+        client.channels.fetch(conf.logchannelID)
+        .then(channel => channel.send({
+            embed: {
+              color: 0x9b59b6,
+              description: `${colours.cyan(`${new Date()}`)} - INFO: ${message.author.tag} (${message.author.id}) sent a modmail message with the content "${message.content}" in ${message.channel.id}.`,
+            },
+          }).catch(O_o=>{})
+        )
         message.channel.send({
             embed: {
               color: 0x9b59b6,
