@@ -9,7 +9,7 @@ start installcolors.bat
 start installdiscord.bat
 pause
 echo You are now required to provide the following: token, prefix, pstatus, ostatus, logchannelID, OwnerID
-echo Respectively, your bot token, your command prefix, your desired playing status, your desired activity status, the channel you wish to log to, the ID of the person who is considered "
+echo Respectively, your bot token, your command prefix, your desired playing status, your desired activity status, the channel you wish to log to, the ID of the person who is considered "owner"
 pause
 notepad conf.json
 echo You are not obliged to, but if you wish, you may enter role aliases and provide them each with an ID.
