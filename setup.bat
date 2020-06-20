@@ -4,8 +4,8 @@ echo You will be required to enter configuration settings in the form of JSON. I
 pause 
 git clone https://github.com/439bananas/BTSBot
 cd BTSBot
-start npm install colors
-start npm install discord.js
+node npm install colors
+node npm install discord.js
 echo You are now required to provide the following: token, prefix, pstatus, ostatus, logchannelID, OwnerID
 echo Respectively, your bot token, your command prefix, your desired playing status, your desired activity status, the channel you wish to log to, the ID of the person who is considered "
 pause
