@@ -4,6 +4,7 @@ const sleep = require("system-sleep");
 const Discord = require("discord.js");
 const client = new Discord.Client();
 const conf = require("./conf.json");
+const rolenames = require("./roles.json");
 console.log(`${colours.cyan(`${new Date()}`)} - ${'INFO:'.green} Attempting to connect to Discord\'s API...`);
 
 client.on("ready", () => {
@@ -261,8 +262,10 @@ client.on("message", async (message) => {
     }
     if (command == "role") {
         let role = args.slice(0).join(" ");
+        var lowercaserole = role.toLowerCase()
+        console.log(rolenames[lowercaserole])
         if (message.guild.id == "361233849847644160") {
-            if (role && role.toLowerCase() != "bot owners" && role.toLowerCase() != "red" && role.toLowerCase() != "brown" && role.toLowerCase() != "orange" && role.toLowerCase() != "yellow" && role.toLowerCase() != "green" && role.toLowerCase() != "sky blue" && role.toLowerCase() != "light blue" && role.toLowerCase() != "blue" && role.toLowerCase() != "purple" && role.toLowerCase() != "magenta" && role.toLowerCase() != "peach" && role.toLowerCase() != "grey" && role.toLowerCase() != "black" && role.toLowerCase() != "white" && role.toLowerCase() != "tbmping" && role.toLowerCase() != "list") {
+            if (role && rolenames[lowercaserole] == null && role.toLowerCase() != "tbmping" && role.toLowerCase() != "list") {
                 message.channel.send({
                     embed: {
                       color: 0xff0000,
@@ -293,9 +296,9 @@ client.on("message", async (message) => {
                     }
                 })
             }
-            if (role.toLowerCase() == "bot owners") {
-                if (!message.member.roles.cache.has('402560627547308032')) {
-                message.guild.members.fetch(message.author.id).then(gm => gm.roles.add("402560627547308032"))
+            if (rolenames[lowercaserole] != null) {
+                if (!message.member.roles.cache.has(rolenames[lowercaserole])) {
+                message.guild.members.fetch(message.author.id).then(gm => gm.roles.add(rolenames[lowercaserole]))
                 message.channel.send({
                     embed: {
                         color: 0x9b59b6,
@@ -304,316 +307,8 @@ client.on("message", async (message) => {
                     }
                 })
                 }
-                if (message.member.roles.cache.has('402560627547308032')) {
-                    message.guild.members.fetch(message.author.id).then(gm => gm.roles.remove("402560627547308032"))
-                    message.channel.send({
-                        embed: {
-                            color: 0x9b59b6,
-                            title: "Success!",
-                            description: "You have successfully removed that role"
-                        }
-                    })
-                    }
-            }
-            if (role.toLowerCase() == "red") {
-                if (!message.member.roles.cache.has('409698223989719040')) {
-                message.guild.members.fetch(message.author.id).then(gm => gm.roles.add("409698223989719040"))
-                message.channel.send({
-                    embed: {
-                        color: 0x9b59b6,
-                        title: "Success!",
-                        description: "You have successfully self-assigned that role"
-                    }
-                })
-                }
-                if (message.member.roles.cache.has('409698223989719040')) {
-                    message.guild.members.fetch(message.author.id).then(gm => gm.roles.remove("409698223989719040"))
-                    message.channel.send({
-                        embed: {
-                            color: 0x9b59b6,
-                            title: "Success!",
-                            description: "You have successfully removed that role"
-                        }
-                    })
-                    }
-            }
-            if (role.toLowerCase() == "brown") {
-                if (!message.member.roles.cache.has('457535393655554048')) {
-                message.guild.members.fetch(message.author.id).then(gm => gm.roles.add("457535393655554048"))
-                message.channel.send({
-                    embed: {
-                        color: 0x9b59b6,
-                        title: "Success!",
-                        description: "You have successfully self-assigned that role"
-                    }
-                })
-                }
-                if (message.member.roles.cache.has('457535393655554048')) {
-                    message.guild.members.fetch(message.author.id).then(gm => gm.roles.remove("457535393655554048"))
-                    message.channel.send({
-                        embed: {
-                            color: 0x9b59b6,
-                            title: "Success!",
-                            description: "You have successfully removed that role"
-                        }
-                    })
-                    }
-            }
-            if (role.toLowerCase() == "orange") {
-                if (!message.member.roles.cache.has('409698330596081664')) {
-                message.guild.members.fetch(message.author.id).then(gm => gm.roles.add("409698330596081664"))
-                message.channel.send({
-                    embed: {
-                        color: 0x9b59b6,
-                        title: "Success!",
-                        description: "You have successfully self-assigned that role"
-                    }
-                })
-                }
-                if (message.member.roles.cache.has('409698330596081664')) {
-                    message.guild.members.fetch(message.author.id).then(gm => gm.roles.remove("409698330596081664"))
-                    message.channel.send({
-                        embed: {
-                            color: 0x9b59b6,
-                            title: "Success!",
-                            description: "You have successfully removed that role"
-                        }
-                    })
-                    }
-            }
-            if (role.toLowerCase() == "yellow") {
-                if (!message.member.roles.cache.has('409698373898338316')) {
-                message.guild.members.fetch(message.author.id).then(gm => gm.roles.add("409698373898338316"))
-                message.channel.send({
-                    embed: {
-                        color: 0x9b59b6,
-                        title: "Success!",
-                        description: "You have successfully self-assigned that role"
-                    }
-                })
-                }
-                if (message.member.roles.cache.has('409698373898338316')) {
-                    message.guild.members.fetch(message.author.id).then(gm => gm.roles.remove("409698373898338316"))
-                    message.channel.send({
-                        embed: {
-                            color: 0x9b59b6,
-                            title: "Success!",
-                            description: "You have successfully removed that role"
-                        }
-                    })
-                    }
-            }
-            if (role.toLowerCase() == "green") {
-                if (!message.member.roles.cache.has('409698377236742145')) {
-                message.guild.members.fetch(message.author.id).then(gm => gm.roles.add("409698377236742145"))
-                message.channel.send({
-                    embed: {
-                        color: 0x9b59b6,
-                        title: "Success!",
-                        description: "You have successfully self-assigned that role"
-                    }
-                })
-                }
-                if (message.member.roles.cache.has('409698377236742145')) {
-                    message.guild.members.fetch(message.author.id).then(gm => gm.roles.remove("409698377236742145"))
-                    message.channel.send({
-                        embed: {
-                            color: 0x9b59b6,
-                            title: "Success!",
-                            description: "You have successfully removed that role"
-                        }
-                    })
-                    }
-            }
-            if (role.toLowerCase() == "sky blue") {
-                if (!message.member.roles.cache.has('521312292567121930')) {
-                message.guild.members.fetch(message.author.id).then(gm => gm.roles.add("521312292567121930"))
-                message.channel.send({
-                    embed: {
-                        color: 0x9b59b6,
-                        title: "Success!",
-                        description: "You have successfully self-assigned that role"
-                    }
-                })
-                }
-                if (message.member.roles.cache.has('521312292567121930')) {
-                    message.guild.members.fetch(message.author.id).then(gm => gm.roles.remove("521312292567121930"))
-                    message.channel.send({
-                        embed: {
-                            color: 0x9b59b6,
-                            title: "Success!",
-                            description: "You have successfully removed that role"
-                        }
-                    })
-                    }
-            }
-            if (role.toLowerCase() == "light blue") {
-                if (!message.member.roles.cache.has('574918097031397376')) {
-                message.guild.members.fetch(message.author.id).then(gm => gm.roles.add("574918097031397376"))
-                message.channel.send({
-                    embed: {
-                        color: 0x9b59b6,
-                        title: "Success!",
-                        description: "You have successfully self-assigned that role"
-                    }
-                })
-                }
-                if (message.member.roles.cache.has('574918097031397376')) {
-                    message.guild.members.fetch(message.author.id).then(gm => gm.roles.remove("574918097031397376"))
-                    message.channel.send({
-                        embed: {
-                            color: 0x9b59b6,
-                            title: "Success!",
-                            description: "You have successfully removed that role"
-                        }
-                    })
-                    }
-            }
-            if (role.toLowerCase() == "blue") {
-                if (!message.member.roles.cache.has('409698379950718976')) {
-                message.guild.members.fetch(message.author.id).then(gm => gm.roles.add("409698379950718976"))
-                message.channel.send({
-                    embed: {
-                        color: 0x9b59b6,
-                        title: "Success!",
-                        description: "You have successfully self-assigned that role"
-                    }
-                })
-                }
-                if (message.member.roles.cache.has('409698379950718976')) {
-                    message.guild.members.fetch(message.author.id).then(gm => gm.roles.remove("409698379950718976"))
-                    message.channel.send({
-                        embed: {
-                            color: 0x9b59b6,
-                            title: "Success!",
-                            description: "You have successfully removed that role"
-                        }
-                    })
-                    }
-            }
-            if (role.toLowerCase() == "purple") {
-                if (!message.member.roles.cache.has('409698380370149377')) {
-                message.guild.members.fetch(message.author.id).then(gm => gm.roles.add("409698380370149377"))
-                message.channel.send({
-                    embed: {
-                        color: 0x9b59b6,
-                        title: "Success!",
-                        description: "You have successfully self-assigned that role"
-                    }
-                })
-                }
-                if (message.member.roles.cache.has('409698380370149377')) {
-                    message.guild.members.fetch(message.author.id).then(gm => gm.roles.remove("409698380370149377"))
-                    message.channel.send({
-                        embed: {
-                            color: 0x9b59b6,
-                            title: "Success!",
-                            description: "You have successfully removed that role"
-                        }
-                    })
-                    }
-            }
-            if (role.toLowerCase() == "magenta") {
-                if (!message.member.roles.cache.has('409698381565526017')) {
-                message.guild.members.fetch(message.author.id).then(gm => gm.roles.add("409698381565526017"))
-                message.channel.send({
-                    embed: {
-                        color: 0x9b59b6,
-                        title: "Success!",
-                        description: "You have successfully self-assigned that role"
-                    }
-                })
-                }
-                if (message.member.roles.cache.has('409698381565526017')) {
-                    message.guild.members.fetch(message.author.id).then(gm => gm.roles.remove("409698381565526017"))
-                    message.channel.send({
-                        embed: {
-                            color: 0x9b59b6,
-                            title: "Success!",
-                            description: "You have successfully removed that role"
-                        }
-                    })
-                    }
-            }
-            if (role.toLowerCase() == "peach") {
-                if (!message.member.roles.cache.has('567762942079270932')) {
-                message.guild.members.fetch(message.author.id).then(gm => gm.roles.add("567762942079270932"))
-                message.channel.send({
-                    embed: {
-                        color: 0x9b59b6,
-                        title: "Success!",
-                        description: "You have successfully self-assigned that role"
-                    }
-                })
-                }
-                if (message.member.roles.cache.has('567762942079270932')) {
-                    message.guild.members.fetch(message.author.id).then(gm => gm.roles.remove("567762942079270932"))
-                    message.channel.send({
-                        embed: {
-                            color: 0x9b59b6,
-                            title: "Success!",
-                            description: "You have successfully removed that role"
-                        }
-                    })
-                    }
-            }
-            if (role.toLowerCase() == "grey") {
-                if (!message.member.roles.cache.has('409698894708998144')) {
-                message.guild.members.fetch(message.author.id).then(gm => gm.roles.add("409698894708998144"))
-                message.channel.send({
-                    embed: {
-                        color: 0x9b59b6,
-                        title: "Success!",
-                        description: "You have successfully self-assigned that role"
-                    }
-                })
-                }
-                if (message.member.roles.cache.has('409698894708998144')) {
-                    message.guild.members.fetch(message.author.id).then(gm => gm.roles.remove("409698894708998144"))
-                    message.channel.send({
-                        embed: {
-                            color: 0x9b59b6,
-                            title: "Success!",
-                            description: "You have successfully removed that role"
-                        }
-                    })
-                    }
-                }
-            if (role.toLowerCase() == "black") {
-                if (!message.member.roles.cache.has('409698949054857223')) {
-                message.guild.members.fetch(message.author.id).then(gm => gm.roles.add("409698949054857223"))
-                message.channel.send({
-                    embed: {
-                        color: 0x9b59b6,
-                        title: "Success!",
-                        description: "You have successfully self-assigned that role"
-                    }
-                })
-                }
-                if (message.member.roles.cache.has('409698949054857223')) {
-                    message.guild.members.fetch(message.author.id).then(gm => gm.roles.remove("409698949054857223"))
-                    message.channel.send({
-                        embed: {
-                            color: 0x9b59b6,
-                            title: "Success!",
-                            description: "You have successfully removed that role"
-                        }
-                    })
-                    }
-            }
-            if (role.toLowerCase() == "white") {
-                if (!message.member.roles.cache.has('409699074976120842')) {
-                message.guild.members.fetch(message.author.id).then(gm => gm.roles.add("409699074976120842"))
-                message.channel.send({
-                    embed: {
-                        color: 0x9b59b6,
-                        title: "Success!",
-                        description: "You have successfully self-assigned that role"
-                    }
-                })
-                }
-                if (message.member.roles.cache.has('409699074976120842')) {
-                    message.guild.members.fetch(message.author.id).then(gm => gm.roles.remove("409699074976120842"))
+                if (message.member.roles.cache.has(rolenames[lowercaserole])) {
+                    message.guild.members.fetch(message.author.id).then(gm => gm.roles.remove(rolenames[lowercaserole]))
                     message.channel.send({
                         embed: {
                             color: 0x9b59b6,
