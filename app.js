@@ -1,6 +1,5 @@
 const projname = "BTSBot"
 const colours = require('colors');
-const sleep = require("system-sleep");
 const Discord = require("discord.js");
 const client = new Discord.Client();
 const conf = require("./conf.json");
