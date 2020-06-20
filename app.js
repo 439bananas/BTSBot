@@ -66,7 +66,7 @@ client.on("message", async (message) => {
         message.channel.send({
             embed: {
               color: 0x9b59b6,
-              description: `Thank you for your message! We will reply as soon as possible. To ensure that we can actually reply to it, please join [our main server](https://discord.gg/ahyzfEv).`,
+              description: `Thank you for your message! We will reply as soon as possible.`,
             },
           })
         client.channels.fetch("723075096234950667")
@@ -484,7 +484,7 @@ if ((command == "reply" || command == "reachout") && message.channel.id == "7230
             embed: {
               color: 0xff0000,
               title: 'Error',
-              description: `This user could not be found. Are they in this server? Are you ensuring that you do not mention them when running the command?`,
+              description: `This user could not be found. Are they in this server or BTSt3? Are you ensuring that you do not mention them when running the command?`,
             },
           });
     }
