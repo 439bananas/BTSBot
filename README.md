@@ -42,5 +42,4 @@ Like any bot, all you use to run BTS Bot is `node app.js`
 BTS Bot only requires the `MANAGE_ROLES` permission if you intend on using this feature. It, however, is imperative that give it permission to at least see the logging channel.
 
 ### Quick setup tutorial
-![image](https://439bananas.com/projects/btsbot/installationtutorial.gif)
-<iframe width="560" height="315" src="https://www.youtube.com/embed/nq-dHf_5TNM&autoplay=1&controls=0&showinfo=0&loop=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+[![](http://img.youtube.com/vi/nq-dHf_5TNM/0.jpg)](https://www.youtube.com/watch?v=nq-dHf_5TNM "")
