@@ -4,7 +4,7 @@ echo You will be required to enter configuration settings in the form of JSON. I
 pause 
 git clone https://github.com/439bananas/BTSBot
 cd BTSBot
-echo Installing libraries, this could take a while...
+echo Installing dependencies, this could take a while...
 start installcolors.bat
 start installdiscord.bat
 pause
