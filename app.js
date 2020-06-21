@@ -208,7 +208,7 @@ client.on("message", async (message) => {
                   icon_url: message.author.avatarURL()
                 },
                 title: "A new report has been made: YOUR ATTENTION IS REQUIRED",
-                description: "You can deal with this report in <#408348525630324736>",
+                description: "You can deal with this report in <#408348525630324736>\n\Upon dealing with this report, please react to it with ✅ so we all know it's been dealt with",
                 fields: [{
                     name: "Server",
                     value: message.guild.name
