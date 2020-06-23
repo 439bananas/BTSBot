@@ -389,7 +389,7 @@ client.on("message", async (message) => {
                 })
                 }
                 if (message.member.roles.cache.has('714549457944838264')) {
-                    message.guild.members.fetch(message.author.id).then(gm => gm.roles.remove("714549457944838264", "User self-removed role")
+                    message.guild.members.fetch(message.author.id).then(gm => gm.roles.remove("714549457944838264", "User self-removed role"))
                     message.channel.send({
                         embed: {
                             color: 0x9b59b6,
