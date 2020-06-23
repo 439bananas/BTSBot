@@ -44,10 +44,10 @@ client.on("guildMemberAdd", (member) => {
           }).catch(O_o=>{})
         )
         if (member.guild.id == "361233849847644160") {
-            member.guild.members.fetch(member.id).then(gm => gm.roles.add("402560844841615373"))
+            member.guild.members.fetch(member.id).then(gm => gm.roles.add("402560844841615373", "Member is a bot"))
         }
         if (member.guild.id == "714538145512685648") {
-            member.guild.members.fetch(member.id).then(gm => gm.roles.add("714549456535814174"))
+            member.guild.members.fetch(member.id).then(gm => gm.roles.add("714549456535814174", "Member is a bot"))
         }
     }
 })
@@ -314,7 +314,7 @@ client.on("message", async (message) => {
             }
             if (rolenames[lowercaserole] != null) {
                 if (!message.member.roles.cache.has(rolenames[lowercaserole])) {
-                message.guild.members.fetch(message.author.id).then(gm => gm.roles.add(rolenames[lowercaserole]))
+                message.guild.members.fetch(message.author.id).then(gm => gm.roles.add(rolenames[lowercaserole], "User self-assigned role"))
                 message.channel.send({
                     embed: {
                         color: 0x9b59b6,
@@ -324,7 +324,7 @@ client.on("message", async (message) => {
                 })
                 }
                 if (message.member.roles.cache.has(rolenames[lowercaserole])) {
-                    message.guild.members.fetch(message.author.id).then(gm => gm.roles.remove(rolenames[lowercaserole]))
+                    message.guild.members.fetch(message.author.id).then(gm => gm.roles.remove(rolenames[lowercaserole], "User self-removed role"))
                     message.channel.send({
                         embed: {
                             color: 0x9b59b6,
@@ -336,7 +336,7 @@ client.on("message", async (message) => {
             }
             if (role.toLowerCase() == "tbmping" && message.member.roles.cache.has('402929603792076811')) {
                 if (!message.member.roles.cache.has('723280789319712848')) {
-                    message.guild.members.fetch(message.author.id).then(gm => gm.roles.add("723280789319712848"))
+                    message.guild.members.fetch(message.author.id).then(gm => gm.roles.add("723280789319712848", "User self-assigned role"))
                     message.channel.send({
                         embed: {
                             color: 0x9b59b6,
@@ -346,7 +346,7 @@ client.on("message", async (message) => {
                     })
                     }
                     if (message.member.roles.cache.has('723280789319712848')) {
-                        message.guild.members.fetch(message.author.id).then(gm => gm.roles.remove("723280789319712848"))
+                        message.guild.members.fetch(message.author.id).then(gm => gm.roles.remove("723280789319712848", "User self-removed role"))
                         message.channel.send({
                             embed: {
                                 color: 0x9b59b6,
@@ -379,7 +379,7 @@ client.on("message", async (message) => {
             }
             if (role.toLowerCase() == "bot owners") {
                 if (!message.member.roles.cache.has('714549457944838264')) {
-                message.guild.members.fetch(message.author.id).then(gm => gm.roles.add("714549457944838264"))
+                message.guild.members.fetch(message.author.id).then(gm => gm.roles.add("714549457944838264", "User self-assigned role"))
                 message.channel.send({
                     embed: {
                         color: 0x9b59b6,
@@ -389,7 +389,7 @@ client.on("message", async (message) => {
                 })
                 }
                 if (message.member.roles.cache.has('714549457944838264')) {
-                    message.guild.members.fetch(message.author.id).then(gm => gm.roles.remove("714549457944838264"))
+                    message.guild.members.fetch(message.author.id).then(gm => gm.roles.remove("714549457944838264", "User self-removed role")
                     message.channel.send({
                         embed: {
                             color: 0x9b59b6,
