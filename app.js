@@ -403,9 +403,9 @@ client.on("message", async (message) => {
     }
 }
 if (command == "request") {
-    if (message.channel.id == "402559003785297931" || message.channel.id == "714558755202793483") {
+    if ((message.channel.id == "402559003785297931" || message.channel.id == "714558755202793483")) {
         let clientid = args[0];
-        if (!clientid) {
+        if (!clientid && !message.member.hasPermission('MANAGE_SERVER')) {
             message.channel.send({
                 embed: {
                     color: 0xff0000,
@@ -414,7 +414,7 @@ if (command == "request") {
                 },
             });
         }
-        if (client.users.cache.some(user => user.id === clientid)) {
+        if (client.users.cache.some(user => user.id === clientid && !message.member.hasPermission('MANAGE_SERVER'))) {
             message.channel.send({
                 embed: {
                     color: 0xff0000,
@@ -423,7 +423,18 @@ if (command == "request") {
                 },
             });
         }
-        if (!client.users.cache.some(user => user.id === clientid) && clientid) {
+        if (message.member.hasPermission('MANAGE_SERVER')) {
+            if (message.member.roles.cache.has('402560627547308032')) {
+                message.channel.send({
+                    embed: {
+                      color: 0xff0000,
+                      title: 'Error',
+                      description: `You do not have sufficient permissions to run this command. You have the \`MANAGE_SERVER\` permission.`,
+                    },
+                  });
+            }
+        }
+        if (!client.users.cache.some(user => user.id === clientid) && clientid && !message.member.hasPermission('MANAGE_SERVER')) {
             client.channels.fetch("456560760542199829")
             .then(channel => channel.send("<@&723280789319712848>", {embed: {
                 color: 0x2ecc71,
