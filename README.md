@@ -11,7 +11,7 @@ You can! However, this is suited to Bot Testing Server, so you will have to adap
 ## If it's so hard to host it, what's the point, even, in putting it on here?
 The original reason I put BTS Bot on here was actually just for people who were curious as to how it worked. 
 ## Okay, I'm up for this battle. Show me how I can download and run this bot so I can change it for myself.
-This guide (of course) showcases Bot Testing Server. However, with a few changes, it can be in yours pretty quickly.
+This guide (of course) showcases Bot Testing Server. However, with a few changes, it can still be in your server. Please do note, however, that due to the quantity of IDs, this is a fatiguing bot to configure.
 
 Prerequisites:
 * Node.js
@@ -24,15 +24,29 @@ Linux/Unix/MacOS: `wget https://439bananas.com/projects/btsbot/setup.sh && bash 
 * Create a conf.json:\
 `{`\
     `"token" : "token goes here",`\
+    `"appeallink" : "appeal link to become unbanned goes here",`\
     `"prefix" : ",",`\
     `"pstatus" : "DM me to privately speak to a moderator | Run ,help to see all available commands",`\
     `"ostatus" : "dnd",`\
-    `"logchannelID" : "logging channel ID",`\
-    `"OwnerID" : "owner's ID"`\
-`}`
-* (optional) Create a roles.json:\
-`{`\
-`"role name" : "role ID"`\
+    `"logchannelID" : "logging channel id goes here",`\
+    `"OwnerID" : "owner id goes here",`\
+    `"btsid" : "server 1 id goes here",`\
+    `"btst3id" : "server 2 id goes here",`\
+    `"btsbotsroleid" : "server 1 bots role id goes here",`\
+    `"btst3botsroleid" : "server 2 bots role id goes here",`\
+    `"modmailid" : "modmail channel id goes here id goes here",`\
+    `"btsbotrequestsid" : "server 1 bot requests channel id goes here",`\
+    `"btst3botrequestsid" : "server 2 bot request channel id goes here",`\
+    `"announcementfactoryid" : "announcement-factory channel id goes here",`\
+    `"announcersroleid" : "announcers role id goes here",`\
+    `"announcementsid" : "announcements channel id goes here",`\
+    `"moderatorsroleid" : "moderators role id goes here",`\
+    `"reportschannelid" : "reports channel id goes here",`\
+    `"privcmdschannelid" : "private commands channel id goes here",`\
+    `"tbmroleid" : "trusted bot managers role id goes here",`\
+    `"tbmpingroleid" : "pingable trusted bot managers role id goes here",`\
+    `"btst3botownersroleid" : "server 2 bot owners role id goes here",`\
+    `"botaddingid" : "bot-adding channel id goes here"`\
 `}`
 
 #### Running

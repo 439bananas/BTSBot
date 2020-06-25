@@ -43,11 +43,11 @@ client.on("guildMemberAdd", (member) => {
             },
           }).catch(O_o=>{})
         )
-        if (member.guild.id == "361233849847644160") {
-            member.guild.members.fetch(member.id).then(gm => gm.roles.add("402560844841615373", "Member is a bot"))
+        if (member.guild.id == conf.btsid) {
+            member.guild.members.fetch(member.id).then(gm => gm.roles.add(btsbotsroleid, "Member is a bot"))
         }
-        if (member.guild.id == "714538145512685648") {
-            member.guild.members.fetch(member.id).then(gm => gm.roles.add("714549456535814174", "Member is a bot"))
+        if (member.guild.id == conf.btst3id) {
+            member.guild.members.fetch(member.id).then(gm => gm.roles.add(btst3botsroleid, "Member is a bot"))
         }
     }
     if (!member.user.bot) {
@@ -64,7 +64,7 @@ client.on("guildMemberAdd", (member) => {
         .then(user => user.send({
             embed: {
               color: 0x9b59b6,
-              description: `Welcome to Bot Testing Server! Should you find yourself banned, you can appeal this decision [here](https://docs.google.com/forms/d/e/1FAIpQLSe7VRrVl8cMEWVFCfcTYfcW1ZqEtJImtV-Yg3afxJVLuXwNhQ/viewform?usp=sf_link)`,
+              description: `Welcome to Bot Testing Server! Should you find yourself banned, you can appeal this decision [here](${conf.appeallink})`,
             },
           }))
     }
@@ -87,7 +87,7 @@ client.on("message", async (message) => {
               description: `Thank you for your message! We will reply as soon as possible.`,
             },
           })
-        client.channels.fetch("723075096234950667")
+        client.channels.fetch(conf.modmailid)
         .then(channel => channel.send({embed: {
             color: 0xE67E22,
             author: {
@@ -132,13 +132,13 @@ client.on("message", async (message) => {
           }).catch(O_o=>{})
         )
     }
-    if (message.channel.id != "402559003785297931" && message.channel.id != "715265229407125534" && message.channel.id != "723075096234950667" && message.channel.id != "459421264545579024") {
+    if (message.channel.id != conf.btsbotrequestsid && message.channel.id != conf.btsbotrequestsid && message.channel.id != conf.modmailid && message.channel.id != conf.announcementfactoryid) {
         if (command == "help") {
             var help = "**" + conf.prefix + "help** - Displays this message\n\**" + conf.prefix + "report** - Reports a user, ensure to add proof in your reasoning\n\**" + conf.prefix + "request** - Requests a bot to be added to this server\n\**" + conf.prefix + "role** - Assigns, lists and remove self-assignable roles (AKA SARs) (toggle, run " + conf.prefix + "role list to see all SARs)"
-            if (message.member.roles.cache.has('459420363428986900')) {
-                var help = help + "\n\**" + conf.prefix + "announce** - If used in <#459421264545579024>, sends an announcement to <#402562324122304512>"
+            if (message.member.roles.cache.has(conf.announcersroleid)) {
+                var help = help + "\n\**" + conf.prefix + "announce** - If used in <" + conf.announcementfactoryid + ">, sends an announcement to <" + conf.announcementsid + ">"
             }
-            if (message.member.roles.cache.has('402560627547308032')) {
+            if (message.member.roles.cache.has(conf.moderatorsroleid)) {
                 var help = help + "\n\**" + conf.prefix + "reply** - Replies to specified user in modmail\n\**" + conf.prefix + "reachout** Reaches out to specified user using modmail"
             }
             if (message.author.id == conf.OwnerID) {
@@ -184,10 +184,15 @@ client.on("message", async (message) => {
         }
         if (command == "restart") {
             if (message.author.id == conf.OwnerID) {
+                if (client.user.id == "456855204340563999") {
+                  var emoji = "<:PHBlowTestSuccessful:409711288504287233>"
+                } else {
+                  var emoji = ""
+                }
                 message.channel.send({
                     embed: {
                       color: 0x9b59b6,
-                      title: 'Success! <:PHBlowTestSuccessful:409711288504287233>',
+                      title: 'Success! ' + emoji,
                       description: 'Restarting...',
                     },
                   });
@@ -213,12 +218,12 @@ client.on("message", async (message) => {
                   });
             }
         }
-    if (command == "report" && message.channel.id != "402559003785297931" && message.channel.id != "459421264545579024" && message.channel.id != "721813750566486046" && message.channel.id != "723075096234950667") {
+    if (command == "report" && message.channel.id != conf.btsbotrequestsid && message.channel.id != conf.announcementfactoryid && message.channel.id != conf.reportschannelid && message.channel.id != conf.modmailid) {
         let userid = args[0];
         let reason = args.slice(1).join(" ");
         message.delete()
-        if (client.users.cache.some(user => user.id === userid) && reason && message.author.id != userid && !message.member.roles.cache.has('402560627547308032')) {
-            client.channels.fetch("721813750566486046")
+        if (client.users.cache.some(user => user.id === clientid) && reason && message.author.id != userid && !message.member.roles.cache.has(conf.moderatorsroleid)) {
+            client.channels.fetch(conf.reportschannelid)
             .then(channel => channel.send({embed: {
                 color: 0xe74c3c,
                 author: {
@@ -226,7 +231,7 @@ client.on("message", async (message) => {
                   icon_url: message.author.avatarURL()
                 },
                 title: "A new report has been made: YOUR ATTENTION IS REQUIRED",
-                description: "You can deal with this report in <#408348525630324736>\n\Upon dealing with this report, please react to it with ✅ so we all know it's been dealt with",
+                description: "You can deal with this report in <#" + conf.privcmdschannelid + ">\n\Upon dealing with this report, please react to it with ✅ so we all know it's been dealt with",
                 fields: [{
                     name: "Server",
                     value: message.guild.name
@@ -258,7 +263,7 @@ client.on("message", async (message) => {
                 description: "Thank you for reporting <@" + userid + ">. Our staff team will review it as soon as possible. Thank you for your contributions to keep Bot Testing Server the way it should be - decent, friendly and intuitive.\n\Please do not reply to this message."
             }}))
         }
-        if (message.member.roles.cache.has('402560627547308032')) {
+        if (message.member.roles.cache.has(conf.moderatorsroleid)) {
             message.channel.send({
                 embed: {
                   color: 0xff0000,
@@ -267,7 +272,7 @@ client.on("message", async (message) => {
                 },
               });
         }
-        if (!client.users.cache.some(user => user.id === userid) && !message.member.roles.cache.has('402560627547308032')) {
+        if (!guild.member(userid)) {
             message.channel.send({
                 embed: {
                   color: 0xff0000,
@@ -276,7 +281,7 @@ client.on("message", async (message) => {
                 },
               });
         }
-        if (!reason && !message.member.roles.cache.has('402560627547308032')) {
+        if (!reason && !message.member.roles.cache.has(conf.moderatorsroleid)) {
             message.channel.send({
                 embed: {
                   color: 0xff0000,
@@ -285,7 +290,7 @@ client.on("message", async (message) => {
                 },
               });
         }
-        if (userid == message.author.id && !message.member.roles.cache.has('402560627547308032')) {
+        if (userid == message.author.id && !message.member.roles.cache.has(conf.moderatorsroleid)) {
             message.channel.send({
                 embed: {
                   color: 0xff0000,
@@ -298,7 +303,7 @@ client.on("message", async (message) => {
     if (command == "role") {
         let role = args.slice(0).join(" ");
         var lowercaserole = role.toLowerCase()
-        if (message.guild.id == "361233849847644160") {
+        if (message.guild.id == conf.btst3id) {
             if (role && rolenames[lowercaserole] == null && role.toLowerCase() != "tbmping" && role.toLowerCase() != "list") {
                 message.channel.send({
                     embed: {
@@ -307,7 +312,7 @@ client.on("message", async (message) => {
                       description: `You cannot assign that role to yourself.`,
                     },
                   });
-            if (role == "tbmping" && !message.member.roles.cache.has('402929603792076811')) {
+            if (role == "tbmping" && !message.member.roles.cache.has(conf.tbmroleid)) {
                 message.channel.send({
                     embed: {
                       color: 0xff0000,
@@ -319,7 +324,7 @@ client.on("message", async (message) => {
         }
             if (role == "list") {
                 var rolelist = "Bot Owners\nred\nbrown\norange\nyellow\ngreen\nsky blue\nlight blue\nblue\npurple\nmagenta\npeach\ngrey\nblack\nwhite"
-                if (message.member.roles.cache.has('402929603792076811')) {
+                if (message.member.roles.cache.has(conf.tbmroleid)) {
                     var rolelist = rolelist + "\ntbmping"
                 }
                 message.channel.send({
@@ -352,9 +357,9 @@ client.on("message", async (message) => {
                     })
                     }
             }
-            if (role.toLowerCase() == "tbmping" && message.member.roles.cache.has('402929603792076811')) {
-                if (!message.member.roles.cache.has('723280789319712848')) {
-                    message.guild.members.fetch(message.author.id).then(gm => gm.roles.add("723280789319712848", "User self-assigned role"))
+            if (role.toLowerCase() == "tbmping" && message.member.roles.cache.has(conf.tbmroleid)) {
+                if (!message.member.roles.cache.has(conf.tbmpingroleid)) {
+                    message.guild.members.fetch(message.author.id).then(gm => gm.roles.add(conf.tbmpingroleid, "User self-assigned role"))
                     message.channel.send({
                         embed: {
                             color: 0x9b59b6,
@@ -363,8 +368,8 @@ client.on("message", async (message) => {
                         }
                     })
                     }
-                    if (message.member.roles.cache.has('723280789319712848')) {
-                        message.guild.members.fetch(message.author.id).then(gm => gm.roles.remove("723280789319712848", "User self-removed role"))
+                    if (message.member.roles.cache.has(conf.tbmpingroleid)) {
+                        message.guild.members.fetch(message.author.id).then(gm => gm.roles.remove(conf.tbmpingroleid, "User self-removed role"))
                         message.channel.send({
                             embed: {
                                 color: 0x9b59b6,
@@ -375,7 +380,7 @@ client.on("message", async (message) => {
                         }
             }
         }
-        if (message.guild.id == "714538145512685648") {
+        if (message.guild.id == conf.btst3id) {
             if (role && role.toLowerCase() != "bot owners" && role.toLowerCase() != "list") {
                 message.channel.send({
                     embed: {
@@ -396,8 +401,8 @@ client.on("message", async (message) => {
                 })
             }
             if (role.toLowerCase() == "bot owners") {
-                if (!message.member.roles.cache.has('714549457944838264')) {
-                message.guild.members.fetch(message.author.id).then(gm => gm.roles.add("714549457944838264", "User self-assigned role"))
+                if (!message.member.roles.cache.has(conf.btst3botownersroleid)) {
+                message.guild.members.fetch(message.author.id).then(gm => gm.roles.add(conf.btst3botownersroleid, "User self-assigned role"))
                 message.channel.send({
                     embed: {
                         color: 0x9b59b6,
@@ -406,8 +411,8 @@ client.on("message", async (message) => {
                     }
                 })
                 }
-                if (message.member.roles.cache.has('714549457944838264')) {
-                    message.guild.members.fetch(message.author.id).then(gm => gm.roles.remove("714549457944838264", "User self-removed role"))
+                if (message.member.roles.cache.has(conf.btst3botownersroleid)) {
+                    message.guild.members.fetch(message.author.id).then(gm => gm.roles.remove(conf.btst3botownersroleid, "User self-removed role"))
                     message.channel.send({
                         embed: {
                             color: 0x9b59b6,
@@ -421,7 +426,7 @@ client.on("message", async (message) => {
     }
 }
 if (command == "request") {
-    if ((message.channel.id == "402559003785297931" || message.channel.id == "714558755202793483")) {
+    if ((message.channel.id == conf.btsbotrequestsid || message.channel.id == conf.btst3botrequestsid)) {
         let clientid = args[0];
         if (!clientid && !message.member.hasPermission('MANAGE_SERVER')) {
             message.channel.send({
@@ -432,7 +437,7 @@ if (command == "request") {
                 },
             });
         }
-        if (client.users.cache.some(user => user.id === clientid && !message.member.hasPermission('MANAGE_SERVER'))) {
+        if (client.users.cache.some(user => user.id === clientid) && !message.member.hasPermission('MANAGE_SERVER')) {
             message.channel.send({
                 embed: {
                     color: 0xff0000,
@@ -442,7 +447,6 @@ if (command == "request") {
             });
         }
         if (message.member.hasPermission('MANAGE_SERVER')) {
-            if (message.member.roles.cache.has('402560627547308032')) {
                 message.channel.send({
                     embed: {
                       color: 0xff0000,
@@ -450,11 +454,10 @@ if (command == "request") {
                       description: `You do not have sufficient permissions to run this command. You have the \`MANAGE_SERVER\` permission.`,
                     },
                   });
-            }
         }
         if (!client.users.cache.some(user => user.id === clientid) && clientid && !message.member.hasPermission('MANAGE_SERVER')) {
-            client.channels.fetch("456560760542199829")
-            .then(channel => channel.send("<@&723280789319712848>", {embed: {
+            client.channels.fetch(conf.botaddingid)
+            .then(channel => channel.send("<@&" + conf.tbmpingroleid +">", {embed: {
                 color: 0x2ecc71,
                 author: {
                   name: message.author.tag,
@@ -490,7 +493,7 @@ if (command == "request") {
         }
     }
 }
-if ((command == "reply" || command == "reachout") && message.channel.id == "723075096234950667") {
+if ((command == "reply" || command == "reachout") && message.channel.id == conf.modmailid) {
     let userid = args[0];
     let msg = args.slice(1).join(" ");
     if (command == "reply") {
@@ -558,7 +561,7 @@ if ((command == "reply" || command == "reachout") && message.channel.id == "7230
         }})
     }
 }
-    if (command == "announce" && message.channel.id == "459421264545579024") {
+    if (command == "announce" && message.channel.id == conf.announcementfactoryid) {
         let pingtype = args[0];
         let msg = args.slice(1).join(" ");
         if (!msg || (pingtype != "here" && pingtype != "everyone" && pingtype != "noping")) {
@@ -603,7 +606,7 @@ if ((command == "reply" || command == "reachout") && message.channel.id == "7230
         message.channel.send({embed: {
             color: 0x9b59b6,
             title: "Success!",
-            description: "Successfully posted announcement in <#402562324122304512>!"
+            description: "Successfully posted announcement in <#" + conf.announcementsid + ">!"
           }
         })
         }
