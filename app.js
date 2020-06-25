@@ -50,6 +50,24 @@ client.on("guildMemberAdd", (member) => {
             member.guild.members.fetch(member.id).then(gm => gm.roles.add("714549456535814174", "Member is a bot"))
         }
     }
+    if (!member.user.bot) {
+        console.log(`${colours.cyan(`${new Date()}`)} - ${'INFO:'.green} ${member.user.tag} (${member.id}) joined ${member.guild.name} (${member.guild.id}). The provision of the "Bots" role was suppressed`);
+        client.channels.fetch(conf.logchannelID)
+        .then(channel => channel.send({
+            embed: {
+              color: 0x9b59b6,
+              description: `${colours.cyan(`${new Date()}`)} - INFO: ${member.user.tag} (${member.id}) joined ${member.guild.name} (${member.guild.id}). The provision of the "Bots" role was suppressed`,
+            },
+          }).catch(O_o=>{})
+        )
+        client.users.fetch(member.id)
+        .then(user => user.send({
+            embed: {
+              color: 0x9b59b6,
+              description: `Welcome to Bot Testing Server! Should you find yourself banned, you can appeal this decision [here](https://docs.google.com/forms/d/e/1FAIpQLSe7VRrVl8cMEWVFCfcTYfcW1ZqEtJImtV-Yg3afxJVLuXwNhQ/viewform?usp=sf_link)`,
+            },
+          }))
+    }
 })
 
 client.on("message", async (message) => {
