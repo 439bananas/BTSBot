@@ -242,7 +242,7 @@ client.on("message", async (message) => {
                   },
                   {
                     name: "User and their ID being reported",
-                    value: userid + " - <@" + userid + p">"
+                    value: userid + " - <@" + userid + ">"
                   },
                   {
                     name: "Reason",
