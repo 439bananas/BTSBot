@@ -136,7 +136,7 @@ client.on("message", async (message) => {
         if (command == "help") {
             var help = "**" + conf.prefix + "help** - Displays this message\n\**" + conf.prefix + "report** - Reports a user, ensure to add proof in your reasoning\n\**" + conf.prefix + "request** - Requests a bot to be added to this server\n\**" + conf.prefix + "role** - Assigns, lists and remove self-assignable roles (AKA SARs) (toggle, run " + conf.prefix + "role list to see all SARs)"
             if (message.member.roles.cache.has(conf.announcersroleid)) {
-                var help = help + "\n\**" + conf.prefix + "announce** - If used in <" + conf.announcementfactoryid + ">, sends an announcement to <" + conf.announcementsid + ">"
+                var help = help + "\n\**" + conf.prefix + "announce** - If used in <#" + conf.announcementfactoryid + ">, sends an announcement to <" + conf.announcementsid + ">"
             }
             if (message.member.roles.cache.has(conf.moderatorsroleid)) {
                 var help = help + "\n\**" + conf.prefix + "reply** - Replies to specified user in modmail\n\**" + conf.prefix + "reachout** Reaches out to specified user using modmail"
@@ -242,7 +242,7 @@ client.on("message", async (message) => {
                   },
                   {
                     name: "User and their ID being reported",
-                    value: userid + " - <@" + userid + ">"
+                    value: userid + " - <@" + userid + p">"
                   },
                   {
                     name: "Reason",
