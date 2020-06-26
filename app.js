@@ -303,7 +303,7 @@ client.on("message", async (message) => {
     if (command == "role") {
         let role = args.slice(0).join(" ");
         var lowercaserole = role.toLowerCase()
-        if (message.guild.id == conf.btst3id) {
+        if (message.guild.id == conf.btsid) {
             if (role && rolenames[lowercaserole] == null && role.toLowerCase() != "tbmping" && role.toLowerCase() != "list") {
                 message.channel.send({
                     embed: {
