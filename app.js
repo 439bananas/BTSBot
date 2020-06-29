@@ -446,16 +446,16 @@ if (command == "request") {
                 },
             });
         }
-        if (message.member.hasPermission('MANAGE_SERVER')) {
+        if (message.member.hasPermission('MANAGE_GUILD')) {
                 message.channel.send({
                     embed: {
                       color: 0xff0000,
                       title: 'Error',
-                      description: `You do not have sufficient permissions to run this command. You have the \`MANAGE_SERVER\` permission.`,
+                      description: `You do not have sufficient permissions to run this command. You have the \`MANAGE_GUILD\` permission.`,
                     },
                   });
         }
-        if (!client.users.cache.some(user => user.id === clientid) && clientid && !message.member.hasPermission('MANAGE_SERVER')) {
+        if (!client.users.cache.some(user => user.id === clientid) && clientid && !message.member.hasPermission('MANAGE_GUILD')) {
             client.channels.fetch(conf.botaddingid)
             .then(channel => channel.send("<@&" + conf.tbmpingroleid +">", {embed: {
                 color: 0x2ecc71,
