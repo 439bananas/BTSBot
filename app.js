@@ -286,7 +286,7 @@ client.on("message", async (message) => {
                 embed: {
                   color: 0xff0000,
                   title: 'Error',
-                  description: `You are missing arguments.\n\Usage: ${conf.prefix}report <user ID> <reason>\n\Example: ${conf.prefix}report 224606298673512458 Advertising`,
+                  description: `You are missing arguments.\n\Usage: ${conf.prefix}${command} <user ID> <reason>\n\Example: ${conf.prefix}${command} 224606298673512458 Advertising`,
                 },
               });
         }
@@ -303,6 +303,15 @@ client.on("message", async (message) => {
     if (command == "role") {
         let role = args.slice(0).join(" ");
         var lowercaserole = role.toLowerCase()
+        if (!role) {
+          message.channel.send({
+            embed: {
+              color: 0xff0000,
+                title: 'Error',
+                description: `You are missing arguments.\n\Usage: ${conf.prefix}${command} <role name>\n\Example: ${conf.prefix}${command} bot owners`,
+              },
+          });
+        }
         if (message.guild.id == conf.btsid) {
             if (role && rolenames[lowercaserole] == null && role.toLowerCase() != "tbmping" && role.toLowerCase() != "list") {
                 message.channel.send({
