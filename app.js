@@ -44,10 +44,10 @@ client.on("guildMemberAdd", (member) => {
           }).catch(O_o=>{})
         )
         if (member.guild.id == conf.btsid) {
-            member.guild.members.fetch(member.id).then(gm => gm.roles.add(btsbotsroleid, "Member is a bot"))
+            member.guild.members.fetch(member.id).then(gm => gm.roles.add(conf.btsbotsroleid, "Member is a bot"))
         }
         if (member.guild.id == conf.btst3id) {
-            member.guild.members.fetch(member.id).then(gm => gm.roles.add(btst3botsroleid, "Member is a bot"))
+            member.guild.members.fetch(member.id).then(gm => gm.roles.add(conf.btst3botsroleid, "Member is a bot"))
         }
     }
     if (!member.user.bot) {
@@ -428,7 +428,7 @@ client.on("message", async (message) => {
 if (command == "request") {
     if ((message.channel.id == conf.btsbotrequestsid || message.channel.id == conf.btst3botrequestsid)) {
         let clientid = args[0];
-        if (!clientid && !message.member.hasPermission('MANAGE_SERVER')) {
+        if (!clientid && !message.member.hasPermission('MANAGE_GUILD')) {
             message.channel.send({
                 embed: {
                     color: 0xff0000,
@@ -437,7 +437,7 @@ if (command == "request") {
                 },
             });
         }
-        if (client.users.cache.some(user => user.id === clientid) && !message.member.hasPermission('MANAGE_SERVER')) {
+        if (client.users.cache.some(user => user.id === clientid) && !message.member.hasPermission('MANAGE_GUILD')) {
             message.channel.send({
                 embed: {
                     color: 0xff0000,
