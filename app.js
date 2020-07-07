@@ -121,7 +121,7 @@ client.on("message", async (message) => {
     if (message.channel.type === 'dm') return;
     const args = message.content.slice(conf.prefix.length).trim().split(/ +/g);
     const command = args.shift().toLowerCase();
-    if (command == "help" || command == "report" || command == "request" || command == "role" || command == "announce" || command == "stop" || command == "restart" || command == "reply" || command == "reachout") {
+    if (command == "help" || command == "report" || command == "request" || command == "role" || command == "announce" || command == "stop" || command == "restart" || command == "reply" || command == "reachout" || command == "fixstatus") {
         console.log(`${colours.cyan(`${new Date()}`)} - ${'INFO:'.green} ${message.author.tag} (${message.author.id}) ran ${message.content} in ${message.guild.name} (${message.guild.id}), #${message.channel.name} (${message.channel.id}).`);
         client.channels.fetch(conf.logchannelID)
         .then(channel => channel.send({
@@ -142,7 +142,7 @@ client.on("message", async (message) => {
                 var help = help + "\n\**" + conf.prefix + "reply** - Replies to specified user in modmail\n\**" + conf.prefix + "reachout** Reaches out to specified user using modmail"
             }
             if (message.author.id == conf.OwnerID) {
-                var help = help + "\n\**" + conf.prefix + "stop** - Stops the bot\n\**" + conf.prefix + "restart** - Restarts the bot"
+                var help = help + "\n\**" + conf.prefix + "stop** - Stops the bot\n\**" + conf.prefix + "restart** - Restarts the bot\n\**" + conf.prefix + "fixstatus** - Fixes the status in the case that SOMEONE ever breaks it"
             }
             message.channel.send({
                 embed: {
@@ -206,6 +206,32 @@ client.on("message", async (message) => {
                 client.destroy();
                 await client.login(conf.token);
                 console.log(`${colours.cyan(`${new Date()}`)} - ${'INFO:'.green} Restarting...`);
+                client.emit('ready')
+            }
+            else {
+                message.channel.send({
+                    embed: {
+                      color: 0xff0000,
+                      title: 'Error',
+                      description: `You do not have sufficient permissions to run this command. You need the \`Owner of ${projname}\` permission.`,
+                    },
+                  });
+            }
+        }
+        if (command == "fixstatus") {
+            if (message.author.id == conf.OwnerID) {
+                if (client.user.id == "456855204340563999") {
+                  var emoji = "<:PHBlowTestSuccessful:409711288504287233>"
+                } else {
+                  var emoji = ""
+                }
+                message.channel.send({
+                    embed: {
+                      color: 0x9b59b6,
+                      title: 'Success! ' + emoji,
+                      description: 'Fixing status...',
+                    },
+                  });
                 client.emit('ready')
             }
             else {
