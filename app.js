@@ -1,4 +1,4 @@
-const projname = "BTSBot"
+﻿const projname = "BTSBot"
 const colours = require('colors');
 const Discord = require("discord.js");
 const client = new Discord.Client();
@@ -132,7 +132,7 @@ client.on("message", async (message) => {
           }).catch(O_o=>{})
         )
     }
-    if (message.channel.id != conf.btsbotrequestsid && message.channel.id != conf.btsbotrequestsid && message.channel.id != conf.modmailid && message.channel.id != conf.announcementfactoryid) {
+    if (message.channel.id != conf.btsbotrequestsid && message.channel.id != conf.btst3botrequestsid && message.channel.id != conf.modmailid && message.channel.id != conf.announcementfactoryid) {
         if (command == "help") {
             var help = "**" + conf.prefix + "help** - Displays this message\n\**" + conf.prefix + "report** - Reports a user, ensure to add proof in your reasoning\n\**" + conf.prefix + "request** - Requests a bot to be added to this server\n\**" + conf.prefix + "role** - Assigns, lists and remove self-assignable roles (AKA SARs) (toggle, run " + conf.prefix + "role list to see all SARs)"
             if (message.member.roles.cache.has(conf.announcersroleid)) {
