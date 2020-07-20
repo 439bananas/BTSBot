@@ -546,12 +546,12 @@ if ((command == "reply" || command == "reachout") && message.channel.id == conf.
             },
           });
     }
-    if (!client.users.cache.some(user => user.id === userid)) {
+    if (!client.users.cache.some(user => user.id === userid) || client.users.cache.get(userid).bot) {
         message.channel.send({
             embed: {
               color: 0xff0000,
               title: 'Error',
-              description: `This user could not be found. Are they in this server or BTSt3? Are you ensuring that you do not mention them when running the command?`,
+              description: `This user could not be found. Are they in this server or BTSt3? Are you ensuring that you do not mention them when running the command? Is this user a human?`,
             },
           });
     }
@@ -563,7 +563,7 @@ if ((command == "reply" || command == "reachout") && message.channel.id == conf.
                 description: `You are missing arguments.\n\Usage: ${conf.prefix}${command} <user ID> <message>\n\Example: ${conf.prefix}${command} 224606298673512458 Hello!`,
             },
         });
-    } if (userid != message.author.id && msg && client.users.cache.some(user => user.id === userid)) {
+    } if (userid != message.author.id && msg && client.users.cache.some(user => user.id === userid && client.users.cache.get(userid).bot)) {
         client.users.fetch(userid)
         .then(user => user.send({embed: {
             color: 0x9b59b6,
