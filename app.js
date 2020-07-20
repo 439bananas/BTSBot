@@ -463,6 +463,7 @@ client.on("message", async (message) => {
 if (command == "request") {
     if ((message.channel.id == conf.btsbotrequestsid || message.channel.id == conf.btst3botrequestsid)) {
         let clientid = args[0];
+        let ignore = args.slice(1).join(" ")
         if (!clientid && !message.member.hasPermission('MANAGE_GUILD')) {
             message.channel.send({
                 embed: {
