@@ -468,7 +468,7 @@ if (command == "request") {
                 embed: {
                     color: 0xff0000,
                     title: 'Error',
-                    description: `You are missing arguments.\n\Usage: ${conf.prefix}${command} <clientid ID>\n\Example: ${conf.prefix}${command} 397489174791585795`,
+                    description: `You are missing arguments.\n\Usage: ${conf.prefix}${command} <client ID>\n\Example: ${conf.prefix}${command} 397489174791585795`,
                 },
             });
         }
