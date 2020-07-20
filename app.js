@@ -141,6 +141,9 @@ client.on("message", async (message) => {
             if (message.member.roles.cache.has(conf.moderatorsroleid)) {
                 var help = help + "\n\**" + conf.prefix + "reply** - Replies to specified user in modmail\n\**" + conf.prefix + "reachout** Reaches out to specified user using modmail"
             }
+            if (message.member.hasPermission("MANAGE_GUILD")) {
+              var help = help + "\n\**" + conf.prefix + "construct** - Constructs an OAuth2 URL from the given ID. If the user is in the server, constructs generic URL, else consructs URL specific to this server"
+            }
             if (message.author.id == conf.OwnerID) {
                 var help = help + "\n\**" + conf.prefix + "stop** - Stops the bot\n\**" + conf.prefix + "restart** - Restarts the bot\n\**" + conf.prefix + "fixstatus** - Fixes the status in the case that SOMEONE ever breaks it"
             }
@@ -528,6 +531,40 @@ if (command == "request") {
             }})
         }
     }
+}
+if (command == "construct") {
+  if ((message.channel.id == conf.btsbotrequestsid || message.channel.id == conf.btst3botrequestsid)) {
+      let clientid = args[0];
+      let ignore = args.slice(1).join(" ")
+      if (!clientid && message.member.hasPermission('MANAGE_GUILD')) {
+          message.channel.send({
+              embed: {
+                  color: 0xff0000,
+                  title: 'Error',
+                  description: `You are missing arguments.\n\Usage: ${conf.prefix}${command} <client ID>\n\Example: ${conf.prefix}${command} 397489174791585795`,
+              },
+          });
+      }
+      if (client.users.cache.some(user => user.id === clientid) && message.member.hasPermission('MANAGE_GUILD')) {
+        var url = "https://discord.com/oauth2/authorize?scope=bot&client_id=" + clientid
+      } else var url = "https://discord.com/oauth2/authorize?scope=bot&guild_id=" + message.guild.id + "&disable_guild_select=true&client_id=" + clientid
+      if (!message.member.hasPermission('MANAGE_GUILD')) {
+              message.channel.send({
+                  embed: {
+                    color: 0xff0000,
+                    title: 'Error',
+                    description: `You do not have sufficient permissions to run this command. You need the \`MANAGE_GUILD\` permission.`,
+                  },
+                });
+      }
+      if (message.member.hasPermission('MANAGE_GUILD')) {
+          message.channel.send({embed: {
+              title: "Success!",
+              description: `The link you requested can be found [here](${url})`,
+              color: 0x9b59b6
+          }})
+      }
+  }
 }
 if ((command == "reply" || command == "reachout") && message.channel.id == conf.modmailid) {
     let userid = args[0];
