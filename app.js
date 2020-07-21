@@ -601,7 +601,7 @@ if ((command == "reply" || command == "reachout") && message.channel.id == conf.
                 description: `You are missing arguments.\n\Usage: ${conf.prefix}${command} <user ID> <message>\n\Example: ${conf.prefix}${command} 224606298673512458 Hello!`,
             },
         });
-    } if (userid != message.author.id && msg && client.users.cache.some(user => user.id === userid && client.users.cache.get(userid).bot)) {
+    } if (userid != message.author.id && msg && client.users.cache.some(user => user.id === userid && !client.users.cache.get(userid).bot)) {
         client.users.fetch(userid)
         .then(user => user.send({embed: {
             color: 0x9b59b6,
