@@ -95,7 +95,7 @@ client.on("message", async (message) => {
                 icon_url: message.author.avatarURL()
             },
             title: "A user has sent a modmail message",
-            description: `To reply to this message, use ,reply ${message.author.id} <message>`,
+            description: `To reply to this message, use ${conf.prefix}reply ${message.author.id} <message>`,
             fields: [
             {
                 name: "User (and their ID)",
