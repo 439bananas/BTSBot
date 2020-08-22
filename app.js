@@ -661,6 +661,7 @@ if ((command == "reply" || command == "reachout") && message.channel.id == conf.
       if (attach) {
         for (let file of attach) {
           files.push(file.url)
+        }
       }
         let pingtype = args[0];
         let msg = args.slice(1).join(" ");
@@ -683,7 +684,7 @@ if ((command == "reply" || command == "reachout") && message.channel.id == conf.
             var pt = ""
         }
         if (msg && (pingtype == "here" || pingtype == "everyone" || pingtype == "noping")) {
-        client.channels.fetch("402562324122304512")
+        client.channels.fetch(conf.announcementsid)
         .then(channel => channel.send(pt, {files: files, embed: {
             color: 0x9b59b6,
             author: {
