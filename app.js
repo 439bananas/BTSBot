@@ -1,4 +1,4 @@
-﻿const projname = "BTSBot"
+﻿const projname = "BTS Bot"
 const colours = require('colors');
 const Discord = require("discord.js");
 const client = new Discord.Client();
