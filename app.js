@@ -72,6 +72,13 @@ client.on("guildMemberAdd", (member) => {
 
 client.on("message", async (message) => {
     if (!message.author.bot && message.channel.type == "dm") {
+        var attach = (message.attachments.array())
+        let files = []
+        if (attach){
+          for (let file of attach) {
+            files.push(file.url)
+          }
+        }
         console.log(`${colours.cyan(`${new Date()}`)} - ${'INFO:'.green} ${message.author.tag} (${message.author.id}) sent a modmail message with the content "${message.content}" in ${message.channel.id}.`);
         client.channels.fetch(conf.logchannelID)
         .then(channel => channel.send({
@@ -88,7 +95,7 @@ client.on("message", async (message) => {
             },
           })
         client.channels.fetch(conf.modmailid)
-        .then(channel => channel.send({embed: {
+        .then(channel => channel.send({files: files, embed: {
             color: 0xE67E22,
             author: {
                 name: message.author.tag,
