@@ -74,7 +74,10 @@ client.on("message", async (message) => {
     if (!message.author.bot && message.channel.type == "dm") {
         var attach = (message.attachments.array())
         let files = []
-        if (attach){
+        if (message.content == "") {
+          var msgcontent = "(empty)"
+        } else var msgcontent = message.content
+        if (attach) {
           for (let file of attach) {
             files.push(file.url)
           }
@@ -110,7 +113,7 @@ client.on("message", async (message) => {
             },
             {
                 name: "Message",
-                value: message.content
+                value: msgcontent
                   }
             ],
             timestamp: new Date(),
@@ -245,7 +248,7 @@ client.on("message", async (message) => {
                 client.emit('ready')
             }
             else {
-                message.channel.send({
+                message.author.send({
                     embed: {
                       color: 0xff0000,
                       title: 'Error',
@@ -257,10 +260,16 @@ client.on("message", async (message) => {
     if (command == "report" && message.channel.id != conf.btsbotrequestsid && message.channel.id != conf.announcementfactoryid && message.channel.id != conf.reportschannelid && message.channel.id != conf.modmailid) {
         let userid = args[0];
         let reason = args.slice(1).join(" ");
-        message.delete()
-        if (client.users.cache.some(user => user.id === clientid) && reason && message.author.id != userid && !message.member.roles.cache.has(conf.moderatorsroleid)) {
+        var attach = (message.attachments.array())
+        let files = []
+        if (attach) {
+          for (let file of attach) {
+            files.push(file.url)
+          }
+        }
+        if (client.users.cache.some(user => user.id === userid) && reason && message.author.id != userid && !message.member.roles.cache.has(conf.moderatorsroleid)) {
             client.channels.fetch(conf.reportschannelid)
-            .then(channel => channel.send({embed: {
+            .then(channel => channel.send({files: files, embed: {
                 color: 0xe74c3c,
                 author: {
                   name: message.author.tag,
@@ -291,7 +300,8 @@ client.on("message", async (message) => {
                   text: "This report is confidential. Unauthorised disclosure may result in sanctions including warnings and potentially revocation of privileges."
                 }
               }
-            }));
+            }))
+            await message.delete({ timeout: 500 })
             client.users.fetch(message.author.id)
             .then(user => user.send({embed: {
                 color: 0x9b59b6,
@@ -300,40 +310,44 @@ client.on("message", async (message) => {
             }}))
         }
         if (message.member.roles.cache.has(conf.moderatorsroleid)) {
-            message.channel.send({
-                embed: {
-                  color: 0xff0000,
-                  title: 'Error',
-                  description: `You do not have sufficient permissions to run this command. You have the \`Moderators\` permission.`,
-                },
-              });
+          client.users.fetch(message.author.id)
+            .then(user => user.send({
+              embed: {
+                color: 0xff0000,
+                title: 'Error',
+                description: `You do not have sufficient permissions to run this command. You have the \`Moderators\` permission.`,
+              },
+            }));
         }
         if (!guild.member(userid)) {
-            message.channel.send({
+          client.users.fetch(message.author.id)
+            .then(user => user.send({
                 embed: {
                   color: 0xff0000,
                   title: 'Error',
                   description: `This user could not be found. Are they in this server? Are you ensuring that you do not mention them (which attracts their attention) when running the command?`,
                 },
-              });
+              }));
         }
         if (!reason && !message.member.roles.cache.has(conf.moderatorsroleid)) {
-            message.channel.send({
-                embed: {
-                  color: 0xff0000,
-                  title: 'Error',
-                  description: `You are missing arguments.\n\Usage: ${conf.prefix}${command} <user ID> <reason>\n\Example: ${conf.prefix}${command} 224606298673512458 Advertising`,
-                },
-              });
+          client.users.fetch(message.author.id)
+            .then(user => user.send({
+              embed: {
+                color: 0xff0000,
+                title: 'Error',
+                description: `You are missing arguments.\n\Usage: ${conf.prefix}${command} <user ID> <reason>\n\Example: ${conf.prefix}${command} 224606298673512458 Advertising`,
+              },
+            }));
         }
         if (userid == message.author.id && !message.member.roles.cache.has(conf.moderatorsroleid)) {
-            message.channel.send({
-                embed: {
-                  color: 0xff0000,
-                  title: 'Error',
-                  description: `You cannot report yourself!`,
-                },
-              });
+          client.users.fetch(message.author.id)
+          .then(user => user.send({
+            embed: {
+              color: 0xff0000,
+              title: 'Error',
+              description: `You cannot report yourself!`,
+            },
+          }));
         }
     }
     if (command == "role") {
@@ -642,6 +656,12 @@ if ((command == "reply" || command == "reachout") && message.channel.id == conf.
     }
 }
     if (command == "announce" && message.channel.id == conf.announcementfactoryid) {
+      var attach = (message.attachments.array())
+      let files = []
+      if (attach) {
+        for (let file of attach) {
+          files.push(file.url)
+      }
         let pingtype = args[0];
         let msg = args.slice(1).join(" ");
         if (!msg || (pingtype != "here" && pingtype != "everyone" && pingtype != "noping")) {
@@ -664,7 +684,7 @@ if ((command == "reply" || command == "reachout") && message.channel.id == conf.
         }
         if (msg && (pingtype == "here" || pingtype == "everyone" || pingtype == "noping")) {
         client.channels.fetch("402562324122304512")
-        .then(channel => channel.send(pt, {embed: {
+        .then(channel => channel.send(pt, {files: files, embed: {
             color: 0x9b59b6,
             author: {
               name: message.author.tag,
