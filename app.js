@@ -130,7 +130,7 @@ client.on("message", async (message) => {
     } else var botownersid = conf.btst3botownersroleid
     if ((message.content.toLowerCase().includes("my bot") || message.content.toLowerCase().includes("i own a bot") || (message.content.toLowerCase().includes("i own <@") && message.content.toLowerCase().includes(">")) || (message.content.toLowerCase().includes("i own <@!") && message.content.toLowerCase().includes(">"))) && !message.content.toLowerCase().includes("\"")) {
       message.member.guild.members.fetch(message.author.id).then(gm => gm.roles.add(botownersid, "Member sent a message that implies they own a bot"))
-      console.log(`${new Date()} - ${'INFO:'.green} ${message.author.tag} (${message.author.id}) said ${message.content} in ${message.guild.name} (${message.guild.id}), #${message.channel.name} (${message.channel.id}). Because this message implies they own a bot, they were given the "Bot Owners" role.`);
+      console.log(`${colours.cyan(`${new Date()}`)} - ${'INFO:'.green} ${message.author.tag} (${message.author.id}) said ${message.content} in ${message.guild.name} (${message.guild.id}), #${message.channel.name} (${message.channel.id}). Because this message implies they own a bot, they were given the "Bot Owners" role.`);
       client.channels.fetch(conf.logchannelID)
       .then(channel => channel.send({
         embed: {
@@ -141,7 +141,16 @@ client.on("message", async (message) => {
     }
   }
   if (message.channel.id == conf.pollchannelid) {
-    
+    message.react("👍")
+    await message.react("👎")
+    console.log(`${colours.cyan(`${new Date()}`)} - ${'INFO:'.green} ${message.author.tag} (${message.author.id}) sent ${message.content} in ${message.guild.name} (${message.guild.id}), #${message.channel.name} (${message.channel.id}). Because this message was sent in #${message.channel.name}, the 👍 and 👎 reactions were automatically added.`);
+    client.channels.fetch(conf.logchannelID)
+    .then(channel => channel.send({
+      embed: {
+        color: 0x9b59b6,
+        description: `${new Date()} - INFO: ${message.author.tag} (${message.author.id}) sent ${message.content} in ${message.guild.name} (${message.guild.id}), #${message.channel.name} (${message.channel.id}). Because this message was sent in #${message.channel.name}, the 👍 and 👎 reactions were automatically added.`,
+      },
+    }).catch(O_o=>{}))
   }
 });
 
@@ -151,7 +160,7 @@ client.on("message", async (message) => {
     const args = message.content.slice(conf.prefix.length).trim().split(/ +/g);
     const command = args.shift().toLowerCase();
     if (command == "help" || command == "report" || command == "request" || command == "role" || command == "announce" || command == "stop" || command == "restart" || command == "reply" || command == "reachout" || command == "fixstatus") {
-        console.log(`${new Date()} - ${'INFO:'.green} ${message.author.tag} (${message.author.id}) ran ${message.content} in ${message.guild.name} (${message.guild.id}), #${message.channel.name} (${message.channel.id}).`);
+        console.log(`${colours.cyan(`${new Date()}`)} - ${'INFO:'.green} ${message.author.tag} (${message.author.id}) ran ${message.content} in ${message.guild.name} (${message.guild.id}), #${message.channel.name} (${message.channel.id}).`);
         client.channels.fetch(conf.logchannelID)
         .then(channel => channel.send({
             embed: {
