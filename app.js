@@ -318,7 +318,7 @@ client.on("message", async (message) => {
               },
             }));
         }
-        if (!message.guild.members.cache.some(user => user.id === userid)) {
+        if ((!message.guild.members.cache.some(user => user.id === userid)) && (message.member.roles.cache.has(conf.moderatorsroleid) || message.member.roles.cache.has(conf.btst3moderatorsroleid))) {
           client.users.fetch(message.author.id)
             .then(user => user.send({
                 embed: {
