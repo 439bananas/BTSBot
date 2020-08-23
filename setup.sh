@@ -4,8 +4,7 @@ git clone https://github.com/439bananas/BTSBot
 cd BTSBot
 npm install colors
 npm install discord.js
-read -t 5 -p "You are now required to provide the following: token, prefix, pstatus, ostatus, logchannelID, OwnerID"
-echo Respectively, your bot token, your command prefix, your desired playing status, your desired activity status, the channel you wish to log to, the ID of the person who is considered \"owner\"
+read -t 5 -p "You are now required to provide the settings outlined in the README file."
 nano conf.json
 read -t 5 -p "You are not obliged to, but if you wish, you may enter role aliases and provide them each with an ID."
 nano roles.json
