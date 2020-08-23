@@ -130,6 +130,14 @@ client.on("message", async (message) => {
     } else var botownersid = conf.btst3botownersroleid
     if ((message.content.toLowerCase().includes("my bot") || message.content.toLowerCase().includes("i own a bot") || (message.content.toLowerCase().includes("i own <@") && message.content.toLowerCase().includes(">")) || (message.content.toLowerCase().includes("i own <@!") && message.content.toLowerCase().includes(">"))) && !message.content.toLowerCase().includes("\"")) {
       message.member.guild.members.fetch(message.author.id).then(gm => gm.roles.add(botownersid, "Member sent a message that implies they own a bot"))
+      console.log(`${new Date()} - ${'INFO:'.green} ${message.author.tag} (${message.author.id}) said ${message.content} in ${message.guild.name} (${message.guild.id}), #${message.channel.name} (${message.channel.id}). Because this message implies they owned a bot, they were given the "Bot Owners" role.`);
+      client.channels.fetch(conf.logchannelID)
+      .then(channel => channel.send({
+        embed: {
+          color: 0x9b59b6,
+          description: `${new Date()} - INFO: ${message.author.tag} (${message.author.id}) said ${message.content} in ${message.guild.name} (${message.guild.id}), #${message.channel.name} (${message.channel.id}). Because this message implies they owned a bot, they were given the "Bot Owners" role.`,
+        },
+      }).catch(O_o=>{}))
     }
   }
 });
