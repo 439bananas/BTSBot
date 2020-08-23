@@ -48,6 +48,7 @@ Linux/Unix/MacOS: `wget https://439bananas.com/projects/btsbot/setup.sh && bash 
     `"btst3botownersroleid" : "server 2 bot owners role id goes here",`\
     `"botaddingid" : "bot-adding channel id goes here",`\
     `"btst3moderatorsroleid" : "server 2 moderators role id goes here",`\
+    `"pollchannelid" : "poll channel id goes here"`\
 `}`
 
 #### Running

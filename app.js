@@ -140,6 +140,9 @@ client.on("message", async (message) => {
       }).catch(O_o=>{}))
     }
   }
+  if (message.channel.id == conf.pollchannelid) {
+    
+  }
 });
 
 client.on("message", async (message) => {
