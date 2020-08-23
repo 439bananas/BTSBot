@@ -267,7 +267,7 @@ client.on("message", async (message) => {
             files.push(file.url)
           }
         }
-        if (client.users.cache.some(user => user.id === userid) && reason && message.author.id != userid && !message.member.roles.cache.has(conf.moderatorsroleid)) {
+        if (message.guild.members.cache.some(user => user.id === userid) && reason && message.author.id != userid && !message.member.roles.cache.has(conf.moderatorsroleid)) {
             client.channels.fetch(conf.reportschannelid)
             .then(channel => channel.send({files: files, embed: {
                 color: 0xe74c3c,
@@ -310,6 +310,7 @@ client.on("message", async (message) => {
             }}))
         }
         if (message.member.roles.cache.has(conf.moderatorsroleid)) {
+          message.delete()
           client.users.fetch(message.author.id)
             .then(user => user.send({
               embed: {
@@ -319,7 +320,7 @@ client.on("message", async (message) => {
               },
             }));
         }
-        if (!guild.member(userid)) {
+        if (!message.guild.members.cache.some(user => user.id === userid)) {
           client.users.fetch(message.author.id)
             .then(user => user.send({
                 embed: {
@@ -328,6 +329,7 @@ client.on("message", async (message) => {
                   description: `This user could not be found. Are they in this server? Are you ensuring that you do not mention them (which attracts their attention) when running the command?`,
                 },
               }));
+          message.delete()
         }
         if (!reason && !message.member.roles.cache.has(conf.moderatorsroleid)) {
           client.users.fetch(message.author.id)
@@ -338,6 +340,7 @@ client.on("message", async (message) => {
                 description: `You are missing arguments.\n\Usage: ${conf.prefix}${command} <user ID> <reason>\n\Example: ${conf.prefix}${command} 224606298673512458 Advertising`,
               },
             }));
+          message.delete()
         }
         if (userid == message.author.id && !message.member.roles.cache.has(conf.moderatorsroleid)) {
           client.users.fetch(message.author.id)
@@ -348,6 +351,7 @@ client.on("message", async (message) => {
               description: `You cannot report yourself!`,
             },
           }));
+          message.delete()
         }
     }
     if (command == "role") {
@@ -497,7 +501,7 @@ if (command == "request") {
                 },
             });
         }
-        if (client.users.cache.some(user => user.id === clientid) && !message.member.hasPermission('MANAGE_GUILD')) {
+        if (message.guild.members.cache.some(user => user.id === clientid) && !message.member.hasPermission('MANAGE_GUILD')) {
             message.channel.send({
                 embed: {
                     color: 0xff0000,
@@ -515,7 +519,7 @@ if (command == "request") {
                     },
                   });
         }
-        if (!client.users.cache.some(user => user.id === clientid) && clientid && !message.member.hasPermission('MANAGE_GUILD')) {
+        if (!message.guild.members.cache.some(user => user.id === clientid) && clientid && !message.member.hasPermission('MANAGE_GUILD')) {
             client.channels.fetch(conf.botaddingid)
             .then(channel => channel.send("<@&" + conf.tbmpingroleid +">", {embed: {
                 color: 0x2ecc71,
@@ -566,7 +570,7 @@ if (command == "construct") {
               },
           });
       }
-      if (client.users.cache.some(user => user.id === clientid) && message.member.hasPermission('MANAGE_GUILD')) {
+      if (message.guild.members.cache.some(user => user.id === clientid) && message.member.hasPermission('MANAGE_GUILD')) {
         var url = "https://discord.com/oauth2/authorize?scope=bot&client_id=" + clientid
       } else var url = "https://discord.com/oauth2/authorize?scope=bot&guild_id=" + message.guild.id + "&disable_guild_select=true&client_id=" + clientid
       if (!message.member.hasPermission('MANAGE_GUILD')) {
