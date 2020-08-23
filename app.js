@@ -123,8 +123,15 @@ client.on("message", async (message) => {
         }
       }
     }))
-}
-
+  }
+  if (!message.author.bot && message.channel.type != "dm" && !message.member.roles.cache.has(rolenames["bot owners"]) && !message.member.roles.cache.has(conf.btst3botownersroleid)) {
+    if (message.guild.id == conf.btsid) {
+      var botownersid = rolenames["bot owners"]
+    } else var botownersid = conf.btst3botownersroleid
+    if ((message.content.toLowerCase().includes("my bot") || message.content.toLowerCase().includes("i own a bot") || (message.content.toLowerCase().includes("i own <@") && message.content.toLowerCase().includes(">")) || (message.content.toLowerCase().includes("i own <@!") && message.content.toLowerCase().includes(">"))) && !message.content.toLowerCase().includes("\"")) {
+      message.member.guild.members.fetch(message.author.id).then(gm => gm.roles.add(botownersid, "Member sent a message that implies they own a bot"))
+    }
+  }
 });
 
 client.on("message", async (message) => {

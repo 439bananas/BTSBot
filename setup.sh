@@ -6,6 +6,6 @@ npm install colors
 npm install discord.js
 read -t 5 -p "You are now required to provide the settings outlined in the README file."
 nano conf.json
-read -t 5 -p "You are not obliged to, but if you wish, you may enter role aliases and provide them each with an ID."
+read -t 5 -p "You are not obliged to, but if you wish, you may enter role aliases and provide them each with an ID. If you do not wish to provide roles, please enter {} in roles.json and save and close the file."
 nano roles.json
 read -t 10 -p "Setup complete! You must now edit BTS Bot to comply with your server."

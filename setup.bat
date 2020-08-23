@@ -11,7 +11,7 @@ pause
 echo You are now required to provide the settings outlined in the README file.
 pause
 notepad conf.json
-echo You are not obliged to, but if you wish, you may enter role aliases and provide them each with an ID.
+echo You are not obliged to, but if you wish, you may enter role aliases and provide them each with an ID. If you do not wish to provide roles, please enter {} in roles.json and save and close the file.
 pause
 notepad roles.json
 echo Setup complete! You must now edit BTS Bot to comply with your server.
