@@ -71,59 +71,60 @@ client.on("guildMemberAdd", (member) => {
 })
 
 client.on("message", async (message) => {
-    if (!message.author.bot && message.channel.type == "dm") {
-        var attach = (message.attachments.array())
-        let files = []
-        if (message.content == "") {
-          var msgcontent = "(empty)"
-        } else var msgcontent = message.content
-        if (attach) {
-          for (let file of attach) {
-            files.push(file.url)
+  if (!message.author.bot && message.channel.type == "dm") {
+      var attach = (message.attachments.array())
+      let files = []
+      if (message.content == "") {
+        var msgcontent = "(empty)"
+      } else var msgcontent = message.content
+      if (attach) {
+        for (let file of attach) {
+          files.push(file.url)
+        }
+      }
+      console.log(`${colours.cyan(`${new Date()}`)} - ${'INFO:'.green} ${message.author.tag} (${message.author.id}) sent a modmail message with the content "${message.content}" in ${message.channel.id}.`);
+      client.channels.fetch(conf.logchannelID)
+      .then(channel => channel.send({
+        embed: {
+          color: 0x9b59b6,
+          description: `${new Date()} - INFO: ${message.author.tag} (${message.author.id}) sent a modmail message with the content "${message.content}" in ${message.channel.id}.`,
+        },
+      }).catch(O_o=>{})
+      )
+      message.channel.send({
+        embed: {
+          color: 0x9b59b6,
+          description: `Thank you for your message! We will reply as soon as possible.`,
+        },
+      })
+      client.channels.fetch(conf.modmailid)
+      .then(channel => channel.send({files: files, embed: {
+        color: 0xE67E22,
+        author: {
+          name: message.author.tag,
+          icon_url: message.author.avatarURL()
+        },
+        title: "A user has sent a modmail message",
+        description: `To reply to this message, use ${conf.prefix}reply ${message.author.id} <message>`,
+        fields: [
+          {
+            name: "User (and their ID)",
+            value: message.author.tag + " (" + message.author.id + ")"
+          },
+          {
+            name: "Message",
+            value: msgcontent
           }
+        ],
+        timestamp: new Date(),
+        footer: {
+          icon_url: client.user.avatarURL(),
+          text: "This message is confidential. Unauthorised disclosure may result in sanctions including warnings and potentially revocation of privileges."
         }
-        console.log(`${colours.cyan(`${new Date()}`)} - ${'INFO:'.green} ${message.author.tag} (${message.author.id}) sent a modmail message with the content "${message.content}" in ${message.channel.id}.`);
-        client.channels.fetch(conf.logchannelID)
-        .then(channel => channel.send({
-            embed: {
-              color: 0x9b59b6,
-              description: `${new Date()} - INFO: ${message.author.tag} (${message.author.id}) sent a modmail message with the content "${message.content}" in ${message.channel.id}.`,
-            },
-          }).catch(O_o=>{})
-        )
-        message.channel.send({
-            embed: {
-              color: 0x9b59b6,
-              description: `Thank you for your message! We will reply as soon as possible.`,
-            },
-          })
-        client.channels.fetch(conf.modmailid)
-        .then(channel => channel.send({files: files, embed: {
-            color: 0xE67E22,
-            author: {
-                name: message.author.tag,
-                icon_url: message.author.avatarURL()
-            },
-            title: "A user has sent a modmail message",
-            description: `To reply to this message, use ${conf.prefix}reply ${message.author.id} <message>`,
-            fields: [
-            {
-                name: "User (and their ID)",
-                value: message.author.tag + " (" + message.author.id + ")"
-            },
-            {
-                name: "Message",
-                value: msgcontent
-                  }
-            ],
-            timestamp: new Date(),
-            footer: {
-                icon_url: client.user.avatarURL(),
-                text: "This message is confidential. Unauthorised disclosure may result in sanctions including warnings and potentially revocation of privileges."
-            }
-        }
+      }
     }))
 }
+
 });
 
 client.on("message", async (message) => {
