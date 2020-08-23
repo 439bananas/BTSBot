@@ -257,7 +257,7 @@ client.on("message", async (message) => {
                   });
             }
         }
-    if (command == "report" && message.channel.id != conf.btsbotrequestsid && message.channel.id != conf.announcementfactoryid && message.channel.id != conf.reportschannelid && message.channel.id != conf.modmailid) {
+    if (command == "report" && message.channel.id != conf.btsbotrequestsid && message.channel.id != conf.announcementfactoryid && message.channel.id != conf.reportschannelid && message.channel.id != conf.modmailid && message.channel.id != conf.btst3botrequestsid) {
         let userid = args[0];
         let reason = args.slice(1).join(" ");
         var attach = (message.attachments.array())
@@ -267,7 +267,7 @@ client.on("message", async (message) => {
             files.push(file.url)
           }
         }
-        if (message.guild.members.cache.some(user => user.id === userid) && reason && message.author.id != userid && !message.member.roles.cache.has(conf.moderatorsroleid)) {
+        if (message.guild.members.cache.some(user => user.id === userid) && reason && message.author.id != userid && !message.member.roles.cache.has(conf.moderatorsroleid) && !message.member.roles.cache.has(conf.btst3moderatorsroleid)) {
             client.channels.fetch(conf.reportschannelid)
             .then(channel => channel.send({files: files, embed: {
                 color: 0xe74c3c,
@@ -301,7 +301,6 @@ client.on("message", async (message) => {
                 }
               }
             }))
-            await message.delete({ timeout: 500 })
             client.users.fetch(message.author.id)
             .then(user => user.send({embed: {
                 color: 0x9b59b6,
@@ -309,8 +308,7 @@ client.on("message", async (message) => {
                 description: "Thank you for reporting <@" + userid + ">. Our staff team will review it as soon as possible. Thank you for your contributions to keep Bot Testing Server the way it should be - decent, friendly and intuitive.\n\Please do not reply to this message."
             }}))
         }
-        if (message.member.roles.cache.has(conf.moderatorsroleid)) {
-          message.delete()
+        if (message.member.roles.cache.has(conf.moderatorsroleid) || message.member.roles.cache.has(conf.btst3moderatorsroleid)) {
           client.users.fetch(message.author.id)
             .then(user => user.send({
               embed: {
@@ -329,7 +327,6 @@ client.on("message", async (message) => {
                   description: `This user could not be found. Are they in this server? Are you ensuring that you do not mention them (which attracts their attention) when running the command?`,
                 },
               }));
-          message.delete()
         }
         if (!reason && !message.member.roles.cache.has(conf.moderatorsroleid)) {
           client.users.fetch(message.author.id)
@@ -340,7 +337,6 @@ client.on("message", async (message) => {
                 description: `You are missing arguments.\n\Usage: ${conf.prefix}${command} <user ID> <reason>\n\Example: ${conf.prefix}${command} 224606298673512458 Advertising`,
               },
             }));
-          message.delete()
         }
         if (userid == message.author.id && !message.member.roles.cache.has(conf.moderatorsroleid)) {
           client.users.fetch(message.author.id)
@@ -351,8 +347,8 @@ client.on("message", async (message) => {
               description: `You cannot report yourself!`,
             },
           }));
-          message.delete()
         }
+        await message.delete({ timeout: 500 })
     }
     if (command == "role") {
         let role = args.slice(0).join(" ");

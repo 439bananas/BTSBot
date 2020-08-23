@@ -40,13 +40,14 @@ Linux/Unix/MacOS: `wget https://439bananas.com/projects/btsbot/setup.sh && bash 
     `"announcementfactoryid" : "announcement-factory channel id goes here",`\
     `"announcersroleid" : "announcers role id goes here",`\
     `"announcementsid" : "announcements channel id goes here",`\
-    `"moderatorsroleid" : "moderators role id goes here",`\
+    `"moderatorsroleid" : "server 1 moderators role id goes here",`\
     `"reportschannelid" : "reports channel id goes here",`\
     `"privcmdschannelid" : "private commands channel id goes here",`\
     `"tbmroleid" : "trusted bot managers role id goes here",`\
     `"tbmpingroleid" : "pingable trusted bot managers role id goes here",`\
     `"btst3botownersroleid" : "server 2 bot owners role id goes here",`\
-    `"botaddingid" : "bot-adding channel id goes here"`\
+    `"botaddingid" : "bot-adding channel id goes here",`\
+    `"btst3moderatorsroleid" : "server 2 moderators role id goes here",`\
 `}`
 
 #### Running
