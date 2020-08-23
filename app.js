@@ -39,7 +39,7 @@ client.on("guildMemberAdd", (member) => {
         .then(channel => channel.send({
             embed: {
               color: 0x9b59b6,
-              description: `${colours.cyan(`${new Date()}`)} - INFO: ${member.user.tag} (${member.id}) was added to ${member.guild.name} (${member.guild.id}). The "Bots" role was assigned automatically`,
+              description: `${new Date()} - INFO: ${member.user.tag} (${member.id}) was added to ${member.guild.name} (${member.guild.id}). The "Bots" role was assigned automatically`,
             },
           }).catch(O_o=>{})
         )
@@ -56,7 +56,7 @@ client.on("guildMemberAdd", (member) => {
         .then(channel => channel.send({
             embed: {
               color: 0x9b59b6,
-              description: `${colours.cyan(`${new Date()}`)} - INFO: ${member.user.tag} (${member.id}) joined ${member.guild.name} (${member.guild.id}). The provision of the "Bots" role was suppressed`,
+              description: `${new Date()} - INFO: ${member.user.tag} (${member.id}) joined ${member.guild.name} (${member.guild.id}). The provision of the "Bots" role was suppressed`,
             },
           }).catch(O_o=>{})
         )
@@ -132,7 +132,7 @@ client.on("message", async (message) => {
     const args = message.content.slice(conf.prefix.length).trim().split(/ +/g);
     const command = args.shift().toLowerCase();
     if (command == "help" || command == "report" || command == "request" || command == "role" || command == "announce" || command == "stop" || command == "restart" || command == "reply" || command == "reachout" || command == "fixstatus") {
-        console.log(`${colours.cyan(`${new Date()}`)} - ${'INFO:'.green} ${message.author.tag} (${message.author.id}) ran ${message.content} in ${message.guild.name} (${message.guild.id}), #${message.channel.name} (${message.channel.id}).`);
+        console.log(`${new Date()} - ${'INFO:'.green} ${message.author.tag} (${message.author.id}) ran ${message.content} in ${message.guild.name} (${message.guild.id}), #${message.channel.name} (${message.channel.id}).`);
         client.channels.fetch(conf.logchannelID)
         .then(channel => channel.send({
             embed: {
