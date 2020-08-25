@@ -569,7 +569,7 @@ if (command == "request") {
                 timestamp: new Date(),
                 footer: {
                   icon_url: client.user.avatarURL(),
-                  text: projname
+                  text: projname + " | After adding the bot, go ahead and tell <@!" + message.author.id + "> in <#" + message.channel.id + "> that their bot was added!"
                 }
               }
             }));
