@@ -564,12 +564,16 @@ if (command == "request") {
                   {
                     name: "OAuth2 link",
                     value: "[" + clientid + "](https://discord.com/oauth2/authorize?scope=bot&guild_id=" + message.guild.id + "&disable_guild_select=true&client_id=" + clientid + ")"
+                  },
+                  {
+                    name: "Additional information",
+                    value: "After adding the bot, go ahead and tell <@!" + message.author.id + "> in <#" + message.channel.id + "> that their bot was added!"
                   }
                 ],
                 timestamp: new Date(),
                 footer: {
                   icon_url: client.user.avatarURL(),
-                  text: projname + " | After adding the bot, go ahead and tell <@!" + message.author.id + "> in <#" + message.channel.id + "> that their bot was added!"
+                  text: projname
                 }
               }
             }));
