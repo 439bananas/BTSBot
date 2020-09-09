@@ -586,6 +586,7 @@ if (command == "request") {
     }
 }
 if (command == "construct") {
+  var genericurl = ""
   if ((message.channel.id == conf.btsbotrequestsid || message.channel.id == conf.btst3botrequestsid)) {
       let clientid = args[0];
       let ignore = args.slice(1).join(" ")
@@ -598,22 +599,16 @@ if (command == "construct") {
               },
           });
       }
-      if (message.guild.members.cache.some(user => user.id === clientid) && message.member.hasPermission('MANAGE_GUILD')) {
+      if (message.guild.members.cache.some(user => user.id === clientid)) {
         var url = "https://discord.com/oauth2/authorize?scope=bot&client_id=" + clientid
-      } else var url = "https://discord.com/oauth2/authorize?scope=bot&guild_id=" + message.guild.id + "&disable_guild_select=true&client_id=" + clientid
-      if (!message.member.hasPermission('MANAGE_GUILD')) {
-              message.channel.send({
-                  embed: {
-                    color: 0xff0000,
-                    title: 'Error',
-                    description: `You do not have sufficient permissions to run this command. You need the \`MANAGE_GUILD\` permission.`,
-                  },
-                });
+      } else if (!message.guild.members.cache.some(user => user.id === clientid) && message.member.hasPermission('MANAGE_GUILD')) {
+        var url = "https://discord.com/oauth2/authorize?scope=bot&guild_id=" + message.guild.id + "&disable_guild_select=true&client_id=" + clientid
+        var genericurl = "\n\nIf your intention was to generate a bot invite for another server, the invite you requested can be found [here](https://discord.com/oauth2/authorize?scope=bot&client_id=" + clientid + ")"
       }
       if (message.member.hasPermission('MANAGE_GUILD')) {
           message.channel.send({embed: {
               title: "Success!",
-              description: `The link you requested can be found [here](${url})`,
+              description: `The link you requested can be found [here](${url}) ${genericurl}`,
               color: 0x9b59b6
           }})
       }
