@@ -410,7 +410,7 @@ client.on("message", async (message) => {
             }
         }
             if (role == "list") {
-                var rolelist = "Bot Owners\nred\nbrown\norange\nyellow\ngreen\nsky blue\nlight blue\nblue\npurple\nmagenta\npeach\ngrey\nblack\nwhite"
+                var rolelist = "Bot Owners\nred\nbrown\norange\nyellow\ngreen\nsky blue\nlight blue\nblue\npurple\nmagenta\npeach\ngrey\nblack\nwhite\namong us"
                 if (message.member.roles.cache.has(conf.tbmroleid)) {
                     var rolelist = rolelist + "\ntbmping"
                 }
