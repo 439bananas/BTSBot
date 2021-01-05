@@ -590,7 +590,7 @@ if (command == "construct") {
   if ((message.channel.id == conf.btsbotrequestsid || message.channel.id == conf.btst3botrequestsid)) {
       let clientid = args[0];
       let ignore = args.slice(1).join(" ")
-      if (!clientid && message.member.hasPermission('MANAGE_GUILD')) {
+      if (!clientid) {
           message.channel.send({
               embed: {
                   color: 0xff0000,
@@ -599,7 +599,7 @@ if (command == "construct") {
               },
           });
       }
-      if (message.guild.members.cache.some(user => user.id === clientid)) {
+      if (message.guild.members.cache.some(user => user.id === clientid) && clientid) {
         var url = "https://discord.com/oauth2/authorize?scope=bot&client_id=" + clientid
       } else if (!message.guild.members.cache.some(user => user.id === clientid) && message.member.hasPermission('MANAGE_GUILD')) {
         var url = "https://discord.com/oauth2/authorize?scope=bot&guild_id=" + message.guild.id + "&disable_guild_select=true&client_id=" + clientid
