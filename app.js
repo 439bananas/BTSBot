@@ -5,6 +5,8 @@ const client = new Discord.Client();
 const conf = require("./conf.json");
 const rolenames = require("./roles.json");
 const removeblacklist = ['456855204340563999', '725771238416449646', '155149108183695360', '189702078958927872', '234395307759108106', '389361997356990465']
+let ghostPingCache = new Set();
+const ghostPingTimeout = 1000 * 60 * 2 //If the message is deleted after x time it won't be counted as a ghostPing 
 console.log(`${colours.cyan(`${new Date()}`)} - ${'INFO:'.green} Attempting to connect to Discord\'s API...`);
 
 client.on("ready", () => {
@@ -810,4 +812,39 @@ client.on("message", async (message) => {
   }
 })
 
-client.login(conf.token)
+client.on("message", (message) => {
+  const { channel, guild, mentions, content, author } = message;
+  if (channel.type !== "text") return;
+  if (author.bot === true) return;
+  const users = mentions.members.filter(m => m.user.bot === false).map(x => x);
+  if (!users) return;
+  else if (users.length === 0) return;
+
+  ghostPingCache.add(message.id);
+  setTimeout(() => {
+      ghostPingCache.delete(message.id)
+  }, ghostPingTimeout || 1000 * 60 * 2);
+
+});
+
+client.on("messageDelete", (message) => {
+  const { channel, guild, mentions, content, author } = message;
+  if (channel.type !== "text") return;
+  if (!ghostPingCache.has(message.id)) return;
+
+  const users = mentions.members.filter(m => m.user.bot === false).map(x => x.toString());
+
+  const embed = new MessageEmbed()
+      .setColor("RED")
+      .setThumbnail("https://emoji.gg/assets/emoji/ping.png")
+      .setTitle("Ghost Ping Detected!")
+      .addField("Author", message.member, true)
+      .addField("Mentions", users.join(" ") || "Not Found", true)
+      .addField("Content", `${content || "Not Found"}`, false)
+      .setFooter("Message Sent On")
+      .setTimestamp(message.createdTimestamp)
+
+  channel.send(embed);
+})
+
+client.login(conf.token);
