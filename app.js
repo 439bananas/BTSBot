@@ -4,6 +4,7 @@ const Discord = require("discord.js");
 const client = new Discord.Client();
 const conf = require("./conf.json");
 const rolenames = require("./roles.json");
+var safe = false
 const removeblacklist = ['456855204340563999', '725771238416449646', '155149108183695360', '189702078958927872', '234395307759108106', '389361997356990465']
 console.log(`${colours.cyan(`${new Date()}`)} - ${'INFO:'.green} Attempting to connect to Discord\'s API...`);
 
@@ -33,38 +34,48 @@ client.on('error', (error) => {
 });
 
 client.on("guildMemberAdd", (member) => {
-  if (member.user.bot) {
-    console.log(`${colours.cyan(`${new Date()}`)} - ${'INFO:'.green} ${member.user.tag} (${member.id}) was added to ${member.guild.name} (${member.guild.id}). The "Bots" role was assigned automatically`);
+  var safe = "ambiguous"
+  for (token in conf.bannedusernametokens) {
+    if (member.user.username.toLowerCase().includes(token)) {
+      member.ban({reason:"A part of the user's username is listed as a banned token"})
+    } else {
+      var safe = true
+    }
+  }
+  if (safe == true && safe != "ambiguous") {
+    if (member.user.bot) {
+      console.log(`${colours.cyan(`${new Date()}`)} - ${'INFO:'.green} ${member.user.tag} (${member.id}) was added to ${member.guild.name} (${member.guild.id}). The "Bots" role was assigned automatically`);
+        client.channels.fetch(conf.logchannelID)
+          .then(channel => channel.send({
+            embed: {
+              color: 0x9b59b6,
+              description: `${new Date()} - INFO: ${member.user.tag} (${member.id}) was added to ${member.guild.name} (${member.guild.id}). The "Bots" role was assigned automatically`,
+            },
+          }).catch(O_o=>{}))
+          if (member.guild.id == conf.btsid) {
+            member.guild.members.fetch(member.id).then(gm => gm.roles.add(conf.btsbotsroleid, "Member is a bot"))
+          }
+          if (member.guild.id == conf.btst3id) {
+            member.guild.members.fetch(member.id).then(gm => gm.roles.add(conf.btst3botsroleid, "Member is a bot"))
+          }
+    }
+    if (!member.user.bot) {
+      console.log(`${colours.cyan(`${new Date()}`)} - ${'INFO:'.green} ${member.user.tag} (${member.id}) joined ${member.guild.name} (${member.guild.id}). The provision of the "Bots" role was suppressed`);
       client.channels.fetch(conf.logchannelID)
         .then(channel => channel.send({
           embed: {
             color: 0x9b59b6,
-            description: `${new Date()} - INFO: ${member.user.tag} (${member.id}) was added to ${member.guild.name} (${member.guild.id}). The "Bots" role was assigned automatically`,
+            description: `${new Date()} - INFO: ${member.user.tag} (${member.id}) joined ${member.guild.name} (${member.guild.id}). The provision of the "Bots" role was suppressed`,
           },
         }).catch(O_o=>{}))
-        if (member.guild.id == conf.btsid) {
-          member.guild.members.fetch(member.id).then(gm => gm.roles.add(conf.btsbotsroleid, "Member is a bot"))
-        }
-        if (member.guild.id == conf.btst3id) {
-          member.guild.members.fetch(member.id).then(gm => gm.roles.add(conf.btst3botsroleid, "Member is a bot"))
-        }
-  }
-  if (!member.user.bot) {
-    console.log(`${colours.cyan(`${new Date()}`)} - ${'INFO:'.green} ${member.user.tag} (${member.id}) joined ${member.guild.name} (${member.guild.id}). The provision of the "Bots" role was suppressed`);
-    client.channels.fetch(conf.logchannelID)
-      .then(channel => channel.send({
-        embed: {
-          color: 0x9b59b6,
-          description: `${new Date()} - INFO: ${member.user.tag} (${member.id}) joined ${member.guild.name} (${member.guild.id}). The provision of the "Bots" role was suppressed`,
-        },
-      }).catch(O_o=>{}))
-      client.users.fetch(member.id)
-        .then(user => user.send({
-          embed: {
-            color: 0x9b59b6,
-            description: `Welcome to Bot Testing Server! Should you find yourself banned, you can appeal this decision [here](${conf.appeallink})`,
-          },
-        }))
+        client.users.fetch(member.id)
+          .then(user => user.send({
+            embed: {
+              color: 0x9b59b6,
+              description: `Welcome to Bot Testing Server! Should you find yourself banned, you can appeal this decision [here](${conf.appeallink})`,
+            },
+          }).catch(O_o=>{}))
+    }
   }
 })
 
@@ -411,7 +422,7 @@ client.on("message", async (message) => {
           }
         }
         if (role == "list") {
-          var rolelist = "Bot Owners\nred\nbrown\norange\nyellow\ngreen\nsky blue\nlight blue\nblue\npurple\nmagenta\npeach\ngrey\nblack\nwhite\namong us"
+          var rolelist = "Bot Owners\nred\nbrown\norange\nyellow\ngreen\nsky blue\nlight blue\nblue\npurple\nmagenta\npeach\ngrey\nblack\nwhite"
           if (message.member.roles.cache.has(conf.tbmroleid)) {
             var rolelist = rolelist + "\ntbmping"
           }
@@ -633,7 +644,7 @@ client.on("message", async (message) => {
     if (command == "reply") {
       var title = "A moderator has replied to your message!"
     }
-    else if (command == "reachout") {
+    if (command == "reachout") {
       var title = "A moderator has sent you a message!"
     }
     if (userid == message.author.id) {
