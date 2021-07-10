@@ -1,0 +1,33 @@
+{
+  "dependencies": {
+    "colors": "^1.4.0",
+    "discord.js": "^12.5.3",
+    "ejs": "^3.1.6",
+    "express": "^4.17.1",
+    "express-device": "^0.4.2",
+    "express-favicon": "^2.0.1",
+    "express-formidable": "^1.2.0",
+    "path": "^0.12.7",
+    "serve-favicon": "^2.5.0",
+    "strip-comments": "^2.0.1"
+  },
+  "name": "bts-bot",
+  "version": "3.0.0",
+  "description": "The third iteration of the utility bot used in Bot Testing Server",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "start": "node src/core/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/439bananas/BTSBot.git"
+  },
+  "author": "439bananas",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/439bananas/BTSBot/issues"
+  },
+  "homepage": "https://github.com/439bananas/BTSBot#readme"
+}
