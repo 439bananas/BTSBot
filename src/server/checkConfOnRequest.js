@@ -26,4 +26,16 @@ router.get('/', (req, res, next) => {
     })
 })
 
+router.get('/config', (req, res, next) => {
+    checkconf().then(result => {
+        if (result == false) {
+            res.status(200);
+            res.render('../src/server/pages/config.ejs', {
+                metadomain: uniconf.metadomain,
+                metaurl: "https://" + uniconf.metadomain
+            });
+        }
+    })
+})
+
 module.exports = router;
