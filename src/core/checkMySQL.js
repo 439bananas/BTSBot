@@ -2,4 +2,8 @@ const log = require('../core/logHandler');
 const checkconf = require('../core/checkConfExists');
 const mysql = require('mysql');
 
-var connection = mysql.createConnection({})
+async function checkmysql(hostname, username, password, database) {
+    var connection = mysql.createConnection({
+        
+    })
+}
