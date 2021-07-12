@@ -30,3 +30,101 @@ input[type=submit]:hover {
     border: 0.2ex solid #f0600f;
     padding: 0.8ex;
 }
+
+.button-1x2ahC {
+    /*margin-left: 10px;*/
+    cursor: pointer;
+}
+
+.button-38aScr {
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    background: none;
+    border: none;
+    border-radius: 3px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 18px;
+    padding: 2px 16px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.lookFilled-1Gx00P.colorGreen-29iAKY {
+    color: #fff;
+    background-color: hsl(139,calc(var(--saturation-factor, 1)*47.3%),43.9%);
+}
+
+.grow-q77ONN, .sizeIcon-1-kvKI {
+    width: auto;
+}
+
+.lookFilled-1Gx00P .contents-18-Yxp, .lookInverted-2D7oAl .contents-18-Yxp, .lookLink-9FtZy- .contents-18-Yxp, .lookOutlined-3sRXeN .contents-18-Yxp {
+    margin: 0 auto;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.sizeSmall-2cSMqn {
+    /*width: 60px;*/
+    height: 32px;
+    min-width: 60px;
+    min-height: 32px;
+}
+
+button {
+    appearance: auto;
+    text-rendering: auto;
+    color: -internal-light-dark(black, white);
+    letter-spacing: normal;
+    word-spacing: normal;
+    text-transform: none;
+    text-indent: 0px;
+    text-shadow: none;
+    display: inline-block;
+    text-align: center;
+    align-items: flex-start;
+    cursor: default;
+    background-color: -internal-light-dark(rgb(239, 239, 239), rgb(59, 59, 59));
+    box-sizing: border-box;
+    margin: 0em;
+    font: 400 13.3333px Arial;
+    padding: 1px 6px;
+    border-width: 2px;
+    border-style: outset;
+    border-color: -internal-light-dark(rgb(118, 118, 118), rgb(133, 133, 133));
+    border-image: initial;
+    border-radius: 2px;
+}
+
+.lookFilled-1Gx00P.colorGreen-29iAKY:hover {
+    background-color: hsl(139,calc(var(--saturation-factor, 1)*47.1%),33.3%);
+}
+
+.alert-box.danger {
+    background-color: rgba(237,66,69,.1);
+    border: 2px solid rgba(237,66,69,.5);
+}
+
+.alert-box {
+    margin: 20px 0;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 22px;
+    width: max-content;
+}

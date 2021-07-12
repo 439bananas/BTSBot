@@ -7,6 +7,7 @@
     "express-device": "^0.4.2",
     "express-favicon": "^2.0.1",
     "express-formidable": "^1.2.0",
+    "mysql": "^2.18.1",
     "path": "^0.12.7",
     "serve-favicon": "^2.5.0",
     "strip-comments": "^2.0.1"
