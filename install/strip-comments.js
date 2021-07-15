@@ -1,3 +1,15 @@
+/////////////////////////////////////////////////////
+//                                                 //
+//                     BTS Bot                     //
+//                                                 //
+//             File: strip-comments.js             //
+//                                                 //
+//         Written by: Thomas (439bananas)         //
+//                                                 //
+// Copyright 439bananas 2021. All rights reserved. //
+//                                                 //
+/////////////////////////////////////////////////////
+
 const strip = require('strip-comments');
 const fs = require('fs');
 

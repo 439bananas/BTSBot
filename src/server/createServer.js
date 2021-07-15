@@ -1,5 +1,18 @@
-const uniconf = require('../configs/uniconf.json')
+/////////////////////////////////////////////////////
+//                                                 //
+//                     BTS Bot                     //
+//                                                 //
+//              File: createServer.js              //
+//                                                 //
+//         Written by: Thomas (439bananas)         //
+//                                                 //
+// Copyright 439bananas 2021. All rights reserved. //
+//                                                 //
+/////////////////////////////////////////////////////
+
 const log = require('../core/logHandler')
+log.info(`Attempting to start server...`)
+const uniconf = require('../configs/uniconf.json')
 const express = require('express')
 const e = express()
 const http = require('http')

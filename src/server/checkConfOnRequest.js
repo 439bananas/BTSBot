@@ -1,3 +1,15 @@
+/////////////////////////////////////////////////////
+//                                                 //
+//                     BTS Bot                     //
+//                                                 //
+//           File: checkConfOnRequest.js           //
+//                                                 //
+//         Written by: Thomas (439bananas)         //
+//                                                 //
+// Copyright 439bananas 2021. All rights reserved. //
+//                                                 //
+/////////////////////////////////////////////////////
+
 const uniconf = require('../configs/uniconf.json')
 const path = require('path')
 const express = require('express')
@@ -7,10 +19,6 @@ const formidable = require('express-formidable')
 //const device = require('express-device')
 const checkconf = require('../core/checkConfExists')
 const router = express.Router()
-
-checkconf().then(result => {
-    console.log(result)
-})
 
 router.use(formidable())
 router.get('/', (req, res, next) => {

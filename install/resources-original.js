@@ -1,3 +1,15 @@
+/////////////////////////////////////////////////////
+//                                                 //
+//                     BTS Bot                     //
+//                                                 //
+//   File: resources.js & resources-original.js    //
+//                                                 //
+//         Written by: Thomas (439bananas)         //
+//                                                 //
+// Copyright 439bananas 2021. All rights reserved. //
+//                                                 //
+/////////////////////////////////////////////////////
+
 const express = require('express');
 const router = express.Router();
 
