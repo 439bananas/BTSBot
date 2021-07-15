@@ -14,7 +14,7 @@ const fs = require('fs');
 const path = require('path');
 
 async function checkforconf() {
-    if (fs.existsSync(path.join(__dirname, '..', 'configs', 'conf.json'))) {
+    if (fs.existsSync(path.join(__dirname, '..', 'configs', 'conf.json'))) { // Does src/configs/conf.json exist? If yes, return true. Else, false
         return true;
     }
     else {

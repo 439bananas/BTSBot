@@ -12,7 +12,7 @@
 
 const colours = require('colors')
 
-async function info(message) {
+async function info(message) { // Log depending on function called
     console.log(`${colours.cyan(`${new Date()}`)} - ${'INFO:'.green} ${message}`)
 }
 
@@ -25,7 +25,7 @@ async function error(message) {
 }
 
 async function fatal(message) {
-    console.log(`${colours.cyan(`${new Date()}`)} - ${'FATAL:'.bgRed} ${message}`)
+    console.log(`${colours.cyan(`${new Date()}`)} - ${'FATAL:'.bgRed} ${message}`) // Log and exit
     process.exit(1)
 }
 
