@@ -1,0 +1,27 @@
+/////////////////////////////////////////////////////
+//                                                 //
+//                     BTS Bot                     //
+//                                                 //
+//              File: submitMySQL.js               //
+//                                                 //
+//         Written by: Thomas (439bananas)         //
+//                                                 //
+// Copyright 439bananas 2021. All rights reserved. //
+//                                                 //
+/////////////////////////////////////////////////////
+
+const checkconf = require('../../core/checkConfExists')
+const fs = require('fs')
+const express = require('express');
+const router = express.Router()
+
+router.post('/', (req, res, next) => {
+    checkconf().then(result => { // IF STATEMENT GOES HERE // Check if conf.json exists, if not continue. Else, play dead
+        //console.log(result)
+        if(result != true) {
+            console.log(req)
+        }
+    })
+})
+
+module.exports = router;
