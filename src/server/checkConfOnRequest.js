@@ -16,12 +16,11 @@ const express = require('express')
 const app = express()
 const ejs = require('ejs')
 const formidable = require('express-formidable')
-//const device = require('express-device')
 const checkconf = require('../core/checkConfExists')
 const router = express.Router()
 
-router.use(formidable())
-router.get('/', (req, res, next) => {
+router.use(formidable()) // Grab fields of form entered
+router.get('/', (req, res, next) => { // When / is GET'd, send the noconfintro file and fill variables with respective values
     checkconf().then(result => {
         if (result == false) {
             res.status(200);
@@ -34,7 +33,7 @@ router.get('/', (req, res, next) => {
     })
 })
 
-router.get('/config', (req, res, next) => {
+router.get('/config', (req, res, next) => { // Rinse and repeat
     checkconf().then(result => {
         if (result == false) {
             res.status(200);

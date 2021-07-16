@@ -16,7 +16,7 @@ const express = require('express');
 const router = express.Router()
 
 router.post('/', (req, res, next) => {
-    checkconf().then(result => { // IF STATEMENT GOES HERE // Check if conf.json exists, if not continue. Else, play dead
+    checkconf().then(result => { // Check if conf.json exists, if not continue. Else, play dead
         //console.log(result)
         if(result != true) {
             console.log(req)

@@ -1,4 +1,16 @@
-def get_filename_from_url(url):
+#####################################################
+#                                                   #
+#b                     BTS Bot                      #
+#                                                   #
+#    File: resources.js & resources-original.js     #
+#                                                   #
+#          Written by: Thomas (439bananas)          #
+#                                                   #
+#  Copyright 439bananas 2021. All rights reserved.  #
+#                                                   #
+#####################################################
+
+def get_filename_from_url(url): # Get the file name so we can name them
   return url.split('/')[-1]
 
 import os
@@ -7,21 +19,21 @@ import re
 import fileinput
 
 text = requests.get('https://raw.githubusercontent.com/SebastianAigner/twemoji-amazing/master/twemoji-amazing.css').text
-with open('../src/server/pages/resources/twemoji-amazing.css', 'w') as f:
+with open('../src/server/pages/resources/twemoji-amazing.css', 'w') as f: # Get and write the file
   f.write(text)
 
-os.system('node strip-comments.js')
+os.system('node strip-comments.js') # Comments make generation crash? Oops
 
 print('Generating emojis, this could take a while...')
 
-os.mkdir('../src/server/pages/resources/emojis')
-with open('../src/server/pages/resources/twemoji-amazing.css') as css:
+os.mkdir('../src/server/pages/resources/emojis') # Create dir
+with open('../src/server/pages/resources/twemoji-amazing.css') as css: # Look through CSS for links
   text = css.read()
-urls = re.findall(r'https?://[^"]+', text, re.I)
+urls = re.findall(r'https?://[^"]+', text, re.I) # Find URLs then add to list
 urls = list(set(urls))
 
-filecount = int(0)
-for item in urls:
+filecount = int(0) # Purely statistical
+for item in urls: # For each URL, get and save them
   text = requests.get(item).text
   with open('../src/server/pages/resources/emojis/' + get_filename_from_url(item), 'w') as svg:
     svg.write(text)
@@ -30,26 +42,26 @@ for item in urls:
 
 print('Downloaded all', filecount, 'files!')
 
-print('Attempting to modify CSS file...')
-css = open('../src/server/pages/resources/twemoji-amazing.css', 'rt')
+print('Attempting to modify CSS file...') # Replace all references with local
+css = open('../src/server/pages/resources/twemoji-amazing.css', 'rt') # Read and replace in the program itself
 data = css.read()
 data = data.replace('https://twemoji.maxcdn.com/v/latest/svg', '/resources/emojis')
 css.close()
-css = open('../src/server/pages/resources/twemoji-amazing.css', 'wt')
+css = open('../src/server/pages/resources/twemoji-amazing.css', 'wt') # Write the changes
 css.write(data)
 css.close()
 print('All', filecount, 'instances of "https://twemoji.maxcdn.com/v/latest/svg" have been replaced with "/resources/emojis".')
 
-print('Attempting to modify resources.js file...')
+print('Attempting to modify resources.js file...') # Add API endpoints here
 js = open('resources-original.js', 'rt')
 data = js.read()
-data = data.replace('module.exports = router;', '')
+data = data.replace('module.exports = router;', '') # Remove so that BTS Bot doesn't crash
 for item in urls:
-  data = data + "router.get('/emojis/" + get_filename_from_url(item) + "', (req, res) => {\n    res.sendFile('./pages/resources/emojis/" + get_filename_from_url(item) + "', { root: __dirname });\n});\n\n"
-data = data + "module.exports = router;"
+  data = data + "router.get('/emojis/" + get_filename_from_url(item) + "', (req, res) => {\n    res.sendFile('./pages/resources/emojis/" + get_filename_from_url(item) + "', { root: __dirname });\n});\n\n" # Replace
+data = data + "module.exports = router;" # Add back to end so BTS Bot doesn't crash
 js.close()
 js = open('../src/server/resources.js', 'wt')
-js.write(data)
-js.close
+js.write(data) # Write
+js.close()
 
 print("Emoji generation complete!")
