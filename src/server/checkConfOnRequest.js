@@ -20,7 +20,7 @@ const checkconf = require('../core/checkConfExists')
 const router = express.Router()
 
 router.use(formidable()) // Grab fields of form entered
-router.get('/', (req, res, next) => { // When / is GET'd, send the noconfintro file and fill variables with respective values
+router.get('/', (req, res, next) => { // When / is GET'd, if checkconf returns true, send the noconfintro file and fill variables with respective values, else send back the front page
     checkconf().then(result => {
         if (result == false) {
             res.status(200);
@@ -33,7 +33,7 @@ router.get('/', (req, res, next) => { // When / is GET'd, send the noconfintro f
     })
 })
 
-router.get('/config', (req, res, next) => { // Rinse and repeat
+router.get('/config', (req, res, next) => { // Rinse and repeat but only serve at all if checkconf returns false
     checkconf().then(result => {
         if (result == false) {
             res.status(200);
