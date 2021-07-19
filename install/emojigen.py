@@ -19,7 +19,7 @@ import re
 import fileinput
 
 text = requests.get('https://raw.githubusercontent.com/SebastianAigner/twemoji-amazing/master/twemoji-amazing.css').text
-with open('../src/server/pages/resources/twemoji-amazing.css', 'w') as f: # Get and write the file
+with open('../src/server/pages/resources/css/twemoji-amazing.css', 'w') as f: # Get and write the file
   f.write(text)
 
 os.system('node strip-comments.js') # Comments make generation crash? Oops
@@ -27,7 +27,7 @@ os.system('node strip-comments.js') # Comments make generation crash? Oops
 print('Generating emojis, this could take a while...')
 
 os.mkdir('../src/server/pages/resources/emojis') # Create dir
-with open('../src/server/pages/resources/twemoji-amazing.css') as css: # Look through CSS for links
+with open('../src/server/pages/resources/css/twemoji-amazing.css') as css: # Look through CSS for links
   text = css.read()
 urls = re.findall(r'https?://[^"]+', text, re.I) # Find URLs then add to list
 urls = list(set(urls))
@@ -43,11 +43,11 @@ for item in urls: # For each URL, get and save them
 print('Downloaded all', filecount, 'files!')
 
 print('Attempting to modify CSS file...') # Replace all references with local
-css = open('../src/server/pages/resources/twemoji-amazing.css', 'rt') # Read and replace in the program itself
+css = open('../src/server/pages/resources/css/twemoji-amazing.css', 'rt') # Read and replace in the program itself
 data = css.read()
 data = data.replace('https://twemoji.maxcdn.com/v/latest/svg', '/resources/emojis')
 css.close()
-css = open('../src/server/pages/resources/twemoji-amazing.css', 'wt') # Write the changes
+css = open('../src/server/pages/resources/css/twemoji-amazing.css', 'wt') # Write the changes
 css.write(data)
 css.close()
 print('All', filecount, 'instances of "https://twemoji.maxcdn.com/v/latest/svg" have been replaced with "/resources/emojis".')

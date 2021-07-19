@@ -18,8 +18,8 @@ const router = express.Router()
 router.post('/', (req, res, next) => {
     checkconf().then(result => { // Check if conf.json exists, if not continue. Else, play dead
         //console.log(result)
-        if(result != true) {
-            console.log(req)
+        if(result != true && result != "NOSQL") {
+            console.log(req.fields)
         }
     })
 })
