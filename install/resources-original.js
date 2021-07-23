@@ -37,8 +37,12 @@ router.get('/h1.woff', (req, res) => { // A very poggers font
     res.sendFile('./pages/resources/fonts/h1.woff', { root: __dirname });
 });
 
-router.get('/twemoji-amazing.css', (req, res) => { // Allows for emojis; from now on is auto-generated
+router.get('/twemoji-amazing.css', (req, res) => { // Allows for emojis
     res.sendFile('./pages/resources/css/twemoji-amazing.css', { root: __dirname });
+});
+
+router.get('/smc.js', (req, res) => { // Submit MySQL frontend script from now on is auto-generated
+    res.sendFile('./pages/resources/js/smc.js', { root: __dirname });
 });
 
 module.exports = router; // This gets removed and replaced
