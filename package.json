@@ -16,7 +16,6 @@
   "version": "3.0.0",
   "description": "The third iteration of the utility bot used in Bot Testing Server",
   "main": "index.js",
-  "devDependencies": {},
   "scripts": {
     "start": "node src/core/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"

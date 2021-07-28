@@ -45,4 +45,4 @@ router.get('/smc.js', (req, res) => { // Submit MySQL frontend script from now o
     res.sendFile('./pages/resources/js/smc.js', { root: __dirname });
 });
 
-module.exports = router; // This gets removed and replaced
+module.exports = router;
