@@ -21,11 +21,18 @@ const router = express.Router()
 
 router.use(formidable()) // Grab fields of form entered
 router.get('/', (req, res, next) => { // When / is GET'd, if checkconf returns true, send the noconfintro file and fill variables with respective values, else send back the front page
-    checkconf().then(result => {
-        if (result == false) {
+    checkconf().catch(err => {
+        if (err == false) {
             res.status(200);
             res.render('../src/server/pages/noconfintro.ejs', {
                 confpath: path.join(__dirname, 'configs'),
+                metadomain: uniconf.metadomain,
+                metaurl: "https://" + uniconf.metadomain
+            });
+        }
+        else {
+            res.status(200);
+            res.json({
                 metadomain: uniconf.metadomain,
                 metaurl: "https://" + uniconf.metadomain
             });
@@ -34,13 +41,20 @@ router.get('/', (req, res, next) => { // When / is GET'd, if checkconf returns t
 })
 
 router.get('/config', (req, res, next) => { // Rinse and repeat but only serve at all if checkconf returns false
-    checkconf().then(result => {
-        if (result == false) {
+    checkconf().catch(err => {
+        console.log(err)
+        if (err == false) {
             res.status(200);
             res.render('../src/server/pages/config-1.ejs', {
                 metadomain: uniconf.metadomain,
                 metaurl: "https://" + uniconf.metadomain
             });
+        }
+        if (err == "MISSING_FIELDS") {
+            res.status(404);
+        }
+        if (!err) {
+            console.log('e')
         }
     })
 })

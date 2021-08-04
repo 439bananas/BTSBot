@@ -33,7 +33,7 @@ function checkmysql(hostname, username, password, database) {
                     reject('INCORRECT_CREDENTIALS');
                 } else if (err.code == 'ER_DBACCESS_DENIED_ERROR') {
                     reject('ACCESS_DENIED');
-                } else if (err.code == 'ECONNREFUSED') {
+                } else if (err.code == 'ECONNREFUSED' || err.code == 'ENOTFOUND') {
                     reject('CONNECTION_REFUSED')
                 } else {
                     reject('UNKNOWN_ERROR');
@@ -43,7 +43,7 @@ function checkmysql(hostname, username, password, database) {
                 resolve('OK') // If blow test successful, return OK
             }
         });
-
+        connection.end()
     });
 }
 

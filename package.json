@@ -7,18 +7,20 @@
     "express-device": "^0.4.2",
     "express-favicon": "^2.0.1",
     "express-formidable": "^1.2.0",
+    "forever-monitor": "^1.5.2",
     "mysql": "^2.18.1",
     "path": "^0.12.7",
     "serve-favicon": "^2.5.0",
     "strip-comments": "^2.0.1"
   },
   "name": "bts-bot",
-  "version": "3.0.0",
+  "version": "3.0.0ad",
   "description": "The third iteration of the utility bot used in Bot Testing Server",
   "main": "index.js",
   "scripts": {
     "start": "node src/core/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "nrf": "node src/core/createElements.js"
   },
   "repository": {
     "type": "git",

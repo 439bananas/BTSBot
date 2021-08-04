@@ -10,6 +10,8 @@
 //                                                 //
 /////////////////////////////////////////////////////
 
+// NOTES: You should never call restart() within this file; the script stops
+
 const log = require('./logHandler');
 const uniconf = require('../configs/uniconf.json')
 

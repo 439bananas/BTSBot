@@ -17,11 +17,11 @@ async function info(message) { // Log depending on function called
 }
 
 async function warn(message) {
-    console.log(`${colours.cyan(`${new Date()}`)} - ${'WARN: '.yellow} ${message}`)
+    console.log(`${colours.cyan(`${new Date()}`)} - ${'WARN:'.yellow} ${message}`)
 }
 
 async function error(message) {
-    console.log(`${colours.cyan(`${new Date()}`)} - ${'ERROR: '.red} ${message}`)
+    console.log(`${colours.cyan(`${new Date()}`)} - ${'ERROR:'.red} ${message}`)
 }
 
 async function fatal(message) {

@@ -6,17 +6,25 @@
 //                                                 //
 //         Written by: Thomas (439bananas)         //
 //                                                 //
-// Copyright 439bananas 2021. All rights reserved. //
+// Copyright 439bananas 2022. All rights reserved. //
 //                                                 //
 /////////////////////////////////////////////////////
 
-const warnuser = require('./warnUserIfNoConf') // Check if conf.json exists and if not, send a warning to the console
-const createServer = require('../server/createServer') // Start the dashboard
-//const createBot = require('../bot/createBot') // Start the bot
+const forever = require('forever-monitor')
 
-/*const checkmysql = require('./checkMySQL')
-checkmysql('192.168.1.181', 'btsbot', 'btsbot', 'btsbot').then(result => {
-    console.log(result)
-}).catch(err => {
-    console.log(err)
-})*/
+const child = new (forever.Monitor)('./src/core/createElements.js', {
+    max: 1,
+    silent: false,
+    args: []
+})
+
+child.on('exit:code', function (code) {
+    if (code == 1) {
+        process.exit(1)
+    }
+    if (code == 2) {
+        child.restart()
+    }
+});
+
+child.start()
