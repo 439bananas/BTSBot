@@ -10,7 +10,7 @@
 //                                                 //
 /////////////////////////////////////////////////////
 
-// NOTES: You should never call restart() within this file; the script stops
+// NOTES: You should never call restart() within this file; the script stops while the server and bot continue to run
 
 const log = require('./logHandler');
 const uniconf = require('../configs/uniconf.json')

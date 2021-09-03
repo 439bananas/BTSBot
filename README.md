@@ -1,0 +1,1 @@
+do not ctrl + c if you want to stop the bot, ctrl + c disables restarts and closes the terminal alone

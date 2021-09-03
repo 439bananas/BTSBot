@@ -45,4 +45,8 @@ router.get('/smc.js', (req, res) => { // Submit MySQL frontend script from now o
     res.sendFile('./pages/resources/js/smc.js', { root: __dirname });
 });
 
+router.get('/btsthonk.png', (req, res) => { // 404s
+    res.sendFile('./pages/resources/img/btsthonk.png', { root: __dirname });
+});
+
 module.exports = router;
