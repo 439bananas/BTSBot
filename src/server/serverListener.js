@@ -43,9 +43,6 @@ app.use(function (req, res, next) {
                 metaurl: "https://" + uniconf.metadomain
             });
         }
-        if (!err) {
-            console.log('e')
-        }
     })
 });
 

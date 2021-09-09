@@ -18,6 +18,7 @@ const ejs = require('ejs')
 const formidable = require('express-formidable')
 const checkconf = require('../core/checkConfExists')
 const router = express.Router()
+const log = require('../core/logHandler')
 
 router.use(formidable()) // Grab fields of form entered
 router.get('/', (req, res, next) => { // When / is GET'd, if checkconf returns true, send the noconfintro file and fill variables with respective values, else send back the front page
@@ -42,7 +43,7 @@ router.get('/', (req, res, next) => { // When / is GET'd, if checkconf returns t
 
 router.get('/config', (req, res, next) => { // Rinse and repeat but only serve at all if checkconf returns false
     checkconf().catch(err => {
-        console.log(err)
+        log.error(err)
         if (err == false) {
             res.status(200);
             res.render('../src/server/pages/config-1.ejs', {
@@ -54,7 +55,11 @@ router.get('/config', (req, res, next) => { // Rinse and repeat but only serve a
             res.status(404);
         }
         if (!err) {
-            console.log('e')
+            res.render('../src/server/pages/404.ejs', {
+                conf: true,
+                metadomain: uniconf.metadomain,
+                metaurl: "https://" + uniconf.metadomain
+            });
         }
     })
 })
