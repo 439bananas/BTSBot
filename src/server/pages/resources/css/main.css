@@ -26,6 +26,7 @@ input[type=submit] {
     background-color: #f0600f;
     border: none;
     padding: 1ex;
+    border-radius: 5px;
 }
 
 input[type=submit]:hover {
@@ -90,7 +91,6 @@ input[type=submit]:hover {
 }
 
 button {
-    
     text-rendering: auto;
     letter-spacing: normal;
     word-spacing: normal;
@@ -127,5 +127,4 @@ button {
     font-size: 14px;
     font-weight: 300;
     line-height: 22px;
-    width: max-content;
 }

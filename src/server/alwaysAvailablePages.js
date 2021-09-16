@@ -20,7 +20,7 @@ const ejs = require('ejs')
 //router.use('/resources', resourcesRoutes)
 
 // CHECK IF USER IS LOGGED IN
-/*router.get(function(req, res) { // 404
+router.get(function(req, res) { // 404
     checkconf().catch(err => {
         if (err) {  // If error in conf, don't show things like login etc that couldn't possibly exist
             res.status(404);
@@ -32,14 +32,11 @@ const ejs = require('ejs')
                 conf: true
             });
         }
-        if (!err) {
-            console.log('e')
-        }
     })
 })
-*/
-router.use(function (req, res, next) {
+
+/*router.use(function (req, res, next) { // 404
     res.status(404).sendFile("../src/server/pages/404.ejs")
 });
-
+*/
 module.exports = router;

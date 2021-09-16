@@ -31,7 +31,7 @@ checkconf().catch(err => {// Check the configuration file, if anything other tha
     if (err == 'UNKNOWN_ERROR') {
         log.warn(`An unknown error has occurred. Please refer to the log for more information. As always, the help channel is always available within our Discord server: ${uniconf.discord}`)
     }
-    if (err == 'MISSING_FIELDS') {
+    if (err == 'MISSING_FIELDS' || err == 'MISSING_DISCORD_FIELDS') {
         log.warn(`There are necessary settings in the conf.json file that are blank. Please follow the steps by navigating to localhost:${uniconf.port} in your web browser of choice to rectify this and regenerate the conf.json file.`)
     }
 })

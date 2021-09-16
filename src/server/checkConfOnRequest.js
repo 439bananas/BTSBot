@@ -43,18 +43,18 @@ router.get('/', (req, res, next) => { // When / is GET'd, if checkconf returns t
 
 router.get('/config', (req, res, next) => { // Rinse and repeat but only serve at all if checkconf returns false
     checkconf().catch(err => {
-        log.error(err)
-        if (err == false) {
+        if (err === false) {
             res.status(200);
             res.render('../src/server/pages/config-1.ejs', {
                 metadomain: uniconf.metadomain,
                 metaurl: "https://" + uniconf.metadomain
             });
         }
-        if (err == "MISSING_FIELDS") {
+        else if (err == "MISSING_FIELDS") {
             res.status(404);
         }
-        if (!err) {
+        else if (err === undefined) { // I would use !err here but that apparently created ambiguity between checking the absence of err and checking if err == false, yielding a multiple headers error
+            res.status(404);
             res.render('../src/server/pages/404.ejs', {
                 conf: true,
                 metadomain: uniconf.metadomain,
