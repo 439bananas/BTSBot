@@ -17,7 +17,7 @@
   "name": "bts-bot",
   "version": "3.0.0",
   "iteration": "ad",
-  "mode": "active-development",
+  "mode": "stable",
   "description": "The third iteration of the utility bot used in Bot Testing Server",
   "main": "index.js",
   "scripts": {
