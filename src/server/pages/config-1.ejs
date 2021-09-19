@@ -7,6 +7,7 @@
         <link href="/resources/bootstrap.css" rel="stylesheet" crossorigin="anonymous">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
         <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script>
+        <script src='/resources/smc.js'></script>
         <meta name="title" content="BTS Bot">
         <meta name="description" content="The bot that runs the core features in Bot Testing Server, just public">
         <meta name="keywords" content="bot, discord, test, testing, server, bots, discord bots">
@@ -56,13 +57,37 @@
         <main>
             <div class="container">
                 <h1>configuration</h1>
-                <p>
-                    Step one: Enter MySQL database information
-                </p>
-                <div class="alert-box danger text-wrap">
-                    ACCESS_DENIED: BTSBot cannot interact with the database with the specified credentials.<br />Are the credentials correct? Is the host correct? Do you have permission to access the database with the account in question?
+                Step one: Enter MySQL database information
+                <div class="alert-box danger text-wrap" id="accessdeniederror">
+                    ACCESS_DENIED: BTS Bot cannot interact with the database with the specified credentials.<br />Are the credentials correct? Is the host correct? Do you have permission to access the database with the account in question?
                 </div>
-                <input type='submit' class='button' value='Next' onClick="window.location.href='/config/'" />
+                <div class="alert-box danger text-wrap" id="connectionrefusederror">
+                    CONNECTION_REFUSED: BTS Bot cannot contact the MySQL server configured at <i id='hostname'></i>.<br /> Is the MySQL service running? Is your firewall configured correctly? Have you configured port forwarding properly?
+                </div>
+                <div class="alert-box danger text-wrap" id="incorrectcredentialserror">
+                    INCORRECT_CREDENTIALS: The MySQL credentials provided were not recognised by the server.<br />Are your credentials correct?
+                </div>
+                <div class="alert-box danger text-wrap" id="unknownerror">
+                    UNKNOWN_ERROR: An unknown error has occurred.<br />Refer to the console for more details.
+                </div>
+                <form id="sqlform">
+                    <div class="container" style="width:auto">
+                        <label for='hostname' class="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">Database host</label>
+                        <input type='text' class="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='hostname' name='hostname' value='localhost' />
+                        <label for='username' class="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">Username</label>
+                        <input type='text' class="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='username' name='username' value='btsbot' />
+                        <label for='password' class="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">Password</label>
+                        <input type='password' class="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='password' name='password' />
+                        <label for='database' class="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">Database</label>
+                        <input type='text' class="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='database' name='database' value='btsbot' />
+                        <label for='tableprefix' class="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">Table prefix</label>
+                        <input type='text' class="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='tableprefix' name='tableprefix' />
+                    </div>
+                    <div style='padding-bottom:1.5ex'></div>
+                    <input type='submit' class='button' value='Next' onClick="window.event.preventDefault(); submitmysql()" />
+                </form>
+                <div style='padding-bottom:1.5ex'></div>
+                <a href="https://wiki.btsbot.439bananas.com/wiki/Installing#MySQL_configuration">Need help?</a>
             </div>
         </main>
     </body>

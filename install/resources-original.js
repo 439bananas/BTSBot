@@ -12,6 +12,9 @@
 
 const express = require('express');
 const router = express.Router();
+const pkg = require('../../package.json')
+
+// There are three copies of the same image file to signify the intent of the instance, this all depends on "mode" in package.json
 
 router.get('/main.css', (req, res) => { // CSS file
     res.sendFile('./pages/resources/css/main.css', { root: __dirname });
@@ -26,11 +29,39 @@ router.get('/bootstrap.css.map', (req, res) => { // Edge yelled at me for forget
 });
 
 router.get('/logo.png', (req, res) => { // Can't forget the iconic BTS robot that I totally did not steal from the Scratch Wiki
-    res.sendFile('./pages/resources/img/logo.png', { root: __dirname });
+    if (pkg.mode == 'stable') {
+        res.sendFile('./pages/resources/img/logo.png', { root: __dirname });
+    }
+    else if (pkg.mode == 'alpha') {
+        res.sendFile('./pages/resources/img/logoalpha.png', { root: __dirname });
+    }
+    else if (pkg.mode == 'beta') {
+        res.sendFile('./pages/resources/img/logobeta.png', { root: __dirname });
+    }
+    else if (pkg.mode == 'active-development') {
+        res.sendFile('./pages/resources/img/logoad.png', { root: __dirname });
+    }
+    else {
+        res.sendFile('./pages/resources/img/logo.png', { root: __dirname });
+    }
 });
 
 router.get('/60px.png', (req, res) => { // Sized down for homepage, sandi said it was slightly too big as 70px
-    res.sendFile('./pages/resources/img/60px.png', { root: __dirname });
+    if (pkg.mode == 'stable') {
+        res.sendFile('./pages/resources/img/60px.png', { root: __dirname });
+    }
+    else if (pkg.mode == 'alpha') {
+        res.sendFile('./pages/resources/img/60pxalpha.png', { root: __dirname });
+    }
+    else if (pkg.mode == 'beta') {
+        res.sendFile('./pages/resources/img/60pxbeta.png', { root: __dirname });
+    }
+    else if (pkg.mode == 'active-development') {
+        res.sendFile('./pages/resources/img/60pxad.png', { root: __dirname });
+    }
+    else {
+        res.sendFile('./pages/resources/img/60px.png', { root: __dirname });
+    }
 });
 
 router.get('/h1.woff', (req, res) => { // A very poggers font

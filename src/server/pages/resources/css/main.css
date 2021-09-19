@@ -5,6 +5,11 @@
 
 body {
     background-color: #202225;
+    color: #b9bbbe;
+    text-rendering: optimizeLegibility;
+    font-family: Whitney,Helvetica Neue,Helvetica,Arial,sans-serif;
+    font-weight: 400;
+    line-height: 1.5;
 }
 
 h1 {
@@ -127,4 +132,78 @@ button {
     font-size: 14px;
     font-weight: 300;
     line-height: 22px;
+}
+
+#accessdeniederror {
+    display: none;
+}
+
+#connectionrefusederror {
+    display: none;
+}
+
+#incorrectcredentialserror {
+    display: none;
+}
+
+#unknownerror {
+    display: none;
+}
+
+.label-fppI2a {
+    padding-top: 20px;
+    display: block;
+}
+
+.marginBottom8-1wldKw {
+    margin-bottom: 8px;
+}
+
+.uppercase-1K74Lz {
+    text-transform: uppercase;
+}
+
+.height16-3r2Q2W {
+    line-height: 16px;
+}
+
+.size12-DS9Pyp {
+    font-size: 12px;
+}
+
+.primary300-qtIOwv {
+    color: #b9bbbe;
+}
+
+label {
+    cursor: default;
+}
+
+.weightSemiBold-tctXJ7 {
+    font-weight: 600;
+}
+
+.uppercase-1K74Lz {
+    text-transform: uppercase;
+}
+
+.input-cIJ7To {
+    background-color: #2f3136;
+    border: 1px solid #040405;
+    border-radius: 3px;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    color: #f6f6f7;
+    -webkit-transition: background-color .15s ease,border .15s ease;
+    transition: background-color .15s ease,border .15s ease;
+    width: calc(10em + (9rem + 2px));
+}
+
+.inputDefault-_djjkz {
+    padding: 10px;
+    height: 40px;
+}
+
+.size16-1__VVI {
+    font-size: 16px;
 }

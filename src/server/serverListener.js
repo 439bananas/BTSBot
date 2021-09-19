@@ -20,8 +20,25 @@ const routes = require('./routes')
 //const aaPages = require('./alwaysAvailablePages')
 const setup = require('./checkConfOnRequest')
 const resourcesRoutes = require('./resources')
+const pkg = require('../../package.json')
 
-app.use(favicon(path.join(__dirname, 'pages', 'resources', 'img', 'favicon.ico')))
+if (pkg.mode == 'stable') {
+    var faviconfilename = 'favicon.ico'
+}
+else if (pkg.mode == 'alpha') {
+    var faviconfilename = 'faviconalpha.ico'
+}
+else if (pkg.mode == 'beta') {
+    var faviconfilename = 'faviconbeta.ico'
+}
+else if (pkg.mode == 'active-development') {
+    var faviconfilename = 'faviconad.ico'
+}
+else {
+    var faviconfilename = 'favicon.ico'
+}
+
+app.use(favicon(path.join(__dirname, 'pages', 'resources', 'img', faviconfilename)))
 app.use('/', setup) // If root directory is contacted, we'll check if conf.json exists before serving
 //app.use('/', setup) // AlwaysAvailablePages
 app.use('/resources', resourcesRoutes) // Yeah let's get these resources
