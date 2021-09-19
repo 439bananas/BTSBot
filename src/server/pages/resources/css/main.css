@@ -207,3 +207,7 @@ label {
 .size16-1__VVI {
     font-size: 16px;
 }
+
+p {
+    width: initial;
+}
