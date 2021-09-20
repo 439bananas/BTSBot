@@ -13,8 +13,6 @@
 const express = require('express')
 const router = express.Router()
 
-// WE NEED A VERSION ROUTE!!!!!
-//const readyRoutes = require('./api/ready')
 const submitMySQLRoutes = require('./api/submitMySQL')
 const versionRoutes = require('./api/version')
 

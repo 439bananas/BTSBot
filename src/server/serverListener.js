@@ -40,7 +40,6 @@ else {
 
 app.use(favicon(path.join(__dirname, 'pages', 'resources', 'img', faviconfilename)))
 app.use('/', setup) // If root directory is contacted, we'll check if conf.json exists before serving
-//app.use('/', setup) // AlwaysAvailablePages
 app.use('/resources', resourcesRoutes) // Yeah let's get these resources
 app.use('/api', routes) // All API endpoints then begin with "/api"
 
@@ -54,6 +53,7 @@ app.use(function (req, res, next) {
                 metaurl: "https://" + uniconf.metadomain
             });
         } else {
+            res.status(404);
             res.render('../src/server/pages/404.ejs', {
                 conf: true,
                 metadomain: uniconf.metadomain,
