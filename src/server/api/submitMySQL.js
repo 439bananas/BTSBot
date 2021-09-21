@@ -21,8 +21,14 @@ router.post('/', (req, res, next) => { // WE NEED TO CHECK FOR ALL NECESSARY ARG
         console.log(result) // WE ALSO DO NOT SAVE THE MYSQL PASSWORD YET!
         if (result != true) {
             console.log(req.fields)
+            if (result == false || result == "MISSING_FIELDS" || result == 'INCORRECT_CREDENTIALS' || result == "ACCESS_DENIED" || result == "CONNECTION_REFUSED" || result == "UNKNOWN_ERROR") {
+                // AT THIS POINT, SAVE THE INTERIM FILE
+            }
+            else {
+                console.log('this is the point of which we 404 with wrong endpoint')
+            }
         }
-        else {
+        else { // So that no one can submit the config while it's operational
             res.status(404);
             res.json({
                 response: "CONF_OK"
