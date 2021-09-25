@@ -138,6 +138,10 @@ button {
     display: none;
 }
 
+.submitnotifier {
+    display: none;
+}
+
 #connectionrefusederror {
     display: none;
 }
@@ -147,6 +151,10 @@ button {
 }
 
 #unknownerror {
+    display: none;
+}
+
+#cannotcontactservererror {
     display: none;
 }
 
@@ -210,4 +218,43 @@ label {
 
 p {
     width: initial;
+}
+
+.spinner {
+    animation: rotate 2s linear infinite;
+    z-index: 2;
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    margin-top: 10px;
+    margin-left: 5px;
+}
+
+.path {
+    stroke: #f0600f;
+    stroke-linecap: round;
+    animation: dash 1.5s ease-in-out infinite;
+      }
+
+@keyframes rotate {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes dash {
+    0% {
+        stroke-dasharray: 1, 150;
+        stroke-dashoffset: 0;
+    }
+
+    50% {
+        stroke-dasharray: 90, 150;
+        stroke-dashoffset: -35;
+    }
+
+    100% {
+        stroke-dasharray: 90, 150;
+        stroke-dashoffset: -124;
+    }
 }

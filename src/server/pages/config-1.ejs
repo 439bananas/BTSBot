@@ -34,10 +34,10 @@
                     <div class="collapse navbar-collapse" id="navbar">
                         <ul class="navbar-nav">
                             <li class="nav-item">
-                                <a href="https://wiki.btsbot.439bananas.com" class="nav-link">Documentation</a>
+                                <a href="<%= wikiurl %>" class="nav-link">Documentation</a>
                             </li>
                             <li class="nav-item">
-                                <a href="https://discord.gg/ahyzfEv" class="nav-link">Discord</a>
+                                <a href="<%= discord %>" class="nav-link">Discord</a>
                             </li>
                             <li class="nav-item">
                                 <a href="https://github.com/439bananas/BTSBot" class="nav-link">GitHub</a>
@@ -58,6 +58,9 @@
             <div class="container">
                 <h1>configuration</h1>
                 Step one: Enter MySQL database information
+                <div class="alert-box danger text-wrap" id="cannotcontactservererror">
+                    SERVER_CONNECTION_REFUSED: The BTS Bot server could not be contacted or there was an error in doing so.<br />Did BTS Bot crash? Was the bot stopped? Is there a bug? If necessary, you can join our <a href="<%= discord %>">Discord server</a> for help.
+                </div>
                 <div class="alert-box danger text-wrap" id="accessdeniederror">
                     ACCESS_DENIED: BTS Bot cannot interact with the database with the specified credentials.<br />Are the credentials correct? Is the host correct? Do you have permission to access the database with the account in question?
                 </div>
@@ -85,6 +88,10 @@
                     </div>
                     <div style='padding-bottom:1.5ex'></div>
                     <input type='submit' class='button' value='Next' onClick="window.event.preventDefault(); submitmysql()" />
+                    <svg class="spinner submitnotifier" viewBox="0 0 50 50">
+                        <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
+                    </svg>
+                    <small style="margin-left:35px" class="submitnotifier">Submitting MySQL config...</small>
                 </form>
                 <div style='padding-bottom:1.5ex'></div>
                 <a href="https://wiki.btsbot.439bananas.com/wiki/Installing#MySQL_configuration">Need help?</a>

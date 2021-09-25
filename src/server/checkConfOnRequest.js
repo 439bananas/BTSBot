@@ -28,14 +28,18 @@ router.get('/', (req, res, next) => { // When / is GET'd, if checkconf returns t
             res.render('../src/server/pages/noconfintro.ejs', {
                 confpath: path.join(__dirname, 'configs'),
                 metadomain: uniconf.metadomain,
-                metaurl: "https://" + uniconf.metadomain
+                metaurl: "https://" + uniconf.metadomain,
+                wikiurl: "https://wiki." + uniconf.medadomain,
+                discord: uniconf.discord
             });
         }
         else {
             res.status(200);
             res.json({
                 metadomain: uniconf.metadomain,
-                metaurl: "https://" + uniconf.metadomain
+                metaurl: "https://" + uniconf.metadomain,
+                wikiurl: "https://wiki." + uniconf.medadomain,
+                discord: uniconf.discord
             });
         }
     })
@@ -47,7 +51,9 @@ router.get('/config', (req, res, next) => { // Rinse and repeat but only serve a
             res.status(200);
             res.render('../src/server/pages/config-1.ejs', {
                 metadomain: uniconf.metadomain,
-                metaurl: "https://" + uniconf.metadomain
+                metaurl: "https://" + uniconf.metadomain,
+                wikiurl: "https://wiki." + uniconf.medadomain,
+                discord: uniconf.discord
             });
         }
         else if (err == "MISSING_FIELDS") {
@@ -58,7 +64,9 @@ router.get('/config', (req, res, next) => { // Rinse and repeat but only serve a
             res.render('../src/server/pages/404.ejs', {
                 conf: true,
                 metadomain: uniconf.metadomain,
-                metaurl: "https://" + uniconf.metadomain
+                metaurl: "https://" + uniconf.metadomain,
+                wikiurl: "https://wiki." + uniconf.medadomain,
+                discord: uniconf.discord
             });
         }
     })

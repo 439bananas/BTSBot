@@ -10,12 +10,52 @@
 //                                                 //
 /////////////////////////////////////////////////////
 
-function submitmysql() {
-    $.ajax({
+/*async function submitmysql() {
+    const response = await fetch('/api/submit-mysql/', {
+        method: 'post',
+        headers: {
+            "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+        },
+        body: $('#sqlform').serialize()
+    }).catch(e => {
+            console.log(`Caugth error: ${e}`)
+        })
+    const data = await response.json()
+
+    console.log(data.response)
+}*/
+
+async function submitmysql() {
+    $('.submitnotifier').css('display', 'inline');
+    $('#accessdeniederror').css('display', 'none');
+    $('#connectionrefusederror').css('display', 'none');
+    $('#incorrectcredentialserror').css('display', 'none');
+    $('#unknownerror').css('display', 'none');
+    $('#cannotcontactservererror').css('display', 'none');
+    $.ajax({ // I'm sure many people will rip my guts out for this but for now I'm using JQuery - in the future I may consider switching to fetch() but for now I just want it to work
         url: '/api/submit-mysql/',
         type: 'post',
         data: $('#sqlform').serialize()
-    })/*.then(function (response) {
+    }).then(function (response) {
+        $('.submitnotifier').css('display', 'none');
+        console.log(response)
+    }).catch(function (error) {
+        $('.submitnotifier').css('display', 'none');
+        console.error("There was an error communicating with the API,", error)
+        if (error.statusText == "error") {
+            $('#cannotcontactservererror').css('display', 'block');
+        }
+    });
+/*        .then(function (response) {
+            response.text()
+            console.log(response)
+            console.log('Request succeeded with JSON response', response);
+            console.log(response.obj)
+        })
+        .error(function (jqXHR, textStatus, errorThrown) {
+            console.log(textStatus)
+        });
+    /*.then(function (response) {
         document.getElementById('db').innerHTML = response.db
         document.getElementById('username').innerHTML = response.username
         document.getElementById('hostname').innerHTML = response.hostname

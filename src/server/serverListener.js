@@ -50,14 +50,18 @@ app.use(function (req, res, next) {
             res.render('../src/server/pages/404.ejs', {
                 conf: false,
                 metadomain: uniconf.metadomain,
-                metaurl: "https://" + uniconf.metadomain
+                metaurl: "https://" + uniconf.metadomain,
+                wikiurl: "https://wiki." + uniconf.medadomain,
+                discord: uniconf.discord
             });
         } else {
             res.status(404);
             res.render('../src/server/pages/404.ejs', {
                 conf: true,
                 metadomain: uniconf.metadomain,
-                metaurl: "https://" + uniconf.metadomain
+                metaurl: "https://" + uniconf.metadomain,
+                wikiurl: "https://wiki." + uniconf.medadomain,
+                discord: uniconf.discord
             });
         }
     })

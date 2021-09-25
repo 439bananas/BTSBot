@@ -13,21 +13,22 @@
 const log = require('../core/logHandler');
 const mysql = require('mysql');
 
-var connection; // Apparently this needs to be declared prior to the function to prevent overloading with event listeners
+var pool; // Apparently this needs to be declared prior to the function to prevent overloading with event listeners
 function checkmysql(hostname, username, password, database) {
-    if(!connection) { // See first comment
-        connection = mysql.createConnection({
+    if(!pool) { // See first comment
+        pool = mysql.createPool({
+            connectionLimit: 0,
             host: hostname,
             user: username,
             password: password,
             database: database
         });
-        connection.on('error', function(err) { // If there's an error, log and handle it, don't crash
+        pool.on('error', function(err) { // If there's an error, log and handle it, don't crash
             log.error(err);
         });
     }
     return new Promise(function(resolve, reject) { // Rejections/resolutions will be returned to the called
-        connection.connect(function(err) {
+        pool.getConnection(function (err, connection) {
             if (err) {
                 if (err.code == 'ER_ACCESS_DENIED_ERROR') { // Reject with various errors based on what the server returns
                     reject('INCORRECT_CREDENTIALS');
@@ -42,8 +43,10 @@ function checkmysql(hostname, username, password, database) {
             } else {
                 resolve('OK') // If blow test successful, return OK
             }
+            if (connection !== undefined) { 
+                connection.release()
+            }
         });
-        connection.end()
     });
 }
 
