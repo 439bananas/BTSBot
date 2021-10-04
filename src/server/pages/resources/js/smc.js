@@ -38,7 +38,9 @@ async function submitmysql() {
         data: $('#sqlform').serialize()
     }).then(function (response) {
         $('.submitnotifier').css('display', 'none');
-        console.log(response)
+        if (response.response == "OK") {
+            location.reload()
+        }
     }).catch(function (error) {
         $('.submitnotifier').css('display', 'none');
         console.error("There was an error communicating with the API,", error)

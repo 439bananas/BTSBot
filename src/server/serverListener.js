@@ -51,7 +51,7 @@ app.use(function (req, res, next) {
                 conf: false,
                 metadomain: uniconf.metadomain,
                 metaurl: "https://" + uniconf.metadomain,
-                wikiurl: "https://wiki." + uniconf.medadomain,
+                wikiurl: "https://wiki." + uniconf.metadomain,
                 discord: uniconf.discord
             });
         } else {
@@ -60,7 +60,7 @@ app.use(function (req, res, next) {
                 conf: true,
                 metadomain: uniconf.metadomain,
                 metaurl: "https://" + uniconf.metadomain,
-                wikiurl: "https://wiki." + uniconf.medadomain,
+                wikiurl: "https://wiki." + uniconf.metadomain,
                 discord: uniconf.discord
             });
         }

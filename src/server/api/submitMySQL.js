@@ -36,16 +36,16 @@ router.post('/', (req, res, next) => { // WE NEED TO CHECK FOR ALL NECESSARY ARG
                         res.json({
                             response: result
                         })
+                        if (result == "OK") {
+                            console.log('yeet')
+                        }
                     }).catch(err => {
+                        console.log(err)
                         res.status(200)
                         res.json({
                             response: err
                         })
                     })
-                    /*fs.writeFile('./mysqlconfinterim.json', `{\n    "hostname": "${req.fields.hostname}"`, function (err) {
-                        if (err) throw err;
-                        log.info(`MySQL configuration information has been saved!`)
-                    })*/
                 }
                 else {
                     res.status(404);

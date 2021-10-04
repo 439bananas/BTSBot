@@ -29,7 +29,7 @@ router.get('/', (req, res, next) => { // When / is GET'd, if checkconf returns t
                 confpath: path.join(__dirname, 'configs'),
                 metadomain: uniconf.metadomain,
                 metaurl: "https://" + uniconf.metadomain,
-                wikiurl: "https://wiki." + uniconf.medadomain,
+                wikiurl: "https://wiki." + uniconf.metadomain,
                 discord: uniconf.discord
             });
         }
@@ -38,7 +38,7 @@ router.get('/', (req, res, next) => { // When / is GET'd, if checkconf returns t
             res.json({
                 metadomain: uniconf.metadomain,
                 metaurl: "https://" + uniconf.metadomain,
-                wikiurl: "https://wiki." + uniconf.medadomain,
+                wikiurl: "https://wiki." + uniconf.metadomain,
                 discord: uniconf.discord
             });
         }
@@ -52,7 +52,7 @@ router.get('/config', (req, res, next) => { // Rinse and repeat but only serve a
             res.render('../src/server/pages/config-1.ejs', {
                 metadomain: uniconf.metadomain,
                 metaurl: "https://" + uniconf.metadomain,
-                wikiurl: "https://wiki." + uniconf.medadomain,
+                wikiurl: "https://wiki." + uniconf.metadomain,
                 discord: uniconf.discord
             });
         }
@@ -65,7 +65,7 @@ router.get('/config', (req, res, next) => { // Rinse and repeat but only serve a
                 conf: true,
                 metadomain: uniconf.metadomain,
                 metaurl: "https://" + uniconf.metadomain,
-                wikiurl: "https://wiki." + uniconf.medadomain,
+                wikiurl: "https://wiki." + uniconf.metadomain,
                 discord: uniconf.discord
             });
         }

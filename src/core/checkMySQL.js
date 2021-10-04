@@ -13,23 +13,24 @@
 const log = require('../core/logHandler');
 const mysql = require('mysql');
 
-var pool; // Apparently this needs to be declared prior to the function to prevent overloading with event listeners
 function checkmysql(hostname, username, password, database) {
-    if(!pool) { // See first comment
-        pool = mysql.createPool({
-            connectionLimit: 0,
+    var connection; // I was told this needed to be declared prior to the function to prevent overloading with event listeners but instead the variable should be cleared to allow multiple connections on this variable to be declared to be able to ping the server multiple times without a restart
+    // nope that was a very lengthy comment
+    if(!connection) { // See first comment
+        connection = mysql.createConnection({
             host: hostname,
             user: username,
             password: password,
             database: database
         });
-        pool.on('error', function(err) { // If there's an error, log and handle it, don't crash
+        connection.on('error', function(err) { // If there's an error, log and handle it, don't crash
             log.error(err);
         });
     }
     return new Promise(function(resolve, reject) { // Rejections/resolutions will be returned to the called
-        pool.getConnection(function (err, connection) {
+        connection.connect(function (err) { // POOL ONLY CONNECTS USING FIRST ENTERED CREDS, THIS IS BAD. INVESTIGATE NOW
             if (err) {
+                //console.log(err)
                 if (err.code == 'ER_ACCESS_DENIED_ERROR') { // Reject with various errors based on what the server returns
                     reject('INCORRECT_CREDENTIALS');
                 } else if (err.code == 'ER_DBACCESS_DENIED_ERROR') {
@@ -43,9 +44,7 @@ function checkmysql(hostname, username, password, database) {
             } else {
                 resolve('OK') // If blow test successful, return OK
             }
-            if (connection !== undefined) { 
-                connection.release()
-            }
+            connection.destroy()
         });
     });
 }
