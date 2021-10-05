@@ -48,7 +48,7 @@ router.post('/', (req, res, next) => { // WE NEED TO CHECK FOR ALL NECESSARY ARG
                     })
                 }
                 else {
-                    res.status(404);
+                    res.status(200);
                     res.json({
                         response: "WRONG_ENDPOINT"
                     })

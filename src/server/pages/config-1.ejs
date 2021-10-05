@@ -62,7 +62,7 @@
                     SERVER_CONNECTION_REFUSED: The BTS Bot server could not be contacted or there was an error in doing so.<br />Did BTS Bot crash? Was the bot stopped? Is there a bug? If necessary, you can join our <a href="<%= discord %>">Discord server</a> for help.
                 </div>
                 <div class="alert-box danger text-wrap" id="accessdeniederror">
-                    ACCESS_DENIED: BTS Bot cannot interact with the database with the specified credentials.<br />Are the credentials correct? Is the host correct? Do you have permission to access the database with the account in question?
+                    ACCESS_DENIED: BTS Bot cannot interact with the database with the specified credentials.<br />Does the database exist? Is the host correct? Do you have permission to access the database with the account in question?
                 </div>
                 <div class="alert-box danger text-wrap" id="connectionrefusederror">
                     CONNECTION_REFUSED: BTS Bot cannot contact the MySQL server configured at <i id='hostname'></i>.<br /> Is the MySQL service running? Is your firewall configured correctly? Have you configured port forwarding properly?
@@ -70,8 +70,11 @@
                 <div class="alert-box danger text-wrap" id="incorrectcredentialserror">
                     INCORRECT_CREDENTIALS: The MySQL credentials provided were not recognised by the server.<br />Are your credentials correct?
                 </div>
+                <div class="alert-box danger text-wrap" id="wrongendpointerror">
+                    WRONG_ENDPOINT: The configuration was submitted before you had time to do so.<br />Did someone else submit the configuration? If the configuration looks good to you, you should go to <a href="/">the root of the server</a>.
+                </div>
                 <div class="alert-box danger text-wrap" id="unknownerror">
-                    UNKNOWN_ERROR: An unknown error has occurred.<br />Refer to the console for more details.
+                    UNKNOWN_ERROR: An unknown error has occurred.<br />Refer to the server and browser console for more details. If necessary, you can join our <a href="<%= discord %>">Discord server</a> for help.
                 </div>
                 <form id="sqlform">
                     <div class="container" style="width:auto">

@@ -31,6 +31,7 @@ async function submitmysql() {
     $('#connectionrefusederror').css('display', 'none');
     $('#incorrectcredentialserror').css('display', 'none');
     $('#unknownerror').css('display', 'none');
+    $('#wrongendpointerror').css('display', 'none');
     $('#cannotcontactservererror').css('display', 'none');
     $.ajax({ // I'm sure many people will rip my guts out for this but for now I'm using JQuery - in the future I may consider switching to fetch() but for now I just want it to work
         url: '/api/submit-mysql/',
@@ -38,8 +39,24 @@ async function submitmysql() {
         data: $('#sqlform').serialize()
     }).then(function (response) {
         $('.submitnotifier').css('display', 'none');
+        console.info('Server response from /api/submit-mysql:' + response.response)
         if (response.response == "OK") {
             location.reload()
+        }
+        else if (response.response == "WRONG_ENDPOINT") {
+            $('#wrongendpointerror').css('display', 'block');
+        }
+        else if (response.response == "INCORRECT_CREDENTIALS") {
+            $('#incorrectcredentialserror').css('display', 'block')
+        }
+        else if (response.response == "ACCESS_DENIED") {
+            $('#accessdeniederror').css('display', 'block')
+        }
+        else if (response.response == "CONNECTION_REFUSED") {
+            $('#connectionrefusederror').css('display', 'block')
+        }
+        else {
+            $('#unknownerror').css('display', 'block')
         }
     }).catch(function (error) {
         $('.submitnotifier').css('display', 'none');

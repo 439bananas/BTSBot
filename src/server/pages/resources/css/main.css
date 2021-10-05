@@ -146,6 +146,10 @@ button {
     display: none;
 }
 
+#wrongendpointerror {
+    display: none;
+}
+
 #incorrectcredentialserror {
     display: none;
 }
