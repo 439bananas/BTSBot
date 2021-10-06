@@ -10,23 +10,8 @@
 //                                                 //
 /////////////////////////////////////////////////////
 
-/*async function submitmysql() {
-    const response = await fetch('/api/submit-mysql/', {
-        method: 'post',
-        headers: {
-            "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
-        },
-        body: $('#sqlform').serialize()
-    }).catch(e => {
-            console.log(`Caugth error: ${e}`)
-        })
-    const data = await response.json()
-
-    console.log(data.response)
-}*/
-
 async function submitmysql() {
-    $('.submitnotifier').css('display', 'inline');
+    $('.submitnotifier').css('display', 'inline'); // Hide these so one will show at a time
     $('#accessdeniederror').css('display', 'none');
     $('#connectionrefusederror').css('display', 'none');
     $('#incorrectcredentialserror').css('display', 'none');
@@ -37,13 +22,13 @@ async function submitmysql() {
         url: '/api/submit-mysql/',
         type: 'post',
         data: $('#sqlform').serialize()
-    }).then(function (response) {
+    }).then(function (response) { // Upon response, hide the notifier
         $('.submitnotifier').css('display', 'none');
         console.info('Server response from /api/submit-mysql:' + response.response)
-        if (response.response == "OK") {
+        if (response.response == "OK") { // Reloading will mean that the user gets the second step of config
             location.reload()
         }
-        else if (response.response == "WRONG_ENDPOINT") {
+        else if (response.response == "WRONG_ENDPOINT") { // Show errors based on the response
             $('#wrongendpointerror').css('display', 'block');
         }
         else if (response.response == "INCORRECT_CREDENTIALS") {
@@ -59,49 +44,10 @@ async function submitmysql() {
             $('#unknownerror').css('display', 'block')
         }
     }).catch(function (error) {
-        $('.submitnotifier').css('display', 'none');
+        $('.submitnotifier').css('display', 'none'); // If some other error, show in log
         console.error("There was an error communicating with the API,", error)
         if (error.statusText == "error") {
             $('#cannotcontactservererror').css('display', 'block');
         }
-    });
-/*        .then(function (response) {
-            response.text()
-            console.log(response)
-            console.log('Request succeeded with JSON response', response);
-            console.log(response.obj)
-        })
-        .error(function (jqXHR, textStatus, errorThrown) {
-            console.log(textStatus)
-        });
-    /*.then(function (response) {
-        document.getElementById('db').innerHTML = response.db
-        document.getElementById('username').innerHTML = response.username
-        document.getElementById('hostname').innerHTML = response.hostname
-        document.getElementById('hostname2').innerHTML = response.hostname
-        if (response.response == 'ACCESS_DENIED') {
-            $('#ACCESS_DENIED').css('display', 'block');
-        }
-        if (response.response != 'ACCESS_DENIED') {
-            $('#ACCESS_DENIED').css('display', 'none');
-        }
-        if (response.response == 'INSUFFICIENT_PERMISSIONS') {
-            $('#INSUFFICIENT_PERMISSIONS').css('display', 'block');
-        }
-        if (response.response != 'INSUFFICIENT_PERMISSIONS') {
-            $('#INSUFFICIENT_PERMISSIONS').css('display', 'none');
-        }
-        if (response.response == 'CONNECTION_REFUSED') {
-            $('#CONNECTION_REFUSED').css('display', 'block');
-        }
-        if (response.response != 'CONNECTION_REFUSED') {
-            $('#CONNECTION_REFUSED').css('display', 'none');
-        }
-        if (response.response == 'UNKNOWN_ERROR') {
-            $('#UNKNOWN_ERROR').css('display', 'block');
-        }
-        if (response.response != 'UNKNOWN_ERROR') {
-            $('#UNKNOWN_ERROR').css('display', 'none');
-        }
-    })*/
+    })
 }
