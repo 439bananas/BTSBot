@@ -28,9 +28,7 @@ router.post('/', (req, res, next) => {
     }
     else {
         checkconf().catch(result => { // Check if conf.json exists, if not continue. Else, play dead
-            console.log(result)
             if (result != true) {
-                console.log(req.fields)
                 if (result == false || result == "MISSING_FIELDS" || result == 'INCORRECT_CREDENTIALS' || result == "ACCESS_DENIED" || result == "CONNECTION_REFUSED" || result == "UNKNOWN_ERROR") {
                     // AT THIS POINT CHECK IF AN INTERIM FILE HAS BEEN CREATED
                     checkmysql(req.fields.hostname, req.fields.username, req.fields.password, req.fields.database).then(result => {
