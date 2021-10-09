@@ -16,10 +16,10 @@ const client = new Discord.Client()
 const http = require('http')
 const svrmgr = require('../server/serverManagerFunctions')
 
-function closeServer() {
+/*function closeServer() {
     console.log('yeet')
     //server.close()
-}
+}*/
 
 function restart() {
     log.info('Restarting...')
