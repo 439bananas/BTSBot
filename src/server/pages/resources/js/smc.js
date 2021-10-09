@@ -24,7 +24,7 @@ async function submitmysql() {
         data: $('#sqlform').serialize()
     }).then(function (response) { // Upon response, hide the notifier
         $('.submitnotifier').css('display', 'none');
-        console.info('Server response from /api/submit-mysql:' + response.response)
+        console.info('Server response from /api/submit-mysql: ' + response.response)
         if (response.response == "OK") { // Reloading will mean that the user gets the second step of config
             location.reload()
         }

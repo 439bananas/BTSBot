@@ -79,15 +79,15 @@
                 <form id="sqlform">
                     <div class="container" style="width:auto">
                         <label for='hostname' class="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">Database host</label>
-                        <input type='text' class="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='hostname' name='hostname' value='localhost' />
+                        <input type='text' class="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='hostname' name='hostname' value='<%= hostname %>' />
                         <label for='username' class="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">Username</label>
-                        <input type='text' class="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='username' name='username' value='btsbot' />
+                        <input type='text' class="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='username' name='username' value='<%= username %>' />
                         <label for='password' class="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">Password</label>
                         <input type='password' class="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='password' name='password' />
                         <label for='database' class="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">Database</label>
-                        <input type='text' class="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='database' name='database' value='btsbot' />
+                        <input type='text' class="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='database' name='database' value='<%= database %>' />
                         <label for='tableprefix' class="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">Table prefix</label>
-                        <input type='text' class="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='tableprefix' name='tableprefix' />
+                        <input type='text' class="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='tableprefix' name='tableprefix' value='<%= tableprefix %>' />
                     </div>
                     <div style='padding-bottom:1.5ex'></div>
                     <input type='submit' class='button' value='Next' onClick="window.event.preventDefault(); submitmysql()" />

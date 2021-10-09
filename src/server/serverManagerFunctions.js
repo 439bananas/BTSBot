@@ -29,7 +29,8 @@ function createServer() {
 }
 
 function closeServer() {
-    server.close()
+    console.log('yeet')
+    //server.close()
 }
 
 module.exports = { createServer, closeServer };
