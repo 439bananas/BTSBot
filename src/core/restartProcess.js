@@ -24,7 +24,7 @@ function closeServer() {
 function restart() {
     log.info('Restarting...')
     // DESTROY DISCORD BOT SOMEWHERE
-    closeServer()
+    svrmgr.closeServer()
     process.exit(2)
 };
 
