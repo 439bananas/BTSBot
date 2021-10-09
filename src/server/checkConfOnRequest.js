@@ -46,7 +46,7 @@ router.get('/', (req, res, next) => { // When / is GET'd, if checkconf returns t
 })
 
 router.get('/config', (req, res, next) => { // Rinse and repeat but only serve at all if checkconf returns false
-    checkconf().catch(err => {
+    checkconf().catch(err => { // LET'S CHECKCONF CONF.JSON THEN CHECK CONF INTERIM FILE, IF INTERIM FILE BAD, RETURN CONFIG-1, ELSE CONFIG-2
         if (err === false) {
             res.status(200);
             res.render('../src/server/pages/config-1.ejs', {

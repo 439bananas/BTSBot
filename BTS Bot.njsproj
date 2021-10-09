@@ -29,6 +29,7 @@
     <Content Include="install\resources-original.js" />
     <Content Include="install\strip-comments.js" />
     <Content Include="src\configs\e.json" />
+    <Content Include="src\configs\mysqlconfinterim.json" />
     <Content Include="src\configs\uniconf.json" />
     <Content Include="src\core\checkConfExists.js" />
     <Content Include="src\core\checkMySQL.js" />
@@ -39,8 +40,18 @@
     <Content Include="src\core\restartProcess.js" />
     <Content Include="src\core\warnUserIfNoConf.js" />
     <Content Include="src\server\alwaysAvailablePages.js" />
+    <Content Include="src\server\api\version.js" />
     <Content Include="src\server\checkConfOnRequest.js" />
     <Content Include="src\server\createServer.js" />
+    <Content Include="src\server\pages\resources\img\60pxad.png" />
+    <Content Include="src\server\pages\resources\img\60pxalpha.png" />
+    <Content Include="src\server\pages\resources\img\60pxbeta.png" />
+    <Content Include="src\server\pages\resources\img\faviconad.ico" />
+    <Content Include="src\server\pages\resources\img\faviconalpha.ico" />
+    <Content Include="src\server\pages\resources\img\faviconbeta.ico" />
+    <Content Include="src\server\pages\resources\img\logoad.png" />
+    <Content Include="src\server\pages\resources\img\logoalpha.png" />
+    <Content Include="src\server\pages\resources\img\logobeta.png" />
     <Content Include="src\server\resources.js" />
     <Content Include="src\server\routes.js" />
     <Content Include="src\server\serverListener.js" />

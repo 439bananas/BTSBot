@@ -30,7 +30,6 @@ function checkmysql(hostname, username, password, database) {
     return new Promise(function(resolve, reject) { // Rejections/resolutions will be returned to the called
         connection.connect(function (err) {
             if (err) {
-                //console.log(err)
                 if (err.code == 'ER_ACCESS_DENIED_ERROR') { // Reject with various errors based on what the server returns
                     reject('INCORRECT_CREDENTIALS');
                 } else if (err.code == 'ER_DBACCESS_DENIED_ERROR') {
