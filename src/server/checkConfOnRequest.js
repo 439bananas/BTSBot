@@ -61,7 +61,11 @@ router.get('/config', (req, res, next) => { // Rinse and repeat but only serve a
                                 metadomain: uniconf.metadomain,
                                 metaurl: "https://" + uniconf.metadomain,
                                 wikiurl: "https://wiki." + uniconf.metadomain,
-                                discord: uniconf.discord
+                                discord: uniconf.discord,
+                                hostname: "localhost",
+                                username: "btsbot",
+                                database: "btsbot",
+                                tableprefix: ""
                             });
                         }
                     })

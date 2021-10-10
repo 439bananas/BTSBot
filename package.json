@@ -23,7 +23,7 @@
   "scripts": {
     "start": "node src/core/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "nrf": "node src/core/createElements.js"
+    "nls": "node src/core/createElements.js"
   },
   "repository": {
     "type": "git",

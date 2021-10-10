@@ -74,7 +74,8 @@ router.post('/', (req, res, next) => {
                                     }).catch(err => {
                                         res.status(200)
                                         res.json({
-                                            response: err
+                                            response: err,
+                                            hostname: req.fields.hostname
                                         })
                                     })
                                 })
@@ -100,7 +101,8 @@ router.post('/', (req, res, next) => {
                             }).catch(err => {
                                 res.status(200)
                                 res.json({
-                                    response: err
+                                    response: err,
+                                    hostname: req.fields.hostname
                                 })
                             })
                         }

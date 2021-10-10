@@ -104,7 +104,6 @@
     <Content Include="src\server\resources.js" />
     <Content Include="src\server\routes.js" />
     <Content Include="src\server\serverListener.js" />
-    <Content Include="src\server\serverManagerFunctions.js" />
     <Content Include="src\server\api\submitMySQL.js" />
     <Content Include="src\server\pages\404.ejs" />
     <Content Include="src\server\pages\config-1.ejs" />

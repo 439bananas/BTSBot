@@ -27,7 +27,7 @@ function checkmysql(hostname, username, password, database) {
             log.error(err);
         });
     }
-    return new Promise(function(resolve, reject) { // Rejections/resolutions will be returned to the called
+    return new Promise(function(resolve, reject) { // Rejections/resolutions will be returned to the caller
         connection.connect(function (err) {
             if (err) {
                 if (err.code == 'ER_ACCESS_DENIED_ERROR') { // Reject with various errors based on what the server returns
