@@ -1,0 +1,73 @@
+name: Bug Report
+description: File a bug report
+title: "<title>"
+labels: [bug]
+body:
+- type: textarea
+  attributes:
+    label: Description
+    description: A clear and concise description of the bug that you are experiencing
+  validations:
+    required: true
+- type: textarea
+  attributes:
+    label: Reproduction steps
+    description: Steps that one should take to reproduce your bug 
+    placeholder: |
+      1. Open ...
+      2. Click on ...
+      3. Observe
+  validations:
+    required: true
+- type: textarea
+  attributes:
+    label: Expected result
+    description: A description of what it is expected that BTS Bot should do
+  validations:
+    required: true
+- type: textarea
+  attributes:
+    label: Actual result
+    description: What actually happens upon performing the reproduction steps
+  validations:
+    required: true
+- type: dropdown
+  attributes:
+    label: What portion of BTS Bot is this bug located in?
+    multiple: false
+    options:
+      - Core/console
+      - Discord bot
+      - Dashboard/site
+  validations:
+    required: true
+- type: input
+  attributes:
+    label: Location
+    description: Where specifically is this bug located?
+- type: textarea
+  attributes:
+    label: Screenshots/recordings
+    description: Put any screenshots or recordings that you have in this section
+  validations:
+    required: true
+- type: input
+  attributes:
+    label: Operating system/version
+    description: What operating system version and build are you using?
+    required: true
+- type: input
+  attributes:
+    label: Browser/version
+    description: What browser and version are you using?
+    required: false
+- type: input
+  attributes:
+    label: Discord client
+    description: What platform are you using Discord on? What branch are you using? What version?
+    required: false
+- type: input
+  attributes:
+    label: Node.JS version
+    description: What version of Node.JS are you using?
+    required: false
