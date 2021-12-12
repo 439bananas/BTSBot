@@ -55,19 +55,23 @@ body:
     attributes:
       label: Operating system/version
       description: What operating system version and build are you using?
+    validations:
       required: true
   - type: input
     attributes:
       label: Browser/version
       description: What browser and version are you using?
+    validations:
       required: false
   - type: input
     attributes:
       label: Discord client
       description: What platform are you using Discord on? What branch are you using? What version?
-    required: false
+    validations:
+      required: false
   - type: input
     attributes:
       label: Node.JS version
       description: What version of Node.JS are you using?
+    validations:
       required: false
