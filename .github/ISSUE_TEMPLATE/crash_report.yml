@@ -63,5 +63,5 @@ body:
       description: |
         Upload your log for the fatal session that BTS Bot encountered.
         This is located in /logs and is called DATE SESSIONID.log, where DATE is the date that this session of BTS Bot started (ddmmyyyy) and session id is the nth time that BTS Bot was started.
-        "If you are still unsure of the name of which the log is stored under, BTS Bot will tell you upon startup:"
-        "`Mon Dec 13 2021 11:02:06 GMT+0000 (Greenwich Mean Time) - INFO: Log file saved to C:\Users\banan\Desktop\BTSBot\logs\131220211.log`"
+        If you are still unsure of the name of which the log is stored under, BTS Bot will tell you upon startup:
+        `Mon Dec 13 2021 11:02:06 GMT+0000 (Greenwich Mean Time) - INFO: Log file saved to C:\Users\banan\Desktop\BTSBot\logs\131220211.log`
