@@ -4,9 +4,9 @@
 //                                                 //
 //                 File: routes.js                 //
 //                                                 //
-//         Written by: Thomas (439bananas)         //
+//           Author: Thomas (439bananas)           //
 //                                                 //
-// Copyright 439bananas 2021. All rights reserved. //
+// Copyright 439bananas 2022. All rights reserved. //
 //                                                 //
 /////////////////////////////////////////////////////
 
@@ -14,9 +14,11 @@ const express = require('express')
 const router = express.Router()
 
 const submitMySQLRoutes = require('./api/submitMySQL')
+const submitDiscordRoutes = require('./api/submitDiscord')
 const versionRoutes = require('./api/version')
 
 router.use('/submit-mysql', submitMySQLRoutes)
+router.use('/submit-discord', submitDiscordRoutes)
 router.use('/version', versionRoutes)
 
 module.exports = router;

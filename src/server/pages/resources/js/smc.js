@@ -4,9 +4,9 @@
 //                                                 //
 //                  File: smc.js                   //
 //                                                 //
-//         Written by: Thomas (439bananas)         //
+//           Author: Thomas (439bananas)           //
 //                                                 //
-// Copyright 439bananas 2021. All rights reserved. //
+// Copyright 439bananas 2022. All rights reserved. //
 //                                                 //
 /////////////////////////////////////////////////////
 
@@ -17,7 +17,9 @@ async function submitmysql() {
     $('#incorrectcredentialserror').css('display', 'none');
     $('#unknownerror').css('display', 'none');
     $('#wrongendpointerror').css('display', 'none');
+    $('#confokerror').css('display', 'none');
     $('#cannotcontactservererror').css('display', 'none');
+    $('#unknowndiscorderror').css('display', 'none');
     $.ajax({ // I'm sure many people will rip my guts out for this but for now I'm using JQuery - in the future I may consider switching to fetch() but for now I just want it to work
         url: '/api/submit-mysql/',
         type: 'post',
@@ -25,12 +27,15 @@ async function submitmysql() {
     }).then(function (response) { // Upon response, hide the notifier
         document.getElementById('hostname').innerHTML = response.hostname
         $('.submitnotifier').css('display', 'none');
-        console.info('Server response from /api/submit-mysql: ' + response.response)
+        console.info('Server response from /api/submit-mysql: ' + response.response) // Sadly without replacing sendfile with render in resources.js, we can't i14e these strings
         if (response.response == "OK") { // Reloading will mean that the user gets the second step of config
             location.reload()
         }
         else if (response.response == "WRONG_ENDPOINT") { // Show errors based on the response
             $('#wrongendpointerror').css('display', 'block');
+        }
+        else if (response.response == "CONF_OK") {
+            $('#confokerror').css('display', 'block')
         }
         else if (response.response == "INCORRECT_CREDENTIALS") {
             $('#incorrectcredentialserror').css('display', 'block')
@@ -45,6 +50,71 @@ async function submitmysql() {
             $('#unknownerror').css('display', 'block')
         }
     }).catch(function (error) {
+        $('.submitnotifier').css('display', 'none'); // If some other error, show in log
+        console.error("There was an error communicating with the API,", error)
+        if (error.statusText == "error") {
+            $('#cannotcontactservererror').css('display', 'block');
+        }
+    })
+}
+
+async function submitdiscord() {
+    $('.submitnotifier').css('display', 'inline'); // Hide these so one will show at a time
+    $('#accessdeniederror').css('display', 'none');
+    $('#connectionrefusederror').css('display', 'none');
+    $('#incorrectcredentialserror').css('display', 'none');
+    $('#unknownerror').css('display', 'none');
+    $('#wrongendpointerror').css('display', 'none');
+    $('#confokerror').css('display', 'none');
+    $('#cannotcontactservererror').css('display', 'none');
+    $('#unknowndiscorderror').css('display', 'none');
+    $('#nomysqlconferror').css('display', 'none');
+    $('#tokeninvaliderror').css('display', 'none');
+    $('#badclientsecreterror').css('display', 'none');
+    $('#cannotconnecttodiscorderror').css('display', 'none');
+    $('#unknowndiscorderror').css('display', 'none');
+    $.ajax({
+        url: '/api/submit-discord/',
+        type: 'post',
+        data: $('#discordform').serialize()
+    }).then(function (response) {
+        $('.submitnotifier').css('display', 'none');
+        console.info('Server response from /api/submit-discord: ' + response.response)
+        if (response.response == "VERIFY_CLIENT_SECRET") { // Reloading will mean that the user gets the second step of config
+            location.reload()
+        }
+        else if (response.response == "WRONG_ENDPOINT") { // Show errors based on the response
+            $('#wrongendpointerror').css('display', 'block');
+        }
+        else if (response.response == "ACCESS_DENIED") {
+            $('#accessdeniederror').css('display', 'block');
+        }
+        else if (response.response == "NO_MYSQL_CONF") {
+            $('#nomysqlconferror').css('display', 'block');
+        }
+        else if (response.response == "CONNECTION_REFUSED") {
+            $('#connectionrefusederror').css('display', 'block');
+        }
+        else if (response.response == "CANNOT_CONNECT_TO_DISCORD") {
+            $('#cannotconnecttodiscorderror').css('display', 'block');
+        }
+        else if (response.response == "INCORRECT_CREDENTIALS") {
+            $('#incorrectcredentialserror').css('display', 'block');
+        }
+        else if (response.response == "CONF_OK") {
+            $('#confokerror').css('display', 'block');
+        }
+        else if (response.response == "TOKEN_INVALID") {
+            $('#tokeninvaliderror').css('display', 'block');
+        }
+        else if (response.response == "UNKNOWN_DISCORD_ERROR") {
+            $('#unknowndiscorderror').css('display', 'block');
+        }
+        else {
+            $('#unknownerror').css('display', 'block');
+        }
+    }).catch(function (error) {
+        $('.submitnotifier').css('display', 'none');
         $('.submitnotifier').css('display', 'none'); // If some other error, show in log
         console.error("There was an error communicating with the API,", error)
         if (error.statusText == "error") {

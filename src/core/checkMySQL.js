@@ -4,16 +4,16 @@
 //                                                 //
 //               File: checkMySQL.js               //
 //                                                 //
-//         Written by: Thomas (439bananas)         //
+//           Author: Thomas (439bananas)           //
 //                                                 //
-// Copyright 439bananas 2021. All rights reserved. //
+// Copyright 439bananas 2022. All rights reserved. //
 //                                                 //
 /////////////////////////////////////////////////////
 
 const log = require('../core/logHandler');
 const mysql = require('mysql');
 
-function checkmysql(hostname, username, password, database) {
+async function checkmysql(hostname, username, password, database) {
     var connection; // I was told this needed to be declared prior to the function to prevent overloading with event listeners but instead the variable should be cleared to allow multiple connections on this variable to be declared to be able to ping the server multiple times without a restart
     // nope that was a very lengthy comment; also i think that comment was in thomas language!
     if(!connection) { // See first comment

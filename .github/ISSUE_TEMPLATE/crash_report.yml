@@ -1,0 +1,73 @@
+name: Crash
+description: File a crash report
+title: "[FATAL]"
+labels: [fatal]
+body:
+  - type: textarea
+    attributes:
+      label: Description
+      description: A clear and concise description of the crash has occurred
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Reproduction steps
+      description: Steps that one should take to reproduce your crash
+      placeholder: |
+        1. Open ...
+        2. Click on ...
+        3. Observe
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Expected result
+      description: A description of what it is expected that BTS Bot should do
+    validations:
+      required: true
+  - type: dropdown
+    attributes:
+      label: What portion of BTS Bot is causing the crash?
+      multiple: false
+      options:
+        - Core/console
+        - Discord bot
+        - Dashboard/site
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: Location
+      description: Where specifically is this crash being caused?
+  - type: textarea
+    attributes:
+      label: Screenshots/recordings
+      description: Put any screenshots or recordings that you have in this section
+    validations:
+      required: false
+  - type: input
+    attributes:
+      label: Operating system/version
+      description: What operating system version and build are you using?
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: Node.JS version
+      description: What version of Node.JS are you using?
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Debug log
+      description: |
+        Upload your log for the fatal session that BTS Bot encountered.
+        This is located in /logs and is called DATE SESSIONID.log, where DATE is the date that this session of BTS Bot started (ddmmyyyy) and session id is the nth time that BTS Bot was started.
+        If you are still unsure of the name of which the log is stored under, BTS Bot will tell you upon startup:
+        `Mon Dec 13 2021 11:02:06 GMT+0000 (Greenwich Mean Time) - INFO: Log file saved to C:\Users\banan\Desktop\BTSBot\logs\131220211.log`
+  - type: textarea
+    attributes:
+      label: Additional notes
+      description: Put any additional notes here
+    validations:
+      required: false

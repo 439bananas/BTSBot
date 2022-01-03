@@ -1,26 +1,43 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>BTS Bot - Configuration</title>
+        <title><%= projname %> - <%= i18npagetitle %></title>
         <link rel='stylesheet' href='/resources/main.css'>
         <link rel='stylesheet' href='/resources/twemoji-amazing.css'>
         <link href="/resources/bootstrap.css" rel="stylesheet" crossorigin="anonymous">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
         <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script>
+        <script type=module>
+            var langs = <%- JSON.stringify(langs) %>;
+            langs.sort(function(a, b){
+                if(a[1] < b[1]) { return -1; }
+                if(a[1] > b[1]) { return 1; }
+                return 0;
+            })
+            langs.forEach(language => {
+                if (language[0] == "<%= defaultlanguage %>") {
+                    var selected = "selected "
+                } else {
+                    var selected = ""
+                }
+                $('#language').append("<option " + selected + "value=\"" + language[0] + "\" class=\"dropdown-option\" id=\"languagedropdown\">" + language[1] + "</option>")
+            })
+        </script>
         <script src='/resources/smc.js'></script>
-        <meta name="title" content="BTS Bot">
-        <meta name="description" content="The bot that runs the core features in Bot Testing Server, just public">
-        <meta name="keywords" content="bot, discord, test, testing, server, bots, discord bots">
+        <meta charset="UTF-8">
+        <meta name="title" content="<%= projname %>">
+        <meta name="description" content="<%= i18ngdescription %>">
+        <meta name="keywords" content="bot, discord, test, testing, server, bots, discord bots, BTS, BTS Bot">
         <meta name="author" content="439bananas">
-        <meta name="email" content="me@439bananas.com">
+        <meta name="email" content="btsbot@439bananas.com">
         <meta name="robots" content="index, follow">
         <meta name="charset" content="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="image" content="<%= metaurl %>/resources/logo.png">
         <meta property="twitter:url" content="<%= metaurl %>">
-        <meta property="twitter:title" content="BTS Bot">
+        <meta property="twitter:title" content="<%= projname %>">
         <meta property="twitter:image" content="<%= metaurl %>/resources/logo.png">
-        <meta property="twitter:description" content="The bot that runs the core features in Bot Testing Server, just public">
+        <meta property="twitter:description" content="<%= i18ngdescription %>">
         <meta property="theme-color" content="#caaf9a">
     </head>
     <body>
@@ -34,19 +51,19 @@
                     <div class="collapse navbar-collapse" id="navbar">
                         <ul class="navbar-nav">
                             <li class="nav-item">
-                                <a href="<%= wikiurl %>" class="nav-link">Documentation</a>
+                                <a href="<%= wikiurl %>" class="nav-link"><%= i18ndocumentation %></a>
                             </li>
                             <li class="nav-item">
-                                <a href="<%= discord %>" class="nav-link">Discord</a>
+                                <a href="<%= discord %>" class="nav-link"><%= i18ndiscord %></a>
                             </li>
                             <li class="nav-item">
-                                <a href="https://github.com/439bananas/BTSBot" class="nav-link">GitHub</a>
+                                <a href="https://github.com/439bananas/BTSBot" class="nav-link"><%= i18ngithub %></a>
                             </li>
                         </ul>
                         <ul class="navbar-nav ms-auto">
                             <li class="nav-item">
                                 <button type="button" class="button-1x2ahC button-38aScr lookFilled-1Gx00P colorGreen-29iAKY sizeSmall-2cSMqn grow-q77ONN" onClick="window.location.href='<%= metaurl %>'">
-                                    <div class="contents-18-Yxp">Official dashboard</div>
+                                    <div class="contents-18-Yxp"><%= i18ndashboard %></div>
                                 </button>
                             </li>
                         </ul>
@@ -56,48 +73,73 @@
         </header>
         <main>
             <div class="container">
-                <h1>configuration</h1>
-                Step one: Enter MySQL database information
+                <h1><%= i18nheadertitle %></h1>
+                <%= i18nstepone %>
                 <div class="alert-box danger text-wrap" id="cannotcontactservererror">
-                    SERVER_CONNECTION_REFUSED: The BTS Bot server could not be contacted or there was an error in doing so.<br />Did BTS Bot crash? Was the bot stopped? Is there a bug? If necessary, you can join our <a href="<%= discord %>">Discord server</a> for help.
+                    SERVER_CONNECTION_REFUSED: <%= i18nserverlostcontact1 %><%= projname %><%= i18nserverlostcontact2 %><br /><%= i18nserverlostcontactdiag1 %><%= projname %><%= i18nserverlostcontactdiag2 %><a href="<%= discord %>"><%= i18ndiscordserver %></a><%= i18nserverlostcontactdiag3 %>
                 </div>
                 <div class="alert-box danger text-wrap" id="accessdeniederror">
-                    ACCESS_DENIED: BTS Bot cannot interact with the database with the specified credentials.<br />Does the database exist? Is the host correct? Do you have permission to access the database with the account in question?
+                    ACCESS_DENIED: <%= projname %><%= i18dbaccessdenied %><br /><%= i18dbaccessdenieddiag %>
                 </div>
                 <div class="alert-box danger text-wrap" id="connectionrefusederror">
-                    CONNECTION_REFUSED: BTS Bot cannot contact the MySQL server configured at <i id='hostname'></i>.<br /> Is the MySQL service running? Is your firewall configured correctly? Have you configured port forwarding properly?
+                    CONNECTION_REFUSED: <%= projname %><%= i18ndbconnectionrefused %><i id='hostname'></i>.<br /><%= i18ndbconnectionrefuseddiag %>
                 </div>
                 <div class="alert-box danger text-wrap" id="incorrectcredentialserror">
-                    INCORRECT_CREDENTIALS: The MySQL credentials provided were not recognised by the server.<br />Are your credentials correct?
+                    INCORRECT_CREDENTIALS: <%= i18ndbbadcreds %><br /><%= i18ndbbadcredsdiag %>
                 </div>
                 <div class="alert-box danger text-wrap" id="wrongendpointerror">
-                    WRONG_ENDPOINT: The configuration was submitted before you had time to do so.<br />Did someone else submit the configuration? If the configuration looks good to you, you should go to <a href="/">the root of the server</a>.
+                    WRONG_ENDPOINT: <%= i18nwrongendpoint %><br /><%= i18nwrongendpointdiag1 %><a href="/"><%= i18nwrongendpointdiag2 %></a>.
+                </div>
+                <div class="alert-box danger text-wrap" id="confokerror">
+                    CONF_OK: <%= i18nwrongendpoint %><br /><%= i18nwrongendpointdiag1 %> <a href="/"><%= i18nwrongendpointdiag2 %></a>.
                 </div>
                 <div class="alert-box danger text-wrap" id="unknownerror">
-                    UNKNOWN_ERROR: An unknown error has occurred.<br />Refer to the server and browser console for more details. If necessary, you can join our <a href="<%= discord %>">Discord server</a> for help.
+                    UNKNOWN_ERROR: <%= i18nunknownerror %><br /><%= i18nunknownerrordiag %><a href="<%= discord %>"><%= i18ndiscordserver %></a><%= i18nserverlostcontactdiag3 %>
                 </div>
                 <form id="sqlform">
                     <div class="container" style="width:auto">
-                        <label for='hostname' class="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">Database host</label>
-                        <input type='text' class="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='hostname' name='hostname' value='<%= hostname %>' />
-                        <label for='username' class="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">Username</label>
-                        <input type='text' class="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='username' name='username' value='<%= username %>' />
-                        <label for='password' class="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">Password</label>
-                        <input type='password' class="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='password' name='password' />
-                        <label for='database' class="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">Database</label>
-                        <input type='text' class="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='database' name='database' value='<%= database %>' />
-                        <label for='tableprefix' class="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">Table prefix</label>
-                        <input type='text' class="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='tableprefix' name='tableprefix' value='<%= tableprefix %>' />
+                        <div class="row">
+                            <div class="col">
+                                <label for='language' class="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz"><%= i18ndefaultlanguage %></label>
+                                <select class="form-select input-cIJ7To" name="language" id="language">
+                                    <option style="display:none" value="dummy" class="dropdown-option" id="languagedropdown"></option>
+                                </select>
+                            </div>
+                            <div class="col">
+                                <label for='hostname' class="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz"><%= i18ndbhost %></label>
+                                <input type='text' class="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='hostname' name='hostname' value='<%= hostname %>' />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <label for='username' class="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz"><%= i18ndbusermame %></label>
+                                <input type='text' class="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='username' name='username' value='<%= username %>' />
+                            </div>
+                            <div class="col">
+                                <label for='password' class="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz"><%= i18ndbpassword %></label>
+                                <input type='password' class="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='password' name='password' />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <label for='database' class="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz"><%= i18ndb %></label>
+                                <input type='text' class="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='database' name='database' value='<%= database %>' />
+                            </div>
+                            <div class="col">
+                                <label for='tableprefix' class="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz"><%= i18ndbtableprefix %></label>
+                                <input type='text' class="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='tableprefix' name='tableprefix' value='<%= tableprefix %>' />
+                            </div>
+                        </div>
                     </div>
-                    <div style='padding-bottom:1.5ex'></div>
-                    <input type='submit' class='button' value='Next' onClick="window.event.preventDefault(); submitmysql()" />
+                    <div style='padding-bottom:3ex'></div>
+                    <input type='submit' class='button' value='<%= i18nnextbutton %>' onClick="window.event.preventDefault(); submitmysql()" />
                     <svg class="spinner submitnotifier" viewBox="0 0 50 50">
                         <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
                     </svg>
-                    <small style="margin-left:35px" class="submitnotifier">Submitting MySQL config...</small>
+                    <small style="margin-left:35px" class="submitnotifier"><%= i18nsubmittingmysql %></small>
                 </form>
                 <div style='padding-bottom:1.5ex'></div>
-                <a href="https://wiki.btsbot.439bananas.com/wiki/Installing#MySQL_configuration">Need help?</a>
+                <a href="https://wiki.btsbot.439bananas.com/wiki/Installing#MySQL_configuration"><%= i18nneedhelp %></a>
             </div>
         </main>
     </body>

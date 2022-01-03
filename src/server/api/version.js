@@ -4,9 +4,9 @@
 //                                                 //
 //                File: version.js                 //
 //                                                 //
-//         Written by: Thomas (439bananas)         //
+//           Author: Thomas (439bananas)           //
 //                                                 //
-// Copyright 439bananas 2021. All rights reserved. //
+// Copyright 439bananas 2022. All rights reserved. //
 //                                                 //
 /////////////////////////////////////////////////////
 
@@ -14,7 +14,7 @@ const pkg = require('../../../package.json')
 const express = require('express');
 const router = express.Router()
 
-router.get('/', (req, res, next) => { // WE NEED TO CHECK FOR ALL NECESSARY ARGS!!! IF NOT PRESENT, RETURN AN ERROR VIA THE API!!!!!
+router.get('/', async (req, res, next) => {
     res.status(200).json({
         version: pkg.version,
         iteration: pkg.iteration

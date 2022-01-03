@@ -9,4 +9,5 @@
 /src/server/resources.js
 /src/configs/conf.json
 /src/configs/mysqlconfinterim.json
+/src/configs/discordconfinterim.json
 /logs

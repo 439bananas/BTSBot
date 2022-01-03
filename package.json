@@ -1,14 +1,14 @@
 {
   "dependencies": {
     "colors": "^1.4.0",
-    "discord.js": "^12.5.3",
+    "discord.js": "^13.3.1",
     "ejs": "^3.1.6",
     "express": "^4.17.1",
-    "express-device": "^0.4.2",
     "express-favicon": "^2.0.1",
     "express-formidable": "^1.2.0",
     "forever-monitor": "^1.5.2",
     "mysql": "^2.18.1",
+    "node-fetch": "^2.6.2",
     "path": "^0.12.7",
     "serve-favicon": "^2.5.0",
     "strip-color": "^0.1.0",

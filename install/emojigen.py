@@ -1,12 +1,12 @@
 #####################################################
 #                                                   #
-#b                     BTS Bot                      #
+#                      BTS Bot                      #
 #                                                   #
-#    File: resources.js & resources-original.js     #
+#                File: emojigen.py                  #
 #                                                   #
-#          Written by: Thomas (439bananas)          #
+#            Author: Thomas (439bananas)            #
 #                                                   #
-#  Copyright 439bananas 2021. All rights reserved.  #
+#  Copyright 439bananas 2022. All rights reserved.  #
 #                                                   #
 #####################################################
 

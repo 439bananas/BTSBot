@@ -4,7 +4,7 @@
 }
 
 body {
-    background-color: #202225;
+    background-color: #2f3136;
     color: #b9bbbe;
     text-rendering: optimizeLegibility;
     font-family: Whitney,Helvetica Neue,Helvetica,Arial,sans-serif;
@@ -34,12 +34,12 @@ input[type=submit] {
     border-radius: 5px;
 }
 
-input[type=submit]:hover {
-    color: #f0600f;
-    background-color: #202225;
-    border: 0.2ex solid #f0600f;
-    padding: 0.8ex;
-}
+    input[type=submit]:hover {
+        color: #f0600f;
+        background-color: #2f3136;
+        border: 0.2ex solid #f0600f;
+        padding: 0.8ex;
+    }
 
 .button-1x2ahC {
     /*margin-left: 10px;*/
@@ -150,11 +150,35 @@ button {
     display: none;
 }
 
+#confokerror {
+    display: none;
+}
+
+#badclientsecreterror {
+    display: none;
+}
+
+#tokeninvaliderror {
+    display: none;
+}
+
 #incorrectcredentialserror {
     display: none;
 }
 
 #unknownerror {
+    display: none;
+}
+
+#unknowndiscorderror {
+    display: none;
+}
+
+#cannotconnecttodiscorderror {
+    display: none;
+}
+
+#nomysqlconferror {
     display: none;
 }
 
@@ -200,7 +224,7 @@ label {
 }
 
 .input-cIJ7To {
-    background-color: #2f3136;
+    background-color: #202225;
     border: 1px solid #040405;
     border-radius: 3px;
     -webkit-box-sizing: border-box;

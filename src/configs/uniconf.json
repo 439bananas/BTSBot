@@ -2,5 +2,6 @@
   "projname": "BTS Bot",
   "port": 8082,
   "metadomain": "btsbot.439bananas.com",
-  "discord": "https://discord.gg/ahyzfEv"
+  "discord": "https://discord.gg/ahyzfEv",
+  "defaultlanguage": "en-gb"
 }

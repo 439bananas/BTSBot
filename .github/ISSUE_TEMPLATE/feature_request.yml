@@ -1,0 +1,50 @@
+name: Feature request
+description: Request a feature
+title: "[FEATURE]"
+labels: [feature request]
+body:
+  - type: textarea
+    attributes:
+      label: Description
+      description: A clear and concise description of the feature you wish to see
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Expected behaviour
+      description: A description of what it is expected that BTS Bot should do with regards to this feature
+    validations:
+      required: true
+  - type: dropdown
+    attributes:
+      label: What portion of BTS Bot will host this feature?
+      multiple: false
+      options:
+        - Core/console
+        - Discord bot
+        - Dashboard/site
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: Location
+      description: Where specifically will the feature be found/incorporated?
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: In what ways will the community benefit from this?
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Mockups
+      description: If you have a mockup for this feature, you are absolutely welcome to put it here
+    validations:
+      required: false
+  - type: textarea
+    attributes:
+      label: Additional notes
+      description: Put any additional notes here
+    validations:
+      required: false
