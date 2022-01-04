@@ -26,6 +26,7 @@ const log = require('../core/logHandler')
 const geti18n = require('../core/getI18nFiles')
 const getlang = require('../core/getLanguageJSON')
 const translate = require('../core/getLanguageString')
+const restart = require('../core/restartProcess')
 
 router.use(formidable()) // Grab fields of form entered
 router.get('/', async (req, res, next) => { // When / is GET'd, if checkconf returns true, send the noconfintro file and fill variables with respective values, else send back the front page
@@ -390,9 +391,53 @@ router.get('/config', async (req, res, next) => { // Rinse and repeat but only s
                                                                         });
                                                                         log.error(json.error)
                                                                     } else {
-                                                                        res.render('../src/server/pages/config-3.ejs', { // prepare for next commit
-
-                                                                        })
+                                                                        checkmysql(mysqlconf.hostname, mysqlconf.username, mysqlconf.password, mysqlconf.database)
+                                                                            .then(result => {
+                                                                                fs.writeFile('src/configs/conf.json', `{\n  "language": "${mysqlconf.language}",\n  "hostname": "${mysqlconf.hostname}",\n  "db": "${mysqlconf.database}",\n  "username": "${mysqlconf.username}",\n  "password": "${mysqlconf.password}",\n  "tableprefix": "${mysqlconf.tableprefix}",\n  "token": "${discordconf.token}",\n  "clientsecret": "${discordconf.clientsecret}",\n  "ostatus": "${discordconf.ostatus}",\n  "pstatus": "${discordconf.pstatus}",\n  "moderatorsroleid": "${discordconf.moderatorsroleid}",\n  "guildid": "${discordconf.guildid}"\n}`, function (err) {
+                                                                                    if (err) throw err;
+                                                                                    if (fs.existsSync(path.join(__dirname, '..', 'configs', 'mysqlconfinterim.json'))) {
+                                                                                        fs.unlink('src/configs/mysqlconfinterim.json', function (err) {
+                                                                                            if (err) throw err;
+                                                                                        })
+                                                                                    }
+                                                                                    if (fs.existsSync(path.join(__dirname, '..', 'configs', 'discordconfinterim.json'))) {
+                                                                                        fs.unlink('src/configs/discordconfinterim.json', function (err) {
+                                                                                            if (err) throw err;
+                                                                                        })
+                                                                                    }
+                                                                                    res.render('../src/server/pages/config-complete.ejs', {
+                                                                                        projname: uniconf.projname,
+                                                                                        metadomain: uniconf.metadomain,
+                                                                                        metaurl: "https://" + uniconf.metadomain,
+                                                                                        wikiurl: "https://wiki." + uniconf.metadomain,
+                                                                                        discord: uniconf.discord,
+                                                                                        onlineselected: onlineselected,
+                                                                                        idleselected: idleselected,
+                                                                                        dndselected: dndselected,
+                                                                                        invisibleselected: invisibleselected,
+                                                                                        guildid: guildid,
+                                                                                        moderatorsroleid: moderatorsroleid,
+                                                                                        pstatus: pstatus,
+                                                                                        i18npagetitle: translate(lang, 'page_configpagetitle'),
+                                                                                        i18ngithub: translate(lang, 'page_globalgithub'),
+                                                                                        i18ngdescription: translate(lang, 'page_globaldescription'),
+                                                                                        i18ndocumentation: translate(lang, 'page_globaldocumentation'),
+                                                                                        i18ndiscord: translate(lang, 'page_globaldiscord'),
+                                                                                        i18ndashboard: translate(lang, 'page_noconfdashboard'),
+                                                                                        i18nbtsbotlogo: translate(lang, 'page_globalbtsbotlogo'),
+                                                                                        i18nbtsbothome: translate(lang, 'page_globalbtsbothome'),
+                                                                                        i18nheadertitle: translate(lang, 'page_configcompleteheader'),
+                                                                                        i18nconfsuccessful: translate(lang, 'page_confsuccessful'),
+                                                                                        i18nconfsuccessfuldiag: translate(lang, 'page_confsuccessfuldiag'),
+                                                                                        i18nnextbutton: translate(lang, 'page_globalnext')
+                                                                                    })
+                                                                                    log.info(translate(lang, 'log_conffilesaved') + path.join(__dirname, '..', '..', 'configs', 'conf.json'))
+                                                                                    log.info(translate(lang.language, 'log_changestakeefect_part1') + uniconf.projname + translate(lang, 'log_changestakeefect_part2'))
+                                                                                    setTimeout(function () {
+                                                                                        restart()
+                                                                                    }, 250)
+                                                                                })
+                                                                            })
                                                                     }
                                                                 })
                                                         })
@@ -592,7 +637,7 @@ router.get('/config', async (req, res, next) => { // Rinse and repeat but only s
                                 var tableprefix = ""
                             }
                             if (mysqlconf.language !== undefined) {
-                                getlang.then(conflang => {
+                                getlang().then(conflang => {
                                     global.setlang = conflang
                                 })
                             } else {
@@ -708,25 +753,26 @@ router.get('/config', async (req, res, next) => { // Rinse and repeat but only s
             else if (err == "MISSING_FIELDS") {
                 res.status(404);
             }
-            else if (err === undefined) { // I would use !err here but that apparently created ambiguity between checking the absence of err and checking if err == false, yielding a multiple headers error
-                res.status(404);
-                res.render('../src/server/pages/404.ejs', {
-                    projname: uniconf.projname,
-                    conf: true,
-                    metadomain: uniconf.metadomain,
-                    metaurl: "https://" + uniconf.metadomain,
-                    wikiurl: "https://wiki." + uniconf.metadomain,
-                    discord: uniconf.discord,
-                    i18npagetitle: translate(lang, 'page_404pagetitle'),
-                    i18ntitle: translate(lang, 'page_404errortitle'),
-                    i18ndescription: translate(lang, 'page_404errordescription'),
-                    i18ngithub: translate(lang, 'page_globalgithub'),
-                    i18ngdescription: translate(lang, 'page_globaldescription'),
-                    i18ndocumentation: translate(lang, 'page_globaldocumentation'),
-                    i18ndiscord: translate(lang, 'page_globaldiscord'),
-                    i18ndashboard: translate(lang, 'page_noconfdashboard'),
-                });
-            }
+        })
+    }).then(response => { // FOR NOW WE USE DEFAULT LANGUAGE
+        getlang().then(lang => {
+            res.status(404);
+            res.render('../src/server/pages/404.ejs', {
+                projname: uniconf.projname,
+                conf: true,
+                metadomain: uniconf.metadomain,
+                metaurl: "https://" + uniconf.metadomain,
+                wikiurl: "https://wiki." + uniconf.metadomain,
+                discord: uniconf.discord,
+                i18npagetitle: translate(lang, 'page_404pagetitle'),
+                i18ntitle: translate(lang, 'page_404errortitle'),
+                i18ndescription: translate(lang, 'page_404errordescription'),
+                i18ngithub: translate(lang, 'page_globalgithub'),
+                i18ngdescription: translate(lang, 'page_globaldescription'),
+                i18ndocumentation: translate(lang, 'page_globaldocumentation'),
+                i18ndiscord: translate(lang, 'page_globaldiscord'),
+                i18ndashboard: translate(lang, 'page_noconfdashboard')
+            })
         })
     })
 })

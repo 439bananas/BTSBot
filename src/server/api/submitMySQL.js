@@ -71,7 +71,9 @@ router.post('/', async (req, res, next) => {
                                                 if (err) throw err;
                                                 log.info(translate(mysqlconf.language, 'log_mysqlconffilesaved') + path.join(__dirname, '..', '..', 'configs', 'mysqlconfinterim.json'))
                                                 log.info(translate(mysqlconf.language, 'log_changestakeefect_part1') + uniconf.projname + translate(mysqlconf.language, 'log_changestakeefect_part2'))
-                                                restart()
+                                                setTimeout(function () {
+                                                    restart()
+                                                }, 250)
                                             })
                                         }
                                     }).catch(err => {
@@ -95,7 +97,9 @@ router.post('/', async (req, res, next) => {
                                             const mysqlconf = require('../../configs/mysqlconfinterim.json')
                                             log.info(translate(mysqlconf.language, 'log_mysqlconffilesaved') + path.join(__dirname, '..', '..', 'configs', 'mysqlconfinterim.json'))
                                             log.info(translate(mysqlconf.language, 'log_changestakeefect_part1') + uniconf.projname + translate(mysqlconf.language, 'log_changestakeefect_part2'))
-                                            restart()
+                                            setTimeout(function () {
+                                                restart()
+                                            }, 250)
                                         })
                                     }
                                 }).catch(err => {

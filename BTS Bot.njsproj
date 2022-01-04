@@ -30,6 +30,7 @@
     <Content Include="i18n\test.json" />
     <Content Include="package-lock.json" />
     <Content Include="package.json" />
+    <Content Include="push.bat" />
     <Content Include="README.md" />
     <Content Include="install\emojigen.py" />
     <Content Include="install\resources-original.js" />
@@ -56,6 +57,7 @@
     <Content Include="src\server\createServer.js" />
     <Content Include="src\server\pages\config-2.ejs" />
     <Content Include="src\server\pages\config-3.ejs" />
+    <Content Include="src\server\pages\config-complete.ejs" />
     <Content Include="src\server\pages\errorpage.ejs" />
     <Content Include="src\server\pages\resources\img\60pxad.png" />
     <Content Include="src\server\pages\resources\img\60pxalpha.png" />
