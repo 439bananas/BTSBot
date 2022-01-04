@@ -86,7 +86,27 @@ router.get('/', async (req, res, next) => { // When / is GET'd, if checkconf ret
 
 router.get('/config', async (req, res, next) => { // Rinse and repeat but only serve at all if checkconf returns false
     getlang().then(lang => {
-        checkconf().catch(err => {
+        checkconf().then(response => { // FOR NOW WE USE DEFAULT LANGUAGE
+            if (response == true) {
+                res.status(404);
+                res.render('../src/server/pages/404.ejs', {
+                    projname: uniconf.projname,
+                    conf: true,
+                    metadomain: uniconf.metadomain,
+                    metaurl: "https://" + uniconf.metadomain,
+                    wikiurl: "https://wiki." + uniconf.metadomain,
+                    discord: uniconf.discord,
+                    i18npagetitle: translate(lang, 'page_404pagetitle'),
+                    i18ntitle: translate(lang, 'page_404errortitle'),
+                    i18ndescription: translate(lang, 'page_404errordescription'),
+                    i18ngithub: translate(lang, 'page_globalgithub'),
+                    i18ngdescription: translate(lang, 'page_globaldescription'),
+                    i18ndocumentation: translate(lang, 'page_globaldocumentation'),
+                    i18ndiscord: translate(lang, 'page_globaldiscord'),
+                    i18ndashboard: translate(lang, 'page_noconfdashboard')
+                })
+            }
+        }).catch(err => {
             if (err === false) {
                 if (fs.existsSync(path.join(__dirname, '..', 'configs', 'mysqlconfinterim.json'))) { // Check if an interim file has been created
                     const mysqlconf = require('../configs/mysqlconfinterim.json')
@@ -393,50 +413,75 @@ router.get('/config', async (req, res, next) => { // Rinse and repeat but only s
                                                                     } else {
                                                                         checkmysql(mysqlconf.hostname, mysqlconf.username, mysqlconf.password, mysqlconf.database)
                                                                             .then(result => {
-                                                                                fs.writeFile('src/configs/conf.json', `{\n  "language": "${mysqlconf.language}",\n  "hostname": "${mysqlconf.hostname}",\n  "db": "${mysqlconf.database}",\n  "username": "${mysqlconf.username}",\n  "password": "${mysqlconf.password}",\n  "tableprefix": "${mysqlconf.tableprefix}",\n  "token": "${discordconf.token}",\n  "clientsecret": "${discordconf.clientsecret}",\n  "ostatus": "${discordconf.ostatus}",\n  "pstatus": "${discordconf.pstatus}",\n  "moderatorsroleid": "${discordconf.moderatorsroleid}",\n  "guildid": "${discordconf.guildid}"\n}`, function (err) {
-                                                                                    if (err) throw err;
-                                                                                    if (fs.existsSync(path.join(__dirname, '..', 'configs', 'mysqlconfinterim.json'))) {
-                                                                                        fs.unlink('src/configs/mysqlconfinterim.json', function (err) {
-                                                                                            if (err) throw err;
-                                                                                        })
+                                                                                fetch('https://discord.com/api/v9/oauth2/applications/@me', { // Get owner IDs
+                                                                                    method: 'GET',
+                                                                                    headers: {
+                                                                                        'Content-Type': 'application/json',
+                                                                                        'Authorization': `Bot ${discordconf.token}`,
+                                                                                        'Transfer-Encoding': 'chunked'
                                                                                     }
-                                                                                    if (fs.existsSync(path.join(__dirname, '..', 'configs', 'discordconfinterim.json'))) {
-                                                                                        fs.unlink('src/configs/discordconfinterim.json', function (err) {
-                                                                                            if (err) throw err;
-                                                                                        })
-                                                                                    }
-                                                                                    res.render('../src/server/pages/config-complete.ejs', {
-                                                                                        projname: uniconf.projname,
-                                                                                        metadomain: uniconf.metadomain,
-                                                                                        metaurl: "https://" + uniconf.metadomain,
-                                                                                        wikiurl: "https://wiki." + uniconf.metadomain,
-                                                                                        discord: uniconf.discord,
-                                                                                        onlineselected: onlineselected,
-                                                                                        idleselected: idleselected,
-                                                                                        dndselected: dndselected,
-                                                                                        invisibleselected: invisibleselected,
-                                                                                        guildid: guildid,
-                                                                                        moderatorsroleid: moderatorsroleid,
-                                                                                        pstatus: pstatus,
-                                                                                        i18npagetitle: translate(lang, 'page_configpagetitle'),
-                                                                                        i18ngithub: translate(lang, 'page_globalgithub'),
-                                                                                        i18ngdescription: translate(lang, 'page_globaldescription'),
-                                                                                        i18ndocumentation: translate(lang, 'page_globaldocumentation'),
-                                                                                        i18ndiscord: translate(lang, 'page_globaldiscord'),
-                                                                                        i18ndashboard: translate(lang, 'page_noconfdashboard'),
-                                                                                        i18nbtsbotlogo: translate(lang, 'page_globalbtsbotlogo'),
-                                                                                        i18nbtsbothome: translate(lang, 'page_globalbtsbothome'),
-                                                                                        i18nheadertitle: translate(lang, 'page_configcompleteheader'),
-                                                                                        i18nconfsuccessful: translate(lang, 'page_confsuccessful'),
-                                                                                        i18nconfsuccessfuldiag: translate(lang, 'page_confsuccessfuldiag'),
-                                                                                        i18nnextbutton: translate(lang, 'page_globalnext')
-                                                                                    })
-                                                                                    log.info(translate(lang, 'log_conffilesaved') + path.join(__dirname, '..', '..', 'configs', 'conf.json'))
-                                                                                    log.info(translate(lang.language, 'log_changestakeefect_part1') + uniconf.projname + translate(lang, 'log_changestakeefect_part2'))
-                                                                                    setTimeout(function () {
-                                                                                        restart()
-                                                                                    }, 250)
                                                                                 })
+                                                                                    .then(res => res.json())
+                                                                                    .then(applicationinfo => {
+                                                                                        if (applicationinfo.team != undefined) { // Check if team, if team add all members to the conf
+                                                                                            var owner = []
+                                                                                            for (var i in applicationinfo.team.members) {
+                                                                                                owner.push(`"${applicationinfo.team.members[i].user.id}"`)
+                                                                                            }
+                                                                                            var owner = "[" + owner + "]"
+                                                                                        } else {
+                                                                                            var owner = `"${applicationinfo.owner.id}"`
+                                                                                        }
+                                                                                        fs.writeFile('src/configs/conf.json', `{\n  "language": "${mysqlconf.language}",\n  "hostname": "${mysqlconf.hostname}",\n  "db": "${mysqlconf.database}",\n  "username": "${mysqlconf.username}",\n  "password": "${mysqlconf.password}",\n  "tableprefix": "${mysqlconf.tableprefix}",\n  "token": "${discordconf.token}",\n  "clientsecret": "${discordconf.clientsecret}",\n  "ostatus": "${discordconf.ostatus}",\n  "pstatus": "${discordconf.pstatus}",\n  "moderatorsroleid": "${discordconf.moderatorsroleid}",\n  "guildid": "${discordconf.guildid}",\n  "owner": ${owner}\n}`, function (err) { // Save conf file
+                                                                                            if (err) throw err;
+                                                                                            if (fs.existsSync(path.join(__dirname, '..', 'configs', 'mysqlconfinterim.json'))) { // Delete interim conf files
+                                                                                                fs.unlink('src/configs/mysqlconfinterim.json', function (err) {
+                                                                                                    if (err) throw err;
+                                                                                                })
+                                                                                            }
+                                                                                            if (fs.existsSync(path.join(__dirname, '..', 'configs', 'discordconfinterim.json'))) {
+                                                                                                fs.unlink('src/configs/discordconfinterim.json', function (err) {
+                                                                                                    if (err) throw err;
+                                                                                                })
+                                                                                            }
+                                                                                            res.render('../src/server/pages/config-complete.ejs', { // Conf is complete! Display the page
+                                                                                                projname: uniconf.projname,
+                                                                                                metadomain: uniconf.metadomain,
+                                                                                                metaurl: "https://" + uniconf.metadomain,
+                                                                                                wikiurl: "https://wiki." + uniconf.metadomain,
+                                                                                                discord: uniconf.discord,
+                                                                                                onlineselected: onlineselected,
+                                                                                                idleselected: idleselected,
+                                                                                                dndselected: dndselected,
+                                                                                                invisibleselected: invisibleselected,
+                                                                                                guildid: guildid,
+                                                                                                moderatorsroleid: moderatorsroleid,
+                                                                                                pstatus: pstatus,
+                                                                                                i18npagetitle: translate(lang, 'page_configpagetitle'),
+                                                                                                i18ngithub: translate(lang, 'page_globalgithub'),
+                                                                                                i18ngdescription: translate(lang, 'page_globaldescription'),
+                                                                                                i18ndocumentation: translate(lang, 'page_globaldocumentation'),
+                                                                                                i18ndiscord: translate(lang, 'page_globaldiscord'),
+                                                                                                i18ndashboard: translate(lang, 'page_noconfdashboard'),
+                                                                                                i18nbtsbotlogo: translate(lang, 'page_globalbtsbotlogo'),
+                                                                                                i18nbtsbothome: translate(lang, 'page_globalbtsbothome'),
+                                                                                                i18nheadertitle: translate(lang, 'page_configcompleteheader'),
+                                                                                                i18nconfsuccessful: translate(lang, 'page_confsuccessful'),
+                                                                                                i18nconfsuccessfuldiag: translate(lang, 'page_confsuccessfuldiag'),
+                                                                                                i18nnextbutton: translate(lang, 'page_globalnext')
+                                                                                            })
+                                                                                            log.info(translate(lang, 'log_conffilesaved') + path.join(__dirname, '..', '..', 'configs', 'conf.json'))
+                                                                                            log.info(translate(lang.language, 'log_changestakeefect_part1') + uniconf.projname + translate(lang, 'log_changestakeefect_part2'))
+                                                                                            setTimeout(function () { // Restart to be safe
+                                                                                                restart()
+                                                                                            }, 250)
+                                                                                        })
+                                                                                    })
+                                                                                    .catch(err => {
+                                                                                        if (err.name == "FetchError") { // At some point when Discord's down (which is pretty frequent, I can't lie), we should test this! This currently only works as far as I know if the bot has no internet
+                                                                                            log.warn('BTS Bot cannot connect to Discord to grab the owner ID but will try again on next reboot or event!')
+                                                                                        }
+                                                                                    })
                                                                             })
                                                                     }
                                                                 })
@@ -753,26 +798,6 @@ router.get('/config', async (req, res, next) => { // Rinse and repeat but only s
             else if (err == "MISSING_FIELDS") {
                 res.status(404);
             }
-        })
-    }).then(response => { // FOR NOW WE USE DEFAULT LANGUAGE
-        getlang().then(lang => {
-            res.status(404);
-            res.render('../src/server/pages/404.ejs', {
-                projname: uniconf.projname,
-                conf: true,
-                metadomain: uniconf.metadomain,
-                metaurl: "https://" + uniconf.metadomain,
-                wikiurl: "https://wiki." + uniconf.metadomain,
-                discord: uniconf.discord,
-                i18npagetitle: translate(lang, 'page_404pagetitle'),
-                i18ntitle: translate(lang, 'page_404errortitle'),
-                i18ndescription: translate(lang, 'page_404errordescription'),
-                i18ngithub: translate(lang, 'page_globalgithub'),
-                i18ngdescription: translate(lang, 'page_globaldescription'),
-                i18ndocumentation: translate(lang, 'page_globaldocumentation'),
-                i18ndiscord: translate(lang, 'page_globaldiscord'),
-                i18ndashboard: translate(lang, 'page_noconfdashboard')
-            })
         })
     })
 })
