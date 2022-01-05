@@ -22,19 +22,25 @@ getlang().then(lang => {
         if (err == false) {
             log.warn(translate(lang, 'log_noconfpart1') + uniconf.projname + translate(lang, 'log_noconfpart2') + "localhost:" + uniconf.port + translate(lang, 'log_noconfpart3'))
         }
-        if (err == 'INCORRECT_CREDENTIALS') {
-            log.warn(translate(lang, 'log_dbbadcredspart1') + 'localhost:' + uniconf.port + translate(lang, 'dblog_badcredspart2'))
+        else if (err == 'INCORRECT_CREDENTIALS') {
+            log.warn(translate(lang, 'log_dbbadcredspart1') + 'localhost:' + uniconf.port + translate(lang, 'log_dbbadcredspart2'))
         }
-        if (err == 'ACCESS_DENIED') {
+        else if (err == 'ACCESS_DENIED') {
             log.warn(translate(lang, 'log_dbaccessdenied'))
         }
-        if (err == 'CONNECTION_REFUSED') {
-            log.warn(unicoonf.projname + translate(lang, 'log_dbconnectionrefusedpart1') + "localhost:" + uniconf.port + translate(lang, 'log_dbbadcredspart2'))
+        else if (err == 'TOKEN_INVALID') {
+            log.warn(translate(lang, 'log_invalidtoken') + "localhost:" + uniconf.port + translate(lang, 'log_dbbadcredspart2'))
         }
-        if (err == 'UNKNOWN_ERROR') {
+        else if (err == 'CANNOT_CONNECT_TO_DISCORD') {
+            log.warn(uniconf.projname + translate(lang, 'log_cannotconnecttodiscordpart1') + uniconf.projname + translate(lang, 'log_cannotconnecttodiscordpart2'))
+        }
+        else if (err == 'CONNECTION_REFUSED') {
+            log.warn(uniconf.projname + translate(lang, 'log_dbconnectionrefusedpart1') + "localhost:" + uniconf.port + translate(lang, 'log_dbbadcredspart2'))
+        }
+        else if (err == 'UNKNOWN_ERROR') {
             log.warn(translate(lang, 'log_unknownerror') + uniconf.discord)
         }
-        if (err == 'MISSING_FIELDS' || err == 'MISSING_DISCORD_FIELDS') {
+        else if (err == 'MISSING_FIELDS' || err == 'MISSING_DISCORD_FIELDS') {
             log.warn(translate(lang, 'log_missingfieldswarn') + 'localhost:' + uniconf.port + translate(lang, 'log_dbbadcredspart2'))
         }
     })

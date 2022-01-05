@@ -13,6 +13,7 @@
 const fs = require('fs');
 const path = require('path');
 const checkmysql = require('./checkMySQL')
+const checkdiscord = require('./checkDiscord')
 
 async function checkforconf() {
     return new Promise(function (resolve, reject) { // Promise-based, return rejections/resolutions to handle
@@ -24,7 +25,13 @@ async function checkforconf() {
             }
             checkmysql(conf.hostname, conf.username, conf.password, conf.db).then(result => { // If all is good, proceed to Discord
                 if (result == 'OK') {
-                    resolve(true)
+                    checkdiscord(conf.token).then(result => { // Check Discord
+                        if (result == "ASSUME_CLIENT_SECRET_IS_CORRECT") {
+                            resolve(true) // If all good, resolve with true
+                        }
+                    }).catch(err => {
+                        reject(err) // Else, reject with the error
+                    })
                 }
             }).catch(err => { reject(err) }) // If other error, reject with the error
         }
