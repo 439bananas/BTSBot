@@ -22,6 +22,7 @@ const path = require('path')
 const restart = require('../../core/restartProcess')
 const translate = require('../../core/getLanguageString')
 const getlang = require('../../core/getLanguageJSON')
+const checkforconf = require('../../core/checkConfExists')
 
 router.post('/', async (req, res, next) => {
     if (req.fields.token === undefined || req.fields.clientsecret === undefined || req.fields.ostatus === undefined || req.fields.pstatus === undefined || req.fields.guildid === undefined || req.fields.moderatorsroleid === undefined || req.fields.mysqlpassword === undefined) { // Check for necessary args, else return an error
@@ -30,60 +31,112 @@ router.post('/', async (req, res, next) => {
             response: "MISSING_PARAMS"
         })
     } else {
-        checkconf()
-            .then(result => {
-                if (result == true) { // So that no one can submit the config while it's operational
-                    res.status(200);
-                    res.json({
-                        response: "CONF_OK"
-                    })
-                }
-            })
-            .catch(err => {
-                if (err != true) {
-                    if (err == "MISSING_FIELDS" || err == 'INCORRECT_CREDENTIALS' || err == "ACCESS_DENIED" || err == "CONNECTION_REFUSED" || err == "UNKNOWN_ERROR") { // MySQL before Discord guys
+        getlang().then(lang => {
+            checkconf()
+                .then(result => {
+                    if (result == true) { // So that no one can submit the config while it's operational
                         res.status(200);
                         res.json({
-                            response: "WRONG_ENDPOINT"
+                            response: "CONF_OK"
                         })
                     }
-                    else {
-                        if (fs.existsSync(path.join(__dirname, '..', '..', 'configs', 'mysqlconfinterim.json'))) {
-                            const mysqlconf = require('../../configs/mysqlconfinterim.json')
-                            checkmysql(mysqlconf.hostname, mysqlconf.username, mysqlconf.password, mysqlconf.database)
-                                .then(confresult => {
-                                    if (confresult == "OK") {
-                                        getlang().then(lang => {
-                                            if (fs.existsSync(path.join(__dirname, '..', '..', 'configs', 'discordconfinterim.json'))) {
-                                                const discordconf = require('../../configs/discordconfinterim.json')
-                                                checkdiscord(discordconf.token) // If there's an error, allow user to enter new Discord creds
-                                                    .then(confresult => {
-                                                        if (confresult == "ASSUME_CLIENT_SECRET_IS_CORRECT") { // So that no one can submit the config while Discord is functional
-                                                            res.status(200);
-                                                            res.json({
-                                                                response: "WRONG_ENDPOINT"
-                                                            })
-                                                        }
-                                                    })
-                                                    .catch(err => {
-                                                        checkdiscord(req.fields.token) // Validate the token
-                                                            .then(result => { // Respond with "OK" and create Discord configuration
+                })
+                .catch(err => {
+                    if (err != true) {
+                        if (err == 'INCORRECT_CREDENTIALS' || err == "ACCESS_DENIED" || err == "CONNECTION_REFUSED" || err == "UNKNOWN_ERROR") { // MySQL before Discord guys
+                            res.status(200);
+                            res.json({
+                                response: "WRONG_ENDPOINT"
+                            })
+                        }
+                        else {
+                            if (fs.existsSync(path.join(__dirname, '..', '..', 'configs', 'mysqlconfinterim.json'))) {
+                                const mysqlconf = require('../../configs/mysqlconfinterim.json')
+                                checkmysql(mysqlconf.hostname, mysqlconf.username, mysqlconf.password, mysqlconf.database)
+                                    .then(confresult => {
+                                        if (confresult == "OK") {
+                                            getlang().then(lang => {
+                                                if (fs.existsSync(path.join(__dirname, '..', '..', 'configs', 'discordconfinterim.json'))) {
+                                                    const discordconf = require('../../configs/discordconfinterim.json')
+                                                    checkdiscord(discordconf.token) // If there's an error, allow user to enter new Discord creds
+                                                        .then(confresult => {
+                                                            if (confresult == "ASSUME_CLIENT_SECRET_IS_CORRECT") { // So that no one can submit the config while Discord is functional
                                                                 res.status(200);
                                                                 res.json({
-                                                                    response: "VERIFY_CLIENT_SECRET"
+                                                                    response: "WRONG_ENDPOINT"
                                                                 })
+                                                            }
+                                                        })
+                                                        .catch(err => {
+                                                            checkdiscord(req.fields.token) // Validate the token
+                                                                .then(result => { // Respond with "OK" and create Discord configuration
+                                                                    res.status(200);
+                                                                    res.json({
+                                                                        response: "VERIFY_CLIENT_SECRET"
+                                                                    })
+                                                                    fs.writeFile('./src/configs/discordconfinterim.json', `{\n  "token": "${req.fields.token}",\n  "clientsecret": "${req.fields.clientsecret}",\n  "ostatus": "${req.fields.ostatus}",\n  "pstatus": "${req.fields.pstatus}",\n  "moderatorsroleid": "${req.fields.moderatorsroleid}",\n  "guildid": "${req.fields.guildid}",\n  "mysqlpassword": "${req.fields.mysqlpassword}"\n}`, function (err) { // Create interim configuration file; password gets saved for the sake of testing but DOES NOT GET USED WHEN SUBMITTING DISCORD CONFIG
+                                                                        if (err) throw err;
+                                                                        log.info(translate(lang, 'log_discordconffilesaved') + path.join(__dirname, '..', '..', 'configs', 'discordconfinterim.json'))
+                                                                    })
+                                                                })
+                                                                .catch(err => { // If bad token, send error as response
+                                                                    res.status(200);
+                                                                    res.json({
+                                                                        response: err
+                                                                    })
+                                                                })
+                                                        })
+                                                } else {
+                                                    checkdiscord(req.fields.token) // Janky time!
+                                                        .then(result => { // Respond with "OK" and create Discord configuration
+                                                            res.status(200);
+                                                            res.json({
+                                                                response: "VERIFY_CLIENT_SECRET"
+                                                            })
+                                                            if (result == "ASSUME_CLIENT_SECRET_IS_CORRECT") {
                                                                 fs.writeFile('./src/configs/discordconfinterim.json', `{\n  "token": "${req.fields.token}",\n  "clientsecret": "${req.fields.clientsecret}",\n  "ostatus": "${req.fields.ostatus}",\n  "pstatus": "${req.fields.pstatus}",\n  "moderatorsroleid": "${req.fields.moderatorsroleid}",\n  "guildid": "${req.fields.guildid}",\n  "mysqlpassword": "${req.fields.mysqlpassword}"\n}`, function (err) { // Create interim configuration file; password gets saved for the sake of testing but DOES NOT GET USED WHEN SUBMITTING DISCORD CONFIG
                                                                     if (err) throw err;
                                                                     log.info(translate(lang, 'log_discordconffilesaved') + path.join(__dirname, '..', '..', 'configs', 'discordconfinterim.json'))
                                                                 })
+                                                            }
+                                                        })
+                                                        .catch(err => { // If bad token, send error as response
+                                                            res.status(200);
+                                                            res.json({
+                                                                response: err
                                                             })
-                                                            .catch(err => { // If bad token, send error as response
-                                                                res.status(200);
-                                                                res.json({
-                                                                    response: err
-                                                                })
-                                                            })
-                                                    })
+                                                        })
+                                                }
+                                            })
+                                        }
+                                    })
+                                    .catch(err => { // Catch the error of MySQL and send back a response
+                                        res.status(200);
+                                        res.json({
+                                            response: err
+                                        })
+                                    })
+                            }
+                            else {
+                                if (!fs.existsSync(path.join(__dirname, '..', '..', 'configs', 'conf.json'))) { // If no conf, give NO_MYSQL_CONF error
+                                    res.status(200);
+                                    res.json({
+                                        response: "NO_MYSQL_CONF"
+                                    })
+                                } else {
+                                    checkforconf().catch(err => {
+                                        if (err == "INCORRECT_CREDENTIALS" || err == "ACCESS_DENIED" || err == "UNKNOWN_ERROR") { // If any MySQL settings are damaged, send back NO_MYSQL_CONF else create the interim conf file
+                                            res.status(200);
+                                            res.json({
+                                                response: "NO_MYSQL_CONF"
+                                            })
+                                        } else if (err == "MISSING_FIELDS") {
+                                            const conf = require('../../configs/conf.json')
+                                            if (conf.language === undefined || conf.hostname === undefined || conf.db === undefined || conf.tableprefix === undefined || conf.username === undefined) {
+                                                res.status(200);
+                                                res.json({
+                                                    response: "NO_MYSQL_CONF"
+                                                })
                                             } else {
                                                 checkdiscord(req.fields.token) // Janky time!
                                                     .then(result => { // Respond with "OK" and create Discord configuration
@@ -98,39 +151,22 @@ router.post('/', async (req, res, next) => {
                                                             })
                                                         }
                                                     })
-                                                    .catch(err => { // If bad token, send error as response
-                                                        res.status(200);
-                                                        res.json({
-                                                            response: err
-                                                        })
-                                                    })
                                             }
-                                        })
-                                    }
-                                })
-                                .catch(err => { // Catch the error of MySQL and send back a response
-                                    res.status(200);
-                                    res.json({
-                                        response: err
+                                        }
                                     })
-                                })
-                        }
-                        else {
-                            res.status(200);
-                            res.json({
-                                response: "NO_MYSQL_CONF"
-                            })
+                                }
+                            }
                         }
                     }
-                }
-                else { // So that no one can submit the config while it's operational
-                    res.status(200);
-                    res.json({
-                        response: "CONF_OK"
-                    })
-                }
-                
-            })
+                    else { // So that no one can submit the config while it's operational
+                        res.status(200);
+                        res.json({
+                            response: "CONF_OK"
+                        })
+                    }
+
+                })
+        })
     }
 })
 

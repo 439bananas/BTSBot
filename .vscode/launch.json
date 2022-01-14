@@ -1,0 +1,23 @@
+{
+    "configurations": [
+        {
+            "type": "pwa-msedge",
+            "name": "Open browser window",
+            "request": "launch",
+            "url": "http://localhost:8082"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Debug BTS Bot standalone",
+            "skipFiles": ["<node_internals>/**"],
+            "program": "${workspaceFolder}\\src\\core\\index.js"
+          }
+    ],
+    "compounds": [
+        {
+            "name": "Start BTS Bot with browser",
+            "configurations": ["Open browser window", "Debug BTS Bot standalone"]
+        }
+    ]
+}

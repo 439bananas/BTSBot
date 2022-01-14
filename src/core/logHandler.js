@@ -16,44 +16,44 @@ const path = require('path')
 const translate = require('./getLanguageString')
 const getlang = require('./getLanguageJSON')
 
-async function info(message) { // Log depending on function called
+function info(message) { // Log depending on function called
     getlang(true).then(lang => {
         console.log(`${colours.cyan(`${new Date()}`)} - ${`${translate(lang, 'loghandler_info')}:`.green} ${message}`)
     })
 }
 
-async function warn(message) {
+function warn(message) {
     getlang(true).then(lang => {
         console.log(`${colours.cyan(`${new Date()}`)} - ${`${translate(lang, 'loghandler_warn')}:`.yellow} ${message}`)
     })
 }
 
-async function error(message) {
+function error(message) {
     getlang(true).then(lang => {
         console.log(`${colours.cyan(`${new Date()}`)} - ${`${translate(lang, 'loghandler_error')}:`.red} ${message}`)
     })
 }
 
-async function temp(message) {  // This is used for assertions and logging information to ensure a function works as intended. Each assertion should NOT end up in final releases
+function temp(message) {  // This is used for assertions and logging information to ensure a function works as intended. Each assertion should NOT end up in final releases
     getlang(true).then(lang => {
         console.log(`${colours.cyan(`${new Date()}`)} - ${`${translate(lang, 'loghandler_temp')}:`.brightMagenta} ${message}`)
     })
 }
 
-async function tempinfo(message) { // Tells the user information they may need to know (ie x warning is safe to ignore), where the logging will be removed after the problem is fixed
+function tempinfo(message) { // Tells the user information they may need to know (ie x warning is safe to ignore), where the logging will be removed after the problem is fixed
     getlang(true).then(lang => {
         console.log(`${colours.cyan(`${new Date()}`)} - ${`${translate(lang, 'loghandler_tempinfo')}:`.magenta} ${message}`)
     })
 }
 
-async function fatal(message) {
+function fatal(message) {
     getlang(true).then(lang => { // Log and exit
         console.log(`${colours.cyan(`${new Date()}`)} - ${`${translate(lang, 'loghandler_fatal')}:`.bgRed} ${message}`)
         process.exit(1)
     })
 }
 
-async function initLog() {
+function initLog() {
     return new Promise(function (resolve, reject) {
         getlang(true).then(lang => {
             info('Checking for log directory...')

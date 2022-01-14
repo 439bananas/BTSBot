@@ -2,7 +2,7 @@
 //                                                 //
 //                     BTS Bot                     //
 //                                                 //
-//              File: checkDiscord.js              //
+//            File: getApplicationId.js            //
 //                                                 //
 //           Author: Thomas (439bananas)           //
 //                                                 //
@@ -10,14 +10,12 @@
 //                                                 //
 /////////////////////////////////////////////////////
 
-// THIS FILE NEEDS WORK & A FUNCTION
-
-const log = require('../core/logHandler');
 const fetch = require('node-fetch')
+const log = require('./logHandler')
 
-function checkDiscord(token) {
-    return new Promise(function (resolve, reject) { // Rejections/resolutions will be returned to the caller
-        fetch('https://discord.com/api/v9/oauth2/applications/@me', { // Validate the token this way, we used Discord.JS to validate the token and validating the token that way barfed all sorts of weird errors
+function getid(token) {
+    return new Promise(function (resolve, reject) {
+        fetch('https://discord.com/api/v9/oauth2/applications/@me', { // Fetch OAuth2 endpoint
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -25,24 +23,23 @@ function checkDiscord(token) {
                 'Transfer-Encoding': 'chunked'
             }
         })
-            .then(res => res.json())
+            .then(response => response.json())
             .then(json => {
-                if (!json.message) {
-                    resolve("ASSUME_CLIENT_SECRET_IS_CORRECT")
+                if (!json.mesage) {
+                    resolve(json.id)
                 }
-                else if (json.message == "401: Unauthorized") {
+                else if (json.message == "401: Unauthorized") { // Reject if token invalid or other error
                     reject('TOKEN_INVALID')
                 } else {
                     reject('UNKNOWN_DISCORD_ERROR')
                     log.error(json.message)
                 }
-            })
-            .catch(err => {
-                if (err.name == "FetchError") { // At some point when Discord's down (which is pretty frequent, I can't lie), we should test this! This currently only works as far as I know if the bot has no internet
-                    reject('CANNOT_CONNECT_TO_DISCORD')
+            }).catch(err => {
+                if (err.name == "FetchError") {
+                    reject("CANNOT_CONNECT_TO_DISCORD")
                 }
             })
     })
 }
 
-module.exports = checkDiscord;
+module.exports = getid;

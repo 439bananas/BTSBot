@@ -19,7 +19,7 @@
   "iteration": "ad",
   "mode": "stable",
   "description": "The third iteration of the utility bot used in Bot Testing Server",
-  "main": "index.js",
+  "main": "src/core/index.js",
   "scripts": {
     "start": "node src/core/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",

@@ -29,6 +29,7 @@ const geti18n = require('../core/getI18nFiles')
 const getlang = require('../core/getLanguageJSON')
 const translate = require('../core/getLanguageString')
 const restart = require('../core/restartProcess')
+const getid = require('../core/getApplicationId')
 
 router.use(formidable()) // Grab fields of form entered
 router.get('/', async (req, res, next) => { // When / is GET'd, if checkconf returns true, send the noconfintro file and fill variables with respective values, else send back the front page
@@ -477,12 +478,30 @@ router.get('/config', async (req, res, next) => { // Rinse and repeat but only s
                                                                             })
                                                                             .catch(err => {
                                                                                 if (err.name == "FetchError") { // At some point when Discord's down (which is pretty frequent, I can't lie), we should test this! This currently only works as far as I know if the bot has no internet
-                                                                                    log.warn('BTS Bot cannot connect to Discord to grab the owner ID but will try again on next reboot or event!')
+                                                                                    log.warn(translate(lang, 'log_cannotconnecttodiscordforownerid'))
                                                                                 }
                                                                             })
                                                                     })
                                                             }
                                                         })
+                                                }).catch(err => {
+                                                    if (err.name == "FetchError") {
+                                                        res.render('../src/server/pages/errorpage.ejs', {
+                                                            projname: uniconf.projname,
+                                                            metadomain: uniconf.metadomain,
+                                                            metaurl: "https://" + uniconf.metadomain,
+                                                            wikiurl: "https://wiki." + uniconf.metadomain,
+                                                            discord: uniconf.discord,
+                                                            error: translate(lang, 'page_wallcannotconnecttodiscord'),
+                                                            diag: translate(lang, 'page_wallcannotconnecttodiscorddiag'),
+                                                            i18npagetitle: translate(lang, 'page_configpagetitle'),
+                                                            i18ngithub: translate(lang, 'page_globalgithub'),
+                                                            i18ngdescription: translate(lang, 'page_globaldescription'),
+                                                            i18ndocumentation: translate(lang, 'page_globaldocumentation'),
+                                                            i18ndiscord: translate(lang, 'page_globaldiscord'),
+                                                            i18ndashboard: translate(lang, 'page_noconfdashboard')
+                                                        })
+                                                    }
                                                 })
                                         }
                                     }
@@ -795,24 +814,174 @@ router.get('/config', async (req, res, next) => { // Rinse and repeat but only s
             }
             else if (err == "MISSING_FIELDS") {
                 const conf = require('../configs/conf.json')
-                log.temp(path.join(__dirname, '..', 'configs', 'mysqlconfinterim.json'))
-                if (!fs.existsSync(path.join(__dirname, '..', 'configs', 'mysqlconfinterim.json')) && (conf.hostname === undefined || conf.username === undefined || conf.password === undefined || conf.db === undefined || conf.tableprefix === undefined || conf.language == undefined)) { // Check if MySQL conf exists, if not present page
-                        if (conf.hostname !== undefined) { // If any are missing, fill with default
-                            var hostname = conf.hostname
+                if (!fs.existsSync(path.join(__dirname, '..', 'configs', 'mysqlconfinterim.json')) && (conf.hostname === undefined || conf.username === undefined || conf.db === undefined || conf.tableprefix === undefined || conf.language == undefined)) { // Check if MySQL conf exists, if not present page
+                    if (conf.hostname !== undefined) { // If any are missing, fill with default
+                        var hostname = conf.hostname
+                    } else var hostname = "localhost"
+                    if (conf.language !== undefined) {
+                        var defaultlanguage = conf.language
+                    } else var defaultlanguage = uniconf.defaultlanguage
+                    if (conf.username !== undefined) {
+                        var username = conf.username
+                    } else var username = "btsbot"
+                    if (conf.tableprefix !== undefined) {
+                        var tableprefix = conf.tableprefix
+                    } else var tableprefix = ""
+                    if (conf.db !== undefined) {
+                        var db = conf.db
+                    } else var db = "btsbot"
+                    geti18n().then(langs => {
+                        res.render('../src/server/pages/config-1.ejs', { // Render the page
+                            i18npagetitle: translate(lang, 'page_configpagetitle'),
+                            i18ngdescription: translate(lang, 'page_globaldesc'),
+                            i18ndocumentation: translate(lang, 'page_globaldocumentation'),
+                            i18ndiscord: translate(lang, 'page_globaldiscord'),
+                            i18ngithub: translate(lang, 'page_globalgithub'),
+                            i18ndashboard: translate(lang, 'page_noconfdashboard'),
+                            i18nheadertitle: translate(lang, 'page_configheader'),
+                            i18nstepone: translate(lang, 'page_configstep1'),
+                            i18nserverlostcontact1: translate(lang, 'page_serverlostconnectionpart1'),
+                            i18nserverlostcontact2: translate(lang, 'page_serverlostconnectionpart2'),
+                            i18nserverlostcontactdiag1: translate(lang, 'page_serverlostconnectiondiagpart1'),
+                            i18nserverlostcontactdiag2: translate(lang, 'page_serverlostconnectiondiagpart2'),
+                            i18ndiscordserver: translate(lang, 'global_discorderver'),
+                            i18nserverlostcontactdiag3: translate(lang, 'page_serverlostconnectiondiagpart3'),
+                            i18dbaccessdenied: translate(lang, 'page_accessdeniedconfig1'),
+                            i18dbaccessdenieddiag: translate(lang, 'page_accessdenieddiagconfig1'),
+                            i18ndbconnectionrefused: translate(lang, 'page_dbconnectionrefused'),
+                            i18ndbconnectionrefuseddiag: translate(lang, 'page_dbconnectionrefuseddiagconfig1'),
+                            i18ndbbadcreds: translate(lang, 'page_dbbadcredsconfig1'),
+                            i18ndbbadcredsdiag: translate(lang, 'page_dbbadcredsdiagconfig1'),
+                            i18nwrongendpoint: translate(lang, 'page_wrongendpoint'),
+                            i18nwrongendpointdiag1: translate(lang, 'page_wrongendpointdiagpart1'),
+                            i18nwrongendpointdiag2: translate(lang, 'page_wrongendpointdiagpart2'),
+                            i18nunknownerror: translate(lang, 'page_confunknownerror'),
+                            i18nunknownerrordiag: translate(lang, 'page_confunknownerrordiag'),
+                            i18ndefaultlanguage: translate(lang, 'page_defaultlanguagelabel'),
+                            i18ndbhost: translate(lang, 'page_dbhostlabel'),
+                            i18ndbusermame: translate(lang, 'page_dbusernamelabel'),
+                            i18ndbpassword: translate(lang, 'page_dbpasswordlabel'),
+                            i18ndb: translate(lang, 'page_dblabel'),
+                            i18ndbtableprefix: translate(lang, 'page_dbtableprefixlabel'),
+                            i18nnextbutton: translate(lang, 'page_globalnext'),
+                            i18nsubmittingmysql: translate(lang, 'page_submittingmysql'),
+                            page_globalneedhelp: translate(lang, 'i18nneedhelp'),
+                            i18nneedhelp: translate(lang, 'page_globalneedhelp'),
+                            defaultlanguage: defaultlanguage,
+                            projname: uniconf.projname,
+                            metadomain: uniconf.metadomain,
+                            metaurl: "https://" + uniconf.metadomain,
+                            wikiurl: "https://wiki." + uniconf.metadomain,
+                            discord: uniconf.discord,
+                            langs: langs,
+                            hostname: hostname,
+                            username: username,
+                            database: db,
+                            tableprefix: tableprefix
+                        });
+                    })
+                } else if (fs.existsSync(path.join(__dirname, '..', 'configs', 'mysqlconfinterim.json')) && (conf.hostname === undefined || conf.username === undefined || conf.db === undefined || conf.tableprefix === undefined || conf.language === undefined)) { // Create conf.json again if MySQL conf does exist
+                    const mysqlconf = require('../configs/mysqlconfinterim.json')
+                    if (mysqlconf.hostname !== undefined || mysqlconf.username !== undefined || mysqlconf.password !== undefined || mysqlconf.db !== undefined || mysqlconf.tableprefix !== undefined || mysqlconf.language !== undefined) {
+                        if (conf.owner === undefined) {
+                            if (conf.token !== undefined) { // Create owner value if undefined
+                                fetch('https://discord.com/api/v9/oauth2/applications/@me', { // Get owner IDs
+                                    method: 'GET',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'Authorization': `Bot ${conf.token}`,
+                                        'Transfer-Encoding': 'chunked'
+                                    }
+                                })
+                                    .then(res => res.json())
+                                    .then(applicationinfo => {
+                                        var owner = []
+                                        if (applicationinfo.team != undefined) { // Check if team, if team add all members to the conf
+                                            for (var i in applicationinfo.team.members) {
+                                                owner.push(`"${applicationinfo.team.members[i].user.id}"`)
+                                            }
+                                            var owner = "[" + owner + "]"
+                                        } else if (json.message) {
+                                            var owner = "?" // This is a ZWNJ, which should not be in an ID, and no one would put it there, people wouldd set their owner ID to be blank for whatever reason though
+                                        } else {
+                                            var owner = `"${applicationinfo.owner.id}"`
+                                        }
+                                    }).catch(err => {
+                                        if (err.name == "FetchError") {
+                                            global.owner = "?"
+                                        }
+                                    })
+                            } else var owner = conf.owner
+                            if (owner == "?") { // ZWNJ
+                                var owner = "" // Legitimately blank
+                            } else {
+                                var owner = `\n  "owner": ${owner}` // Plonk owner ID
+                            }
+                        } else {
+                            if (Array.isArray(conf.owner)) {
+                                var owner = []
+                                for (var i in conf.owner) {
+                                    owner.push("\"" + conf.owner[i] + "\"")
+                                }
+                                var owner = "[" + owner + "]"
+                            } else {
+                                var owner = conf.owner
+                            }
+                            var owner = `\n  "owner": ${owner}` // Owner ID
+                        }
+                        if (conf.password !== undefined) { // Check if any Discord conf settings are missing before putting them into the conf
+                            var password = `\n  "password": "${conf.password}",`
+                        } else var password = ""
+                        if (conf.token !== undefined) {
+                            var token = `\n  "token": "${conf.token}",`
+                        } else var token = ""
+                        if (conf.clientsecret !== undefined) {
+                            var clientsecret = `\n  "clientsecret": "${conf.clientsecret}",`
+                        } else var clientsecret = ""
+                        if (conf.ostatus !== undefined) {
+                            var ostatus = `\n  "ostatus": "${conf.ostatus}",`
+                        } else var ostatus = ""
+                        if (conf.pstatus !== undefined) {
+                            var pstatus = `\n  "pstatus": "${conf.pstatus}",`
+                        } else var pstatus = ""
+                        if (conf.moderatorsroleid !== undefined) {
+                            var moderatorsroleid = `\n  "moderatorsroleid": "${conf.moderatorsroleid}",`
+                        } else var moderatorsroleid = ""
+                        if (conf.guildid !== undefined) {
+                            var guildid = `\n  "guildid": "${conf.guildid}",`
+                        } else var guildid = ""
+                        fs.writeFile('src/configs/conf.json', `{\n  "language": "${mysqlconf.language}",\n  "hostname": "${mysqlconf.hostname}",\n  "db": "${mysqlconf.database}",\n  "username": "${mysqlconf.username}",${password}\n  "tableprefix": "${mysqlconf.tableprefix}",${token}${clientsecret}${ostatus}${pstatus}${moderatorsroleid}${guildid}${owner}\n}`, function (err) { // Save conf file
+                            if (err) throw err;
+                            if (fs.existsSync(path.join(__dirname, '..', 'configs', 'mysqlconfinterim.json'))) { // Delete interim conf files
+                                fs.unlink('src/configs/mysqlconfinterim.json', function (err) {
+                                    if (err) throw err;
+                                })
+                            }
+                            if (fs.existsSync(path.join(__dirname, '..', 'configs', 'discordconfinterim.json'))) {
+                                fs.unlink('src/configs/discordconfinterim.json', function (err) {
+                                    if (err) throw err;
+                                })
+                            }
+                        })
+                        res.redirect('/')
+                    } else {
+                        if (mysqlconf.hostname !== undefined) { // If any are missing, fill with default
+                            var hostname = mysqlconf.hostname
                         } else var hostname = "localhost"
-                        if (conf.language !== undefined) {
-                            var defaultlanguage = conf.language
+                        if (mysqlconf.language !== undefined) {
+                            var defaultlanguage = mysqlconf.language
                         } else var defaultlanguage = uniconf.defaultlanguage
-                        if (conf.username !== undefined) {
-                            var username = conf.username
+                        if (mysqlconf.username !== undefined) {
+                            var username = mysqlconf.username
                         } else var username = "btsbot"
-                        if (conf.tableprefix !== undefined) {
-                            var tableprefix = conf.tableprefix
+                        if (mysqlconf.tableprefix !== undefined) {
+                            var tableprefix = mysqlconf.tableprefix
                         } else var tableprefix = ""
-                        if (conf.db !== undefined) {
-                            var db = conf.db
+                        if (mysqlconf.db !== undefined) {
+                            var db = mysqlconf.db
                         } else var db = "btsbot"
                         geti18n().then(langs => {
+                            log.temp('line 983')
                             res.render('../src/server/pages/config-1.ejs', { // Render the page
                                 i18npagetitle: translate(lang, 'page_configpagetitle'),
                                 i18ngdescription: translate(lang, 'page_globaldesc'),
@@ -862,89 +1031,419 @@ router.get('/config', async (req, res, next) => { // Rinse and repeat but only s
                                 tableprefix: tableprefix
                             });
                         })
-                } else { // Create conf.json again if MySQL conf does exist
-                    const mysqlconf = require('../configs/mysqlconfinterim.json')
-                    if (conf.owner === undefined) {
-                        if (conf.token !== undefined) { // Create owner value if undefined
-                            fetch('https://discord.com/api/v9/oauth2/applications/@me', { // Get owner IDs
-                                method: 'GET',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                    'Authorization': `Bot ${conf.token}`,
-                                    'Transfer-Encoding': 'chunked'
-                                }
-                            })
-                                .then(res => res.json())
-                                .then(applicationinfo => {
-                                    var owner = []
-                                    if (applicationinfo.team != undefined) { // Check if team, if team add all members to the conf
-                                        for (var i in applicationinfo.team.members) {
-                                            owner.push(`"${applicationinfo.team.members[i].user.id}"`)
-                                        }
-                                        var owner = "[" + owner + "]"
-                                    } else if (json.message) {
-                                        var owner = "?" // This is a ZWNJ, which should not be in an ID, and no one would put it there, people wouldd set their owner ID to be blank for whatever reason though
-                                    } else {
-                                        var owner = `"${applicationinfo.owner.id}"`
-                                    }
-                                }).catch(err => {
-                                    if (err.name == "FetchError") {
-                                        global.owner = "?"
-                                    }
-                                })
-                        } else var owner = conf.owner
-                        if (owner == "?") { // ZWNJ
-                            var owner = "" // Legitimately blank
-                        } else {
-                            var owner = `\n  "owner": ${owner}` // Plonk owner ID
-                        }
-                    } else {
-                        if (Array.isArray(conf.owner)) {
-                            var owner = []
-                            for (var i in conf.owner) {
-                                owner.push("\"" + conf.owner[i] + "\"")
-                            }
-                            var owner = "[" + owner + "]"
-                        } else {
-                            var owner = conf.owner
-                        }
-                        var owner = `\n  "owner": ${owner}` // Owner ID
                     }
-                    if (conf.password !== undefined) { // Check if any Discord conf settings are missing before putting them into the conf
-                        var password = `\n  "password": "${conf.password}",`
-                    } else var password = ""
-                    if (conf.token !== undefined) {
-                        var token = `\n  "token": "${conf.token}",`
-                    } else var token = ""
-                    if (conf.clientsecret !== undefined) {
-                        var clientsecret = `\n  "clientsecret": "${conf.clientsecret}",`
-                    } else var clientsecret = ""
-                    if (conf.ostatus !== undefined) {
-                        var ostatus = `\n  "ostatus": "${conf.ostatus}",`
-                    } else var ostatus = ""
+                } else if (!fs.existsSync(path.join(__dirname, '..', 'configs', 'discordconfinterim.json')) && (conf.password === undefined || conf.token === undefined || conf.clientsecret === undefined || conf.ostatus === undefined || conf.pstatus === undefined || conf.moderatorsroleid === undefined)) {
+                    if (conf.ostatus !== undefined) { // If any are missing, fill with default again
+                        var ostatus = conf.ostatus
+                    } else var ostatus = "online"
                     if (conf.pstatus !== undefined) {
-                        var pstatus = `\n  "pstatus": "${conf.pstatus}",`
+                        var pstatus = conf.pstatus
                     } else var pstatus = ""
                     if (conf.moderatorsroleid !== undefined) {
-                        var moderatorsroleid = `\n  "moderatorsroleid": "${conf.moderatorsroleid}",`
+                        var moderatorsroleid = conf.moderatorsroleid
                     } else var moderatorsroleid = ""
                     if (conf.guildid !== undefined) {
-                        var guildid = `\n  "guildid": "${conf.guildid}",`
+                        var guildid = conf.guidid
                     } else var guildid = ""
-                    fs.writeFile('src/configs/conf.json', `{\n  "language": "${mysqlconf.language}",\n  "hostname": "${mysqlconf.hostname}",\n  "db": "${mysqlconf.database}",\n  "username": "${mysqlconf.username}",${password}\n  "tableprefix": "${mysqlconf.tableprefix}",${token}${clientsecret}${ostatus}${pstatus}${moderatorsroleid}${guildid}${owner}\n}`, function (err) { // Save conf file
-                        if (err) throw err;
-                        if (fs.existsSync(path.join(__dirname, '..', 'configs', 'mysqlconfinterim.json'))) { // Delete interim conf files
-                            fs.unlink('src/configs/mysqlconfinterim.json', function (err) {
-                                if (err) throw err;
-                            })
+
+                    if (ostatus == "online") {
+                        var onlineselected = "selected "
+                    }
+                    else if (ostatus == "idle") {
+                        var idleselected = "selected "
+                    }
+                    else if (ostatus == "dnd") {
+                        var dndselected = "selected "
+                    }
+                    else if (ostatus == "invisible") {
+                        var invisibleselected = "selected "
+                    }
+                    res.status(200);
+                    log.temp('line 1061')
+                    res.render('../src/server/pages/config-2.ejs', {
+                        projname: uniconf.projname,
+                        metadomain: uniconf.metadomain,
+                        metaurl: "https://" + uniconf.metadomain,
+                        wikiurl: "https://wiki." + uniconf.metadomain,
+                        discord: uniconf.discord,
+                        unknownerror: false,
+                        badclientsecret: false,
+                        onlineselected: onlineselected,
+                        idleselected: idleselected,
+                        dndselected: dndselected,
+                        invisibleselected: invisibleselected,
+                        guildid: guildid,
+                        pstatus: pstatus,
+                        moderatorsroleid: moderatorsroleid,
+                        i18npagetitle: translate(lang, 'page_configpagetitle'),
+                        i18ngithub: translate(lang, 'page_globalgithub'),
+                        i18ngdescription: translate(lang, 'page_globaldescription'),
+                        i18ndocumentation: translate(lang, 'page_globaldocumentation'),
+                        i18ndiscord: translate(lang, 'page_globaldiscord'),
+                        i18ndashboard: translate(lang, 'page_noconfdashboard'),
+                        i18nserverlostcontact1: translate(lang, 'page_serverlostconnectionpart1'),
+                        i18nserverlostcontact2: translate(lang, 'page_serverlostconnectionpart2'),
+                        i18nserverlostcontactdiag1: translate(lang, 'page_serverlostconnectiondiagpart1'),
+                        i18nserverlostcontactdiag2: translate(lang, 'page_serverlostconnectiondiagpart2'),
+                        i18nserverlostcontactdiag3: translate(lang, 'page_serverlostconnectiondiagpart3'),
+                        i18ndiscordserver: translate(lang, 'global_discordserver'),
+                        i18ndbaccessdenied: translate(lang, 'page_accessdenied'),
+                        i18ndbaccessdenieddiag: translate(lang, 'page_accessdenieddiagconfig2'),
+                        i18nrefreshthepage: translate(lang, 'page_globalrefreshthepage'),
+                        i18nmysqlconfinterimdeleted: translate(lang, 'page_mysqlconfinterimdeleted'),
+                        i18nmysqlconfinterimdeleteddiag: translate(lang, 'page_mysqlconfinterimdeleteddiag'),
+                        i18ndbconnectionrefused: translate(lang, 'page_dbconnectionrefused'),
+                        i18ndbconnectionrefuseddiag: translate(lang, 'page_dbconnectionrefuseddiagconfig2'),
+                        i18ndbbadcreds: translate(lang, 'page_dbbadcredsconfig2'),
+                        i18ndbbadcredsdiag: translate(lang, 'page_dbbadcredsdiagconfig2'),
+                        i18nwrongendpoint: translate(lang, 'page_wrongendpoint'),
+                        i18nwrongendpointdiag1: translate(lang, 'page_wrongendpointdiagpart1'),
+                        i18nwrongendpointdiag2: translate(lang, 'page_wrongendpointdiagpart2'),
+                        i18ninvalidtoken: translate(lang, 'page_tokeninvalid'),
+                        i18ninvalidtokendiag: translate(lang, 'page_tokeninvaliddiag'),
+                        i18nbadclientsecret: translate(lang, 'page_badclientsecret'),
+                        i18nbadclientsecretdiag: translate(lang, 'page_badclientsecretdiag'),
+                        i18nunknownerror: translate(lang, 'page_confunknownerror'),
+                        i18nunknownerrordiag: translate(lang, 'page_confunknownerrordiag'),
+                        i18ncannotconnecttodiscord: translate(lang, 'page_cannotconnecttodiscord'),
+                        i18ncannotconnecttodiscorddiag: translate(lang, 'page_cannotconnecttodiscorddiag'),
+                        i18nunknowndiscorderror: translate(lang, 'page_unknowndiscorderror'),
+                        i18ndiscordtoken: translate(lang, 'page_discordtoken'),
+                        i18nclientsecret: translate(lang, 'page_clientsecret'),
+                        i18nplayingstatus: translate(lang, 'page_playingstatus'),
+                        i18nstatus: translate(lang, 'page_status'),
+                        i18nonline: translate(lang, 'page_online'),
+                        i18nidle: translate(lang, 'page_invisible'),
+                        i18ndnd: translate(lang, 'page_dnd'),
+                        i18ninvisible: translate(lang, 'page_invisible'),
+                        i18nsupportguildid: translate(lang, 'page_supportguildid'),
+                        i18nmoderatorsroleid: translate(lang, 'page_moderatorsroleid'),
+                        i18nmysqlpassword: translate(lang, 'page_mysqlpassword'),
+                        i18nnextbutton: translate(lang, 'page_globalnext'),
+                        i18nsubmittingdiscord: translate(lang, 'page_submittingdiscord'),
+                        i18nneedhelp: translate(lang, 'page_globalneedhelp'),
+                        i18nheadertitle: translate(lang, 'page_configheader'),
+                        i18nsteptwo: translate(lang, 'page_configstep2')
+                    });
+                } else if (fs.existsSync(path.join(__dirname, '..', 'configs', 'discordconfinterim.json')) && (conf.password === undefined || conf.token === undefined || conf.clientsecret === undefined || conf.ostatus === undefined || conf.pstatus === undefined || conf.moderatorsroleid === undefined || conf.guildid === undefined)) {
+                    var discordconf = require('../configs/discordconfinterim.json')
+                    if (discordconf.mysqlpassword === undefined || discordconf.token === undefined || discordconf.clientsecret === undefined || discordconf.ostatus === undefined || discordconf.pstatus === undefined || discordconf.moderatorsroleid === undefined || conf.guildid === undefined) {
+                        log.temp('line 1130')
+                        if (discordconf.ostatus !== undefined) { // If any are missing, fill with default again
+                            var ostatus = discordconf.ostatus
+                        } else var ostatus = "online"
+                        if (discordconf.pstatus !== undefined) {
+                            var pstatus = discordconf.pstatus
+                        } else var pstatus = ""
+                        if (discordconf.moderatorsroleid !== undefined) {
+                            var moderatorsroleid = discordconf.moderatorsroleid
+                        } else var moderatorsroleid = ""
+                        if (discordconf.guildid !== undefined) {
+                            var guildid = discordconf.guidid
+                        } else var guildid = ""
+
+                        if (ostatus == "online") {
+                            var onlineselected = "selected "
                         }
-                        if (fs.existsSync(path.join(__dirname, '..', 'configs', 'discordconfinterim.json'))) {
-                            fs.unlink('src/configs/discordconfinterim.json', function (err) {
-                                if (err) throw err;
-                            })
+                        else if (ostatus == "idle") {
+                            var idleselected = "selected "
+                        }
+                        else if (ostatus == "dnd") {
+                            var dndselected = "selected "
+                        }
+                        else if (ostatus == "invisible") {
+                            var invisibleselected = "selected "
+                        }
+                        res.status(200);
+                        log.temp('1156')
+                        res.render('../src/server/pages/config-2.ejs', {
+                            projname: uniconf.projname,
+                            metadomain: uniconf.metadomain,
+                            metaurl: "https://" + uniconf.metadomain,
+                            wikiurl: "https://wiki." + uniconf.metadomain,
+                            discord: uniconf.discord,
+                            unknownerror: false,
+                            badclientsecret: false,
+                            onlineselected: onlineselected,
+                            idleselected: idleselected,
+                            dndselected: dndselected,
+                            invisibleselected: invisibleselected,
+                            guildid: guildid,
+                            pstatus: pstatus,
+                            moderatorsroleid: moderatorsroleid,
+                            i18npagetitle: translate(lang, 'page_configpagetitle'),
+                            i18ngithub: translate(lang, 'page_globalgithub'),
+                            i18ngdescription: translate(lang, 'page_globaldescription'),
+                            i18ndocumentation: translate(lang, 'page_globaldocumentation'),
+                            i18ndiscord: translate(lang, 'page_globaldiscord'),
+                            i18ndashboard: translate(lang, 'page_noconfdashboard'),
+                            i18nserverlostcontact1: translate(lang, 'page_serverlostconnectionpart1'),
+                            i18nserverlostcontact2: translate(lang, 'page_serverlostconnectionpart2'),
+                            i18nserverlostcontactdiag1: translate(lang, 'page_serverlostconnectiondiagpart1'),
+                            i18nserverlostcontactdiag2: translate(lang, 'page_serverlostconnectiondiagpart2'),
+                            i18nserverlostcontactdiag3: translate(lang, 'page_serverlostconnectiondiagpart3'),
+                            i18ndiscordserver: translate(lang, 'global_discordserver'),
+                            i18ndbaccessdenied: translate(lang, 'page_accessdenied'),
+                            i18ndbaccessdenieddiag: translate(lang, 'page_accessdenieddiagconfig2'),
+                            i18nrefreshthepage: translate(lang, 'page_globalrefreshthepage'),
+                            i18nmysqlconfinterimdeleted: translate(lang, 'page_mysqlconfinterimdeleted'),
+                            i18nmysqlconfinterimdeleteddiag: translate(lang, 'page_mysqlconfinterimdeleteddiag'),
+                            i18ndbconnectionrefused: translate(lang, 'page_dbconnectionrefused'),
+                            i18ndbconnectionrefuseddiag: translate(lang, 'page_dbconnectionrefuseddiagconfig2'),
+                            i18ndbbadcreds: translate(lang, 'page_dbbadcredsconfig2'),
+                            i18ndbbadcredsdiag: translate(lang, 'page_dbbadcredsdiagconfig2'),
+                            i18nwrongendpoint: translate(lang, 'page_wrongendpoint'),
+                            i18nwrongendpointdiag1: translate(lang, 'page_wrongendpointdiagpart1'),
+                            i18nwrongendpointdiag2: translate(lang, 'page_wrongendpointdiagpart2'),
+                            i18ninvalidtoken: translate(lang, 'page_tokeninvalid'),
+                            i18ninvalidtokendiag: translate(lang, 'page_tokeninvaliddiag'),
+                            i18nbadclientsecret: translate(lang, 'page_badclientsecret'),
+                            i18nbadclientsecretdiag: translate(lang, 'page_badclientsecretdiag'),
+                            i18nunknownerror: translate(lang, 'page_confunknownerror'),
+                            i18nunknownerrordiag: translate(lang, 'page_confunknownerrordiag'),
+                            i18ncannotconnecttodiscord: translate(lang, 'page_cannotconnecttodiscord'),
+                            i18ncannotconnecttodiscorddiag: translate(lang, 'page_cannotconnecttodiscorddiag'),
+                            i18nunknowndiscorderror: translate(lang, 'page_unknowndiscorderror'),
+                            i18ndiscordtoken: translate(lang, 'page_discordtoken'),
+                            i18nclientsecret: translate(lang, 'page_clientsecret'),
+                            i18nplayingstatus: translate(lang, 'page_playingstatus'),
+                            i18nstatus: translate(lang, 'page_status'),
+                            i18nonline: translate(lang, 'page_online'),
+                            i18nidle: translate(lang, 'page_invisible'),
+                            i18ndnd: translate(lang, 'page_dnd'),
+                            i18ninvisible: translate(lang, 'page_invisible'),
+                            i18nsupportguildid: translate(lang, 'page_supportguildid'),
+                            i18nmoderatorsroleid: translate(lang, 'page_moderatorsroleid'),
+                            i18nmysqlpassword: translate(lang, 'page_mysqlpassword'),
+                            i18nnextbutton: translate(lang, 'page_globalnext'),
+                            i18nsubmittingdiscord: translate(lang, 'page_submittingdiscord'),
+                            i18nneedhelp: translate(lang, 'page_globalneedhelp'),
+                            i18nheadertitle: translate(lang, 'page_configheader'),
+                            i18nsteptwo: translate(lang, 'page_configstep2')
+                        });
+                    } else {
+                        checkdiscord(discordconf.token).then(result => { // Validate token
+                            if (result == "ASSUME_CLIENT_SECRET_IS_CORRECT") {
+                                getid(discordconf.token).then(id => {
+                                    if (!req.query.code) {
+                                        if (req.headers['x-forwarded-host']) {
+                                            var hostname = encodeURIComponent('http://' + req.headers['x-forwarded-host'])
+                                        } else {
+                                            var hostname = encodeURIComponent('http://' + req.headers.host)
+                                        }
+                                        res.redirect('https://discord.com/oauth2/authorize?client_id=' + id + '&redirect_uri=' + hostname + '/config&response_type=code&scope=identify&prompt=none') // Redirect to OAuth2 page
+                                    } else {
+                                        fetch('https://discord.com/api/v9/oauth2/applications/@me', { // Get owner IDs
+                                            method: 'GET',
+                                            headers: {
+                                                'Content-Type': 'application/json',
+                                                'Authorization': `Bot ${discordconf.token}`,
+                                                'Transfer-Encoding': 'chunked'
+                                            }
+                                        })
+                                            .then(res => res.json())
+                                            .then(applicationinfo => {
+                                                if (applicationinfo.team != undefined) { // Check if team, if team add all members to the conf
+                                                    var owner = []
+                                                    for (var i in applicationinfo.team.members) {
+                                                        owner.push(`"${applicationinfo.team.members[i].user.id}"`)
+                                                    }
+                                                    var owner = "[" + owner + "]"
+                                                } else {
+                                                    var owner = `"${applicationinfo.owner.id}"`
+                                                }
+                                                if (conf.hostname !== undefined) { // Check if any MySQL conf settings are missing before putting them into the conf
+                                                    var hostname = `\n  "hostname": "${conf.hostname}",`
+                                                } else var hostname = ""
+                                                if (conf.username !== undefined) {
+                                                    var username = `\n  "username": "${conf.username}",`
+                                                } else var username = ""
+                                                if (conf.tableprefix !== undefined) {
+                                                    var tableprefix = `\n  "tableprefix": "${conf.tableprefix}",`
+                                                } else var tableprefix = ""
+                                                if (conf.db !== undefined) {
+                                                    var db = `\n  "db": "${conf.db}",`
+                                                } else var db = ""
+                                                if (conf.language !== undefined) {
+                                                    var language = `\n  "language": "${conf.language}",`
+                                                } else var language = ""
+                                                fs.writeFile('src/configs/conf.json', `{${language}${hostname}${username}\n  "password": "${discordconf.mysqlpassword}",${db}${tableprefix}\n  "token": "${discordconf.token}",\n  "clientsecret": "${discordconf.clientsecret}",\n  "ostatus": "${discordconf.ostatus}",\n  "pstatus": "${discordconf.pstatus}",\n  "moderatorsroleid": "${discordconf.moderatorsroleid}",\n  "guildid": "${discordconf.guildid}",\n  "owner": ${owner}\n}`, function (err) { // Save conf file
+                                                    if (err) throw err;
+                                                    if (fs.existsSync(path.join(__dirname, '..', 'configs', 'mysqlconfinterim.json'))) { // Delete interim conf files
+                                                        fs.unlink('src/configs/mysqlconfinterim.json', function (err) {
+                                                            if (err) throw err;
+                                                        })
+                                                    }
+                                                    if (fs.existsSync(path.join(__dirname, '..', 'configs', 'discordconfinterim.json'))) {
+                                                        fs.unlink('src/configs/discordconfinterim.json', function (err) {
+                                                            if (err) throw err;
+                                                        })
+                                                    }
+                                                    res.redirect('/')
+                                                    restart()
+                                                })
+                                            })
+                                    }
+                                })
+                            }
+                        }).catch(err => {
+                            if (err === "TOKEN_INVALID" || err === "UNKNOWN_DISCORD_ERROR") {
+                                if (discordconf.ostatus !== undefined) { // If any are missing, fill with default again
+                                    var ostatus = discordconf.ostatus
+                                } else var ostatus = "online"
+                                if (discordconf.pstatus !== undefined) {
+                                    var pstatus = discordconf.pstatus
+                                } else var pstatus = ""
+                                if (discordconf.moderatorsroleid !== undefined) {
+                                    var moderatorsroleid = discordconf.moderatorsroleid
+                                } else var moderatorsroleid = ""
+                                if (discordconf.guildid !== undefined) {
+                                    var guildid = discordconf.guidid
+                                } else var guildid = ""
+
+                                if (ostatus == "online") {
+                                    var onlineselected = "selected "
+                                }
+                                else if (ostatus == "idle") {
+                                    var idleselected = "selected "
+                                }
+                                else if (ostatus == "dnd") {
+                                    var dndselected = "selected "
+                                }
+                                else if (ostatus == "invisible") {
+                                    var invisibleselected = "selected "
+                                }
+                                res.status(200);
+                                log.temp('line 1275')
+                                res.render('../src/server/pages/config-2.ejs', {
+                                    projname: uniconf.projname,
+                                    metadomain: uniconf.metadomain,
+                                    metaurl: "https://" + uniconf.metadomain,
+                                    wikiurl: "https://wiki." + uniconf.metadomain,
+                                    discord: uniconf.discord,
+                                    unknownerror: false,
+                                    badclientsecret: false,
+                                    onlineselected: onlineselected,
+                                    idleselected: idleselected,
+                                    dndselected: dndselected,
+                                    invisibleselected: invisibleselected,
+                                    guildid: guildid,
+                                    pstatus: pstatus,
+                                    moderatorsroleid: moderatorsroleid,
+                                    i18npagetitle: translate(lang, 'page_configpagetitle'),
+                                    i18ngithub: translate(lang, 'page_globalgithub'),
+                                    i18ngdescription: translate(lang, 'page_globaldescription'),
+                                    i18ndocumentation: translate(lang, 'page_globaldocumentation'),
+                                    i18ndiscord: translate(lang, 'page_globaldiscord'),
+                                    i18ndashboard: translate(lang, 'page_noconfdashboard'),
+                                    i18nserverlostcontact1: translate(lang, 'page_serverlostconnectionpart1'),
+                                    i18nserverlostcontact2: translate(lang, 'page_serverlostconnectionpart2'),
+                                    i18nserverlostcontactdiag1: translate(lang, 'page_serverlostconnectiondiagpart1'),
+                                    i18nserverlostcontactdiag2: translate(lang, 'page_serverlostconnectiondiagpart2'),
+                                    i18nserverlostcontactdiag3: translate(lang, 'page_serverlostconnectiondiagpart3'),
+                                    i18ndiscordserver: translate(lang, 'global_discordserver'),
+                                    i18ndbaccessdenied: translate(lang, 'page_accessdenied'),
+                                    i18ndbaccessdenieddiag: translate(lang, 'page_accessdenieddiagconfig2'),
+                                    i18nrefreshthepage: translate(lang, 'page_globalrefreshthepage'),
+                                    i18nmysqlconfinterimdeleted: translate(lang, 'page_mysqlconfinterimdeleted'),
+                                    i18nmysqlconfinterimdeleteddiag: translate(lang, 'page_mysqlconfinterimdeleteddiag'),
+                                    i18ndbconnectionrefused: translate(lang, 'page_dbconnectionrefused'),
+                                    i18ndbconnectionrefuseddiag: translate(lang, 'page_dbconnectionrefuseddiagconfig2'),
+                                    i18ndbbadcreds: translate(lang, 'page_dbbadcredsconfig2'),
+                                    i18ndbbadcredsdiag: translate(lang, 'page_dbbadcredsdiagconfig2'),
+                                    i18nwrongendpoint: translate(lang, 'page_wrongendpoint'),
+                                    i18nwrongendpointdiag1: translate(lang, 'page_wrongendpointdiagpart1'),
+                                    i18nwrongendpointdiag2: translate(lang, 'page_wrongendpointdiagpart2'),
+                                    i18ninvalidtoken: translate(lang, 'page_tokeninvalid'),
+                                    i18ninvalidtokendiag: translate(lang, 'page_tokeninvaliddiag'),
+                                    i18nbadclientsecret: translate(lang, 'page_badclientsecret'),
+                                    i18nbadclientsecretdiag: translate(lang, 'page_badclientsecretdiag'),
+                                    i18nunknownerror: translate(lang, 'page_confunknownerror'),
+                                    i18nunknownerrordiag: translate(lang, 'page_confunknownerrordiag'),
+                                    i18ncannotconnecttodiscord: translate(lang, 'page_cannotconnecttodiscord'),
+                                    i18ncannotconnecttodiscorddiag: translate(lang, 'page_cannotconnecttodiscorddiag'),
+                                    i18nunknowndiscorderror: translate(lang, 'page_unknowndiscorderror'),
+                                    i18ndiscordtoken: translate(lang, 'page_discordtoken'),
+                                    i18nclientsecret: translate(lang, 'page_clientsecret'),
+                                    i18nplayingstatus: translate(lang, 'page_playingstatus'),
+                                    i18nstatus: translate(lang, 'page_status'),
+                                    i18nonline: translate(lang, 'page_online'),
+                                    i18nidle: translate(lang, 'page_invisible'),
+                                    i18ndnd: translate(lang, 'page_dnd'),
+                                    i18ninvisible: translate(lang, 'page_invisible'),
+                                    i18nsupportguildid: translate(lang, 'page_supportguildid'),
+                                    i18nmoderatorsroleid: translate(lang, 'page_moderatorsroleid'),
+                                    i18nmysqlpassword: translate(lang, 'page_mysqlpassword'),
+                                    i18nnextbutton: translate(lang, 'page_globalnext'),
+                                    i18nsubmittingdiscord: translate(lang, 'page_submittingdiscord'),
+                                    i18nneedhelp: translate(lang, 'page_globalneedhelp'),
+                                    i18nheadertitle: translate(lang, 'page_configheader'),
+                                    i18nsteptwo: translate(lang, 'page_configstep2')
+                                });
+                            } else if (err === "CANNOT_CONNECT_TO_DISCORD") {
+                                res.render('../src/server/pages/errorpage.ejs', {
+                                    projname: uniconf.projname,
+                                    metadomain: uniconf.metadomain,
+                                    metaurl: "https://" + uniconf.metadomain,
+                                    wikiurl: "https://wiki." + uniconf.metadomain,
+                                    discord: uniconf.discord,
+                                    error: translate(lang, 'page_wallcannotconnecttodiscord'),
+                                    diag: translate(lang, 'page_wallcannotconnecttodiscorddiag'),
+                                    i18npagetitle: translate(lang, 'page_configpagetitle'),
+                                    i18ngithub: translate(lang, 'page_globalgithub'),
+                                    i18ngdescription: translate(lang, 'page_globaldescription'),
+                                    i18ndocumentation: translate(lang, 'page_globaldocumentation'),
+                                    i18ndiscord: translate(lang, 'page_globaldiscord'),
+                                    i18ndashboard: translate(lang, 'page_noconfdashboard')
+                                })
+                            }
+                        })
+                    }
+                } else if (conf.owner === undefined) {
+                    fetch('https://discord.com/api/v9/oauth2/applications/@me', { // Get owner ofc
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bot ${conf.token}`,
+                            'Transfer-Encoding': 'chunked'
                         }
                     })
-                    res.redirect('/')
+                        .then(res => res.json())
+                        .then(applicationinfo => {
+                            if (applicationinfo.team != undefined) { // Check if team, if team add all members to the conf
+                                var owner = []
+                                for (var i in applicationinfo.team.members) {
+                                    owner.push(`"${applicationinfo.team.members[i].user.id}"`)
+                                }
+                                var owner = "[" + owner + "]"
+                            } else {
+                                var owner = `"${applicationinfo.owner.id}"`
+                            }
+                            fs.writeFile('src/configs/conf.json', `{\n  "language": "${conf.language}",\n  "hostname": "${conf.hostname}",\n  "db": "${conf.db}",\n  "username": "${conf.username}",\n  "password": "${conf.password}",\n  "tableprefix": "${conf.tableprefix}",\n  "token": "${conf.token}",\n  "clientsecret": "${conf.clientsecret}",\n  "ostatus": "${conf.ostatus}",\n  "pstatus": "${conf.pstatus}",\n  "moderatorsroleid": "${conf.moderatorsroleid}",\n  "guildid": "${conf.guildid}",\n  "owner": ${owner}\n}`, function (err) { // Save conf file
+                                if (err) throw err;
+                                if (fs.existsSync(path.join(__dirname, '..', 'configs', 'mysqlconfinterim.json'))) { // Delete interim conf files
+                                    fs.unlink('src/configs/mysqlconfinterim.json', function (err) {
+                                        if (err) throw err;
+                                    })
+                                }
+                                if (fs.existsSync(path.join(__dirname, '..', 'configs', 'discordconfinterim.json'))) {
+                                    fs.unlink('src/configs/discordconfinterim.json', function (err) {
+                                        if (err) throw err;
+                                    })
+                                }
+                                res.redirect('/')
+                                log.info(translate(lang, 'log_conffilesaved') + path.join(__dirname, '..', '..', 'configs', 'conf.json'))
+                                log.info(translate(lang.language, 'log_changestakeefect_part1') + uniconf.projname + translate(lang, 'log_changestakeefect_part2'))
+                                setTimeout(function () { // Restart to be safe
+                                    restart()
+                                }, 250)
+                            })
+                        })
+                        .catch(err => {
+                            if (err.name == "FetchError") {
+                                log.warn(translate(lang, 'log_cannotconnecttodiscordforownerid'))
+                            }
+                        })
                 }
             }
         })

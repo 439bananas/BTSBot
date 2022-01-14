@@ -15,7 +15,7 @@ const path = require('path')
 const log = require('./logHandler')
 const uniconf = require('../configs/uniconf.json')
 
-async function getlang(noext) { // Gets the configured language (noext is an argument that lets the function know whether to send the file extension too)
+function getlang(noext) { // Gets the configured language (noext is an argument that lets the function know whether to send the file extension too)
     if (noext === true || noext === undefined) {
         var ext = ''
     } else var ext = '.json'

@@ -42,6 +42,7 @@
     <Content Include="src\core\checkDiscord.js" />
     <Content Include="src\core\checkMySQL.js" />
     <Content Include="src\core\createElements.js" />
+    <Content Include="src\core\getApplicationId.js" />
     <Content Include="src\core\getI18nFiles.js" />
     <Content Include="src\core\getLanguageJSON.js" />
     <Content Include="src\core\getLanguageString.js" />
@@ -3666,7 +3667,6 @@
   <ItemGroup>
     <Folder Include=".github\" />
     <Folder Include=".github\ISSUE_TEMPLATE\" />
-    <Folder Include="BTS Bot" />
     <Folder Include="install" />
     <Folder Include="i18n\" />
     <Folder Include="resources\" />

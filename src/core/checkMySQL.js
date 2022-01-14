@@ -13,7 +13,7 @@
 const log = require('../core/logHandler');
 const mysql = require('mysql');
 
-async function checkmysql(hostname, username, password, database) {
+function checkmysql(hostname, username, password, database) {
     var connection; // I was told this needed to be declared prior to the function to prevent overloading with event listeners but instead the variable should be cleared to allow multiple connections on this variable to be declared to be able to ping the server multiple times without a restart
     // nope that was a very lengthy comment; also i think that comment was in thomas language!
     if(!connection) { // See first comment

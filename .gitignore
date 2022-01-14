@@ -12,3 +12,5 @@
 /src/configs/discordconfinterim.json
 /logs
 /push.bat
+/bin
+/obj

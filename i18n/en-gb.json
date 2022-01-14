@@ -113,5 +113,6 @@
   "page_globalbtsbothome": "BTS Bot home",
   "page_confsuccessful": "You have successfully configured BTS Bot!",
   "page_confsuccessfuldiag": "To continue, click \"Next\"",
-  "page_configcompleteheader": "congratulations!"
+  "page_configcompleteheader": "congratulations!",
+  "log_cannotconnecttodiscordforownerid": "BTS Bot cannot connect to Discord to grab the owner ID but will try again on next reboot or event!"
 }

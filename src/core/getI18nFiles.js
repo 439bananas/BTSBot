@@ -14,7 +14,7 @@ const fs = require('fs')
 const log = require('./logHandler')
 const path = require('path')
 
-async function geti18n() { // This is a function so everyone can use it!
+function geti18n() { // This is a function so everyone can use it!
     return new Promise(function (resolve, reject) {
         global.langs = []
         fs.readdir(path.join(__dirname, '..', '..', 'i18n'), function (err, langfiles) { // Get all of the files in the i18n directory
