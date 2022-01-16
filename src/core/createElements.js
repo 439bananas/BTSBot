@@ -14,8 +14,8 @@ const warnuser = require('./warnUserIfNoConf') // Check if conf.json exists and 
 const createServer = require('../server/createServer') // Start the dashboard
 //const createBot = require('../bot/createBot') // Start the bot
 
-/*const checkmysql = require('./checkMySQL')
-checkmysql('192.168.1.181', 'btsbot', 'btsbot', 'btsbot').then(result => {
+/*const checkMySQL = require('./checkMySQL')
+checkMySQL('192.168.1.181', 'btsbot', 'btsbot', 'btsbot').then(result => {
     console.log(result)
 }).catch(err => {
     console.log(err)

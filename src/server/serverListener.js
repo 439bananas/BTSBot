@@ -10,7 +10,7 @@
 //                                                 //
 /////////////////////////////////////////////////////
 
-const checkconf = require('../core/checkConfExists')
+const checkConf = require('../core/checkConfExists')
 const path = require('path')
 const express = require('express')
 const app = express()
@@ -45,7 +45,7 @@ app.use('/api', routes) // All API endpoints then begin with "/api"
 
 app.use(async function (req, res, next) {
     getlang(true).then(lang => {
-        checkconf().catch(err => {
+        checkConf().catch(err => {
             if (err) {  // If error in conf, don't show things like login etc that couldn't possibly exist
                 res.status(404);
                 res.render('../src/server/pages/404.ejs', {

@@ -10,10 +10,10 @@
 //                                                 //
 /////////////////////////////////////////////////////
 
-const checkconf = require('../../core/checkConfExists')
+const checkConf = require('../../core/checkConfExists')
 const log = require('../../core/logHandler')
-const checkmysql = require('../../core/checkMySQL')
-const checkdiscord = require('../../core/checkDiscord')
+const checkMySQL = require('../../core/checkMySQL')
+const checkDiscord = require('../../core/checkDiscord')
 const uniconf = require('../../configs/uniconf.json')
 const fs = require('fs')
 const express = require('express');
@@ -22,7 +22,6 @@ const path = require('path')
 const restart = require('../../core/restartProcess')
 const translate = require('../../core/getLanguageString')
 const getlang = require('../../core/getLanguageJSON')
-const checkforconf = require('../../core/checkConfExists')
 
 router.post('/', async (req, res, next) => {
     if (req.fields.token === undefined || req.fields.clientsecret === undefined || req.fields.ostatus === undefined || req.fields.pstatus === undefined || req.fields.guildid === undefined || req.fields.moderatorsroleid === undefined || req.fields.mysqlpassword === undefined) { // Check for necessary args, else return an error
@@ -32,7 +31,7 @@ router.post('/', async (req, res, next) => {
         })
     } else {
         getlang().then(lang => {
-            checkconf()
+            checkConf()
                 .then(result => {
                     if (result == true) { // So that no one can submit the config while it's operational
                         res.status(200);
@@ -52,13 +51,13 @@ router.post('/', async (req, res, next) => {
                         else {
                             if (fs.existsSync(path.join(__dirname, '..', '..', 'configs', 'mysqlconfinterim.json'))) {
                                 const mysqlconf = require('../../configs/mysqlconfinterim.json')
-                                checkmysql(mysqlconf.hostname, mysqlconf.username, mysqlconf.password, mysqlconf.database)
+                                checkMySQL(mysqlconf.hostname, mysqlconf.username, mysqlconf.password, mysqlconf.database)
                                     .then(confresult => {
                                         if (confresult == "OK") {
                                             getlang().then(lang => {
                                                 if (fs.existsSync(path.join(__dirname, '..', '..', 'configs', 'discordconfinterim.json'))) {
                                                     const discordconf = require('../../configs/discordconfinterim.json')
-                                                    checkdiscord(discordconf.token) // If there's an error, allow user to enter new Discord creds
+                                                    checkDiscord(discordconf.token) // If there's an error, allow user to enter new Discord creds
                                                         .then(confresult => {
                                                             if (confresult == "ASSUME_CLIENT_SECRET_IS_CORRECT") { // So that no one can submit the config while Discord is functional
                                                                 res.status(200);
@@ -68,7 +67,7 @@ router.post('/', async (req, res, next) => {
                                                             }
                                                         })
                                                         .catch(err => {
-                                                            checkdiscord(req.fields.token) // Validate the token
+                                                            checkDiscord(req.fields.token) // Validate the token
                                                                 .then(result => { // Respond with "OK" and create Discord configuration
                                                                     res.status(200);
                                                                     res.json({
@@ -87,7 +86,7 @@ router.post('/', async (req, res, next) => {
                                                                 })
                                                         })
                                                 } else {
-                                                    checkdiscord(req.fields.token) // Janky time!
+                                                    checkDiscord(req.fields.token) // Janky time!
                                                         .then(result => { // Respond with "OK" and create Discord configuration
                                                             res.status(200);
                                                             res.json({
@@ -138,7 +137,7 @@ router.post('/', async (req, res, next) => {
                                                     response: "NO_MYSQL_CONF"
                                                 })
                                             } else {
-                                                checkdiscord(req.fields.token) // Janky time!
+                                                checkDiscord(req.fields.token) // Janky time!
                                                     .then(result => { // Respond with "OK" and create Discord configuration
                                                         res.status(200);
                                                         res.json({
@@ -171,7 +170,7 @@ router.post('/', async (req, res, next) => {
 })
 
 router.get('/', (req, res, next) => { // This should totally not be GET'd
-    checkconf().catch(err => {
+    checkConf().catch(err => {
         if (err) {  // If error in conf, don't show things like login etc that couldn't possibly exist
             res.status(404);
             res.render('../src/server/pages/404.ejs', {

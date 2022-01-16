@@ -10,9 +10,9 @@
 //                                                 //
 /////////////////////////////////////////////////////
 
-const checkconf = require('../../core/checkConfExists')
+const checkConf = require('../../core/checkConfExists')
 const log = require('../../core/logHandler')
-const checkmysql = require('../../core/checkMySQL')
+const checkMySQL = require('../../core/checkMySQL')
 const uniconf = require('../../configs/uniconf.json')
 const fs = require('fs')
 const express = require('express');
@@ -30,7 +30,7 @@ router.post('/', async (req, res, next) => {
         })
     }
     else {
-        checkconf()
+        checkConf()
             .then(result => {
                 if (result == true) {
                     // So that no one can submit the config while it's operational
@@ -45,7 +45,7 @@ router.post('/', async (req, res, next) => {
                     if (err == false || err == "MISSING_FIELDS" || err == 'INCORRECT_CREDENTIALS' || err == "ACCESS_DENIED" || err == "CONNECTION_REFUSED" || err == "UNKNOWN_ERROR") {
                         if (fs.existsSync(path.join(__dirname, '..', '..', 'configs', 'mysqlconfinterim.json'))) { // Check if an interim file has been created
                             const mysqlconf = require('../../configs/mysqlconfinterim.json')
-                            checkmysql(mysqlconf.hostname, mysqlconf.username, mysqlconf.password, mysqlconf.database)
+                            checkMySQL(mysqlconf.hostname, mysqlconf.username, mysqlconf.password, mysqlconf.database)
                                 .then(confresult => {
                                     if (confresult == "OK") { // So that no one can submit the config while MySQL is functional
                                         res.status(200);
@@ -55,7 +55,7 @@ router.post('/', async (req, res, next) => {
                                     }
                                 })
                                 .catch(err => { // If it exists but is bad, allow user to create another one
-                                    checkmysql(req.fields.hostname, req.fields.username, req.fields.password, req.fields.database)
+                                    checkMySQL(req.fields.hostname, req.fields.username, req.fields.password, req.fields.database)
                                         .then(result => {
                                             res.status(200)
                                             res.json({
@@ -85,7 +85,7 @@ router.post('/', async (req, res, next) => {
                                     })
                                 })
                         } else {
-                            checkmysql(req.fields.hostname, req.fields.username, req.fields.password, req.fields.database)
+                            checkMySQL(req.fields.hostname, req.fields.username, req.fields.password, req.fields.database)
                                 .then(result => { // Repeating this code is probably janky and inefficient so if you find a better way, please, I beg, create a pull request. I was looking at creating a function until I was stupid enough to realise that there was a slight nuance in the code that meant it was not so straightforward
                                     res.status(200)
                                     res.json({
@@ -129,7 +129,7 @@ router.post('/', async (req, res, next) => {
 })
 
 router.get('/',  async(req, res, next) => { // This should totally not be GET'd
-    checkconf().catch(err => {
+    checkConf().catch(err => {
         getlang(true)
             .then(langcode => {
                 if (err) {  // If error in conf, don't show things like login etc that couldn't possibly exist

@@ -12,10 +12,10 @@
 
 const fs = require('fs');
 const path = require('path');
-const checkmysql = require('./checkMySQL')
-const checkdiscord = require('./checkDiscord')
+const checkMySQL = require('./checkMySQL')
+const checkDiscord = require('./checkDiscord')
 
-async function checkforconf() {
+async function checkConf() {
     return new Promise(function (resolve, reject) { // Promise-based, return rejections/resolutions to handle
         if (fs.existsSync(path.join(__dirname, '..', 'configs', 'conf.json'))) { // Does src/configs/conf.json exist? If yes, return true. Else, false
             const conf = require('../configs/conf.json')
@@ -23,9 +23,9 @@ async function checkforconf() {
                 reject('MISSING_FIELDS')
                 return;
             }
-            checkmysql(conf.hostname, conf.username, conf.password, conf.db).then(result => { // If all is good, proceed to Discord
+            checkMySQL(conf.hostname, conf.username, conf.password, conf.db).then(result => { // If all is good, proceed to Discord
                 if (result == 'OK') {
-                    checkdiscord(conf.token).then(result => { // Check Discord
+                    checkDiscord(conf.token).then(result => { // Check Discord
                         if (result == "ASSUME_CLIENT_SECRET_IS_CORRECT") {
                             resolve(true) // If all good, resolve with true
                         }
@@ -41,4 +41,4 @@ async function checkforconf() {
     })
 }
 
-module.exports = checkforconf;
+module.exports = checkConf;

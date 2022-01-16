@@ -20,9 +20,9 @@ const fs = require('fs')
 const ejs = require('ejs')
 const fetch = require('node-fetch')
 const formidable = require('express-formidable')
-const checkconf = require('../core/checkConfExists')
-const checkmysql = require('../core/checkMySQL')
-const checkdiscord = require('../core/checkDiscord')
+const checkConf = require('../core/checkConfExists')
+const checkMySQL = require('../core/checkMySQL')
+const checkDiscord = require('../core/checkDiscord')
 const router = express.Router()
 const log = require('../core/logHandler')
 const geti18n = require('../core/getI18nFiles')
@@ -32,8 +32,8 @@ const restart = require('../core/restartProcess')
 const getid = require('../core/getApplicationId')
 
 router.use(formidable()) // Grab fields of form entered
-router.get('/', async (req, res, next) => { // When / is GET'd, if checkconf returns true, send the noconfintro file and fill variables with respective values, else send back the front page
-    checkconf().catch(err => {
+router.get('/', async (req, res, next) => { // When / is GET'd, if checkConf returns true, send the noconfintro file and fill variables with respective values, else send back the front page
+    checkConf().catch(err => {
         getlang().then(lang => {
             if (err == false) {
                 res.status(200);
@@ -87,9 +87,9 @@ router.get('/', async (req, res, next) => { // When / is GET'd, if checkconf ret
     })
 })
 
-router.get('/config', async (req, res, next) => { // Rinse and repeat but only serve at all if checkconf returns false
+router.get('/config', async (req, res, next) => { // Rinse and repeat but only serve at all if checkConf returns false
     getlang().then(lang => {
-        checkconf().then(response => { // FOR NOW WE USE DEFAULT LANGUAGE
+        checkConf().then(response => { // FOR NOW WE USE DEFAULT LANGUAGE
             if (response == true) {
                 res.status(404);
                 res.render('../src/server/pages/404.ejs', {
@@ -113,11 +113,11 @@ router.get('/config', async (req, res, next) => { // Rinse and repeat but only s
             if (err === false) {
                 if (fs.existsSync(path.join(__dirname, '..', 'configs', 'mysqlconfinterim.json'))) { // Check if an interim file has been created
                     const mysqlconf = require('../configs/mysqlconfinterim.json')
-                    checkmysql(mysqlconf.hostname, mysqlconf.username, mysqlconf.password, mysqlconf.database).then(confresult => {
+                    checkMySQL(mysqlconf.hostname, mysqlconf.username, mysqlconf.password, mysqlconf.database).then(confresult => {
                         if (confresult == "OK") {
                             if (fs.existsSync(path.join(__dirname, '..', 'configs', 'discordconfinterim.json'))) {
                                 const discordconf = require('../configs/discordconfinterim.json')
-                                checkdiscord(discordconf.token).then(discordresult => {
+                                checkDiscord(discordconf.token).then(discordresult => {
                                     if (discordresult == "ASSUME_CLIENT_SECRET_IS_CORRECT") {
                                         if (req.query.code == undefined) { // If there's no code, get Discord to provide one
                                             fetch('https://discord.com/api/v9/oauth2/applications/@me', { // Validate the token this way, we used Discord.JS to validate the token and validating the token that way barfed all sorts of weird errors
@@ -410,7 +410,7 @@ router.get('/config', async (req, res, next) => { // Rinse and repeat but only s
                                                                 });
                                                                 log.error(json.error)
                                                             } else {
-                                                                checkmysql(mysqlconf.hostname, mysqlconf.username, mysqlconf.password, mysqlconf.database)
+                                                                checkMySQL(mysqlconf.hostname, mysqlconf.username, mysqlconf.password, mysqlconf.database)
                                                                     .then(result => {
                                                                         fetch('https://discord.com/api/v9/oauth2/applications/@me', { // Get owner IDs
                                                                             method: 'GET',
@@ -812,9 +812,9 @@ router.get('/config', async (req, res, next) => { // Rinse and repeat but only s
                     })
                 }
             }
-            else if (err == "MISSING_FIELDS") {
+            else {
                 const conf = require('../configs/conf.json')
-                if (!fs.existsSync(path.join(__dirname, '..', 'configs', 'mysqlconfinterim.json')) && (conf.hostname === undefined || conf.username === undefined || conf.db === undefined || conf.tableprefix === undefined || conf.language == undefined)) { // Check if MySQL conf exists, if not present page
+                if (!fs.existsSync(path.join(__dirname, '..', 'configs', 'mysqlconfinterim.json')) && (conf.hostname === undefined || conf.username === undefined || conf.db === undefined || conf.tableprefix === undefined || conf.language == undefined || err == "INCORRECT_CREDENTIALS" || err == "ACCESS_DENIED" || err == "CONNECTION_REFUSED" || err == "UNKNOWN_ERROR")) { // Check if MySQL conf exists, if not present page
                     if (conf.hostname !== undefined) { // If any are missing, fill with default
                         var hostname = conf.hostname
                     } else var hostname = "localhost"
@@ -880,7 +880,7 @@ router.get('/config', async (req, res, next) => { // Rinse and repeat but only s
                             tableprefix: tableprefix
                         });
                     })
-                } else if (fs.existsSync(path.join(__dirname, '..', 'configs', 'mysqlconfinterim.json')) && (conf.hostname === undefined || conf.username === undefined || conf.db === undefined || conf.tableprefix === undefined || conf.language === undefined)) { // Create conf.json again if MySQL conf does exist
+                } else if (fs.existsSync(path.join(__dirname, '..', 'configs', 'mysqlconfinterim.json')) && (conf.hostname === undefined || conf.username === undefined || conf.db === undefined || conf.tableprefix === undefined || conf.language === undefined || err == "INCORRECT_CREDENTIALS" || err == "ACCESS_DENIED" || err == "CONNECTION_REFUSED" || err == "UNKNOWN_ERROR")) { // Create conf.json again if MySQL conf does exist
                     const mysqlconf = require('../configs/mysqlconfinterim.json')
                     if (mysqlconf.hostname !== undefined || mysqlconf.username !== undefined || mysqlconf.password !== undefined || mysqlconf.db !== undefined || mysqlconf.tableprefix !== undefined || mysqlconf.language !== undefined) {
                         if (conf.owner === undefined) {
@@ -1032,7 +1032,7 @@ router.get('/config', async (req, res, next) => { // Rinse and repeat but only s
                             });
                         })
                     }
-                } else if (!fs.existsSync(path.join(__dirname, '..', 'configs', 'discordconfinterim.json')) && (conf.password === undefined || conf.token === undefined || conf.clientsecret === undefined || conf.ostatus === undefined || conf.pstatus === undefined || conf.moderatorsroleid === undefined)) {
+                } else if (!fs.existsSync(path.join(__dirname, '..', 'configs', 'discordconfinterim.json')) && (conf.password === undefined || conf.token === undefined || conf.clientsecret === undefined || conf.ostatus === undefined || conf.pstatus === undefined || conf.moderatorsroleid === undefined || err === "TOKEN_INVALID" || err === "UNKNOWN_DISCORD_ERROR")) {
                     if (conf.ostatus !== undefined) { // If any are missing, fill with default again
                         var ostatus = conf.ostatus
                     } else var ostatus = "online"
@@ -1222,7 +1222,7 @@ router.get('/config', async (req, res, next) => { // Rinse and repeat but only s
                             i18nsteptwo: translate(lang, 'page_configstep2')
                         });
                     } else {
-                        checkdiscord(discordconf.token).then(result => { // Validate token
+                        checkDiscord(discordconf.token).then(result => { // Validate token
                             if (result == "ASSUME_CLIENT_SECRET_IS_CORRECT") {
                                 getid(discordconf.token).then(id => {
                                     if (!req.query.code) {
