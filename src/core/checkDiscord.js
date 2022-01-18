@@ -10,8 +10,6 @@
 //                                                 //
 /////////////////////////////////////////////////////
 
-// THIS FILE NEEDS WORK & A FUNCTION
-
 const log = require('../core/logHandler');
 const fetch = require('node-fetch')
 

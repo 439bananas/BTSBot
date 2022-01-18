@@ -32,59 +32,116 @@ const restart = require('../core/restartProcess')
 const getid = require('../core/getApplicationId')
 
 router.use(formidable()) // Grab fields of form entered
+var discordsuccess = 0 // Ensure we only ping Discord's API once
 router.get('/', async (req, res, next) => { // When / is GET'd, if checkConf returns true, send the noconfintro file and fill variables with respective values, else send back the front page
-    checkConf().catch(err => {
-        getlang().then(lang => {
-            if (err == false) {
-                res.status(200);
-                res.render('../src/server/pages/noconfintro.ejs', { // DON'T CHANGE THE RENDERING OF THE PAGE, USE DIFFERENT VARIABLES ON DIFFERENT CONDITIONS
-                    projname: uniconf.projname,
-                    confpath: path.join(__dirname, 'configs'),
-                    metadomain: uniconf.metadomain,
-                    metaurl: "https://" + uniconf.metadomain,
-                    wikiurl: "https://wiki." + uniconf.metadomain,
-                    discord: uniconf.discord,
-                    i18nbtsbotlogo: translate(lang, 'page_globalbtsbotlogo'),
-                    i18nbtsbothome: translate(lang, 'page_globalbtsbothome'),
-                    i18npagetitle: translate(lang, 'page_configpagetitle'),
-                    i18ngdescription: translate(lang, 'page_globaldesc'),
-                    i18ndocumentation: translate(lang, 'page_globaldocumentation'),
-                    i18ndiscord: translate(lang, 'page_globaldiscord'),
-                    i18ngithub: translate(lang, 'page_globalgithub'),
-                    i18ndashboard: translate(lang, 'page_noconfdashboard'),
-                    i18nheadertitle: translate(lang, 'page_noconfintroheader'),
-                    i18nnextbutton: translate(lang, 'page_globalnext'),
-                    i18nnoconfintro1: translate(lang, 'page_noconfintropart1'),
-                    i18nnoconfintro2: translate(lang, 'page_noconfintropart2'),
-                    i18nnoconfintro3: translate(lang, 'page_noconfintropart3'),
-                    i18nnoconfintro4: translate(lang, 'page_noconfintropart4'),
-                    i18nnoconfintrodiag: translate(lang, 'page_noconfintrodiag')
-                });
-            }
-            else {
-                res.status(200);
-                res.json({
-                    metadomain: uniconf.metadomain,
-                    metaurl: "https://" + uniconf.metadomain,
-                    wikiurl: "https://wiki." + uniconf.metadomain,
-                    discord: uniconf.discord,
-                    i18npagetitle: translate(lang, 'page_configpagetitle'),
-                    i18ngdescription: translate(lang, 'page_globaldesc'),
-                    i18ndocumentation: translate(lang, 'page_globaldocumentation'),
-                    i18ndiscord: translate(lang, 'page_globaldiscord'),
-                    i18ngithub: translate(lang, 'page_globalgithub'),
-                    i18ndashboard: translate(lang, 'page_noconfdashboard'),
-                    i18nheadertitle: translate(lang, 'page_noconfintroheader'),
-                    i18nnextbutton: translate(lang, 'page_globalnext'),
-                    i18nnoconfintro1: translate(lang, 'page_noconfintropart1'),
-                    i18nnoconfintro2: translate(lang, 'page_noconfintropart2'),
-                    i18nnoconfintro3: translate(lang, 'page_noconfintropart3'),
-                    i18nnoconfintro4: translate(lang, 'page_noconfintropart4'),
-                    i18nnoconfintrodiag: translate(lang, 'page_noconfintrodiag')
-                });
-            }
+    if (discordsuccess == 0) {
+        checkConf().then(result => {
+            var discordsuccess = 1
+            // SERVE HOME
+        }).catch(err => {
+            getlang().then(lang => { // Change language used based on conditions
+                if (err == false) {
+                    var noconfintro1 = translate(lang, 'page_noconfintropart1')
+                    var noconfintro2 = translate(lang, 'page_noconfintropart2')
+                    var noconfintro3 = translate(lang, 'page_noconfintropart3')
+                    var noconfintro4 = translate(lang, 'page_noconfintropart4')
+                    var noconfintrodiag = translate(lang, 'page_noconfintrodiag')
+                    var confpath = path.join(__dirname, 'configs')
+                } else if (err == "MISSING_FIELDS") {
+                    var noconfintro1 = translate(lang, 'page_noconfintromissingfieldspart1')
+                    var noconfintro2 = translate(lang, 'page_noconfintromissingfieldspart2')
+                    var noconfintro3 = translate(lang, 'page_noconfintromissingfieldspart3')
+                    var noconfintro4 = translate(lang, 'page_noconfintromissingfieldspart4')
+                    var noconfintrodiag = translate(lang, 'page_noconfintrodiag')
+                    var confpath = path.join(__dirname, 'configs')
+                } else if (err == "TOKEN_INVALID") {
+                    var noconfintro1 = translate(lang, 'page_noconfintrobadtokenpart1')
+                    var noconfintro2 = translate(lang, 'page_noconfintrobadtokenpart2')
+                    var noconfintro3 = translate(lang, 'page_noconfintrobadtokenpart3')
+                    var noconfintro4 = translate(lang, 'page_noconfintrobadtokenpart4')
+                    var noconfintrodiag = translate(lang, 'page_noconfintrobadtokendiagpart1') + translate(lang, 'page_globalnext') + translate(lang, 'page_noconfintrobadtokendiagpart2')
+                    var confpath = path.join(__dirname, 'configs')
+                } else if (err == "CANNOT_CONNECT_TO_DISCORD") { // Display wall
+                    res.render('../src/server/pages/errorpage.ejs', {
+                        projname: uniconf.projname,
+                        metadomain: uniconf.metadomain,
+                        metaurl: "https://" + uniconf.metadomain,
+                        wikiurl: "https://wiki." + uniconf.metadomain,
+                        discord: uniconf.discord,
+                        error: translate(lang, 'page_wallcannotconnecttodiscord'),
+                        diag: translate(lang, 'page_wallcannotconnecttodiscorddiag'),
+                        i18npagetitle: translate(lang, 'page_configpagetitle'),
+                        i18ngithub: translate(lang, 'page_globalgithub'),
+                        i18ngdescription: translate(lang, 'page_globaldescription'),
+                        i18ndocumentation: translate(lang, 'page_globaldocumentation'),
+                        i18ndiscord: translate(lang, 'page_globaldiscord'),
+                        i18ndashboard: translate(lang, 'page_noconfdashboard')
+                    })
+                } else if (err == "CONNECTION_REFUSED") {
+                    var noconfintro1 = "<div style=\"display:none\">"
+                    var noconfintro2 = "</div>"
+                    var confpath = ""
+                    var noconfintro3 = ""
+                    var noconfintro4 = translate(lang, 'page_noconfintroconnectionrefused')
+                    var noconfintrodiag = translate(lang, 'page_noconfintroconnectionrefuseddiagpart1') + translate(lang, 'page_globalnext') + translate(lang, 'page_noconfintroconnectionrefuseddiagpart2')
+                } else if (err == "INCORRECT_CREDENTIALS") {
+                    var noconfintro1 = "<div style=\"display:none\">"
+                    var noconfintro2 = "</div>"
+                    var confpath = ""
+                    var noconfintro3 = ""
+                    var noconfintro4 = translate(lang, 'page_noconfintroincorrectcredentials')
+                    var noconfintrodiag = translate(lang, 'page_noconfintrodiag')
+                } else if (err == "ACCESS_DENIED") {
+                    var conf = require('../configs/conf.json')
+                    var noconfintro1 = "<div style=\"display:none\">"
+                    var noconfintro2 = "</div>"
+                    var confpath = ""
+                    var noconfintro3 = ""
+                    var noconfintro4 = translate(lang, 'page_noconfintroaccessdenied')
+                    var noconfintrodiag = translate(lang, 'page_noconfintroaccessdenieddiagpart1') + conf.db + ".*" + translate(lang, 'page_noconfintroaccessdenieddiagpart2') + conf.username + "@" + conf.hostname
+                } else {
+                    var noconfintro1 = translate(lang, 'page_noconfintrounknowndiscorderror1') + "<div style=\"display:none\">"
+                    var noconfintro2 = "</div>" + translate(lang, 'page_noconfintrounknowndiscorderror2')
+                    var noconfintro3 = ""
+                    var noconfintro4 = ""
+                    var noconfintrodiag = translate("page_confunknownerrordiag") + "<a href=\"" + uniconf.discord + "\">" + translate(lang, 'global_discorderver') + "</a>" + translate(lang, 'page_serverlostconnectiondiagpart3')
+                    var confpath = ""
+                }
+
+                if (err != "CANNOT_CONNECT_TO_DISCORD") {
+                    res.status(200);
+                    res.render('../src/server/pages/noconfintro.ejs', {
+                        projname: uniconf.projname,
+                        confpath: confpath,
+                        metadomain: uniconf.metadomain,
+                        metaurl: "https://" + uniconf.metadomain,
+                        wikiurl: "https://wiki." + uniconf.metadomain,
+                        discord: uniconf.discord,
+                        i18nbtsbotlogo: translate(lang, 'page_globalbtsbotlogo'),
+                        i18nbtsbothome: translate(lang, 'page_globalbtsbothome'),
+                        i18npagetitle: translate(lang, 'page_configpagetitle'),
+                        i18ngdescription: translate(lang, 'page_globaldesc'),
+                        i18ndocumentation: translate(lang, 'page_globaldocumentation'),
+                        i18ndiscord: translate(lang, 'page_globaldiscord'),
+                        i18ngithub: translate(lang, 'page_globalgithub'),
+                        i18ndashboard: translate(lang, 'page_noconfdashboard'),
+                        i18nheadertitle: translate(lang, 'page_noconfintroheader'),
+                        i18nnextbutton: translate(lang, 'page_globalnext'),
+                        i18nnoconfintro1: noconfintro1,
+                        i18nnoconfintro2: noconfintro2,
+                        i18nnoconfintro3: noconfintro3,
+                        i18nnoconfintro4: noconfintro4,
+                        i18nnoconfintrodiag: noconfintrodiag
+                    });
+                }
+            })
         })
-    })
+    } else {
+        if (!fs.existsSync(path.join(__dirname, '..', 'configs', 'conf.json'))) {
+            // noconfintro
+        }
+        //check mysql only
+    }
 })
 
 router.get('/config', async (req, res, next) => { // Rinse and repeat but only serve at all if checkConf returns false
@@ -882,7 +939,7 @@ router.get('/config', async (req, res, next) => { // Rinse and repeat but only s
                     })
                 } else if (fs.existsSync(path.join(__dirname, '..', 'configs', 'mysqlconfinterim.json')) && (conf.hostname === undefined || conf.username === undefined || conf.db === undefined || conf.tableprefix === undefined || conf.language === undefined || err == "INCORRECT_CREDENTIALS" || err == "ACCESS_DENIED" || err == "CONNECTION_REFUSED" || err == "UNKNOWN_ERROR")) { // Create conf.json again if MySQL conf does exist
                     const mysqlconf = require('../configs/mysqlconfinterim.json')
-                    if (mysqlconf.hostname !== undefined || mysqlconf.username !== undefined || mysqlconf.password !== undefined || mysqlconf.db !== undefined || mysqlconf.tableprefix !== undefined || mysqlconf.language !== undefined) {
+                    if (mysqlconf.hostname !== undefined && mysqlconf.username !== undefined && mysqlconf.password !== undefined && mysqlconf.db !== undefined && mysqlconf.tableprefix !== undefined && mysqlconf.language !== undefined) {
                         if (conf.owner === undefined) {
                             if (conf.token !== undefined) { // Create owner value if undefined
                                 fetch('https://discord.com/api/v9/oauth2/applications/@me', { // Get owner IDs
@@ -950,7 +1007,7 @@ router.get('/config', async (req, res, next) => { // Rinse and repeat but only s
                         if (conf.guildid !== undefined) {
                             var guildid = `\n  "guildid": "${conf.guildid}",`
                         } else var guildid = ""
-                        fs.writeFile('src/configs/conf.json', `{\n  "language": "${mysqlconf.language}",\n  "hostname": "${mysqlconf.hostname}",\n  "db": "${mysqlconf.database}",\n  "username": "${mysqlconf.username}",${password}\n  "tableprefix": "${mysqlconf.tableprefix}",${token}${clientsecret}${ostatus}${pstatus}${moderatorsroleid}${guildid}${owner}\n}`, function (err) { // Save conf file
+                        fs.writeFile('src/configs/conf.json', `{\n  "language": "${mysqlconf.language}",\n  "hostname": "${mysqlconf.hostname}",\n  "db": "${mysqlconf.database}",\n  "username": "${mysqlconf.username}","password": "${mysqlconf.password}",\n  "tableprefix": "${mysqlconf.tableprefix}",${token}${clientsecret}${ostatus}${pstatus}${moderatorsroleid}${guildid}${owner}\n}`, function (err) { // Save conf file
                             if (err) throw err;
                             if (fs.existsSync(path.join(__dirname, '..', 'configs', 'mysqlconfinterim.json'))) { // Delete interim conf files
                                 fs.unlink('src/configs/mysqlconfinterim.json', function (err) {
@@ -1032,6 +1089,22 @@ router.get('/config', async (req, res, next) => { // Rinse and repeat but only s
                             });
                         })
                     }
+                } else if (err == "CANNOT_CONNECT_TO_DISCORD") { // If cannot connect to Discord, send user to wall
+                    res.render('../src/server/pages/errorpage.ejs', {
+                        projname: uniconf.projname,
+                        metadomain: uniconf.metadomain,
+                        metaurl: "https://" + uniconf.metadomain,
+                        wikiurl: "https://wiki." + uniconf.metadomain,
+                        discord: uniconf.discord,
+                        error: translate(lang, 'page_wallcannotconnecttodiscord'),
+                        diag: translate(lang, 'page_wallcannotconnecttodiscorddiag'),
+                        i18npagetitle: translate(lang, 'page_configpagetitle'),
+                        i18ngithub: translate(lang, 'page_globalgithub'),
+                        i18ngdescription: translate(lang, 'page_globaldescription'),
+                        i18ndocumentation: translate(lang, 'page_globaldocumentation'),
+                        i18ndiscord: translate(lang, 'page_globaldiscord'),
+                        i18ndashboard: translate(lang, 'page_noconfdashboard')
+                    })
                 } else if (!fs.existsSync(path.join(__dirname, '..', 'configs', 'discordconfinterim.json')) && (conf.password === undefined || conf.token === undefined || conf.clientsecret === undefined || conf.ostatus === undefined || conf.pstatus === undefined || conf.moderatorsroleid === undefined || err === "TOKEN_INVALID" || err === "UNKNOWN_DISCORD_ERROR")) {
                     if (conf.ostatus !== undefined) { // If any are missing, fill with default again
                         var ostatus = conf.ostatus

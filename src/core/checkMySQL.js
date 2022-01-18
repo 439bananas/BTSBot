@@ -30,12 +30,12 @@ function checkMySQL(hostname, username, password, database) {
     return new Promise(function(resolve, reject) { // Rejections/resolutions will be returned to the caller
         connection.connect(function (err) {
             if (err) {
-                if (err.code == 'ER_ACCESS_DENIED_ERROR') { // Reject with various errors based on what the server returns
+                if (err.code == 'ECONNREFUSED' || err.code == 'ENOTFOUND') { // Reject with various errors based on what the server returns
+                    reject('CONNECTION_REFUSED')
+                } else if (err.code == 'ER_ACCESS_DENIED_ERROR') {
                     reject('INCORRECT_CREDENTIALS');
                 } else if (err.code == 'ER_DBACCESS_DENIED_ERROR') {
                     reject('ACCESS_DENIED');
-                } else if (err.code == 'ECONNREFUSED' || err.code == 'ENOTFOUND') {
-                    reject('CONNECTION_REFUSED')
                 } else {
                     reject('UNKNOWN_ERROR');
                     log.error(err)
