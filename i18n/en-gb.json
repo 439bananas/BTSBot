@@ -133,5 +133,9 @@
   "page_noconfintroincorrectcredentials": " cannot connect to the database with the specified credentials.",
   "page_noconfintroaccessdenied": " lost permission to access to the database",
   "page_noconfintroaccessdenieddiagpart1": "Try checking if all privileges on ",
-  "page_noconfintroaccessdenieddiagpart2": " are granted to "
+  "page_noconfintroaccessdenieddiagpart2": " are granted to ",
+  "log_incominghttprequestpart1": " request received from ",
+  "log_incominghttprequestpart2": " to ",
+  "log_incominghttprequestpart3": " at the endpoint ",
+  "log_incominghttprequestrp": " - The user performed the request through the use of a reverse proxy"
 }
