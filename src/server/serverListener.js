@@ -24,6 +24,7 @@ const resourcesRoutes = require('./resources')
 const pkg = require('../../package.json')
 const getlang = require('../core/getLanguageJSON')
 const translate = require('../core/getLanguageString')
+const cookieParser = require('cookie-parser')
 
 if (pkg.mode == 'alpha') {
     var faviconfilename = 'faviconalpha.ico'
@@ -38,8 +39,11 @@ else {
     var faviconfilename = 'favicon.ico'
 }
 
+app.use(cookieParser()) // Deal with cookies
+
 app.all('/*', function (req, res, next) {
     getlang().then(lang => {
+        console.log(req.cookies)
         if (req.headers['x-forwarded-host']) {
             log.info(req.method + translate(lang, 'log_incominghttprequestpart1') + req.headers['x-forwarded-for'] + translate(lang, 'log_incominghttprequestpart2') + req.headers['x-forwarded-host'] + translate(lang, 'log_incominghttprequestpart3') + req.url + translate(lang, 'log_incominghttprequestrp'))
         } else {

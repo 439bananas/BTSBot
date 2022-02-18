@@ -1,0 +1,36 @@
+<header>
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <div class="container">
+            <a href="/" class="navbar-brand"><img src="/resources/60px.png" class="img-fluid img-thumbnail"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbar">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a href="<%= wikiurl %>" class="nav-link"><%= i18ndocumentation %></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="<%= discord %>" class="nav-link"><%= i18ndiscord %></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="https://github.com/439bananas/BTSBot" class="nav-link"><%= i18ngithub %></a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <button type="button" id="dashboard-button" class="button-1x2ahC button-38aScr lookFilled-1Gx00P colorGreen-29iAKY sizeSmall-2cSMqn grow-q77ONN" onClick="window.location.href='<%= metaurl %>'">
+                            <div class="contents-18-Yxp"><%= i18ndashboard %></div>
+                        </button>
+                        <div id="login-button">
+
+                        </div>
+                        <div id="logged-in-dropdown">
+
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>

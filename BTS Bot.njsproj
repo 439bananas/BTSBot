@@ -57,10 +57,11 @@
     <Content Include="src\server\checkConfOnRequest.js" />
     <Content Include="src\server\createServer.js" />
     <Content Include="src\server\pages\config-2.ejs" />
-    <Content Include="src\server\pages\config-3.ejs" />
     <Content Include="src\server\pages\config-complete.ejs" />
     <Content Include="src\server\pages\errorpage.ejs" />
     <Content Include="src\server\pages\home.ejs" />
+    <Content Include="src\server\pages\partials\head.ejs" />
+    <Content Include="src\server\pages\partials\header.ejs" />
     <Content Include="src\server\pages\resources\img\60pxad.png" />
     <Content Include="src\server\pages\resources\img\60pxalpha.png" />
     <Content Include="src\server\pages\resources\img\60pxbeta.png" />
@@ -3677,6 +3678,7 @@
     <Folder Include="src\server" />
     <Folder Include="src\server\api" />
     <Folder Include="src\server\pages" />
+    <Folder Include="src\server\pages\partials\" />
     <Folder Include="src\server\pages\resources" />
     <Folder Include="src\server\pages\resources\css" />
     <Folder Include="src\server\pages\resources\emojis" />

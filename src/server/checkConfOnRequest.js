@@ -52,6 +52,8 @@ router.get('/', async (req, res, next) => { // When / is GET'd, if checkConf ret
                     i18ndocumentation: translate(lang, 'page_globaldocumentation'),
                     i18ndiscord: translate(lang, 'page_globaldiscord'),
                     i18ngithub: translate(lang, 'page_globalgithub'),
+                    conf: true,
+                    i18ndashboard: translate(lang, 'page_noconfdashboard')
                 });
             }).catch(err => {
                 getlang().then(lang => { // Change language used based on conditions
@@ -90,7 +92,8 @@ router.get('/', async (req, res, next) => { // When / is GET'd, if checkConf ret
                             i18ngdescription: translate(lang, 'page_globaldescription'),
                             i18ndocumentation: translate(lang, 'page_globaldocumentation'),
                             i18ndiscord: translate(lang, 'page_globaldiscord'),
-                            i18ndashboard: translate(lang, 'page_noconfdashboard')
+                            i18ndashboard: translate(lang, 'page_noconfdashboard'),
+                            conf: false
                         })
                     } else if (err == "CONNECTION_REFUSED") {
                         var noconfintro1 = "<div style=\"display:none\">"
@@ -146,7 +149,8 @@ router.get('/', async (req, res, next) => { // When / is GET'd, if checkConf ret
                             i18nnoconfintro2: noconfintro2,
                             i18nnoconfintro3: noconfintro3,
                             i18nnoconfintro4: noconfintro4,
-                            i18nnoconfintrodiag: noconfintrodiag
+                            i18nnoconfintrodiag: noconfintrodiag,
+                            conf: false
                         });
                     }
                 })
@@ -175,7 +179,8 @@ router.get('/', async (req, res, next) => { // When / is GET'd, if checkConf ret
                     i18nnoconfintro2: translate(lang, 'page_noconfintropart2'),
                     i18nnoconfintro3: translate(lang, 'page_noconfintropart3'),
                     i18nnoconfintro4: translate(lang, 'page_noconfintropart4'),
-                    i18nnoconfintrodiag: translate(lang, 'page_noconfintrodiag')
+                    i18nnoconfintrodiag: translate(lang, 'page_noconfintrodiag'),
+                    conf: false
                 });
             } else {
                 const conf = require('../configs/conf.json')
@@ -194,6 +199,8 @@ router.get('/', async (req, res, next) => { // When / is GET'd, if checkConf ret
                         i18ndocumentation: translate(lang, 'page_globaldocumentation'),
                         i18ndiscord: translate(lang, 'page_globaldiscord'),
                         i18ngithub: translate(lang, 'page_globalgithub'),
+                        conf: true,
+                        i18ndashboard: translate(lang, 'page_noconfdashboard')
                     });
                 }).catch(err => {
                     if (err == "CONNECTION_REFUSED") {
@@ -248,7 +255,8 @@ router.get('/', async (req, res, next) => { // When / is GET'd, if checkConf ret
                         i18nnoconfintro2: noconfintro2,
                         i18nnoconfintro3: noconfintro3,
                         i18nnoconfintro4: noconfintro4,
-                        i18nnoconfintrodiag: noconfintrodiag
+                        i18nnoconfintrodiag: noconfintrodiag,
+                        conf: false
                     });
                 })
             }
@@ -320,7 +328,8 @@ router.get('/config', async (req, res, next) => { // Rinse and repeat but only s
                                                                 i18ngdescription: translate(lang, 'page_globaldescription'),
                                                                 i18ndocumentation: translate(lang, 'page_globaldocumentation'),
                                                                 i18ndiscord: translate(lang, 'page_globaldiscord'),
-                                                                i18ndashboard: translate(lang, 'page_noconfdashboard')
+                                                                i18ndashboard: translate(lang, 'page_noconfdashboard'),
+                                                                conf: false
                                                             })
                                                         } else {
                                                             res.render('../src/server/pages/errorpage.ejs', { // Same for unknown error and log the error
@@ -336,7 +345,8 @@ router.get('/config', async (req, res, next) => { // Rinse and repeat but only s
                                                                 i18ngdescription: translate(lang, 'page_globaldescription'),
                                                                 i18ndocumentation: translate(lang, 'page_globaldocumentation'),
                                                                 i18ndiscord: translate(lang, 'page_globaldiscord'),
-                                                                i18ndashboard: translate(lang, 'page_noconfdashboard')
+                                                                i18ndashboard: translate(lang, 'page_noconfdashboard'),
+                                                                conf: false
                                                             })
                                                             log.error(json.message)
                                                         }
@@ -358,7 +368,8 @@ router.get('/config', async (req, res, next) => { // Rinse and repeat but only s
                                                                 i18ngdescription: translate(lang, 'page_globaldescription'),
                                                                 i18ndocumentation: translate(lang, 'page_globaldocumentation'),
                                                                 i18ndiscord: translate(lang, 'page_globaldiscord'),
-                                                                i18ndashboard: translate(lang, 'page_noconfdashboard')
+                                                                i18ndashboard: translate(lang, 'page_noconfdashboard'),
+                                                                conf: false
                                                             })
                                                         } else {
                                                             res.render('../src/server/pages/errorpage.ejs', {
@@ -374,7 +385,8 @@ router.get('/config', async (req, res, next) => { // Rinse and repeat but only s
                                                                 i18ngdescription: translate(lang, 'page_globaldescription'),
                                                                 i18ndocumentation: translate(lang, 'page_globaldocumentation'),
                                                                 i18ndiscord: translate(lang, 'page_globaldiscord'),
-                                                                i18ndashboard: translate(lang, 'page_noconfdashboard')
+                                                                i18ndashboard: translate(lang, 'page_noconfdashboard'),
+                                                                conf: false
                                                             })
                                                             log.error(err)
                                                         }
@@ -509,7 +521,8 @@ router.get('/config', async (req, res, next) => { // Rinse and repeat but only s
                                                                     i18nsubmittingdiscord: translate(lang, 'page_submittingdiscord'),
                                                                     i18nneedhelp: translate(lang, 'page_globalneedhelp'),
                                                                     i18nheadertitle: translate(lang, 'page_configheader'),
-                                                                    i18nsteptwo: translate(lang, 'page_configstep2')
+                                                                    i18nsteptwo: translate(lang, 'page_configstep2'),
+                                                                    conf: false
                                                                 });
                                                             } else if (json.error) { // If something else is the error, return to config-2 again and display that error, logging it
                                                                 res.render('../src/server/pages/config-2.ejs', {
@@ -575,7 +588,8 @@ router.get('/config', async (req, res, next) => { // Rinse and repeat but only s
                                                                     i18nsubmittingdiscord: translate(lang, 'page_submittingdiscord'),
                                                                     i18nneedhelp: translate(lang, 'page_globalneedhelp'),
                                                                     i18nheadertitle: translate(lang, 'page_configheader'),
-                                                                    i18nsteptwo: translate(lang, 'page_configstep2')
+                                                                    i18nsteptwo: translate(lang, 'page_configstep2'),
+                                                                    conf: false
                                                                 });
                                                                 log.error(json.error)
                                                             } else {
@@ -636,7 +650,8 @@ router.get('/config', async (req, res, next) => { // Rinse and repeat but only s
                                                                                         i18nheadertitle: translate(lang, 'page_configcompleteheader'),
                                                                                         i18nconfsuccessful: translate(lang, 'page_confsuccessful'),
                                                                                         i18nconfsuccessfuldiag: translate(lang, 'page_confsuccessfuldiag'),
-                                                                                        i18nnextbutton: translate(lang, 'page_globalnext')
+                                                                                        i18nnextbutton: translate(lang, 'page_globalnext'),
+                                                                                        conf: false
                                                                                     })
                                                                                     log.info(translate(lang, 'log_conffilesaved') + path.join(__dirname, '..', '..', 'configs', 'conf.json'))
                                                                                     log.info(translate(lang.language, 'log_changestakeefect_part1') + uniconf.projname + translate(lang, 'log_changestakeefect_part2'))
@@ -668,7 +683,8 @@ router.get('/config', async (req, res, next) => { // Rinse and repeat but only s
                                                             i18ngdescription: translate(lang, 'page_globaldescription'),
                                                             i18ndocumentation: translate(lang, 'page_globaldocumentation'),
                                                             i18ndiscord: translate(lang, 'page_globaldiscord'),
-                                                            i18ndashboard: translate(lang, 'page_noconfdashboard')
+                                                            i18ndashboard: translate(lang, 'page_noconfdashboard'),
+                                                            conf: false
                                                         })
                                                     }
                                                 })
@@ -773,7 +789,8 @@ router.get('/config', async (req, res, next) => { // Rinse and repeat but only s
                                             i18nsubmittingdiscord: translate(lang, 'page_submittingdiscord'),
                                             i18nneedhelp: translate(lang, 'page_globalneedhelp'),
                                             i18nheadertitle: translate(lang, 'page_configheader'),
-                                            i18nsteptwo: translate(lang, 'page_configstep2')
+                                            i18nsteptwo: translate(lang, 'page_configstep2'),
+                                            conf: false
                                         });
                                     })
                             } else {
@@ -841,7 +858,8 @@ router.get('/config', async (req, res, next) => { // Rinse and repeat but only s
                                     i18nsubmittingdiscord: translate(lang, 'page_submittingdiscord'),
                                     i18nneedhelp: translate(lang, 'page_globalneedhelp'),
                                     i18nheadertitle: translate(lang, 'page_configheader'),
-                                    i18nsteptwo: translate(lang, 'page_configstep2')
+                                    i18nsteptwo: translate(lang, 'page_configstep2'),
+                                    conf: false
                                 });
                             }
                         }
@@ -922,7 +940,8 @@ router.get('/config', async (req, res, next) => { // Rinse and repeat but only s
                                     hostname: hostname,
                                     username: username,
                                     database: database,
-                                    tableprefix: tableprefix
+                                    tableprefix: tableprefix,
+                                    conf: false
                                 });
                             })
                         })
@@ -976,7 +995,8 @@ router.get('/config', async (req, res, next) => { // Rinse and repeat but only s
                             hostname: "localhost",
                             username: "btsbot",
                             database: "btsbot",
-                            tableprefix: ""
+                            tableprefix: "",
+                            conf: false
                         });
                     })
                 }
@@ -1046,7 +1066,8 @@ router.get('/config', async (req, res, next) => { // Rinse and repeat but only s
                             hostname: hostname,
                             username: username,
                             database: db,
-                            tableprefix: tableprefix
+                            tableprefix: tableprefix,
+                            conf: false
                         });
                     })
                 } else if (fs.existsSync(path.join(__dirname, '..', 'configs', 'mysqlconfinterim.json')) && (conf.hostname === undefined || conf.username === undefined || conf.db === undefined || conf.tableprefix === undefined || conf.language === undefined || err == "INCORRECT_CREDENTIALS" || err == "ACCESS_DENIED" || err == "CONNECTION_REFUSED" || err == "UNKNOWN_ERROR")) { // Create conf.json again if MySQL conf does exist
@@ -1196,7 +1217,8 @@ router.get('/config', async (req, res, next) => { // Rinse and repeat but only s
                                 hostname: hostname,
                                 username: username,
                                 database: db,
-                                tableprefix: tableprefix
+                                tableprefix: tableprefix,
+                                conf: false
                             });
                         })
                     }
@@ -1214,7 +1236,8 @@ router.get('/config', async (req, res, next) => { // Rinse and repeat but only s
                         i18ngdescription: translate(lang, 'page_globaldescription'),
                         i18ndocumentation: translate(lang, 'page_globaldocumentation'),
                         i18ndiscord: translate(lang, 'page_globaldiscord'),
-                        i18ndashboard: translate(lang, 'page_noconfdashboard')
+                        i18ndashboard: translate(lang, 'page_noconfdashboard'),
+                        conf: false
                     })
                 } else if (!fs.existsSync(path.join(__dirname, '..', 'configs', 'discordconfinterim.json')) && (conf.password === undefined || conf.token === undefined || conf.clientsecret === undefined || conf.ostatus === undefined || conf.pstatus === undefined || conf.moderatorsroleid === undefined || err === "TOKEN_INVALID" || err === "UNKNOWN_DISCORD_ERROR")) {
                     if (conf.ostatus !== undefined) { // If any are missing, fill with default again
@@ -1306,7 +1329,8 @@ router.get('/config', async (req, res, next) => { // Rinse and repeat but only s
                         i18nsubmittingdiscord: translate(lang, 'page_submittingdiscord'),
                         i18nneedhelp: translate(lang, 'page_globalneedhelp'),
                         i18nheadertitle: translate(lang, 'page_configheader'),
-                        i18nsteptwo: translate(lang, 'page_configstep2')
+                        i18nsteptwo: translate(lang, 'page_configstep2'),
+                        conf: false
                     });
                 } else if (fs.existsSync(path.join(__dirname, '..', 'configs', 'discordconfinterim.json')) && (conf.password === undefined || conf.token === undefined || conf.clientsecret === undefined || conf.ostatus === undefined || conf.pstatus === undefined || conf.moderatorsroleid === undefined || conf.guildid === undefined)) {
                     var discordconf = require('../configs/discordconfinterim.json')
@@ -1400,7 +1424,8 @@ router.get('/config', async (req, res, next) => { // Rinse and repeat but only s
                             i18nsubmittingdiscord: translate(lang, 'page_submittingdiscord'),
                             i18nneedhelp: translate(lang, 'page_globalneedhelp'),
                             i18nheadertitle: translate(lang, 'page_configheader'),
-                            i18nsteptwo: translate(lang, 'page_configstep2')
+                            i18nsteptwo: translate(lang, 'page_configstep2'),
+                            conf: false
                         });
                     } else {
                         checkDiscord(discordconf.token).then(result => { // Validate token
@@ -1558,7 +1583,8 @@ router.get('/config', async (req, res, next) => { // Rinse and repeat but only s
                                     i18nsubmittingdiscord: translate(lang, 'page_submittingdiscord'),
                                     i18nneedhelp: translate(lang, 'page_globalneedhelp'),
                                     i18nheadertitle: translate(lang, 'page_configheader'),
-                                    i18nsteptwo: translate(lang, 'page_configstep2')
+                                    i18nsteptwo: translate(lang, 'page_configstep2'),
+                                    conf: false
                                 });
                             } else if (err === "CANNOT_CONNECT_TO_DISCORD") {
                                 res.render('../src/server/pages/errorpage.ejs', {
@@ -1574,7 +1600,8 @@ router.get('/config', async (req, res, next) => { // Rinse and repeat but only s
                                     i18ngdescription: translate(lang, 'page_globaldescription'),
                                     i18ndocumentation: translate(lang, 'page_globaldocumentation'),
                                     i18ndiscord: translate(lang, 'page_globaldiscord'),
-                                    i18ndashboard: translate(lang, 'page_noconfdashboard')
+                                    i18ndashboard: translate(lang, 'page_noconfdashboard'),
+                                    conf: false
                                 })
                             }
                         })

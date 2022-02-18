@@ -5,7 +5,6 @@
 
 body {
     background-color: #2f3136;
-    color: #b9bbbe;
     text-rendering: optimizeLegibility;
     font-family: Whitney,Helvetica Neue,Helvetica,Arial,sans-serif;
     font-weight: 400;
@@ -285,4 +284,8 @@ p {
         stroke-dasharray: 90, 150;
         stroke-dashoffset: -124;
     }
+}
+
+.feature-title {
+    height: 2em
 }

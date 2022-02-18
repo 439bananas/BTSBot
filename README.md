@@ -11,16 +11,16 @@
 ## Where am I?
 Physically? No idea. Digitally? You're at BTS Bot's open-source GitHub repository!
 
-We want to create a far better experience for those using BTS Bot and we agree that the best way to improve user experience is to open the source code for others to contribute to.
+We want to create a better experience for those using BTS Bot and we agree that the best way to improve user experience is to open the source code for others to contribute.
 
 ### But what is it?
-For the uninitiated, BTS Bot is ~~a K-pop bot~~ an open-source moderation and utilitarian bot created for the sake of the end user.
+For the uninitiated, BTS Bot is ~~a K-pop bot~~ an open-source utility and moderation bot created for the sake of the end user.
 
 ## Can I contribute?
 Of course! While some features may not be approved (typically things that may legally or technically be a challenge, such as music commands), we're happy for you to contribute.
 
 ### How do I contribute?
-You can contribute by forking this repository and creating a pull request or opening an issue. Do remember that code contributions should ideally follow similar code practices (such as well-commented code and absolutely not looking like spaghetti junction) before they're pushed to the `master` branch. You also should **not** create issues or pull requests via the GitLab repository, as it likely will not be read.
+You can contribute by forking this repository and creating a pull request or opening an issue. Do remember that code contributions should ideally follow similar code practices (such as well-commented code and absolutely not looking like spaghetti junction) before they're pushed to the `master` branch. You also should **not** create issues or pull requests via the GitLab repository, as they likely will not be read.
 
 ## Installing
 [A more detailed version of this guide is on the wiki](https://wiki.btsbot.439bananas.com/wiki/Installing)\

@@ -2,164 +2,116 @@
 <html>
 <head>
     <title><%= projname %> - <%= i18npagetitle %></title>
-    <link rel='stylesheet' href='/resources/main.css'>
-    <link rel='stylesheet' href='/resources/twemoji-amazing.css'>
-    <link href="/resources/bootstrap.css" rel="stylesheet" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-    <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script>
+    <%- include('./partials/head'); %>
     <script src='/resources/smc.js'></script>
-    <meta charset="UTF-8">
-    <meta name="title" content="<%= projname %>">
-    <meta name="description" content="<%= i18ngdescription %>">
-    <meta name="keywords" content="bot, discord, test, testing, server, bots, discord bots, BTS, BTS Bot">
-    <meta name="author" content="439bananas">
-    <meta name="email" content="btsbot@439bananas.com">
-    <meta name="robots" content="index, follow">
-    <meta name="charset" content="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="image" content="<%= metaurl %>/resources/logo.png">
-    <meta property="twitter:url" content="<%= metaurl %>">
-    <meta property="twitter:title" content="<%= projname %>">
-    <meta property="twitter:image" content="<%= metaurl %>/resources/logo.png">
-    <meta property="twitter:description" content="<%= i18ngdescription %>">
-    <meta property="theme-color" content="#caaf9a">
     <script>
         setTimeout(function () {
             if (<%= unknownerror %> == true) {
-                $('#unknowndiscorderror').css('display', 'block');
-            }
-            if (<%= badclientsecret %> == true) {
-                $('#badclientsecreterror').css('display', 'block');
-            }
-        }, 250)
+            $('#unknowndiscorderror').css('display', 'block');
+        }
+        if (<%= badclientsecret %> == true) {
+            $('#badclientsecreterror').css('display', 'block');
+        }
+                }, 250)
     </script>
 </head>
-    <body>
-        <header>
-            <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-                <div class="container">
-                    <a href="/" class="navbar-brand"><img src="/resources/60px.png" class="img-fluid img-thumbnail"></a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbar">
-                        <ul class="navbar-nav">
-                            <li class="nav-item">
-                                <a href="<%= wikiurl %>" class="nav-link"><%= i18ndocumentation %></a>
-                                </li>
-                            <li class="nav-item">
-                                <a href="<%= discord %>" class="nav-link"><%= i18ndiscord %></a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="https://github.com/439bananas/BTSBot" class="nav-link"><%= i18ngithub %></a>
-                            </li>
-                        </ul>
-                        <ul class="navbar-nav ms-auto">
-                            <li class="nav-item">
-                                <button type="button" class="button-1x2ahC button-38aScr lookFilled-1Gx00P colorGreen-29iAKY sizeSmall-2cSMqn grow-q77ONN" onClick="window.location.href='<%= metaurl %>'">
-                                    <div class="contents-18-Yxp"><%= i18ndashboard %></div>
-                                </button>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
-        </header>
-        <main>
-            <div class="container">
-                <h1><%= i18nheadertitle %></h1>
-                <%= i18nsteptwo %>
-                <div class="alert-box danger text-wrap" id="cannotcontactservererror">
-                    SERVER_CONNECTION_REFUSED: <%= i18nserverlostcontact1 %><%= projname %><%= i18nserverlostcontact2 %><br /><%= i18nserverlostcontactdiag1 %><%= projname %><%= i18nserverlostcontactdiag2 %><a href="<%= discord %>"><%= i18ndiscordserver %></a><%= i18nserverlostcontactdiag3 %>
-                </div>
-                <div class="alert-box danger text-wrap" id="accessdeniederror">
-                    ACCESS_DENIED: <%= projname %><%= i18ndbaccessdenied %><br /><%= i18ndbaccessdenieddiag %><a href="/config"><%= i18nrefreshthepage %></a>.
-                </div>
-                <div class="alert-box danger text-wrap" id="nomysqlconferror">
-                    NO_MYSQL_CONF: <%= i18nmysqlconfinterimdeleted %><br /><%= i18nmysqlconfinterimdeleteddiag %><a href="/config"><%= i18nrefreshthepage %></a>.
-                </div>
-                <div class="alert-box danger text-wrap" id="connectionrefusederror">
-                    CONNECTION_REFUSED: <%= projname %><%= i18ndbconnectionrefused %><i id='hostname'></i>.<br /><%= i18ndbconnectionrefuseddiag %><a href="/config"><%= i18nrefreshthepage %></a>.
-                </div>
-                <div class="alert-box danger text-wrap" id="incorrectcredentialserror">
-                    INCORRECT_CREDENTIALS: <%= i18ndbbadcreds %><br /><%= i18ndbbadcredsdiag %><a href="/config"><%= i18nrefreshthepage %></a>.
-                </div>
-                <div class="alert-box danger text-wrap" id="wrongendpointerror">
-                    WRONG_ENDPOINT: <%= i18nwrongendpoint %><br /><%= i18nwrongendpointdiag1 %><a href="/"><%= i18nwrongendpointdiag2 %></a>.
-                </div>
-                <div class="alert-box danger text-wrap" id="confokerror">
-                    CONF_OK: <%= i18nwrongendpoint %><br /><%= i18nwrongendpointdiag1 %><a href="/"><%= i18nwrongendpointdiag2 %></a>.
-                </div>
-                <div class="alert-box danger text-wrap" id="tokeninvaliderror">
-                    TOKEN_INVALID: <%= i18ninvalidtoken %><br /><%= i18ninvalidtokendiag %>
-                </div>
-                <div class="alert-box danger text-wrap" id="badclientsecreterror">
-                    BAD_CLIENT_SECRET: <%= i18nbadclientsecret %><br /><%= i18nbadclientsecretdiag %>
-                </div>
-                <div class="alert-box danger text-wrap" id="unknownerror">
-                    UNKNOWN_ERROR: <%= i18nunknownerror %><br /><%= i18nunknownerrordiag %><a href="<%= discord %>"><%= i18ndiscordserver %></a><%= i18nserverlostcontactdiag3 %>
-                </div>
-                <div class="alert-box danger text-wrap" id="cannotconnecttodiscorderror">
-                    CANNOT_CONNECT_TO_DISCORD: <%= i18ncannotconnecttodiscord %><br /><%= i18ncannotconnecttodiscorddiag %>
-                </div>
-                <div class="alert-box danger text-wrap" id="unknowndiscorderror">
-                    UNKNOWN_DISCORD_ERROR: <%= i18nunknowndiscorderror %><br /><%= i18nunknownerrordiag %><a href="<%= discord %>"><%= i18ndiscordserver %></a><%= i18nserverlostcontactdiag3 %>
-                </div>
-                <form id="discordform">
-                    <div class="container" style="width:auto">
-                        <div class="row">
-                            <div class="col">
-                                <label for='token' class="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz"><%= i18ndiscordtoken %></label>
-                                <input type='password' class="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='token' name='token' />
-                            </div>
-                            <div class="col">
-                                <label for='clientsecret' class="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz"><%= i18nclientsecret %></label>
-                                <input type='password' class="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='clientsecret' name='clientsecret' />
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <label for='pstatus' class="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz"><%= i18nplayingstatus %></label>
-                                <input type='text' class="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='pstatus' name='pstatus' value="<%= pstatus %>" />
-                            </div>
-                            <div class="col">
-                                <label for='ostatus' class="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz"><%= i18nstatus %></label>
-                                <select class="form-select input-cIJ7To" name="ostatus" id="ostatus">
-                                    <!-- Unfortunately, I would have styled the dropdown but apparently that's not possible? If it is, please submit a pull request right away. -->
-                                    <option <%= onlineselected %>value="online" class="dropdown-option"><%= i18nonline %></option>
-                                    <option <%= idleselected %>value="idle"><%= i18nidle %></option>
-                                    <option <%= dndselected %>value="dnd"><%= i18ndnd %></option>
-                                    <option <%= invisibleselected %>value="invisible"><%= i18ninvisible %></option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <label for='guildid' class="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz"><%= i18nsupportguildid %></label>
-                                <input type='text' class="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='guildid' name='guildid' value="<%= guildid %>" />
-                            </div>
-                            <div class="col">
-                                <label for='guildid' class="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz"><%= i18nmoderatorsroleid %></label>
-                                <input type='text' class="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='moderatorsroleid' name='moderatorsroleid' value="<%= moderatorsroleid %>" />
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <label for='password' class="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz"><%= i18nmysqlpassword %></label>
-                                <input type='password' class="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='mysqlpassword' name='mysqlpassword' />
-                            </div>
-                        </div>
-                    </div>
-                    <div style='padding-bottom:3ex'></div>
-                    <input type='submit' class='button' value='<%= i18nnextbutton %>' onClick="window.event.preventDefault(); submitdiscord()" />
-                    <svg class="spinner submitnotifier" viewBox="0 0 50 50">
-                        <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
-                    </svg>
-                    <small style="margin-left:35px" class="submitnotifier"><%= i18nsubmittingdiscord %></small>
-                </form>
-                <div style='padding-bottom:1.5ex'></div>
-                <a href="https://wiki.btsbot.439bananas.com/wiki/Installing#Discord_configuration"><%= i18nneedhelp %></a>
+<body>
+    <%- include('./partials/header'); %>
+    <main>
+        <div class="container">
+            <h1><%= i18nheadertitle %></h1>
+            <%= i18nsteptwo %>
+            <div class="alert-box danger text-wrap" id="cannotcontactservererror">
+                SERVER_CONNECTION_REFUSED: <%= i18nserverlostcontact1 %><%= projname %><%= i18nserverlostcontact2 %><br /><%= i18nserverlostcontactdiag1 %><%= projname %><%= i18nserverlostcontactdiag2 %><a href="<%= discord %>"><%= i18ndiscordserver %></a><%= i18nserverlostcontactdiag3 %>
             </div>
-        </main>
-    </body>
+            <div class="alert-box danger text-wrap" id="accessdeniederror">
+                ACCESS_DENIED: <%= projname %><%= i18ndbaccessdenied %><br /><%= i18ndbaccessdenieddiag %><a href="/config"><%= i18nrefreshthepage %></a>.
+            </div>
+            <div class="alert-box danger text-wrap" id="nomysqlconferror">
+                NO_MYSQL_CONF: <%= i18nmysqlconfinterimdeleted %><br /><%= i18nmysqlconfinterimdeleteddiag %><a href="/config"><%= i18nrefreshthepage %></a>.
+            </div>
+            <div class="alert-box danger text-wrap" id="connectionrefusederror">
+                CONNECTION_REFUSED: <%= projname %><%= i18ndbconnectionrefused %><i id='hostname'></i>.<br /><%= i18ndbconnectionrefuseddiag %><a href="/config"><%= i18nrefreshthepage %></a>.
+            </div>
+            <div class="alert-box danger text-wrap" id="incorrectcredentialserror">
+                INCORRECT_CREDENTIALS: <%= i18ndbbadcreds %><br /><%= i18ndbbadcredsdiag %><a href="/config"><%= i18nrefreshthepage %></a>.
+            </div>
+            <div class="alert-box danger text-wrap" id="wrongendpointerror">
+                WRONG_ENDPOINT: <%= i18nwrongendpoint %><br /><%= i18nwrongendpointdiag1 %><a href="/"><%= i18nwrongendpointdiag2 %></a>.
+            </div>
+            <div class="alert-box danger text-wrap" id="confokerror">
+                CONF_OK: <%= i18nwrongendpoint %><br /><%= i18nwrongendpointdiag1 %><a href="/"><%= i18nwrongendpointdiag2 %></a>.
+            </div>
+            <div class="alert-box danger text-wrap" id="tokeninvaliderror">
+                TOKEN_INVALID: <%= i18ninvalidtoken %><br /><%= i18ninvalidtokendiag %>
+            </div>
+            <div class="alert-box danger text-wrap" id="badclientsecreterror">
+                BAD_CLIENT_SECRET: <%= i18nbadclientsecret %><br /><%= i18nbadclientsecretdiag %>
+            </div>
+            <div class="alert-box danger text-wrap" id="unknownerror">
+                UNKNOWN_ERROR: <%= i18nunknownerror %><br /><%= i18nunknownerrordiag %><a href="<%= discord %>"><%= i18ndiscordserver %></a><%= i18nserverlostcontactdiag3 %>
+            </div>
+            <div class="alert-box danger text-wrap" id="cannotconnecttodiscorderror">
+                CANNOT_CONNECT_TO_DISCORD: <%= i18ncannotconnecttodiscord %><br /><%= i18ncannotconnecttodiscorddiag %>
+            </div>
+            <div class="alert-box danger text-wrap" id="unknowndiscorderror">
+                UNKNOWN_DISCORD_ERROR: <%= i18nunknowndiscorderror %><br /><%= i18nunknownerrordiag %><a href="<%= discord %>"><%= i18ndiscordserver %></a><%= i18nserverlostcontactdiag3 %>
+            </div>
+            <form id="discordform">
+                <div class="container" style="width:auto">
+                    <div class="row">
+                        <div class="col">
+                            <label for='token' class="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz"><%= i18ndiscordtoken %></label>
+                            <input type='password' class="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='token' name='token' />
+                        </div>
+                        <div class="col">
+                            <label for='clientsecret' class="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz"><%= i18nclientsecret %></label>
+                            <input type='password' class="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='clientsecret' name='clientsecret' />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label for='pstatus' class="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz"><%= i18nplayingstatus %></label>
+                            <input type='text' class="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='pstatus' name='pstatus' value="<%= pstatus %>" />
+                        </div>
+                        <div class="col">
+                            <label for='ostatus' class="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz"><%= i18nstatus %></label>
+                            <select class="form-select input-cIJ7To" name="ostatus" id="ostatus">
+                                <!-- Unfortunately, I would have styled the dropdown but apparently that's not possible? If it is, please submit a pull request right away. -->
+                                <option <%= onlineselected %>value="online" class="dropdown-option"><%= i18nonline %></option>
+                                <option <%= idleselected %>value="idle"><%= i18nidle %></option>
+                                <option <%= dndselected %>value="dnd"><%= i18ndnd %></option>
+                                <option <%= invisibleselected %>value="invisible"><%= i18ninvisible %></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label for='guildid' class="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz"><%= i18nsupportguildid %></label>
+                            <input type='text' class="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='guildid' name='guildid' value="<%= guildid %>" />
+                        </div>
+                        <div class="col">
+                            <label for='guildid' class="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz"><%= i18nmoderatorsroleid %></label>
+                            <input type='text' class="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='moderatorsroleid' name='moderatorsroleid' value="<%= moderatorsroleid %>" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label for='password' class="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz"><%= i18nmysqlpassword %></label>
+                            <input type='password' class="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='mysqlpassword' name='mysqlpassword' />
+                        </div>
+                    </div>
+                </div>
+                <div style='padding-bottom:3ex'></div>
+                <input type='submit' class='button' value='<%= i18nnextbutton %>' onClick="window.event.preventDefault(); submitdiscord()" />
+                <svg class="spinner submitnotifier" viewBox="0 0 50 50">
+                    <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
+                </svg>
+                <small style="margin-left:35px" class="submitnotifier"><%= i18nsubmittingdiscord %></small>
+            </form>
+            <div style='padding-bottom:1.5ex'></div>
+            <a href="https://wiki.btsbot.439bananas.com/wiki/Installing#Discord_configuration"><%= i18nneedhelp %></a>
+        </div>
+    </main>
+</body>
 </html>
