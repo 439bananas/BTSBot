@@ -2,7 +2,7 @@
 //                                                         //
 //                         BTS Bot                         //
 //                                                         //
-//              File: submitMySQL.js               //
+//                  File: submitMySQL.js                   //
 //                                                         //
 //               Author: Thomas (439bananas)               //
 //                                                         //

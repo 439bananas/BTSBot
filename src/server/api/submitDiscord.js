@@ -2,7 +2,7 @@
 //                                                         //
 //                         BTS Bot                         //
 //                                                         //
-//             File: submitDiscord.js              //
+//                 File: submitDiscord.js                  //
 //                                                         //
 //               Author: Thomas (439bananas)               //
 //                                                         //
