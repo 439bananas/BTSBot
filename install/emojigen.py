@@ -1,14 +1,14 @@
-#####################################################
-#                                                   #
-#                      BTS Bot                      #
-#                                                   #
-#                File: emojigen.py                  #
-#                                                   #
-#            Author: Thomas (439bananas)            #
-#                                                   #
-#  Copyright 439bananas 2022. All rights reserved.  #
-#                                                   #
-#####################################################
+#############################################################
+#                                                           #
+#                          BTS Bot                          #
+#                                                           #
+#                    File: emojigen.py                      #
+#                                                           #
+#                Author: Thomas (439bananas)                #
+#                                                           #
+#  Copyright 439bananas 2022 under the Apache 2.0 license.  #
+#                                                           #
+#############################################################
 
 def get_filename_from_url(url): # Get the file name so we can name them
   return url.split('/')[-1]

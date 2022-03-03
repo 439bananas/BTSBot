@@ -1,14 +1,14 @@
-/////////////////////////////////////////////////////
-//                                                 //
-//                     BTS Bot                     //
-//                                                 //
-//                 File: routes.js                 //
-//                                                 //
-//           Author: Thomas (439bananas)           //
-//                                                 //
-// Copyright 439bananas 2022. All rights reserved. //
-//                                                 //
-/////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////
+//                                                         //
+//                         BTS Bot                         //
+//                                                         //
+//                     File: routes.js                     //
+//                                                         //
+//               Author: Thomas (439bananas)               //
+//                                                         //
+// Copyright 439bananas 2022 under the Apache 2.0 license. //
+//                                                         //
+/////////////////////////////////////////////////////////////
 
 const express = require('express')
 const router = express.Router()

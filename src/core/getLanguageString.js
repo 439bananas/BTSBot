@@ -1,14 +1,14 @@
-/////////////////////////////////////////////////////
-//                                                 //
-//                     BTS Bot                     //
-//                                                 //
-//           File: getLanguageString.js            //
-//                                                 //
-//           Author: Thomas (439bananas)           //
-//                                                 //
-// Copyright 439bananas 2022. All rights reserved. //
-//                                                 //
-/////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////
+//                                                         //
+//                         BTS Bot                         //
+//                                                         //
+//               File: getLanguageString.js                //
+//                                                         //
+//               Author: Thomas (439bananas)               //
+//                                                         //
+// Copyright 439bananas 2022 under the Apache 2.0 license. //
+//                                                         //
+/////////////////////////////////////////////////////////////
 
 // NOTES: Never use logHandler as a dependency in this file as it is a dependent, doing so will create a circular dependency
 

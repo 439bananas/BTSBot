@@ -1,14 +1,14 @@
-/////////////////////////////////////////////////////
-//                                                 //
-//                     BTS Bot                     //
-//                                                 //
-//             File: strip-comments.js             //
-//                                                 //
-//           Author: Thomas (439bananas)           //
-//                                                 //
-// Copyright 439bananas 2022. All rights reserved. //
-//                                                 //
-/////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////
+//                                                         //
+//                         BTS Bot                         //
+//                                                         //
+//                 File: strip-comments.js                 //
+//                                                         //
+//               Author: Thomas (439bananas)               //
+//                                                         //
+// Copyright 439bananas 2022 under the Apache 2.0 license. //
+//                                                         //
+/////////////////////////////////////////////////////////////
 
 const strip = require('strip-comments');
 const fs = require('fs');

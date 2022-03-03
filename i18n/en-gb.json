@@ -137,5 +137,6 @@
   "log_incominghttprequestpart1": " request received from ",
   "log_incominghttprequestpart2": " to ",
   "log_incominghttprequestpart3": " at the endpoint ",
-  "log_incominghttprequestrp": " - The user performed the request through the use of a reverse proxy"
+  "log_incominghttprequestrp": " - The user performed the request through the use of a reverse proxy",
+  "page_hometitle": "Turn your Discord server up to 11"
 }

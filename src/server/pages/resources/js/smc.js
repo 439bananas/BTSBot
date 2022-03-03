@@ -1,14 +1,14 @@
-/////////////////////////////////////////////////////
-//                                                 //
-//                     BTS Bot                     //
-//                                                 //
-//                  File: smc.js                   //
-//                                                 //
-//           Author: Thomas (439bananas)           //
-//                                                 //
-// Copyright 439bananas 2022. All rights reserved. //
-//                                                 //
-/////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////
+//                                                         //
+//                         BTS Bot                         //
+//                                                         //
+//                      File: smc.js                       //
+//                                                         //
+//               Author: Thomas (439bananas)               //
+//                                                         //
+// Copyright 439bananas 2022 under the Apache 2.0 license. //
+//                                                         //
+/////////////////////////////////////////////////////////////
 
 async function submitmysql() {
     $('.submitnotifier').css('display', 'inline'); // Hide these so one will show at a time

@@ -1,14 +1,14 @@
-/////////////////////////////////////////////////////
-//                                                 //
-//                     BTS Bot                     //
-//                                                 //
-//               File: logHandler.js               //
-//                                                 //
-//           Author: Thomas (439bananas)           //
-//                                                 //
-// Copyright 439bananas 2022. All rights reserved. //
-//                                                 //
-/////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////
+//                                                         //
+//                         BTS Bot                         //
+//                                                         //
+//                   File: logHandler.js                   //
+//                                                         //
+//               Author: Thomas (439bananas)               //
+//                                                         //
+// Copyright 439bananas 2022 under the Apache 2.0 license. //
+//                                                         //
+/////////////////////////////////////////////////////////////
 
 const colours = require('colors')
 const fs = require('fs')
@@ -79,7 +79,7 @@ function initLog() {
                 } else {
                     var alreadyExists = false
                     var filename = '// ' // Generate the line that mentions the file name, start off with //
-                    var spaces = (47 - (('File: ' + logFile).length)) / 2 // 47 is the length of the text part of the leader, count the spaces by subtracting the phrase "File: " and log file's length, subtracting from 47 and dividing by two
+                    var spaces = (55 - (('File: ' + logFile).length)) / 2 // 55 is the length of the text part of the leader, count the spaces by subtracting the phrase "File: " and log file's length, subtracting from 55 and dividing by two
                     if (spaces % 1 !== 0) { // If the answer is not an integer, subtract 0.5 so that the text goes ever so slightly to the left by a space, no big deal
                         spaces -= 0.5
                     }
@@ -87,12 +87,12 @@ function initLog() {
                         var filename = filename + " "
                     }
                     var filename = filename + "File: " + logFile // Add file name to this line
-                    var spaces = 47 - ("File: " + logFile).length - spaces // Dictate the remaining spaces by subtracting the number of existing spaces and the length of the aforementioned file name phrase from 47
+                    var spaces = 55 - ("File: " + logFile).length - spaces // Dictate the remaining spaces by subtracting the number of existing spaces and the length of the aforementioned file name phrase from 55
                     for (let i = 0; i < spaces; i++) { // Line 85
                         var filename = filename + " "
                     }
                     var filename = filename + " //" // Add // to make it look pretty
-                    fs.writeFile('./logs/' + logFile, '/////////////////////////////////////////////////////\n//                                                 //\n//                     BTS Bot                     //\n//                                                 //\n' + filename + '\n//                                                 //\n//                                                 //\n//                                                 //\n//                                                 //\n//                                                 //\n/////////////////////////////////////////////////////\n', function (err) {
+                    fs.writeFile('./logs/' + logFile, '/////////////////////////////////////////////////////////////\n//                                                         //\n//                         BTS Bot                         //\n//                                                         //\n' + filename + '\n//                                                         //\n//                                                         //\n//                                                         //\n//                                                         //\n//                                                         //\n/////////////////////////////////////////////////////////////\n', function (err) {
                         if (err) throw err; // ^^ Create the log file with the content including the file name
                         info(translate(lang, 'log_filesaved') + path.join(__dirname, '..', '..', 'logs', logFile))
                     })

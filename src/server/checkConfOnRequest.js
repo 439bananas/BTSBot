@@ -1,14 +1,14 @@
-/////////////////////////////////////////////////////
-//                                                 //
-//                     BTS Bot                     //
-//                                                 //
-//           File: checkConfOnRequest.js           //
-//                                                 //
-//           Author: Thomas (439bananas)           //
-//                                                 //
-// Copyright 439bananas 2022. All rights reserved. //
-//                                                 //
-/////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////
+//                                                         //
+//                         BTS Bot                         //
+//                                                         //
+//               File: checkConfOnRequest.js               //
+//                                                         //
+//               Author: Thomas (439bananas)               //
+//                                                         //
+// Copyright 439bananas 2022 under the Apache 2.0 license. //
+//                                                         //
+/////////////////////////////////////////////////////////////
 
 // NOTES: I'm sure someone's going to rip my guts out but this is admittedly one of the most janky files ever; if you could help refactor the code (this screws my brain up as it is) without cleaving functionality, please submit a pull request!
 
@@ -53,7 +53,8 @@ router.get('/', async (req, res, next) => { // When / is GET'd, if checkConf ret
                     i18ndiscord: translate(lang, 'page_globaldiscord'),
                     i18ngithub: translate(lang, 'page_globalgithub'),
                     conf: true,
-                    i18ndashboard: translate(lang, 'page_noconfdashboard')
+                    i18ndashboard: translate(lang, 'page_noconfdashboard'),
+                    i18nheadertitle: translate(lang, 'page_hometitle')
                 });
             }).catch(err => {
                 getlang().then(lang => { // Change language used based on conditions
@@ -200,7 +201,8 @@ router.get('/', async (req, res, next) => { // When / is GET'd, if checkConf ret
                         i18ndiscord: translate(lang, 'page_globaldiscord'),
                         i18ngithub: translate(lang, 'page_globalgithub'),
                         conf: true,
-                        i18ndashboard: translate(lang, 'page_noconfdashboard')
+                        i18ndashboard: translate(lang, 'page_noconfdashboard'),
+                        i18nheadertitle: translate(lang, 'page_hometitle')
                     });
                 }).catch(err => {
                     if (err == "CONNECTION_REFUSED") {
@@ -297,7 +299,7 @@ router.get('/config', async (req, res, next) => { // Rinse and repeat but only s
                                 checkDiscord(discordconf.token).then(discordresult => {
                                     if (discordresult == "ASSUME_CLIENT_SECRET_IS_CORRECT") {
                                         if (req.query.code == undefined) { // If there's no code, get Discord to provide one
-                                            fetch('https://discord.com/api/v9/oauth2/applications/@me', { // Validate the token this way, we used Discord.JS to validate the token and validating the token that way barfed all sorts of weird errors
+                                            fetch('https://discord.com/api/v10/oauth2/applications/@me', { // Validate the token this way, we used Discord.JS to validate the token and validating the token that way barfed all sorts of weird errors
                                                 method: 'GET',
                                                 headers: {
                                                     'Content-Type': 'application/json',
@@ -399,7 +401,7 @@ router.get('/config', async (req, res, next) => { // Rinse and repeat but only s
                                             } else {
                                                 var hostname = 'http://' + req.headers.host
                                             }
-                                            fetch('https://discord.com/api/v9/oauth2/applications/@me', { // Get the ID cuz yanno
+                                            fetch('https://discord.com/api/v10/oauth2/applications/@me', { // Get the ID cuz yanno
                                                 method: 'GET',
                                                 headers: {
                                                     'Content-Type': 'application/json',
@@ -409,7 +411,7 @@ router.get('/config', async (req, res, next) => { // Rinse and repeat but only s
                                             })
                                                 .then(response => response.json())
                                                 .then(json => {
-                                                    fetch('https://discord.com/api/v9/oauth2/token', { // Check if the client secret is valid this way
+                                                    fetch('https://discord.com/api/v10/oauth2/token', { // Check if the client secret is valid this way
                                                         method: 'POST',
                                                         body: new URLSearchParams({
                                                             'client_id': json.id,
@@ -595,7 +597,7 @@ router.get('/config', async (req, res, next) => { // Rinse and repeat but only s
                                                             } else {
                                                                 checkMySQL(mysqlconf.hostname, mysqlconf.username, mysqlconf.password, mysqlconf.database)
                                                                     .then(result => {
-                                                                        fetch('https://discord.com/api/v9/oauth2/applications/@me', { // Get owner IDs
+                                                                        fetch('https://discord.com/api/v10/oauth2/applications/@me', { // Get owner IDs
                                                                             method: 'GET',
                                                                             headers: {
                                                                                 'Content-Type': 'application/json',
@@ -1075,7 +1077,7 @@ router.get('/config', async (req, res, next) => { // Rinse and repeat but only s
                     if (mysqlconf.hostname !== undefined && mysqlconf.username !== undefined && mysqlconf.password !== undefined && mysqlconf.db !== undefined && mysqlconf.tableprefix !== undefined && mysqlconf.language !== undefined) {
                         if (conf.owner === undefined) {
                             if (conf.token !== undefined) { // Create owner value if undefined
-                                fetch('https://discord.com/api/v9/oauth2/applications/@me', { // Get owner IDs
+                                fetch('https://discord.com/api/v10/oauth2/applications/@me', { // Get owner IDs
                                     method: 'GET',
                                     headers: {
                                         'Content-Type': 'application/json',
@@ -1439,7 +1441,7 @@ router.get('/config', async (req, res, next) => { // Rinse and repeat but only s
                                         }
                                         res.redirect('https://discord.com/oauth2/authorize?client_id=' + id + '&redirect_uri=' + hostname + '/config&response_type=code&scope=identify&prompt=none') // Redirect to OAuth2 page
                                     } else {
-                                        fetch('https://discord.com/api/v9/oauth2/applications/@me', { // Get owner IDs
+                                        fetch('https://discord.com/api/v10/oauth2/applications/@me', { // Get owner IDs
                                             method: 'GET',
                                             headers: {
                                                 'Content-Type': 'application/json',
@@ -1607,7 +1609,7 @@ router.get('/config', async (req, res, next) => { // Rinse and repeat but only s
                         })
                     }
                 } else if (conf.owner === undefined) {
-                    fetch('https://discord.com/api/v9/oauth2/applications/@me', { // Get owner ofc
+                    fetch('https://discord.com/api/v10/oauth2/applications/@me', { // Get owner ofc
                         method: 'GET',
                         headers: {
                             'Content-Type': 'application/json',

@@ -60,6 +60,7 @@
     <Content Include="src\server\pages\config-complete.ejs" />
     <Content Include="src\server\pages\errorpage.ejs" />
     <Content Include="src\server\pages\home.ejs" />
+    <Content Include="src\server\pages\partials\footer.ejs" />
     <Content Include="src\server\pages\partials\head.ejs" />
     <Content Include="src\server\pages\partials\header.ejs" />
     <Content Include="src\server\pages\resources\img\60pxad.png" />
