@@ -21,6 +21,11 @@ h2 {
     color: #ffffff;
 }
 
+h3 {
+    font-family: ab;
+    color: #ffffff;
+}
+
 a:hover {
     text-decoration: underline;
 }
@@ -286,6 +291,14 @@ p {
     }
 }
 
-.feature-title {
-    height: 2em
+.feature {
+    text-align: center;
+    border: 3px solid #f0600f;
+    width: max-content;
+    height: auto;
+    margin: 40px 40px 20px 40px;
+    padding: 10px;
+    border-radius: 10px;
+    moz-border-radius: 10px;
+    webkit-border-radius: 10px
 }

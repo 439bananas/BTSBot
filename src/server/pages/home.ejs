@@ -7,12 +7,36 @@
 <body>
     <%- include('./partials/header'); %>
     <main>
-        <div class="container">
-            <div style="padding-top: calc(1.325rem + 0.5vw);">
-                <h1><%= i18nheadertitle %></h1>
-                <p>
-                    This page is under construction<br />Check back later, when we might have a front page <i class='twa twa-eyes'></i>
-                </p>
+        <div class="container" style="padding-top: calc(1.325rem + 0.5vw);">
+            <h1><%= i18nheadertitle %></h1>
+            <p>
+                <%= i18nhomeintro1 %><%= projname %>.<br /><%= projname %><%= i18nhomeintro2 %>
+            </p>
+            <p>
+                <%= i18nhomeintro3 %>
+            </p>
+            <h2><%= i18nhomefeaturestitle %></h2>
+            <div class="row g-4 features">
+                <div class="col feature">
+
+                </div>
+                <div class="col feature">
+                    
+                </div>
+                <div class="col feature">
+                    
+                </div>
+            </div>
+            <div class="row g-4 features">
+                <div class="col feature">
+
+                </div>
+                <div class="col feature">
+                    
+                </div>
+                <div class="col feature">
+                    
+                </div>
             </div>
         </div>
     </main>

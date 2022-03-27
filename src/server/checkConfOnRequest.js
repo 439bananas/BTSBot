@@ -54,7 +54,11 @@ router.get('/', async (req, res, next) => { // When / is GET'd, if checkConf ret
                     i18ngithub: translate(lang, 'page_globalgithub'),
                     conf: true,
                     i18ndashboard: translate(lang, 'page_noconfdashboard'),
-                    i18nheadertitle: translate(lang, 'page_hometitle')
+                    i18nheadertitle: translate(lang, 'page_hometitle'),
+                    i18nhomeintro1: translate(lang, 'page_homeintropart1'),
+                    i18nhomeintro2: translate(lang, 'page_homeintropart2'),
+                    i18nhomeintro3: translate(lang, 'page_homeintropart3'),
+                    i18nhomefeaturestitle: translate(lang, 'page_featuresheading')
                 });
             }).catch(err => {
                 getlang().then(lang => { // Change language used based on conditions
@@ -202,7 +206,11 @@ router.get('/', async (req, res, next) => { // When / is GET'd, if checkConf ret
                         i18ngithub: translate(lang, 'page_globalgithub'),
                         conf: true,
                         i18ndashboard: translate(lang, 'page_noconfdashboard'),
-                        i18nheadertitle: translate(lang, 'page_hometitle')
+                        i18nheadertitle: translate(lang, 'page_hometitle'),
+                        i18nhomeintro1: translate(lang, 'page_homeintropart1'),
+                        i18nhomeintro2: translate(lang, 'page_homeintropart2'),
+                        i18nhomeintro3: translate(lang, 'page_homeintropart3'),
+                        i18nhomefeaturestitle: translate(lang, 'page_featuresheading')
                     });
                 }).catch(err => {
                     if (err == "CONNECTION_REFUSED") {
