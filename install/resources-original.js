@@ -80,4 +80,28 @@ router.get('/btsthonk.png', (req, res) => { // 404s
     res.sendFile('./pages/resources/img/btsthonk.png', { root: __dirname });
 });
 
+router.get('/appealdemo.png', (req, res) => { // Demo image for front page
+    res.sendFile('./pages/resources/img/appealdemo.png', { root: __dirname });
+});
+
+router.get('/invitedemo.png', (req, res) => { // Demo image for front page
+    res.sendFile('./pages/resources/img/invitedemo.png', { root: __dirname });
+});
+
+router.get('/restoredemo.png', (req, res) => { // Demo image for front page
+    res.sendFile('./pages/resources/img/restoredemo.png', { root: __dirname });
+});
+
+router.get('/scamdemo.png', (req, res) => { // Demo image for front page
+    res.sendFile('./pages/resources/img/scamdemo.png', { root: __dirname });
+});
+
+router.get('/verifydemo.png', (req, res) => { // Demo image for front page
+    res.sendFile('./pages/resources/img/verifydemo.png', { root: __dirname });
+});
+
+router.get('/voicedemo.png', (req, res) => { // Demo image for front page
+    res.sendFile('./pages/resources/img/voicedemo.png', { root: __dirname });
+});
+
 module.exports = router;

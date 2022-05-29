@@ -30,6 +30,7 @@ const getlang = require('../core/getLanguageJSON')
 const translate = require('../core/getLanguageString')
 const restart = require('../core/restartProcess')
 const getid = require('../core/getApplicationId')
+const getaddress = require('../core/getReqAddress')
 
 router.use(formidable()) // Grab fields of form entered
 global.discordsuccess = 0 // Ensure we only ping Discord's API once
@@ -37,29 +38,59 @@ router.get('/', async (req, res, next) => { // When / is GET'd, if checkConf ret
     getlang().then(lang => {
         if (discordsuccess == 0) {
             checkConf().then(result => {
+                const conf = require('../configs/conf.json')
                 global.discordsuccess = 1
-                res.status(200);
-                res.render('../src/server/pages/home.ejs', {
-                    projname: uniconf.projname,
-                    confpath: path.join(__dirname, 'configs'),
-                    metadomain: uniconf.metadomain,
-                    metaurl: "https://" + uniconf.metadomain,
-                    wikiurl: "https://wiki." + uniconf.metadomain,
-                    discord: uniconf.discord,
-                    i18nbtsbotlogo: translate(lang, 'page_globalbtsbotlogo'),
-                    i18nbtsbothome: translate(lang, 'page_globalbtsbothome'),
-                    i18ngdescription: translate(lang, 'page_globaldesc'),
-                    i18ndocumentation: translate(lang, 'page_globaldocumentation'),
-                    i18ndiscord: translate(lang, 'page_globaldiscord'),
-                    i18ngithub: translate(lang, 'page_globalgithub'),
-                    conf: true,
-                    i18ndashboard: translate(lang, 'page_noconfdashboard'),
-                    i18nheadertitle: translate(lang, 'page_hometitle'),
-                    i18nhomeintro1: translate(lang, 'page_homeintropart1'),
-                    i18nhomeintro2: translate(lang, 'page_homeintropart2'),
-                    i18nhomeintro3: translate(lang, 'page_homeintropart3'),
-                    i18nhomefeaturestitle: translate(lang, 'page_featuresheading')
-                });
+                getid(conf.token).then(id => {
+                    global.clientid = id
+                    res.status(200);
+                    res.render('../src/server/pages/home.ejs', {
+                        projname: uniconf.projname,
+                        confpath: path.join(__dirname, 'configs'),
+                        metadomain: uniconf.metadomain,
+                        metaurl: "https://" + uniconf.metadomain,
+                        wikiurl: "https://wiki." + uniconf.metadomain,
+                        discord: uniconf.discord,
+                        i18nbtsbotlogo: translate(lang, 'page_globalbtsbotlogo'),
+                        i18nbtsbothome: translate(lang, 'page_globalbtsbothome'),
+                        i18ngdescription: translate(lang, 'page_globaldesc'),
+                        i18ndocumentation: translate(lang, 'page_globaldocumentation'),
+                        i18ndiscord: translate(lang, 'page_globaldiscord'),
+                        i18ngithub: translate(lang, 'page_globalgithub'),
+                        conf: true,
+                        i18ndashboard: translate(lang, 'page_noconfdashboard'),
+                        i18nheadertitle: translate(lang, 'page_hometitle'),
+                        i18nhomeintro1: translate(lang, 'page_homeintropart1'),
+                        i18nhomeintro2: translate(lang, 'page_homeintropart2'),
+                        i18nhomeintro3: translate(lang, 'page_homeintropart3'),
+                        i18nhomefeaturestitle: translate(lang, 'page_featuresheading'),
+                        i18nhomefeature1title: translate(lang, 'page_feature1title'),
+                        i18nhomefeature2title: translate(lang, 'page_feature2title'),
+                        i18nhomefeature3title: translate(lang, 'page_feature3title'),
+                        i18nhomefeature4title: translate(lang, 'page_feature4title'),
+                        i18nhomefeature5title: translate(lang, 'page_feature5title'),
+                        i18nhomefeature6title: translate(lang, 'page_feature6title'),
+                        i18nhomefeature1text: translate(lang, 'page_feature1text'),
+                        i18nhomefeature2text: translate(lang, 'page_feature2text'),
+                        i18nhomefeature3text: translate(lang, 'page_feature3text'),
+                        i18nhomefeature4text: translate(lang, 'page_feature4text'),
+                        i18nhomefeature5text: translate(lang, 'page_feature5text'),
+                        i18nhomefeature6text: translate(lang, 'page_feature6text'),
+                        i18noutro1: translate(lang, 'page_homeoutropart1'),
+                        i18noutro2: translate(lang, 'page_homeoutropart2'),
+                        i18noutro3: translate(lang, 'page_homeoutropart3'),
+                        i18noutro4: translate(lang, 'page_homeoutropart4'),
+                        oauth2link: "https://discord.com/oauth2/authorize?client_id=" + clientid + "&permissions=" + uniconf.perms + "&redirect_uri=" + encodeURIComponent(getaddress(req) + "/servers") + "&response_type=code&scope=email%20identify%20bot%20applications.commands",
+                        i18nfooterprojname: uniconf.projname.replace(/ /g, "&nbsp;"),
+                        i18nfooterdiscord: translate(lang, "page_globalfooterdiscord").replace(/ /g, "&nbsp"),
+                        i18nfootercontact: translate(lang, "page_globalfootercontact").replace(/ /g, "&nbsp"),
+                        i18nfooterwiki: translate(lang, "page_globalfooterwiki").replace(/ /g, "&nbsp"),
+                        i18nfooterstatus: translate(lang, "page_globalfooterstatus").replace(/ /g, "&nbsp"),
+                        i18nfootergithub: translate(lang, 'page_globalgithub').replace(/ /g, "&nbsp;"),
+                        i18nfootertranslate: translate(lang, 'page_globalfootertranslate').replace(/ /g, "&nbsp"), // Kind of ironic that we're performing the translate function on a piece of text called "translate"
+                        i18nfooterprivacypolicy: translate(lang, 'page_globalfooterprivacypolicy').replace(/ /g, "&nbsp"),
+                        i18nfootertos: translate(lang, 'page_globalfootertos').replace(/ /g, "&nbsp")
+                    });
+                })
             }).catch(err => {
                 getlang().then(lang => { // Change language used based on conditions
                     if (err == false) {
@@ -123,12 +154,13 @@ router.get('/', async (req, res, next) => { // When / is GET'd, if checkConf ret
                         var noconfintro4 = translate(lang, 'page_noconfintroaccessdenied')
                         var noconfintrodiag = translate(lang, 'page_noconfintroaccessdenieddiagpart1') + conf.db + ".*" + translate(lang, 'page_noconfintroaccessdenieddiagpart2') + conf.username + "@" + conf.hostname
                     } else {
-                        var noconfintro1 = translate(lang, 'page_noconfintrounknowndiscorderror1') + "<div style=\"display:none\">"
-                        var noconfintro2 = "</div>" + translate(lang, 'page_noconfintrounknowndiscorderror2')
+                        var noconfintro1 = "<div style=\"display:none\">"
+                        var noconfintro2 = "</div>" + translate(lang, 'page_noconfintrounknowndiscorderror1')
                         var noconfintro3 = ""
-                        var noconfintro4 = ""
-                        var noconfintrodiag = translate("page_confunknownerrordiag") + "<a href=\"" + uniconf.discord + "\">" + translate(lang, 'global_discorderver') + "</a>" + translate(lang, 'page_serverlostconnectiondiagpart3')
+                        var noconfintro4 = translate(lang, 'page_noconfintrounknowndiscorderror2')
+                        var noconfintrodiag = translate(lang, "page_confunknownerrordiag") + "<a href=\"" + uniconf.discord + "\">" + translate(lang, 'global_discorderver') + "</a>" + translate(lang, 'page_serverlostconnectiondiagpart3')
                         var confpath = ""
+                        log.error(err)
                     }
 
                     if (err != "CANNOT_CONNECT_TO_DISCORD") {
@@ -191,6 +223,7 @@ router.get('/', async (req, res, next) => { // When / is GET'd, if checkConf ret
                 const conf = require('../configs/conf.json')
                 checkMySQL(conf.hostname, conf.username, conf.password, conf.db).then(result => { // We decided to skip all the checks for undefined because that's already going to be checked when discordsuccess is 0
                     res.status(200);
+                    getaddress(req)
                     res.render('../src/server/pages/home.ejs', {
                         projname: uniconf.projname,
                         confpath: path.join(__dirname, 'configs'),
@@ -210,7 +243,33 @@ router.get('/', async (req, res, next) => { // When / is GET'd, if checkConf ret
                         i18nhomeintro1: translate(lang, 'page_homeintropart1'),
                         i18nhomeintro2: translate(lang, 'page_homeintropart2'),
                         i18nhomeintro3: translate(lang, 'page_homeintropart3'),
-                        i18nhomefeaturestitle: translate(lang, 'page_featuresheading')
+                        i18nhomefeaturestitle: translate(lang, 'page_featuresheading'),
+                        i18nhomefeature1title: translate(lang, 'page_feature1title'),
+                        i18nhomefeature2title: translate(lang, 'page_feature2title'),
+                        i18nhomefeature3title: translate(lang, 'page_feature3title'),
+                        i18nhomefeature4title: translate(lang, 'page_feature4title'),
+                        i18nhomefeature5title: translate(lang, 'page_feature5title'),
+                        i18nhomefeature6title: translate(lang, 'page_feature6title'),
+                        i18nhomefeature1text: translate(lang, 'page_feature1text'),
+                        i18nhomefeature2text: translate(lang, 'page_feature2text'),
+                        i18nhomefeature3text: translate(lang, 'page_feature3text'),
+                        i18nhomefeature4text: translate(lang, 'page_feature4text'),
+                        i18nhomefeature5text: translate(lang, 'page_feature5text'),
+                        i18nhomefeature6text: translate(lang, 'page_feature6text'),
+                        i18noutro1: translate(lang, 'page_homeoutropart1'),
+                        i18noutro2: translate(lang, 'page_homeoutropart2'),
+                        i18noutro3: translate(lang, 'page_homeoutropart3'),
+                        i18noutro4: translate(lang, 'page_homeoutropart4'),
+                        oauth2link: "https://discord.com/oauth2/authorize?client_id=" + clientid + "&permissions=" + uniconf.perms + "&redirect_uri=" + encodeURIComponent(getaddress(req) + "/servers") + "&response_type=code&scope=email%20identify%20bot%20applications.commands",
+                        i18nfooterprojname: uniconf.projname.replace(/ /g, "&nbsp;"),
+                        i18nfooterdiscord: translate(lang, "page_globalfooterdiscord").replace(/ /g, "&nbsp;"),
+                        i18nfootercontact: translate(lang, "page_globalfootercontact").replace(/ /g, "&nbsp;"),
+                        i18nfooterwiki: translate(lang, "page_globalfooterwiki").replace(/ /g, "&nbsp;"),
+                        i18nfooterstatus: translate(lang, "page_globalfooterstatus").replace(/ /g, "&nbsp;"),
+                        i18nfootergithub: translate(lang, 'page_globalgithub').replace(/ /g, "&nbsp;"),
+                        i18nfootertranslate: translate(lang, 'page_globalfootertranslate').replace(/ /g, "&nbsp;"), // Kind of ironic that we're performing the translate function on a piece of text called "translate"
+                        i18nfooterprivacypolicy: translate(lang, 'page_globalfooterprivacypolicy').replace(/ /g, "&nbsp;"),
+                        i18nfootertos: translate(lang, 'page_globalfootertos').replace(/ /g, "&nbsp;")
                     });
                 }).catch(err => {
                     if (err == "CONNECTION_REFUSED") {
@@ -236,12 +295,13 @@ router.get('/', async (req, res, next) => { // When / is GET'd, if checkConf ret
                         var noconfintro4 = translate(lang, 'page_noconfintroaccessdenied')
                         var noconfintrodiag = translate(lang, 'page_noconfintroaccessdenieddiagpart1') + conf.db + ".*" + translate(lang, 'page_noconfintroaccessdenieddiagpart2') + conf.username + "@" + conf.hostname
                     } else {
-                        var noconfintro1 = translate(lang, 'page_noconfintrounknowndiscorderror1') + "<div style=\"display:none\">"
-                        var noconfintro2 = "</div>" + translate(lang, 'page_noconfintrounknowndiscorderror2')
+                        var noconfintro1 = "<div style=\"display:none\">"
+                        var noconfintro2 = "</div>" + translate(lang, 'page_noconfintrounknowndiscorderror1')
                         var noconfintro3 = ""
-                        var noconfintro4 = ""
-                        var noconfintrodiag = translate("page_confunknownerrordiag") + "<a href=\"" + uniconf.discord + "\">" + translate(lang, 'global_discorderver') + "</a>" + translate(lang, 'page_serverlostconnectiondiagpart3')
+                        var noconfintro4 = translate(lang, 'page_noconfintrounknowndiscorderror2')
+                        var noconfintrodiag = translate(lang, "page_confunknownerrordiag") + "<a href=\"" + uniconf.discord + "\">" + translate(lang, 'global_discorderver') + "</a>" + translate(lang, 'page_serverlostconnectiondiagpart3')
                         var confpath = ""
+                        log.error(err)
                     }
                     res.status(200);
                     res.render('../src/server/pages/noconfintro.ejs', {
@@ -317,12 +377,7 @@ router.get('/config', async (req, res, next) => { // Rinse and repeat but only s
                                             }).then(response => response.json())
                                                 .then(json => {
                                                     if (json.message === undefined) { // If all is good...
-                                                        if (req.headers['x-forwarded-host']) { // Check if we're using a reverse proxy (RP) so we can set the redirect uri to that. IIS was a pain for me lol
-                                                            var hostname = encodeURIComponent('http://' + req.headers['x-forwarded-host'])
-                                                        } else {
-                                                            var hostname = encodeURIComponent('http://' + req.headers.host)
-                                                        }
-                                                        res.redirect('https://discord.com/oauth2/authorize?client_id=' + json.id + '&redirect_uri=' + hostname + '/config&response_type=code&scope=identify&prompt=none') // Redirect to OAuth2 page
+                                                        res.redirect('https://discord.com/oauth2/authorize?client_id=' + json.id + '&redirect_uri=' + getaddress(req) + '/config&response_type=code&scope=identify&prompt=none') // Redirect to OAuth2 page
                                                     } else {
                                                         if (json.message == "401: Unauthorized") { // If there's an error like unauthorised, send the user instead to a wall
                                                             res.render('../src/server/pages/errorpage.ejs', {
@@ -1233,7 +1288,7 @@ router.get('/config', async (req, res, next) => { // Rinse and repeat but only s
                         })
                     }
                 } else if (err == "CANNOT_CONNECT_TO_DISCORD") { // If cannot connect to Discord, send user to wall
-                    res.render('../src/server/pages/errorpage.ejs', {
+                    res.render('../src/server/pages/.ejs', {
                         projname: uniconf.projname,
                         metadomain: uniconf.metadomain,
                         metaurl: "https://" + uniconf.metadomain,
@@ -1442,12 +1497,7 @@ router.get('/config', async (req, res, next) => { // Rinse and repeat but only s
                             if (result == "ASSUME_CLIENT_SECRET_IS_CORRECT") {
                                 getid(discordconf.token).then(id => {
                                     if (!req.query.code) {
-                                        if (req.headers['x-forwarded-host']) {
-                                            var hostname = encodeURIComponent('http://' + req.headers['x-forwarded-host'])
-                                        } else {
-                                            var hostname = encodeURIComponent('http://' + req.headers.host)
-                                        }
-                                        res.redirect('https://discord.com/oauth2/authorize?client_id=' + id + '&redirect_uri=' + hostname + '/config&response_type=code&scope=identify&prompt=none') // Redirect to OAuth2 page
+                                        res.redirect('https://discord.com/oauth2/authorize?client_id=' + id + '&redirect_uri=' + getaddress(req) + '/config&response_type=code&scope=identify&prompt=none') // Redirect to OAuth2 page
                                     } else {
                                         fetch('https://discord.com/api/v10/oauth2/applications/@me', { // Get owner IDs
                                             method: 'GET',

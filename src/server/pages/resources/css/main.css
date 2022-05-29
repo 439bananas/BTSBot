@@ -4,7 +4,7 @@
 }
 
 body {
-    background-color: #2f3136;
+    background-color: #36393f;
     text-rendering: optimizeLegibility;
     font-family: Whitney,Helvetica Neue,Helvetica,Arial,sans-serif;
     font-weight: 400;
@@ -293,7 +293,7 @@ p {
 
 .feature {
     text-align: center;
-    border: 3px solid #f0600f;
+    border: 2px solid #f0600f;
     width: max-content;
     height: auto;
     margin: 40px 40px 20px 40px;
@@ -301,4 +301,23 @@ p {
     border-radius: 10px;
     moz-border-radius: 10px;
     webkit-border-radius: 10px
+}
+
+.feature-title {
+    height: 2em
+}
+
+.global-intro-section {
+    padding-top: calc(1.325rem + 0.5vw);
+    background-color: #2f3136;
+    padding-bottom: 0.25rem;
+}
+
+.home-feature-section {
+    background-color: #36393f
+}
+
+.home-emoji {
+    margin: 1rem 0.05em 1rem 0.1em;
+    font-size: 100px
 }

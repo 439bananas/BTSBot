@@ -9,7 +9,7 @@
 </center>
 
 ## Where am I?
-Physically? No idea. Digitally? You're at BTS Bot's open-source GitHub repository!
+Physically? No idea. Digitally? You're at BTS Bot's open-source GitHub (or GitLab, if that's what you're into) repository!
 
 We want to create a better experience for those using BTS Bot and we agree that the best way to improve user experience is to open the source code for others to contribute.
 

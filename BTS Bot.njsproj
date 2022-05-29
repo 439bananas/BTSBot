@@ -28,6 +28,7 @@
     <Content Include="i18n\en-gb.json" />
     <Content Include="i18n\fr.json" />
     <Content Include="i18n\test.json" />
+    <Content Include="LICENSE" />
     <Content Include="package-lock.json" />
     <Content Include="package.json" />
     <Content Include="push.bat" />
@@ -46,6 +47,7 @@
     <Content Include="src\core\getI18nFiles.js" />
     <Content Include="src\core\getLanguageJSON.js" />
     <Content Include="src\core\getLanguageString.js" />
+    <Content Include="src\core\getReqAddress.js" />
     <Content Include="src\core\index.js" />
     <Content Include="src\core\init.js" />
     <Content Include="src\core\logHandler.js" />

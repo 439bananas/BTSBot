@@ -3,5 +3,6 @@
   "port": 8082,
   "metadomain": "btsbot.439bananas.com",
   "discord": "https://discord.gg/ahyzfEv",
-  "defaultlanguage": "en-gb"
+  "defaultlanguage": "en-gb",
+  "perms": "1495088164047"
 }
