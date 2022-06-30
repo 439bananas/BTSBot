@@ -2,7 +2,7 @@
 //                                                         //
 //                         BTS Bot                         //
 //                                                         //
-//                File: getApplicationId.js                //
+//                   File: getOwnerId.js                   //
 //                                                         //
 //               Author: Thomas (439bananas)               //
 //                                                         //
@@ -10,10 +10,13 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
+const { Team } = require('discord.js')
 const fetch = require('node-fetch')
+let teammembers
 
-function getid(token) {
+function getOwner(token) {
     return new Promise(function (resolve, reject) {
+        teammembers = []
         fetch('https://discord.com/api/v10/oauth2/applications/@me', { // Fetch OAuth2 endpoint
             method: 'GET',
             headers: {
@@ -24,21 +27,33 @@ function getid(token) {
         })
             .then(response => response.json())
             .then(json => {
-                if (!json.mesage) {
-                    resolve(json.id)
-                }
-                else if (json.message == "401: Unauthorized") { // Reject if token invalid or other error
-                    reject('TOKEN_INVALID')
-                } else {
-                    reject('UNKNOWN_DISCORD_ERROR')
-                    log.error(json.message)
+                switch (json.mesage) {
+                    case undefined:
+                        if (json.team.members) { // If team, send team members, else send owner ID
+                            for (i in json.team.members) {
+                                teammembers.push(json.team.members[i].user.id)
+                            }
+                            resolve(teammembers)
+                        } else {
+                            resolve(json.owner.id)
+                        }
+                        break;
+                    case "401: Unauthorized": // Reject if token invalid or other error
+                        reject('TOKEN_INVALID')
+                        break;
+                    default:
+                        reject('UNKNOWN_DISCORD_ERROR')
+                        log.error(json.message)
+                        break;
                 }
             }).catch(err => {
                 if (err.name == "FetchError") {
                     reject("CANNOT_CONNECT_TO_DISCORD")
+                } else {
+                    reject("UNKNOWN_DISCORD_ERROR")
                 }
             })
     })
 }
 
-module.exports = getid;
+module.exports = getOwner

@@ -13,8 +13,6 @@
 const colours = require('colors')
 const fs = require('fs')
 const path = require('path')
-const translate = require('./getLanguageString')
-const getlang = require('./getLanguageJSON')
 
 function info(message) { // Log depending on function called
     getlang(true).then(lang => {
@@ -32,6 +30,10 @@ function error(message) {
     getlang(true).then(lang => {
         console.log(`${colours.cyan(`${new Date()}`)} - ${`${translate(lang, 'loghandler_error')}:`.red} ${message}`)
     })
+}
+
+function err(message) { // Quick alias for error because I'm an idiot
+    error(message)
 }
 
 function temp(message) {  // This is used for assertions and logging information to ensure a function works as intended. Each assertion should NOT end up in final releases
@@ -56,12 +58,12 @@ function fatal(message) {
 function initLog() {
     return new Promise(function (resolve, reject) {
         getlang(true).then(lang => {
-            info('Checking for log directory...')
+            info(translate(lang, "log_loghandlercheckingforlogdir"))
             if (!fs.existsSync('./logs')) { // Check for directory named "logs" in the root, if it doesn't exist, create it
                 info(translate(lang, 'log_nologdir'))
                 fs.mkdirSync('logs')
             }
-            info('Creating this session\'s log file')
+            info(translate(lang, "log_loghandlercreatinglogfile"))
             var iteration = 1 // Start at 1 and if the file exists, continue until incrementing until a file doesn't exist
             if (new Date().getDate().toString().length == 1) { // Uniform all the dates so if the length of the date or the month is 1 prepend with a 0
                 var date = (0).toString() + (new Date().getDate()).toString()
@@ -103,4 +105,4 @@ function initLog() {
     })
 }
 
-module.exports = { info, warn, error, fatal, temp, tempinfo, initLog };
+module.exports = { info, warn, error, err, fatal, temp, tempinfo, initLog };

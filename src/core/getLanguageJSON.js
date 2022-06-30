@@ -12,8 +12,6 @@
 
 const fs = require('fs')
 const path = require('path')
-const log = require('./logHandler')
-const uniconf = require('../configs/uniconf.json')
 
 function getlang(noext) { // Gets the configured language (noext is an argument that lets the function know whether to send the file extension too)
     if (noext === true || noext === undefined) {
@@ -36,8 +34,8 @@ function getlang(noext) { // Gets the configured language (noext is an argument 
             } else {
                 resolve(uniconf.defaultlanguage + ext) // If language is undefined, return default. This should be the only configuration file that has the language
             }
-        } else if (fs.existsSync(path.join(__dirname, '..', 'configs', 'mysqlconfinterim.json'))) { // Ditto but check if the MySQL configuration (limbo) has the setting
-            var conf = require('../configs/mysqlconfinterim.json')
+        } else if (fs.existsSync(path.join(__dirname, '..', 'configs', 'confinterim.json'))) { // Ditto but check if the MySQL configuration (limbo) has the setting
+            var conf = require('../configs/confinterim.json')
             if (conf.language !== undefined) {
                 if (fs.existsSync(path.join(__dirname, '..', '..', 'i18n', conf.language + '.json'))) {
                     const lang = require('../../i18n/' + conf.language + '.json')

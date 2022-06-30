@@ -14,8 +14,7 @@
 
 const fs = require('fs')
 const path = require('path')
-const uniconf = require('../configs/uniconf.json')
-var defaultlanguage = require('../../i18n/' + uniconf.defaultlanguage + '.json')
+let defaultlanguage = require('../../i18n/' + uniconf.defaultlanguage + '.json')
 
 function translate(languagecode, string) { // This function allows the caller to get a translated string
     if (fs.existsSync(path.join(__dirname, '..', '..', 'i18n', languagecode + '.json'))) { // If the specified language file exists, check if the string requested exists

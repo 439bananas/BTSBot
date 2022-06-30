@@ -10,7 +10,6 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-const uniconf = require('../configs/uniconf.json')
 const path = require('path')
 const express = require('express')
 const router = express.Router()

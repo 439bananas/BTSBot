@@ -10,21 +10,19 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-const log = require('../core/logHandler')
-log.info(`Attempting to start server...`)
+getlang().then(lang => {
+    log.info(translate(lang, "log_startingserver"))
+})
 
-const uniconf = require('../configs/uniconf.json')
 const express = require('express')
 const e = express()
 const http = require('http')
 const app = require('./serverListener')
 const { response } = require('./serverListener')
 const server = http.createServer(app)
-const getlang = require('../core/getLanguageJSON')
-const translate = require('../core/getLanguageString')
 
 e.use(express.static('public'))
-e.set('view engine', 'ejs')
+e.set('view engine', 'ejs') // We're using EJS as the templating engine
 
 getlang().then(lang => {
     server.listen(uniconf.port)

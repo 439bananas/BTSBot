@@ -10,7 +10,6 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-const log = require('../core/logHandler');
 const fetch = require('node-fetch')
 
 function checkDiscord(token) {

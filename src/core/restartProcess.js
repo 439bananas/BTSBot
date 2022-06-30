@@ -10,11 +10,8 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-const log = require('./logHandler');
 const Discord = require('discord.js')
 //const client = new Discord.Client()
-const translate = require('./getLanguageString')
-const getlang = require('./getLanguageJSON')
 
 /*function closeServer() {
     console.log('yeet')

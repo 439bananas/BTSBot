@@ -12,12 +12,12 @@
 
 // NOTES: You should never call restart() within this file; the script stops while the server and bot continue to run
 
-const log = require('./logHandler');
-const translate = require('./getLanguageString')
-const getlang = require('./getLanguageJSON')
-const uniconf = require('../configs/uniconf.json')
+global.uniconf = require('../configs/uniconf.json')
+global.log = require('./logHandler');
+global.translate = require('./getLanguageString')
+global.getlang = require('./getLanguageJSON')
 
 getlang(true).then(lang => { // Get language and then get translation string
     log.info(`${translate(lang, 'log_startingbtsbot')}${uniconf.projname}...`)
 })
-const start = require('./init') // This is where the real magic happens
+require('./init') // This is where the real magic happens

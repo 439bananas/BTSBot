@@ -11,7 +11,6 @@
 /////////////////////////////////////////////////////////////
 
 const fs = require('fs')
-const log = require('./logHandler')
 const path = require('path')
 
 function geti18n() { // This is a function so everyone can use it!

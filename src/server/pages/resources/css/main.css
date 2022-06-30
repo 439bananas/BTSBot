@@ -11,19 +11,13 @@ body {
     line-height: 1.5;
 }
 
-h1 {
+h1, h2, h3 {
     font-family: ab;
-    color: #ffffff;
+    color: white;
 }
 
-h2 {
-    font-family: ab;
-    color: #ffffff;
-}
-
-h3 {
-    font-family: ab;
-    color: #ffffff;
+a {
+    width:auto 
 }
 
 a:hover {
@@ -36,11 +30,34 @@ input[type=submit] {
     border: none;
     padding: 1ex;
     border-radius: 5px;
+    width: auto;
 }
 
     input[type=submit]:hover {
         color: #f0600f;
-        background-color: #2f3136;
+        background-color: rgba(0, 0, 0, 0);
+        border: 0.2ex solid #f0600f;
+        padding: 0.8ex;
+    }
+
+.submit {
+    display: block;
+    margin-inline-start: auto;
+}
+
+input[type=button] {
+    color: white;
+    background-color: #f0600f;
+    border: none;
+    padding: 1ex;
+    border-radius: 5px;
+    display: block;
+    margin-inline-start: auto;
+}
+
+    input[type=button]:hover {
+        color: #f0600f;
+        background-color: rgba(0, 0, 0, 0);
         border: 0.2ex solid #f0600f;
         padding: 0.8ex;
     }
@@ -266,29 +283,6 @@ p {
     stroke: #f0600f;
     stroke-linecap: round;
     animation: dash 1.5s ease-in-out infinite;
-      }
-
-@keyframes rotate {
-    100% {
-        transform: rotate(360deg);
-    }
-}
-
-@keyframes dash {
-    0% {
-        stroke-dasharray: 1, 150;
-        stroke-dashoffset: 0;
-    }
-
-    50% {
-        stroke-dasharray: 90, 150;
-        stroke-dashoffset: -35;
-    }
-
-    100% {
-        stroke-dasharray: 90, 150;
-        stroke-dashoffset: -124;
-    }
 }
 
 .feature {
@@ -319,5 +313,32 @@ p {
 
 .home-emoji {
     margin: 1rem 0.05em 1rem 0.1em;
+    padding: 0.75em;
     font-size: 100px
+}
+
+.accordion-item .row {
+    max-width: 40em;
+    margin-inline: auto;
+}
+
+@media (min-width: 576px) {
+    .accordion-item :is(select, input:not([type="button"]):not([type="submit"])) {
+        width: 100%;
+    }
+}
+
+label.required::after {
+    content: " *";
+    color: red;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
 }

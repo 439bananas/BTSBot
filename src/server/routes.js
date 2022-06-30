@@ -13,12 +13,10 @@
 const express = require('express')
 const router = express.Router()
 
-const submitMySQLRoutes = require('./api/submitMySQL')
-const submitDiscordRoutes = require('./api/submitDiscord')
+const submitConfigRoutes = require('./api/submitConfig')
 const versionRoutes = require('./api/version')
 
-router.use('/submit-mysql', submitMySQLRoutes)
-router.use('/submit-discord', submitDiscordRoutes)
+router.use('/submit-config', submitConfigRoutes)
 router.use('/version', versionRoutes)
 
 module.exports = router;

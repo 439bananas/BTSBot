@@ -15,35 +15,33 @@ const path = require('path')
 const express = require('express')
 const app = express()
 const favicon = require('serve-favicon')
-const uniconf = require('../configs/uniconf.json')
 const routes = require('./routes')
 //const aaPages = require('./alwaysAvailablePages')
-const log = require('../core/logHandler')
-const setup = require('./checkConfOnRequest')
+const frontpage = require('./frontPage')
+const confpage = require('./confPage')
 const resourcesRoutes = require('./resources')
 const pkg = require('../../package.json')
-const getlang = require('../core/getLanguageJSON')
-const translate = require('../core/getLanguageString')
 const cookieParser = require('cookie-parser')
 
-if (pkg.mode == 'alpha') {
-    var faviconfilename = 'faviconalpha.ico'
-}
-else if (pkg.mode == 'beta') {
-    var faviconfilename = 'faviconbeta.ico'
-}
-else if (pkg.mode == 'active-development') {
-    var faviconfilename = 'faviconad.ico'
-}
-else {
-    var faviconfilename = 'favicon.ico'
+switch (pkg.mode) {
+    case 'alpha':
+        var faviconfilename = 'faviconalpha.ico'
+        break;
+    case 'beta':
+        var faviconfilename = 'faviconbeta.ico'
+        break;
+    case 'active-development':
+        var faviconfilename = 'faviconad.ico'
+        break;
+    default:
+        var faviconfilename = 'favicon.ico'
+        break;
 }
 
 app.use(cookieParser()) // Deal with cookies
 
 app.all('/*', function (req, res, next) {
     getlang().then(lang => {
-        console.log(req.cookies)
         if (req.headers['x-forwarded-host']) {
             log.info(req.method + translate(lang, 'log_incominghttprequestpart1') + req.headers['x-forwarded-for'] + translate(lang, 'log_incominghttprequestpart2') + req.headers['x-forwarded-host'] + translate(lang, 'log_incominghttprequestpart3') + req.url + translate(lang, 'log_incominghttprequestrp'))
         } else {
@@ -54,7 +52,8 @@ app.all('/*', function (req, res, next) {
 });
 
 app.use(favicon(path.join(__dirname, 'pages', 'resources', 'img', faviconfilename)))
-app.use('/', setup) // If root directory is contacted, we'll check if conf.json exists before serving
+app.use('/', frontpage) // If root directory is contacted, we'll check if conf.json exists before serving
+app.use('/config', confpage) // Fun fact, I forgot to call this file, and wondered why I was getting 404s on /config
 app.use('/resources', resourcesRoutes) // Yeah let's get these resources
 app.use('/api', routes) // All API endpoints then begin with "/api"
 

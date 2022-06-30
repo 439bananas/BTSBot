@@ -13,9 +13,6 @@
 const forever = require('forever-monitor')
 const fs = require('fs')
 const strip = require('strip-color');
-const log = require('./logHandler')
-const translate = require('./getLanguageString')
-const getlang = require('./getLanguageJSON')
 
 const child = new (forever.Monitor)('./src/core/createElements.js', { // Define calling createElements
     max: 0, // Unlimited times the script should run
@@ -36,7 +33,18 @@ child.on('exit:code', function (code) { // When createElements exits, grab the c
     }
 });
 
-child.on('stdout', function (data) {
+child.on('stdout', function (data) { // Log any output to log file
+    fs.appendFile('logs/' + logFile, strip(data.toString()), (err) => {
+        if (err) {
+            log.error(err);
+            getlang(true).then(lang => {
+                log.warn(translate(lang, 'log_errorsavinglog'))
+            })
+        }
+    });
+});
+
+child.on('stderr', function (data) {
     fs.appendFile('logs/' + logFile, strip(data.toString()), (err) => {
         if (err) {
             log.error(err);

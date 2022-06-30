@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@azure/msal-node": "^1.10.0",
     "colors": "^1.4.0",
     "cookie-parser": "^1.4.6",
     "discord.js": "^13.3.1",
@@ -7,7 +8,8 @@
     "express": "^4.17.1",
     "express-favicon": "^2.0.1",
     "express-formidable": "^1.2.0",
-    "forever-monitor": "^1.5.2",
+    "forever-monitor": "^3.0.3",
+    "googleapis": "^103.0.0",
     "mysql": "^2.18.1",
     "node-fetch": "^2.6.2",
     "path": "^0.12.7",
@@ -31,7 +33,7 @@
     "url": "git+https://github.com/439bananas/BTSBot.git"
   },
   "author": "439bananas",
-  "license": "ISC",
+  "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/439bananas/BTSBot/issues"
   },

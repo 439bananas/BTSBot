@@ -28,10 +28,10 @@ Prerequisites:
 * Node.JS
 * Git
 * Python 3
-* MySQL
+* MariaDB
 
 Installing:
-* Create a MySQL database and user
+* Create a MariaDB database and user
 * Git clone this repository
 * Run `npm install`
 * Install the Pythonic `requests` module
@@ -41,5 +41,5 @@ Installing:
 * Follow the configuration steps
 
 ## Important notes
-* When debugging in Visual Studio or Visual Studio Code, a browser window will open automatically, directing to http://locahost:8082
+* When debugging in ~~Visual Studio~~ (This is currently disabled, Visual Studio 2022 has an annoying bug where if "start web browser on launch" is enabled, it will not open the console output in Windows Terminal) or Visual Studio Code, a browser window will open automatically, directing to http://locahost:8082
 * To close BTS Bot, you *must* run the /stop command. If BTS Bot cannot yet log into Discord, then it is safe to close BTS Bot via your task manager by ending createElements.js. Attempting to close BTS Bot using CTRL + C or closing the terminal window is not enough and will keep BTS Bot running in the background; this is because the console is only an output to BTS Bot and does not host the bot itself.
