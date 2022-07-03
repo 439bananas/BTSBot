@@ -11,33 +11,41 @@
 /////////////////////////////////////////////////////////////
 
 const fetch = require('node-fetch')
+let id
+let tokencache
 
 function getid(token) {
     return new Promise(function (resolve, reject) {
-        fetch('https://discord.com/api/v10/oauth2/applications/@me', { // Fetch OAuth2 endpoint
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bot ${token}`,
-                'Transfer-Encoding': 'chunked'
-            }
-        })
-            .then(response => response.json())
-            .then(json => {
-                if (!json.mesage) {
-                    resolve(json.id)
-                }
-                else if (json.message == "401: Unauthorized") { // Reject if token invalid or other error
-                    reject('TOKEN_INVALID')
-                } else {
-                    reject('UNKNOWN_DISCORD_ERROR')
-                    log.error(json.message)
-                }
-            }).catch(err => {
-                if (err.name == "FetchError") {
-                    reject("CANNOT_CONNECT_TO_DISCORD")
+        if (tokencache != token) { // Let's try and minimise our requests to Discord as much as possible
+            tokencache = token
+            fetch('https://discord.com/api/v10/oauth2/applications/@me', { // Fetch OAuth2 endpoint
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bot ${token}`,
+                    'Transfer-Encoding': 'chunked'
                 }
             })
+                .then(response => response.json())
+                .then(json => {
+                    if (!json.mesage) {
+                        id = json.id
+                        resolve(json.id)
+                    }
+                    else if (json.message == "401: Unauthorized") { // Reject if token invalid or other error
+                        reject('TOKEN_INVALID')
+                    } else {
+                        reject('UNKNOWN_DISCORD_ERROR')
+                        log.error(json.message)
+                    }
+                }).catch(err => {
+                    if (err.name == "FetchError") {
+                        reject("CANNOT_CONNECT_TO_DISCORD")
+                    }
+                })
+        } else {
+            resolve(id)
+        }
     })
 }
 
