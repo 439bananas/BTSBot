@@ -49,10 +49,23 @@ router.post('/', async (req, res, next) => {
             }).catch(err => {
                 if (fs.existsSync(path.join(__dirname, '..', '..', 'configs', 'confinterim.json'))) { // Check for conf interim, if all good then throw this error in API
                     checkConf('confinterim').then(result => {
-                        res.status(200);
-                        res.json({
-                            response: "CONF_OK"
-                        })
+                        if (badclientsecret === true) {
+                            createConf(req).then(response => { // Creating conf is slow, we don't want to restart before we've created it so let's wrap it in a promise
+                                res.status(200)
+                                res.json({
+                                    response: "VERIFY_CLIENT_SECRET"
+                                })
+                                const conf = require('../../configs/confinterim.json')
+                                log.info(translate(conf.language, 'log_mysqlconffilesaved') + path.join(__dirname, '..', '..', 'configs', 'confinterim.json'))
+                                log.info(translate(conf.language, 'log_changestakeefect_part1') + uniconf.projname + translate(conf.language, 'log_changestakeefect_part2'))
+                                restart()
+                            })
+                        } else {
+                            res.status(200);
+                            res.json({
+                                response: "CONF_OK"
+                            })
+                        }
                     }).catch(err => { // If error in conf interim create conf again
                         createConf(req).then(response => { // Creating conf is slow, we don't want to restart before we've created it so let's wrap it in a promise
                             res.status(200)

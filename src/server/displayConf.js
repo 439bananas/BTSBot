@@ -20,7 +20,7 @@ let smtpsslnoselected
 let imapsslyesselected
 let imapsslnoselected
 
-function showconf(res, lang, defaultlanguage, hostname, dbusername, database, tableprefix, pstatus, ostatus, guildid, moderatorsroleid, googleclientid, msclientid, smtpserver, smtpport, smtpssl, imapssl, imapserver, imapport, emailaddress, emailusername, badclientsecret) { // We'll comment this in a second // I really, REALLY wish there were fewer args to pass but unfortunately that's not really so easy with literally 24 different settings. Goddamnit SMTP.
+function showconf(res, lang, defaultlanguage, hostname, dbusername, database, tableprefix, pstatus, ostatus, guildid, moderatorsroleid, googleclientid, msclientid, smtpserver, smtpport, smtpssl, imapssl, imapserver, imapport, emailaddress, emailusername, badclientsecreterr) { // We'll comment this in a second // I really, REALLY wish there were fewer args to pass but unfortunately that's not really so easy with literally 24 different settings. Goddamnit SMTP.
     switch (ostatus) { // Choose which status is selected based on parameter
         case "idle":
             onlineselected = ""
@@ -48,7 +48,7 @@ function showconf(res, lang, defaultlanguage, hostname, dbusername, database, ta
             break;
     }
 
-    if (badclientsecret != true) { // Check to see if bad client secret, if true show error, else don't
+    if (badclientsecreterr != true) { // Check to see if bad client secret, if true show error, else don't
         var noclientsecret = false
     } else {
         var noclientsecret = true

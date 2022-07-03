@@ -43,6 +43,7 @@ function googleOAuth2(req, res, conf) { // Cope with Google's OAuth2 in a more c
                     switch (err) {
                         case "BAD_GOOGLE_CLIENT_SECRET": // If bad client secret, go back to conf
                             showconf(res, conf.language, conf.language, conf.hostname, conf.dbusername, conf.database, conf.tableprefix, conf.pstatus, conf.ostatus, conf.guildid, conf.moderatorsroleid, conf.googleclientid, conf.msclientid, conf.smtpserver, conf.smtpport, conf.smtpssl, conf.imapssl, conf.imapserver, conf.imapport, conf.emailaddress, conf.emailusername, true)
+                            global.badclientsecret = true
                             break;
                         case "CANNOT_CONNECT_TO_GOOGLE": // If cannot connect to Google or some other error, show a wall
                             showwall(res, conf.language, uniconf.projname + translate(lang, "page_wallcannotconnecttogoogle"), translate(lang, "page_wallcannotconnecttogooglediag"))
@@ -123,6 +124,7 @@ function validateOAuth2(req, res, conf) { // Let's validate our OAuth2 with rath
                             break;
                         case "BAD_DISCORD_CLIENT_SECRET": // Bad client secrets could be due to misconfuguration or some other error
                             showconf(res, conf.language, conf.language, conf.hostname, conf.dbusername, conf.database, conf.tableprefix, conf.pstatus, conf.ostatus, conf.guildid, conf.moderatorsroleid, conf.googleclientid, conf.msclientid, conf.smtpserver, conf.smtpport, conf.smtpssl, conf.imapssl, conf.imapserver, conf.imapport, conf.emailaddress, conf.emailusername, true)
+                            global.badclientsecret = true
                             break;
                         case "TOKEN_INVALID": // Same with the bad token
                             showconf(res, conf.language, conf.language, conf.hostname, conf.dbusername, conf.database, conf.tableprefix, conf.pstatus, conf.ostatus, conf.guildid, conf.moderatorsroleid, conf.googleclientid, conf.msclientid, conf.smtpserver, conf.smtpport, conf.smtpssl, conf.imapssl, conf.imapserver, conf.imapport, conf.emailaddress, conf.emailusername, false)
@@ -151,6 +153,7 @@ function validateOAuth2(req, res, conf) { // Let's validate our OAuth2 with rath
                             switch (err) {
                                 case "BAD_CLIENT_SECRET_OR_CODE":
                                     showconf(res, conf.language, conf.language, conf.hostname, conf.dbusername, conf.database, conf.tableprefix, conf.pstatus, conf.ostatus, conf.guildid, conf.moderatorsroleid, conf.googleclientid, conf.msclientid, conf.smtpserver, conf.smtpport, conf.smtpssl, conf.imapssl, conf.imapserver, conf.imapport, conf.emailaddress, conf.emailusername, true)
+                                    global.badclientsecret = false
                                     break; // ^^ Unfortunately, there is no way to differentiate between the two errors in MSAL so best thing to do is redisplay the configuration page
                                 default:
                                     showwall(res, conf.language, translate(lang, "page_confunknownerror"), translate(lang, "page_wallunknownerrordiag"))
@@ -217,6 +220,7 @@ function validateOAuth2(req, res, conf) { // Let's validate our OAuth2 with rath
                                             break;
                                         case "BAD_DISCORD_CLIENT_SECRET": // If we have a bad client secret, show the conf again
                                             showconf(res, conf.language, conf.language, conf.hostname, conf.dbusername, conf.database, conf.tableprefix, conf.pstatus, conf.ostatus, conf.guildid, conf.moderatorsroleid, conf.googleclientid, conf.msclientid, conf.smtpserver, conf.smtpport, conf.smtpssl, conf.imapssl, conf.imapserver, conf.imapport, conf.emailaddress, conf.emailusername, true)
+                                            global.badclientsecret = false
                                             break;
                                         default: // If it's anything else, assume the worst and prevent the user from going further
                                             showwall(res, conf.language, translate(lang, "page_confunknownerror"), translate(lang, "page_wallunknownerrordiag"))
@@ -238,6 +242,7 @@ function validateOAuth2(req, res, conf) { // Let's validate our OAuth2 with rath
                                             break;
                                         case "BAD_DISCORD_CLIENT_SECRET":
                                             showconf(res, conf.language, conf.language, conf.hostname, conf.dbusername, conf.database, conf.tableprefix, conf.pstatus, conf.ostatus, conf.guildid, conf.moderatorsroleid, conf.googleclientid, conf.msclientid, conf.smtpserver, conf.smtpport, conf.smtpssl, conf.imapssl, conf.imapserver, conf.imapport, conf.emailaddress, conf.emailusername, true)
+                                            global.badclientsecret = false
                                             break;
                                         default:
                                             showwall(res, conf.language, translate(lang, "page_confunknownerror"), translate(lang, "page_wallunknownerrordiag"))

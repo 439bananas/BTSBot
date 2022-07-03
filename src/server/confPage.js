@@ -23,6 +23,7 @@ let settings = uniconf.settings
 let conf
 
 router.get('/', async (req, res, next) => { // /config endpoint
+    global.badclientsecret = false
     getlang().then(lang => { // ANB
         checkConf().then(response => { // Check conf before continuing
             if (response == true) { // If conf good, return 404
