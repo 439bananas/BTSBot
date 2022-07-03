@@ -12,19 +12,18 @@
 
 const fetch = require('node-fetch')
 const getid = require('./getApplicationId')
-const getaddress = require('./getReqAddress')
 
-function getDiscordToken(req, conf) {
+function getDiscordToken(token, clientsecret, redirecturi, code) {
     return new Promise(function promise(resolve, reject) {
-        getid(conf.token).then(id => {
+        getid(token).then(id => {
             fetch("https://discord.com/api/v10/oauth2/token", { // Get the token
                 method: 'POST',
                 body: new URLSearchParams({
                     'client_id': id,
-                    'client_secret': conf.discordclientsecret, // I was an idiot and forgot the underscore then wondered for ages why it wasn't working
+                    'client_secret': clientsecret, // I was an idiot and forgot the underscore then wondered for ages why it wasn't working
                     'grant_type': 'authorization_code',
-                    'code': req.query.code,
-                    'redirect_uri': getaddress(req) + "/config"
+                    'code': code,
+                    'redirect_uri': redirecturi
                 }),
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'

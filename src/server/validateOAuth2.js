@@ -111,7 +111,7 @@ function validateOAuth2(req, res, conf) { // Let's validate our OAuth2 with rath
                     }
                 })
             } else { // If tnere is a code in our query, let's do the following:
-                getDiscordToken(req, conf).then(token => { // Get our bearer token
+                getDiscordToken(conf.token, conf.discordclientsecret, getaddress(req) + "/config", req.query.code).then(token => { // Get our bearer token
                     res.cookie("discordbearertoken", token, { maxAge: 604800000, httpOnly: true }) // If we can get it, store it in our cookies for a week and refresh the page
                     res.redirect('/config')
                 }).catch(err => { // If we can't, then do the following:
@@ -207,7 +207,7 @@ function validateOAuth2(req, res, conf) { // Let's validate our OAuth2 with rath
                             if (!req.query.code) { // Is there a code in our query? If not, redirect to the OAuth2 link
                                 res.redirect('https://discord.com/api/oauth2/authorize?client_id=' + id + '&redirect_uri=' + encodeURIComponent(getaddress(req) + "/config") + '&response_type=code&scope=identify%20email&prompt=none')
                             } else { // If we have a code, attempt to get the bearer token
-                                getDiscordToken(req, conf).then(token => { // If we don't have a problem, store it as a cookie and refresh
+                                getDiscordToken(conf.token, conf.discordclientsecret, getaddress(req) + "/config", req.query.code).then(token => { // If we don't have a problem, store it as a cookie and refresh
                                     res.cookie("discordbearertoken", token, { maxAge: 604800000, httpOnly: true })
                                     res.redirect('/config')
                                 }).catch(error => { // If an error occurred, well...
@@ -228,7 +228,7 @@ function validateOAuth2(req, res, conf) { // Let's validate our OAuth2 with rath
                             if (!req.query.code) { // Ditto
                                 res.redirect('https://discord.com/api/oauth2/authorize?client_id=' + id + '&redirect_uri=' + encodeURIComponent(getaddress(req) + "/config") + '&response_type=code&scope=identify%20email&prompt=none')
                             } else {
-                                getDiscordToken(req, conf).then(token => {
+                                getDiscordToken(conf.token, conf.discordclientsecret, getaddress(req) + "/config", req.query.code).then(token => {
                                     res.cookie("discordbearertoken", token, { maxAge: 604800000, httpOnly: true })
                                     res.redirect('/config')
                                 }).catch(error => {
