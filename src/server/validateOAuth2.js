@@ -38,7 +38,7 @@ function googleOAuth2(req, res, conf) { // Cope with Google's OAuth2 in a more c
                         if (err) log.error(err);
                         restart()
                     })
-                    showconfigcomplete(res) // Conf complete!
+                    showconfigcomplete(res, lang) // Conf complete!
                 }).catch(err => { // If an error has happened, catch it
                     switch (err) {
                         case "BAD_GOOGLE_CLIENT_SECRET": // If bad client secret, go back to conf
@@ -64,7 +64,7 @@ function googleOAuth2(req, res, conf) { // Cope with Google's OAuth2 in a more c
                 if (err) log.error(err);
                 restart()
             })
-            showconfigcomplete(res)
+            showconfigcomplete(res, lang)
         } else if (req.cookies.googlebearertoken) { // If there is a cookie but the conf has not been renamed yet for whatever reason... that's weird...
             fetch('https://www.googleapis.com/oauth2/v2/userinfo', { // Fetch userinfo, a granted scope
                 method: 'GET',
@@ -81,7 +81,7 @@ function googleOAuth2(req, res, conf) { // Cope with Google's OAuth2 in a more c
                             if (err) log.error(err);
                             restart()
                         })
-                        showconfigcomplete(res)
+                        showconfigcomplete(res, lang)
                     } else { // Else, restart OAuth2 verification
                         res.clearCookie("googlebearertoken")
                         getgoogletoken(conf.googleclientid, conf.googleclientsecret, ['https://www.googleapis.com/auth/userinfo.profile'], getaddress(req) + "/config").then(url => {

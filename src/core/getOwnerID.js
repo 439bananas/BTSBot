@@ -2,7 +2,7 @@
 //                                                         //
 //                         BTS Bot                         //
 //                                                         //
-//                   File: getOwnerId.js                   //
+//                   File: getOwnerID.js                   //
 //                                                         //
 //               Author: Thomas (439bananas)               //
 //                                                         //
