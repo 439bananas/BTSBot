@@ -141,7 +141,7 @@ router.get('/', async (req, res, next) => { // /config endpoint
                     })
                     break;
                 case "CANNOT_CONNECT_TO_DISCORD":
-                    showwall(res, lang, uniconf.projname + translate(lang, 'page_wallcannotconnecttodiscord'), translate(lang, 'page_wallcannotconnecttodiscorddiag')) // If cannot connect to Discord, send user to wall
+                    showwall(res, lang, uniconf.projname + translate(lang, 'page_wallcannotconnecttodiscord'), translate(lang, 'page_wallcannotconnecttoservicediagpart1') + uniconf.projname + translate(lang, 'page_wallcannotconnecttodiscorddiagpart2')) // If cannot connect to Discord, send user to wall
                 case "MISSING_FIELDS":
                     checkConf('confinterim').then(result => {
                         conf = require('../configs/confinterim.json')

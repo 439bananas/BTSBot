@@ -23,10 +23,8 @@ function showconfigcomplete(res, lang) {
         i18ndocumentation: translate(lang, 'page_globaldocumentation'),
         i18ndiscord: translate(lang, 'page_globaldiscord'),
         i18ndashboard: translate(lang, 'page_noconfdashboard'),
-        i18nbtsbotlogo: translate(lang, 'page_globalbtsbotlogo'),
-        i18nbtsbothome: translate(lang, 'page_globalbtsbothome'),
         i18nheadertitle: translate(lang, 'page_configcompleteheader'),
-        i18nconfsuccessful: translate(lang, 'page_confsuccessful'),
+        i18nconfsuccessful: translate(lang, 'page_confsuccessfulpart1') + uniconf.projname + translate(lang, 'page_confsuccessfulpart2'),
         i18nconfsuccessfuldiag: translate(lang, 'page_confsuccessfuldiag'),
         i18nnextbutton: translate(lang, 'page_globalnext'),
         conf: false

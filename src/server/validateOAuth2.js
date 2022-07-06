@@ -46,7 +46,7 @@ function googleOAuth2(req, res, conf) { // Cope with Google's OAuth2 in a more c
                             global.badclientsecret = true
                             break;
                         case "CANNOT_CONNECT_TO_GOOGLE": // If cannot connect to Google or some other error, show a wall
-                            showwall(res, conf.language, uniconf.projname + translate(lang, "page_wallcannotconnecttogoogle"), translate(lang, "page_wallcannotconnecttogooglediag"))
+                        showwall(res, lang, uniconf.projname + translate(lang, 'page_wallcannotconnecttodiscord'), translate(lang, 'page_wallcannotconnecttoservicediagpart1') + uniconf.projname + translate(lang, 'page_wallcannotconnecttogooglediagpart2'))
                             break;
                         case "BAD_CODE": // If bad code, redirect to Google OAuth2
                             getgoogletoken(conf.googleclientid, conf.googleclientsecret, ['https://www.googleapis.com/auth/userinfo.profile'], getaddress(req) + "/config").then(url => {
@@ -90,7 +90,7 @@ function googleOAuth2(req, res, conf) { // Cope with Google's OAuth2 in a more c
                     }
                 })
                 .catch(err => {
-                    showwall(res, conf.language, uniconf.projname + translate(lang, "page_wallcannotconnecttogoogle"), translate(lang, "page_wallcannotconnecttogooglediag"))
+                    showwall(res, lang, uniconf.projname + translate(lang, 'page_wallcannotconnecttodiscord'), translate(lang, 'page_wallcannotconnecttoservicediagpart1') + uniconf.projname + translate(lang, 'page_wallcannotconnecttogooglediagpart2'))
                 }) // And if there is an error then we probably can't connect to Google.
         }
     })
@@ -106,7 +106,7 @@ function validateOAuth2(req, res, conf) { // Let's validate our OAuth2 with rath
                     if (err == "TOKEN_INVALID") { // This is likely if it's been changed between one restart to another, therefore show our configuration page
                         showconf(res, conf.language, conf.language, conf.hostname, conf.dbusername, conf.database, conf.tableprefix, conf.pstatus, conf.ostatus, conf.guildid, conf.moderatorsroleid, conf.googleclientid, conf.msclientid, conf.smtpserver, conf.smtpport, conf.smtpssl, conf.imapssl, conf.imapserver, conf.imapport, conf.emailaddress, conf.emailusername, false)
                     } else if (err == "CANNOT_CONNECT_TO_DISCORD") { // Can we not connect to Discord? Oh. We can't do anything about that so show a wall
-                        showwall(res, conf.language, uniconf.projname + translate(lang, "page_wallcannotconnecttodiscord"), translate(lang, "page_wallcannotconnecttodiscorddiag"))
+                        showwall(res, lang, uniconf.projname + translate(lang, 'page_wallcannotconnecttodiscord'), translate(lang, 'page_wallcannotconnecttoservicediagpart1') + uniconf.projname + translate(lang, 'page_wallcannotconnecttodiscorddiagpart2'))
                     } else { // Potentially some other error could have come up, it could be anything so let's play it safe and not let the end user do anything
                         showwall(res, conf.language, translate(lang, "page_confunknownerror"), translate(lang, "page_wallunknownerrordiag"))
                     }
@@ -201,7 +201,7 @@ function validateOAuth2(req, res, conf) { // Let's validate our OAuth2 with rath
                                 showwall(res, conf.language, translate(lang, "page_confunknownerror"), translate(lang, "page_wallunknownerrordiag"))
                             }
                         })
-                        .catch(err => showwall(res, conf.language, uniconf.projname + translate(lang, "page_wallcannotconnecttomicrosoft"), translate(lang, "page_wallcannotconnecttomicrosoftdiag"))) // And if there is an error then we probably can't connect to Microsoft.
+                        .catch(err => showwall(res, lang, uniconf.projname + translate(lang, 'page_wallcannotconnecttodiscord'), translate(lang, 'page_wallcannotconnecttoservicediagpart1') + uniconf.projname + translate(lang, 'page_wallcannotconnecttomicrosoftdiagpart2'))) // And if there is an error then we probably can't connect to Microsoft.
                 } // ^^ If FetchError, cannot connect to Microsoft
             }).catch(err => { // If we can't get the information, try and mitigate it with the following errors:
                 getid(conf.token).then(id => { // This is here to prevent more redundant lines than necessary (id is rather a depended value in this section)
@@ -251,7 +251,7 @@ function validateOAuth2(req, res, conf) { // Let's validate our OAuth2 with rath
                             }
                             break;
                         case "CANNOT_CONNECT_TO_DISCORD": // Can't do anything here if Discord is down
-                            showwall(res, conf.language, uniconf.projname + translate(lang, "page_wallcannotconnecttodiscord"), translate(lang, "page_wallcannotconnecttodiscorddiag"))
+                        showwall(res, lang, uniconf.projname + translate(lang, 'page_wallcannotconnecttodiscord'), translate(lang, 'page_wallcannotconnecttoservicediagpart1') + uniconf.projname + translate(lang, 'page_wallcannotconnecttodiscorddiagpart2'))
                             break;
                         default:
                             showwall(res, conf.language, translate(lang, "page_confunknownerror"), translate(lang, "page_wallunknownerrordiag"))
@@ -261,7 +261,7 @@ function validateOAuth2(req, res, conf) { // Let's validate our OAuth2 with rath
                     if (err == "TOKEN_INVALID") {
                         showconf(res, conf.language, conf.language, conf.hostname, conf.dbusername, conf.database, conf.tableprefix, conf.pstatus, conf.ostatus, conf.guildid, conf.moderatorsroleid, conf.googleclientid, conf.msclientid, conf.smtpserver, conf.smtpport, conf.smtpssl, conf.imapssl, conf.imapserver, conf.imapport, conf.emailaddress, conf.emailusername, false)
                     } else if (err == "CANNOT_CONNECT_TO_DISCORD") {
-                        showwall(res, conf.language, uniconf.projname + translate(lang, "page_wallcannotconnecttodiscord"), translate(lang, "page_wallcannotconnecttodiscorddiag"))
+                        showwall(res, lang, uniconf.projname + translate(lang, 'page_wallcannotconnecttodiscord'), translate(lang, 'page_wallcannotconnecttoservicediagpart1') + uniconf.projname + translate(lang, 'page_wallcannotconnecttodiscorddiagpart2'))
                     } else {
                         showwall(res, conf.language, translate(lang, "page_confunknownerror"), translate(lang, "page_wallunknownerrordiag"))
                     }

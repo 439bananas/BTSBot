@@ -64,7 +64,7 @@ router.get('/', async (req, res, next) => { // When / is GET'd, if checkConf ret
                         noconfintrodiag = translate(lang, 'page_noconfintrobadtokendiagpart1') + translate(lang, 'page_globalnext') + translate(lang, 'page_noconfintrobadtokendiagpart2')
                         break;
                     case "CANNOT_CONNECT_TO_DISCORD": // Display wall
-                        showwall(res, lang, translate(lang, 'page_wallcannotconnecttodiscord'), translate(lang, 'page_wallcannotconnecttodiscorddiag'))
+                    showwall(res, lang, uniconf.projname + translate(lang, 'page_wallcannotconnecttodiscord'), translate(lang, 'page_wallcannotconnecttoservicediagpart1') + uniconf.projname + translate(lang, 'page_wallcannotconnecttodiscorddiagpart2'))
                         break;
                     case "CONNECTION_REFUSED":
                         noconfintro1 = "<div style=\"display:none\">"
