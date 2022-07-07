@@ -62,7 +62,7 @@ app.use('/resources', resourcesRoutes) // Yeah let's get these resources
 app.use('/api', routes) // All API endpoints then begin with "/api"
 
 app.use(function (req, res, next) {
-    getlang(true).then(lang => { // WE NEED TO CHECK IF RP THEN LOG ON EVERY REQUEST
+    getlang(true).then(lang => {
         checkConf().then(result => {
             show404(res, lang, true)
         }).catch(err => { // If error in conf, don't show things like login etc that couldn't possibly exist
