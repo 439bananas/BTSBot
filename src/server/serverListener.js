@@ -33,6 +33,9 @@ switch (pkg.mode) {
     case 'active-development':
         var faviconfilename = 'faviconad.ico'
         break;
+    case 'ad':
+        var faviconfilename = 'faviconad.ico'
+        break;
     default:
         var faviconfilename = 'favicon.ico'
         break;

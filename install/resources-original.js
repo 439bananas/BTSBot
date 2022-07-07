@@ -38,7 +38,7 @@ router.get('/logo.png', (req, res) => { // Can't forget the iconic BTS robot tha
     else if (pkg.mode == 'beta') {
         res.sendFile('./pages/resources/img/logobeta.png', { root: __dirname });
     }
-    else if (pkg.mode == 'active-development') {
+    else if (pkg.mode == 'active-development' || pkg.mode == 'ad') {
         res.sendFile('./pages/resources/img/logoad.png', { root: __dirname });
     }
     else {
@@ -56,7 +56,7 @@ router.get('/60px.png', (req, res) => { // Sized down for homepage, sandi said i
     else if (pkg.mode == 'beta') {
         res.sendFile('./pages/resources/img/60pxbeta.png', { root: __dirname });
     }
-    else if (pkg.mode == 'active-development') {
+    else if (pkg.mode == 'active-development' || pkg.mode == 'ad') {
         res.sendFile('./pages/resources/img/60pxad.png', { root: __dirname });
     }
     else {

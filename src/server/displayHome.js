@@ -12,6 +12,14 @@
 
 const getaddress = require('../core/getReqAddress')
 const path = require('path')
+const pkg = require('../../package.json')
+let prereleasewarning
+
+if (pkg.mode == "alpha" || pkg.mode == "beta" || pkg.mode == "ad" || pkg.mode == "active-development") {
+    prereleasewarning = "<%- include('./prerelease-warning'); %>"
+} else {
+    prereleasewarning = ""
+}
 
 function showhome(req, res, lang, clientid) { // Not gonna lie, not entirely keen that some of these pages have so many variables one needs to pass (if there's a way to automatically pass variables in consistently templated content like head, header and footer please submit an issue or let me know somehow) but we live with it
     res.status(200);
@@ -29,6 +37,8 @@ function showhome(req, res, lang, clientid) { // Not gonna lie, not entirely kee
         i18ngithub: translate(lang, 'page_globalgithub'),
         conf: true,
         i18ndashboard: translate(lang, 'page_noconfdashboard'),
+        prereleasewarning: prereleasewarning,
+        i18nprereleasewarning: translate(lang, 'page_globalprereleasewarningpart1') + uniconf.projname + translate(lang, 'page_globalprereleasewarningpart2'),
         i18nheadertitle: translate(lang, 'page_hometitle'),
         i18nhomeintro1: translate(lang, 'page_homeintropart1'),
         i18nhomeintro2: translate(lang, 'page_homeintropart2'),

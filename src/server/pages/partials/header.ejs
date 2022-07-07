@@ -26,11 +26,15 @@
 
                         </div>
                         <div id="logged-in-dropdown">
-
+                            
                         </div>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
+    <% if (prereleasewarning != "") { %>
+        <%- include('./prerelease-warning') %>
+    <% } %>
+
 </header>

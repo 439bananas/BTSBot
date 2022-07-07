@@ -8,6 +8,14 @@
 
 </center>
 
+- [BTS Bot](#bts-bot)
+  - [Where am I?](#where-am-i)
+    - [But what is it?](#but-what-is-it)
+  - [Can I contribute?](#can-i-contribute)
+    - [How do I contribute?](#how-do-i-contribute)
+  - [Installing](#installing)
+  - [Important notes](#important-notes)
+
 ## Where am I?
 Physically? No idea. Digitally? You're at BTS Bot's open-source GitHub (or GitLab, if that's what you're into) repository!
 

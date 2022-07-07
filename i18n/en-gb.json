@@ -156,7 +156,7 @@
   "page_hometitle": "Turn your Discord server up to 11",
   "page_homeintropart1": "Introducing ",
   "page_homeintropart2": " is a highly customisable utility and moderation Discord bot that is built around being user-friendly.",
-  "page_homeintropart3": "It's also free and open-source so anybody can use and modify it!",
+  "page_homeintropart3": "It's free and open-source so anybody can use and modify it!",
   "page_featuresheading": "Features",
   "page_feature1title": "Invite tracing",
   "page_feature1text": "Track whose invite was used when a member joins your server",
@@ -188,5 +188,7 @@
   "log_googleoautherrorpart2": " with description ",
   "log_loghandlercheckingforlogdir": "Checking for log directory...",
   "log_loghandlercreatinglogfile": "Creating this session's log file",
-  "log_startingserver": "Attempting to start server..."
+  "log_startingserver": "Attempting to start server...",
+  "page_globalprereleasewarningpart1": "This is a prerelease version of ",
+  "page_globalprereleasewarningpart2": ". As such, it is not for production use and we will not be held responsible for the loss of any information stored by our users."
 }

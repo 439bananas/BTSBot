@@ -342,3 +342,11 @@ input::-webkit-inner-spin-button {
 input[type=number] {
     -moz-appearance: textfield;
 }
+
+.prerelease-warning {
+    background-color:#ff00ff;
+    color:#ffffff;
+    padding: calc(0.5ex + 0.5em);
+    text-align: center;
+    font-size: calc(1ex + 0.75em);
+}
