@@ -18,6 +18,8 @@ function showwall(res, lang, error, diag) { // Really just useful to prevent peo
         metaurl: "https://" + uniconf.metadomain,
         wikiurl: "https://wiki." + uniconf.metadomain,
         discord: uniconf.discord,
+        prereleasewarning: "",
+        i18nprereleasewarning: translate(lang, 'page_globalprereleasewarningpart1') + uniconf.projname + translate(lang, 'page_globalprereleasewarningpart2'),
         error: error,
         diag: diag,
         i18npagetitle: translate(lang, 'page_configpagetitle'),

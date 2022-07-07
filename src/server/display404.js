@@ -15,6 +15,8 @@ function show404(res, lang, conf) {
     res.render('../src/server/pages/404.ejs', { // Simple functions reduce redundancy!
         projname: uniconf.projname,
         conf: conf,
+        prereleasewarning: "",
+        i18nprereleasewarning: translate(lang, 'page_globalprereleasewarningpart1') + uniconf.projname + translate(lang, 'page_globalprereleasewarningpart2'),
         metadomain: uniconf.metadomain,
         metaurl: "https://" + uniconf.metadomain,
         wikiurl: "https://wiki." + uniconf.metadomain,

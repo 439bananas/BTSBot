@@ -27,6 +27,8 @@ function showconfigcomplete(res, lang) {
         i18nconfsuccessful: translate(lang, 'page_confsuccessfulpart1') + uniconf.projname + translate(lang, 'page_confsuccessfulpart2'),
         i18nconfsuccessfuldiag: translate(lang, 'page_confsuccessfuldiag'),
         i18nnextbutton: translate(lang, 'page_globalnext'),
+        prereleasewarning: "",
+        i18nprereleasewarning: translate(lang, 'page_globalprereleasewarningpart1') + uniconf.projname + translate(lang, 'page_globalprereleasewarningpart2'),
         conf: false
     })
 }

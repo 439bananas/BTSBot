@@ -82,6 +82,8 @@ function showconf(res, lang, defaultlanguage, hostname, dbusername, database, ta
         res.render('../src/server/pages/config.ejs', {
             conf: false, // Trying our best to keep all the config options and page variables in the same order and the i18n strings in the same order while not intertwining the two
             badclientsecret: noclientsecret,
+            prereleasewarning: "",
+        i18nprereleasewarning: translate(lang, 'page_globalprereleasewarningpart1') + uniconf.projname + translate(lang, 'page_globalprereleasewarningpart2'),
             defaultlanguage: defaultlanguage,
             projname: uniconf.projname,
             metadomain: uniconf.metadomain,

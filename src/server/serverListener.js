@@ -22,6 +22,7 @@ const confpage = require('./confPage')
 const resourcesRoutes = require('./resources')
 const pkg = require('../../package.json')
 const cookieParser = require('cookie-parser')
+const show404 = require('./display404')
 
 switch (pkg.mode) {
     case 'alpha':
@@ -63,41 +64,9 @@ app.use('/api', routes) // All API endpoints then begin with "/api"
 app.use(function (req, res, next) {
     getlang(true).then(lang => { // WE NEED TO CHECK IF RP THEN LOG ON EVERY REQUEST
         checkConf().then(result => {
-            res.status(404);
-            res.render('../src/server/pages/404.ejs', {
-                projname: uniconf.projname,
-                wikiurl: "https://wiki." + uniconf.metadomain,
-                discord: uniconf.discord,
-                i18npagetitle: translate(lang, 'page_404pagetitle'),
-                i18ntitle: translate(lang, 'page_404errortitle'),
-                i18ndescription: translate(lang, 'page_404errordescription'),
-                i18ngithub: translate(lang, 'page_globalgithub'),
-                i18ngdescription: translate(lang, 'page_globaldescription'),
-                i18ndocumentation: translate(lang, 'page_globaldocumentation'),
-                i18ndiscord: translate(lang, 'page_globaldiscord'),
-                i18ndashboard: translate(lang, 'page_noconfdashboard'),
-                conf: true,
-                metadomain: uniconf.metadomain,
-                metaurl: "https://" + uniconf.metadomain
-            });
+            show404(res, lang, true)
         }).catch(err => { // If error in conf, don't show things like login etc that couldn't possibly exist
-            res.status(404);
-            res.render('../src/server/pages/404.ejs', {
-                projname: uniconf.projname,
-                wikiurl: "https://wiki." + uniconf.metadomain,
-                discord: uniconf.discord,
-                i18npagetitle: translate(lang, 'page_404pagetitle'),
-                i18ntitle: translate(lang, 'page_404errortitle'),
-                i18ndescription: translate(lang, 'page_404errordescription'),
-                i18ngithub: translate(lang, 'page_globalgithub'),
-                i18ngdescription: translate(lang, 'page_globaldescription'),
-                i18ndocumentation: translate(lang, 'page_globaldocumentation'),
-                i18ndiscord: translate(lang, 'page_globaldiscord'),
-                i18ndashboard: translate(lang, 'page_noconfdashboard'),
-                conf: false,
-                metadomain: uniconf.metadomain,
-                metaurl: "https://" + uniconf.metadomain
-            });
+            show404(res, lang, false)
         })
     })
 });
