@@ -16,7 +16,9 @@ global.translate = require('./getLanguageString')
 global.log = require('./logHandler')
 global.restart = require('./restartProcess')
 global.getlang = require('./getLanguageJSON')
+const checkConf = require('./checkConfExists')
 
 require('./warnUserIfNoConf') // Check if conf.json exists and if not, send a warning to the console
-require('../server/createServer') // Start the dashboard
 //require('../bot/createBot') // Start the bot
+
+require('../server/createServer') // Start the dashboard

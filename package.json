@@ -12,6 +12,7 @@
     "googleapis": "^103.0.0",
     "mysql": "^2.18.1",
     "node-fetch": "^2.6.2",
+    "nodemailer": "^6.7.7",
     "path": "^0.12.7",
     "serve-favicon": "^2.5.0",
     "strip-color": "^0.1.0",

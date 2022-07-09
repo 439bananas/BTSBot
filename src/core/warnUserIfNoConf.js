@@ -14,7 +14,9 @@ const checkConf = require('./checkConfExists')
 
 getlang().then(lang => {
     log.info(translate(lang, 'log_checkforconf'))
-    checkConf().catch(err => { // Check the configuration file, if anything other than true is returned, warn the user
+    checkConf().then(result => {
+        global.conf = require('../configs/conf.json')
+    }).catch(err => { // Check the configuration file, if anything other than true is returned, warn the user
         switch (err) {
             case false:
                 log.warn(translate(lang, 'log_noconfpart1') + uniconf.projname + translate(lang, 'log_noconfpart2') + "localhost:" + uniconf.port + translate(lang, 'log_noconfpart3'))
