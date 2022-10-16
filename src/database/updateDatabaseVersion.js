@@ -43,4 +43,5 @@ async function updateDb() {
     }
 }
 
-updateDb()
+require('./updateDatabase')
+setTimeout(function () { updateDb() }, 5000)
