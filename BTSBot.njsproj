@@ -910,16 +910,23 @@
     <Content Include="resources\readmeHeaderBanner.png" />
     <Content Include="resources\readmeHeaderBanner.xcf" />
     <Content Include="src\configs\conf.json" />
+    <Content Include="src\configs\confinterim.json" />
+    <Content Include="src\configs\databaseTables.json" />
+    <Content Include="src\configs\features.json" />
     <Content Include="src\configs\uniconf.json" />
     <Content Include="src\core\checkConfExists.js" />
+    <Content Include="src\core\checkDb.js" />
     <Content Include="src\core\checkDiscord.js" />
     <Content Include="src\core\checkMySQL.js" />
+    <Content Include="src\core\checkRedis.js" />
     <Content Include="src\core\createConf.js">
       <SubType>Code</SubType>
     </Content>
     <Content Include="src\core\createElements.js" />
     <Content Include="src\core\getApplicationId.js" />
     <Content Include="src\core\getAzureToken.js" />
+    <Content Include="src\core\getContactLink.js" />
+    <Content Include="src\core\getDiscordScopes.js" />
     <Content Include="src\core\getDiscordUserInfo.js" />
     <Content Include="src\core\getGoogleToken.js" />
     <Content Include="src\core\getI18nFiles.js" />
@@ -929,11 +936,17 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="src\core\getReqAddress.js" />
+    <Content Include="src\core\getUserLang.js" />
     <Content Include="src\core\index.js" />
     <Content Include="src\core\init.js" />
     <Content Include="src\core\logHandler.js" />
     <Content Include="src\core\restartProcess.js" />
     <Content Include="src\core\warnUserIfNoConf.js" />
+    <Content Include="src\database\databaseManager.js" />
+    <Content Include="src\database\mySQLGlobaliser.js" />
+    <Content Include="src\database\redisGlobaliser.js" />
+    <Content Include="src\database\updateDatabase.js" />
+    <Content Include="src\database\updateDatabaseVersion.js" />
     <Content Include="src\server\alwaysAvailablePages.js" />
     <Content Include="src\server\api\submitConfig.js" />
     <Content Include="src\server\api\version.js" />
@@ -4538,12 +4551,15 @@
     <Content Include="src\server\pages\resources\emojis\ae.svg" />
     <Content Include="src\server\pages\resources\emojis\e50a.svg" />
     <Content Include="src\server\pages\resources\fonts\h1.woff" />
+    <Content Include="src\server\pages\ie-detect-error.ejs" />
     <Content Include="src\server\pages\resources\img\60px.png" />
     <Content Include="src\server\pages\resources\img\60pxad.png" />
     <Content Include="src\server\pages\resources\img\60pxalpha.png" />
     <Content Include="src\server\pages\resources\img\60pxbeta.png" />
     <Content Include="src\server\pages\resources\img\appealdemo.png" />
+    <Content Include="src\server\pages\resources\img\btsfrown.png" />
     <Content Include="src\server\pages\resources\img\btsthonk.png" />
+    <Content Include="src\server\pages\resources\img\btsthonk.xcf" />
     <Content Include="src\server\pages\resources\img\favicon.ico" />
     <Content Include="src\server\pages\resources\img\faviconad.ico" />
     <Content Include="src\server\pages\resources\img\faviconalpha.ico" />
@@ -4574,6 +4590,7 @@
     <Folder Include="src\" />
     <Folder Include="src\configs\" />
     <Folder Include="src\core\" />
+    <Folder Include="src\database\" />
     <Folder Include="src\server\" />
     <Folder Include="src\server\api\" />
     <Folder Include="src\server\pages\" />

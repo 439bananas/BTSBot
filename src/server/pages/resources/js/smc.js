@@ -12,21 +12,17 @@
 
 async function submitconfig() {
     $('#accessdeniederror').css('display', 'none'); // Hide these so one will show at a time
-    $('#connectionrefusederror').css('display', 'none');
-    $('#incorrectcredentialserror').css('display', 'none');
-    $('#unknownerror').css('display', 'none');
-    $('#wrongendpointerror').css('display', 'none');
-    $('#confokerror').css('display', 'none');
-    $('#cannotcontactservererror').css('display', 'none');
+    $('#redisconnectionrefusederror').css('display', 'none');
+    $('#wrongpasserror').css('display', 'none');
+    $('#baddatabaseerror').css('display', 'none');
+    $('#invalidurlerror').css('display', 'none');
     $('#unknowndiscorderror').css('display', 'none');
-    $('#accessdeniederror').css('display', 'none');
     $('#connectionrefusederror').css('display', 'none');
     $('#incorrectcredentialserror').css('display', 'none');
     $('#unknownerror').css('display', 'none');
     $('#wrongendpointerror').css('display', 'none');
     $('#confokerror').css('display', 'none');
     $('#cannotcontactservererror').css('display', 'none');
-    $('#nomysqlconferror').css('display', 'none');
     $('#tokeninvaliderror').css('display', 'none');
     $('#badclientsecreterror').css('display', 'none');
     $('#cannotconnecttodiscorderror').css('display', 'none');
@@ -34,8 +30,10 @@ async function submitconfig() {
         url: '/api/submit-config/',
         type: 'post',
         data: $("#configform").serialize()
-    }).then(function (response) { // Upon response, hide the notifier
+    }).then(function (response) {
         console.info('Server response from /api/submit-config: ' + response.response) // Sadly without replacing sendfile with render in resources.js, we can't i14e these strings
+        document.getElementById('userEnteredMySQLHostname').innerHTML = response.hostname
+        document.getElementById('userEnteredRedisHostname').innerHTML = response.redishostname
         switch (response.response) { // Show errors based on the response
             case "VERIFY_CLIENT_SECRET": // Reloading will mean that the user gets the second step of config
                 location.reload()
@@ -55,6 +53,18 @@ async function submitconfig() {
             case "CONNECTION_REFUSED":
                 $('#connectionrefusederror').css('display', 'block')
                 break;
+            case "REDIS_CONNECTION_REFUSED":
+                $('#redisconnectionrefusederror').css('display', 'block')
+                break;
+            case "WRONGPASS":
+                $('#wrongpasserror').css('display', 'block')
+                break;
+            case "BAD_DATABASE":
+                $('#baddatabaseerror').css('display', 'block')
+                break;
+            case "INVALID_URL":
+                $('#invalidurlerror').css('display', 'block')
+                break;
             case "WRONG_ENDPOINT":
                 $('#wrongendpointerror').css('display', 'block');
                 break;
@@ -63,9 +73,6 @@ async function submitconfig() {
                 break;
             case "NO_MYSQL_CONF":
                 $('#nomysqlconferror').css('display', 'block');
-                break;
-            case "CONNECTION_REFUSED":
-                $('#connectionrefusederror').css('display', 'block');
                 break;
             case "CANNOT_CONNECT_TO_DISCORD":
                 $('#cannotconnecttodiscorderror').css('display', 'block');

@@ -24,6 +24,10 @@ router.get('/bootstrap.css', (req, res) => { // Bootstrap
     res.sendFile('./pages/resources/css/bootstrap.css', { root: __dirname });
 });
 
+router.get('/btsfrown.png', (req, res) => { // Image for if user uses Internet Explorer
+    res.sendFile('./pages/resources/img/btsfrown.png', { root: __dirname });
+});
+
 router.get('/bootstrap.css.map', (req, res) => { // Edge yelled at me for forgetting this
     res.sendFile('./pages/resources/css/bootstrap.css.map', { root: __dirname });
 });

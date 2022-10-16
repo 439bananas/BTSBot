@@ -10,7 +10,7 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-const mysql = require('mysql');
+const mysql = require('mysql2');
 
 function checkMySQL(hostname, username, password, database) {
     let connection; // I was told this needed to be declared prior to the function to prevent overloading with event listeners but instead the variable should be cleared to allow multiple connections on this variable to be declared to be able to ping the server multiple times without a restart
@@ -27,6 +27,9 @@ function checkMySQL(hostname, username, password, database) {
         });
     }
     return new Promise(function(resolve, reject) { // Rejections/resolutions will be returned to the caller
+        if (!hostname || !username || !password || !database) {
+            reject("MISSING_ARGS")
+        }
         connection.connect(function (err) {
             if (err) {
                 switch (err.code) {
@@ -36,6 +39,9 @@ function checkMySQL(hostname, username, password, database) {
                     case 'ENOTFOUND':
                         reject('CONNECTION_REFUSED')
                         break
+                    case 'ETIMEDOUT':
+                        reject('CONNECTION_REFUSED')
+                        break
                     case 'ER_ACCESS_DENIED_ERROR':
                         reject('INCORRECT_CREDENTIALS');
                         break
@@ -43,8 +49,8 @@ function checkMySQL(hostname, username, password, database) {
                         reject('ACCESS_DENIED');
                         break
                     default:
-                        reject('UNKNOWN_ERROR');
                         log.error(err)
+                        reject('UNKNOWN_ERROR');
                 }
             } else {
                 resolve('OK') // If blow test successful, return OK

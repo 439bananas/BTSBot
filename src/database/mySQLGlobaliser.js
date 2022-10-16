@@ -2,7 +2,7 @@
 //                                                         //
 //                         BTS Bot                         //
 //                                                         //
-//                 File: createElements.js                 //
+//                File: mySQLGlobaliser.js                 //
 //                                                         //
 //               Author: Thomas (439bananas)               //
 //                                                         //
@@ -10,14 +10,19 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-global.path = require('path') // Define anything to be globally used here
-global.uniconf = require('../configs/uniconf.json')
-global.translate = require('./getLanguageString')
-global.log = require('./logHandler')
-global.restart = require('./restartProcess')
-global.getlang = require('./getLanguageJSON')
+const mysql = require('mysql2')
 
-require('./warnUserIfNoConf') // Check if conf.json exists and if not, send a warning to the console
+let MySQLIntConnection = mysql.createConnection({
+    host: conf.hostname,
+    user: conf.dbusername,
+    password: conf.dbpassword,
+    database: conf.database
+});
 
-require('../server/createServer') // Start the dashboard
-//require('../bot/createBot') // Start the bot
+MySQLIntConnection.on('error', function (err) { // If there's an error, log and handle it, don't crash
+    log.error(err);
+});
+
+global.MySQLConnection = MySQLIntConnection.promise()
+
+MySQLConnection.connect()

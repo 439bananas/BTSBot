@@ -159,11 +159,23 @@ button {
     display: none;
 }
 
-.submitnotifier {
+#connectionrefusederror {
     display: none;
 }
 
-#connectionrefusederror {
+#redisconnectionrefusederror {
+    display: none;
+}
+
+#wrongpasserror {
+    display: none;
+}
+
+#baddatabaseerror {
+    display: none;
+}
+
+#invalidurlerror {
     display: none;
 }
 

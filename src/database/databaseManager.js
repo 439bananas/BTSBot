@@ -2,7 +2,7 @@
 //                                                         //
 //                         BTS Bot                         //
 //                                                         //
-//                 File: createElements.js                 //
+//                File: databaseManager.js                 //
 //                                                         //
 //               Author: Thomas (439bananas)               //
 //                                                         //
@@ -10,14 +10,9 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-global.path = require('path') // Define anything to be globally used here
-global.uniconf = require('../configs/uniconf.json')
-global.translate = require('./getLanguageString')
-global.log = require('./logHandler')
-global.restart = require('./restartProcess')
-global.getlang = require('./getLanguageJSON')
+let lang = getlang()
+log.info(translate(lang, 'log_initialisingdbm'))
 
-require('./warnUserIfNoConf') // Check if conf.json exists and if not, send a warning to the console
-
-require('../server/createServer') // Start the dashboard
-//require('../bot/createBot') // Start the bot
+require('./redisGlobaliser') // Globalise Redis and MySQL connections
+require('./mySQLGlobaliser')
+require('./updateDatabaseVersion') // Ensures that the database's content etc is up to date with the current version in pkg.version

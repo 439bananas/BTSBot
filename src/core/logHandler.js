@@ -16,19 +16,19 @@ const path = require('path')
 
 function info(message) { // Log depending on function called
     getlang(true).then(lang => {
-        console.log(`${colours.cyan(`${new Date()}`)} - ${`${translate(lang, 'loghandler_info')}:`.green} ${message}`)
+        console.info(`${colours.cyan(`${new Date()}`)} - ${`${translate(lang, 'loghandler_info')}:`.green} ${message}`)
     })
 }
 
 function warn(message) {
     getlang(true).then(lang => {
-        console.log(`${colours.cyan(`${new Date()}`)} - ${`${translate(lang, 'loghandler_warn')}:`.yellow} ${message}`)
+        console.warn(`${colours.cyan(`${new Date()}`)} - ${`${translate(lang, 'loghandler_warn')}:`.yellow} ${message}`)
     })
 }
 
 function error(message) {
     getlang(true).then(lang => {
-        console.log(`${colours.cyan(`${new Date()}`)} - ${`${translate(lang, 'loghandler_error')}:`.red} ${message}`)
+        console.error(`${colours.cyan(`${new Date()}`)} - ${`${translate(lang, 'loghandler_error')}:`.red} ${message}`)
     })
 }
 
@@ -38,7 +38,7 @@ function err(message) { // Quick alias for error because I'm an idiot
 
 function temp(message) {  // This is used for assertions and logging information to ensure a function works as intended. Each assertion should NOT end up in final releases
     getlang(true).then(lang => {
-        console.log(`${colours.cyan(`${new Date()}`)} - ${`${translate(lang, 'loghandler_temp')}:`.brightMagenta} ${message}`)
+        console.log (`${colours.cyan(`${new Date()}`)} - ${`${translate(lang, 'loghandler_temp')}:`.brightMagenta} ${message}`)
     })
 }
 
@@ -50,7 +50,7 @@ function tempinfo(message) { // Tells the user information they may need to know
 
 function fatal(message) {
     getlang(true).then(lang => { // Log and exit
-        console.log(`${colours.cyan(`${new Date()}`)} - ${`${translate(lang, 'loghandler_fatal')}:`.bgRed} ${message}`)
+        console.error(`${colours.cyan(`${new Date()}`)} - ${`${translate(lang, 'loghandler_fatal')}:`.bgRed} ${message}`)
         process.exit(1)
     })
 }

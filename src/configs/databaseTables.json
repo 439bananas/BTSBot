@@ -1,0 +1,155 @@
+{
+  "BotConfig": [
+    [ "property", "tinytext" ],
+    [ "value", "tinytext" ]
+  ],
+  "GuildConfig": [
+    [ "id", "bigint", "pk" ],
+    [ "config", "json" ]
+  ],
+  "Message": [
+    [ "id", "bigint", "pk" ],
+    [ "channelId", "bigint" ],
+    [ "guildId", "bigint" ],
+    [ "authorId", "bigint" ],
+    [ "content", "text" ]
+  ],
+  "User": [
+    [ "id", "bigint", "pk" ],
+    [ "email", "text" ],
+    [ "language", "tinytext" ],
+    [ "theme", "tinyint" ],
+    [ "stringsTranslated", "bigint" ]
+  ],
+  "Star": [
+    [ "messageId", "bigint", "pk" ],
+    [ "quantity", "mediumint" ],
+    [ "starMessage", "bigint" ]
+  ],
+  "BlacklistGuild": [
+    [ "id", "bigint", "pk" ],
+    [ "reason", "text" ]
+  ],
+  "BlacklistUser": [
+    [ "id", "bigint", "pk" ],
+    [ "features", "json" ],
+    [ "reason", "text" ]
+  ],
+  "TempMute": [
+    [ "user", "bigint", "ppk" ],
+    [ "guild", "bigint", "ppk" ],
+    [ "expiry", "bigint" ],
+    [ "reason", "text" ]
+  ],
+  "TempBan": [
+    [ "user", "bigint", "ppk" ],
+    [ "guild", "bigint", "ppk" ],
+    [ "expiry", "bigint" ],
+    [ "reason", "text" ]
+  ],
+  "Translation": [
+    [ "name", "text" ],
+    [ "user", "bigint" ],
+    [ "language", "tinytext" ],
+    [ "translation", "longtext" ],
+    [ "approved", "boolean" ]
+  ],
+  "BotRequest": [
+    [ "guildId", "bigint", "ppk" ],
+    [ "botId", "bigint", "ppk" ],
+    [ "usersRequesting", "json" ],
+    [ "status", "char" ]
+  ],
+  "Regular": [
+    [ "userId", "bigint", "ppk" ],
+    [ "guildId", "bigint", "ppk" ],
+    [ "lastMessageTime", "bigint" ]
+  ],
+  "Invite": [
+    [ "userId", "bigint", "ppk" ],
+    [ "guildId", "bigint", "ppk" ],
+    [ "number", "bigint" ]
+  ],
+  "GuildBackup": [
+    [ "guildId", "bigint", "ppk" ],
+    [ "backupId", "bigint", "ppk" ],
+    [ "payload", "json" ]
+  ],
+  "ScammyLink": [
+    [ "link", "text" ]
+  ],
+  "SilentlyWelcomedUser": [
+    [ "guildId", "bigint", "ppk" ],
+    [ "userId", "bigint", "ppk" ]
+  ],
+  "CompletedForm": [
+    [ "guildId", "bigint", "ppk" ],
+    [ "formId", "bigint", "ppk" ],
+    [ "payloadId", "bigint", "ppk" ],
+    [ "userId", "bigint" ],
+    [ "payload", "json" ]
+  ],
+  "TemporaryRole": [
+    [ "guildId", "bigint", "ppk" ],
+    [ "userId", "bigint", "ppk" ],
+    [ "roleId", "bigint", "ppk" ],
+    [ "expiry", "bigint" ]
+  ],
+  "MemberInformation": [
+    [ "guildId", "bigint", "ppk" ],
+    [ "userId", "bigint", "ppk" ],
+    [ "roles", "json" ],
+    [ "nickname", "tinytext" ],
+    [ "guildDeafen", "boolean" ],
+    [ "guildMute", "boolean" ]
+  ],
+  "CorporateVerifAddsUsername": [
+    [ "guildId", "bigint", "ppk" ],
+    [ "domain", "text" ],
+    [ "userId", "bigint", "ppk" ],
+    [ "username", "tinytext" ]
+  ],
+  "CorporateVerifAadUsername": [
+    [ "guildId", "bigint", "ppk" ],
+    [ "tenantId", "text" ],
+    [ "userId", "bigint", "ppk" ],
+    [ "emailAddress", "tinytext" ]
+  ],
+  "CorporateVerifGoogleUsername": [
+    [ "guildId", "bigint", "ppk" ],
+    [ "domain", "text" ],
+    [ "userId", "bigint", "ppk" ],
+    [ "emailAddress", "tinytext" ]
+  ],
+  "ExternalInstance": [
+    [ "id", "bigint", "pk" ],
+    [ "guildCount", "bigint" ]
+  ],
+  "PreassignedRole": [
+    [ "guildId", "bigint", "ppk" ],
+    [ "userId", "bigint", "ppk" ],
+    [ "roles", "json" ]
+  ],
+  "GuildLink": [
+    [ "guildId", "bigint", "pk" ],
+    [ "linkedGuilds", "json" ]
+  ],
+  "ModmailSession": [
+    [ "user", "bigint", "ppk" ],
+    [ "guildId", "bigint", "ppk" ],
+    [ "threadId", "bigint" ],
+    [ "lastMessagedByUser", "boolean" ]
+  ],
+  "BlacklistedStarboarder": [
+    [ "user", "bigint", "ppk" ],
+    [ "guildId", "bigint", "ppk" ],
+    [ "reason", "text" ]
+  ],
+  "SelfBlacklistedStarMember": [
+    [ "user", "bigint", "ppk" ],
+    [ "guildId", "bigint", "ppk" ]
+  ],
+  "SelfBlacklistedStarMessage": [
+    ["starMessage", "bigint", "pk"]
+  ]
+}

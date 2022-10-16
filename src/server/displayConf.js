@@ -20,7 +20,7 @@ let smtpsslnoselected
 let imapsslyesselected
 let imapsslnoselected
 
-function showconf(res, lang, defaultlanguage, hostname, dbusername, database, tableprefix, pstatus, ostatus, guildid, moderatorsroleid, googleclientid, msclientid, smtpserver, smtpport, smtpssl, imapssl, imapserver, imapport, emailaddress, emailusername, badclientsecreterr) { // We'll comment this in a second // I really, REALLY wish there were fewer args to pass but unfortunately that's not really so easy with literally 24 different settings. Goddamnit SMTP.
+function showconf(res, lang, defaultlanguage, hostname, dbusername, database, tableprefix, redishostname, redisusername, redisdatabase, pstatus, ostatus, guildid, moderatorsroleid, googleclientid, msclientid, smtpserver, smtpport, smtpssl, imapssl, imapserver, imapport, emailaddress, emailusername, badclientsecreterr) { // We'll comment this in a second // I really, REALLY wish there were fewer args to pass but unfortunately that's not really so easy with literally 24 different settings. Goddamnit SMTP.
     switch (ostatus) { // Choose which status is selected based on parameter
         case "idle":
             onlineselected = ""
@@ -83,7 +83,7 @@ function showconf(res, lang, defaultlanguage, hostname, dbusername, database, ta
             conf: false, // Trying our best to keep all the config options and page variables in the same order and the i18n strings in the same order while not intertwining the two
             badclientsecret: noclientsecret,
             prereleasewarning: "",
-        i18nprereleasewarning: translate(lang, 'page_globalprereleasewarningpart1') + uniconf.projname + translate(lang, 'page_globalprereleasewarningpart2'),
+            i18nprereleasewarning: translate(lang, 'page_globalprereleasewarningpart1') + uniconf.projname + translate(lang, 'page_globalprereleasewarningpart2'),
             defaultlanguage: defaultlanguage,
             projname: uniconf.projname,
             metadomain: uniconf.metadomain,
@@ -94,6 +94,9 @@ function showconf(res, lang, defaultlanguage, hostname, dbusername, database, ta
             dbusername: dbusername,
             database: database,
             tableprefix: tableprefix,
+            redishostname: redishostname,
+            redisusername: redisusername,
+            redisdatabase: redisdatabase,
             pstatus: pstatus,
             onlineselected: onlineselected,
             idleselected: idleselected,
@@ -133,6 +136,14 @@ function showconf(res, lang, defaultlanguage, hostname, dbusername, database, ta
             i18ndbconnectionrefuseddiag: translate(lang, 'page_dbconnectionrefuseddiag'),
             i18ndbbadcreds: translate(lang, 'page_dbbadcreds'),
             i18ndbbadcredsdiag: translate(lang, 'page_dbbadcredsdiag'),
+            i18nredisconnectionrefused: translate(lang, 'page_redisconnectionrefused'),
+            i18nredisconnectionrefuseddiag: translate(lang, 'page_redisconnectionrefuseddiag'),
+            i18nrediswrongpass: translate(lang, 'page_rediswrongpass'),
+            i18nredisbaddb: translate(lang, 'page_redisbaddb'),
+            i18nredisbaddbdiag: translate(lang, 'page_redisbaddbdiag'),
+            i18nredisinvalidurl: translate(lang, 'page_redisinvalidurl'),
+            i18nredisinvalidurldiag1: translate(lang, 'page_redisinvalidurldiagpart1'),
+            i18nredisinvalidurldiag2: translate(lang, 'page_redisinvalidurldiagpart2'),
             i18nwrongendpoint: translate(lang, 'page_wrongendpoint'),
             i18nwrongendpointdiag1: translate(lang, 'page_wrongendpointdiagpart1'),
             i18nwrongendpointdiag2: translate(lang, 'page_wrongendpointdiagpart2'),
@@ -150,9 +161,10 @@ function showconf(res, lang, defaultlanguage, hostname, dbusername, database, ta
             i18nstep2: translate(lang, 'page_configstep2'),
             i18nstep3: translate(lang, 'page_configstep3'),
             i18nstep4: translate(lang, 'page_configstep4'),
+            i18nstep5: translate(lang, 'page_configstep5'),
             i18ndefaultlanguage: translate(lang, 'page_defaultlanguagelabel'),
             i18ndbhost: translate(lang, 'page_dbhostlabel'),
-            i18ndbusermame: translate(lang, 'page_dbusernamelabel'),
+            i18ndbusername: translate(lang, 'page_dbusernamelabel'),
             i18ndbpassword: translate(lang, 'page_dbpasswordlabel'),
             i18ndb: translate(lang, 'page_dblabel'),
             i18ndbtableprefix: translate(lang, 'page_dbtableprefixlabel'),

@@ -17,7 +17,7 @@ let expiryTime = 0 // 0 means that it meets the condition immediately
 let address
 
 async function getContactLink() {
-    if (Math.floor(Date.now() / 1000) > expiryTime) { // If current time is longer than expiry time, validate mail server
+    if (Math.floor(Date.now() / 1000) >= expiryTime) { // If current time is longer than expiry time, validate mail server
         expiryTime = Math.floor(Date.now() / 1000) + 3600 // Set expiry for an hour's time
         let transporter = nodemailer.createTransport({
             host: conf.smtpserver, // Conf should really exist when this is called
@@ -29,7 +29,7 @@ async function getContactLink() {
             },
         });
         try {
-            await transporter.verify();
+            await transporter.verify(); // Unfortunately, this may end up being slightly slow but so long we don't crash!
             address = "/contact" // If success, set to /contact so users can use the more convenient contat form
         } catch (err) { // If we can't authenticate, if email is blank in conf return the default email address
             if (conf.emailaddress == "") {

@@ -21,6 +21,7 @@ const getid = require('../core/getApplicationId')
 const getDiscordToken = require('../core/getDiscordBearerToken')
 const getDiscordUser = require('../core/getDiscordUserInfo')
 const getazuretoken = require('../core/getAzureToken')
+const { createClient } = require('redis')
 
 function googleOAuth2(req, res, conf) { // Cope with Google's OAuth2 in a more compact fashion
     getlang().then(lang => {
@@ -55,6 +56,7 @@ function googleOAuth2(req, res, conf) { // Cope with Google's OAuth2 in a more c
                             break;
                         default:
                             showwall(res, conf.language, translate(lang, "page_confunknownerror"), translate(lang, "page_wallunknownerrordiag"))
+                            log.error(err)
                             break;
                     }
                 })
@@ -97,7 +99,35 @@ function googleOAuth2(req, res, conf) { // Cope with Google's OAuth2 in a more c
 }
 
 function validateOAuth2(req, res, conf) { // Let's validate our OAuth2 with rather a lengthy function!
+    let url = "redis://" + conf.redisusername
+    let identity = ""
+
+    if (conf.password != "") {
+        url += ":" + conf.redispassword
+    }
+
+    url += "@" + conf.redishostname + "/" + conf.redisdatabase
+
+    global.redisConnection = createClient({ // Forgot that redisConnection does not yet exist
+        url: url
+    })
+
+    redisConnection.connect()
+
     getlang().then(lang => {
+        redisConnection.on('error', (err) => { // If Redis gets disconnected then reconnect and send out error
+            switch (err.message) {
+                case "Socket closed unexpectedly":
+                    log.warn(translate(lang, "log_redisconnectionlost"))
+                    break;
+                case "Connection timeout":
+                    log.warn(translate(lang, "log_redisreconnecting"))
+                    break;
+                default:
+                    log.error(err)
+            }
+        })
+
         if (!req.cookies.discordbearertoken) {  // Is there any Discord bearer token in our cookies?
             if (!req.query.code) { // If there isn't check to see if there's a code in our query, if there isn't that either then redirect to our OAuth2 page
                 getid(conf.token).then(id => {
@@ -109,6 +139,7 @@ function validateOAuth2(req, res, conf) { // Let's validate our OAuth2 with rath
                         showwall(res, lang, uniconf.projname + translate(lang, 'page_wallcannotconnecttodiscord'), translate(lang, 'page_wallcannotconnecttoservicediagpart1') + uniconf.projname + translate(lang, 'page_wallcannotconnecttodiscorddiagpart2'))
                     } else { // Potentially some other error could have come up, it could be anything so let's play it safe and not let the end user do anything
                         showwall(res, conf.language, translate(lang, "page_confunknownerror"), translate(lang, "page_wallunknownerrordiag"))
+                        log.error(err)
                     }
                 })
             } else { // If tnere is a code in our query, let's do the following:
@@ -131,6 +162,7 @@ function validateOAuth2(req, res, conf) { // Let's validate our OAuth2 with rath
                             break;
                         default:
                             showwall(res, conf.language, translate(lang, "page_confunknownerror"), translate(lang, "page_wallunknownerrordiag"))
+                            log.error(err)
                             break;
                     }
                 })
@@ -157,6 +189,7 @@ function validateOAuth2(req, res, conf) { // Let's validate our OAuth2 with rath
                                     break; // ^^ Unfortunately, there is no way to differentiate between the two errors in MSAL so best thing to do is redisplay the configuration page
                                 default:
                                     showwall(res, conf.language, translate(lang, "page_confunknownerror"), translate(lang, "page_wallunknownerrordiag"))
+                                    log.error(err)
                                     break;
                             }
                         })
@@ -199,6 +232,7 @@ function validateOAuth2(req, res, conf) { // Let's validate our OAuth2 with rath
                                 googleOAuth2(req, res, conf)
                             } else { // If something weird, assume the worst and display the wall
                                 showwall(res, conf.language, translate(lang, "page_confunknownerror"), translate(lang, "page_wallunknownerrordiag"))
+                                log.error(err)
                             }
                         })
                         .catch(err => showwall(res, lang, uniconf.projname + translate(lang, 'page_wallcannotconnecttodiscord'), translate(lang, 'page_wallcannotconnecttoservicediagpart1') + uniconf.projname + translate(lang, 'page_wallcannotconnecttomicrosoftdiagpart2'))) // And if there is an error then we probably can't connect to Microsoft.
@@ -224,6 +258,7 @@ function validateOAuth2(req, res, conf) { // Let's validate our OAuth2 with rath
                                             break;
                                         default: // If it's anything else, assume the worst and prevent the user from going further
                                             showwall(res, conf.language, translate(lang, "page_confunknownerror"), translate(lang, "page_wallunknownerrordiag"))
+                                            log.error(err)
                                     }
                                 })
                             }
@@ -255,6 +290,7 @@ function validateOAuth2(req, res, conf) { // Let's validate our OAuth2 with rath
                             break;
                         default:
                             showwall(res, conf.language, translate(lang, "page_confunknownerror"), translate(lang, "page_wallunknownerrordiag"))
+                            log.error(err)
                             break;
                     }
                 }).catch(err => { // If we can't get the ID, either show conf or the wall
@@ -264,6 +300,7 @@ function validateOAuth2(req, res, conf) { // Let's validate our OAuth2 with rath
                         showwall(res, lang, uniconf.projname + translate(lang, 'page_wallcannotconnecttodiscord'), translate(lang, 'page_wallcannotconnecttoservicediagpart1') + uniconf.projname + translate(lang, 'page_wallcannotconnecttodiscorddiagpart2'))
                     } else {
                         showwall(res, conf.language, translate(lang, "page_confunknownerror"), translate(lang, "page_wallunknownerrordiag"))
+                        log.error(err)
                     }
                 })
             })

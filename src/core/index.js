@@ -20,4 +20,5 @@ global.getlang = require('./getLanguageJSON')
 getlang(true).then(lang => { // Get language and then get translation string
     log.info(`${translate(lang, 'log_startingbtsbot')}${uniconf.projname}...`)
 })
+
 require('./init') // This is where the real magic happens

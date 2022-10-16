@@ -10,14 +10,17 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
+// NOTES: This file may look janky but is definitely getting an extensive rewrite, along with many others! <- ANB
+
 const fs = require('fs');
 const path = require('path');
 const checkMySQL = require('./checkMySQL')
 const checkDiscord = require('./checkDiscord')
+const checkRedis = require('./checkRedis')
 const settings = require('../configs/uniconf.json').settings
 let conffile
 
-function checkConf(conffilename) {
+async function checkConf(conffilename) {
     if (!conffilename) { // Many of the functions that call this will not specify this argument and as such each call will **ALWAYS** look exclusively for conf.json (so this is there for backwards compatibility)
         conffile = "conf"
     } else conffile = conffilename
@@ -33,12 +36,16 @@ function checkConf(conffilename) {
             }
             checkMySQL(conf.hostname, conf.dbusername, conf.dbpassword, conf.database).then(result => { // If all is good, proceed to Discord
                 if (result == 'OK') {
-                    checkDiscord(conf.token).then(result => { // Check Discord
-                        if (result == "ASSUME_CLIENT_SECRET_IS_CORRECT") {
-                            resolve(true) // If all good, resolve with true
-                        }
+                    checkRedis(conf.redishostname, conf.redisusername, conf.redispassword, conf.redisdatabase).then(result => {
+                        checkDiscord(conf.token).then(result => { // Check Discord
+                            if (result == "ASSUME_CLIENT_SECRET_IS_CORRECT") {
+                                resolve(true) // If all good, resolve with true
+                            }
+                        }).catch(err => {
+                            reject(err) // Else, reject with the error
+                        })
                     }).catch(err => {
-                        reject(err) // Else, reject with the error
+                        reject(err)
                     })
                 }
             }).catch(err => {

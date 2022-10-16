@@ -16,13 +16,17 @@ const path = require('path')
 const pkg = require('../../package.json')
 let prereleasewarning
 
-if (pkg.mode == "alpha" || pkg.mode == "beta" || pkg.mode == "ad" || pkg.mode == "active-development") {
+if (pkg.mode == "alpha" || pkg.mode == "beta" || pkg.mode == "ad" || pkg.mode == "active-development") { // Display prerelease warning if not stable
     prereleasewarning = "<%- include('./prerelease-warning'); %>"
 } else {
     prereleasewarning = ""
 }
 
 function showhome(req, res, lang, clientid) { // Not gonna lie, not entirely keen that some of these pages have so many variables one needs to pass (if there's a way to automatically pass variables in consistently templated content like head, header and footer please submit an issue or let me know somehow) but we live with it
+    //console.log(redisConnection)
+    if (typeof redisConnection === 'undefined' || typeof MySQLConnection === 'undefined') { // Database can be accessed after downtime during initialisation of project
+        require('../database/databaseManager')
+    }
     getContactLink().then(link => {
         res.status(200);
         res.render('../src/server/pages/home.ejs', {
@@ -64,7 +68,7 @@ function showhome(req, res, lang, clientid) { // Not gonna lie, not entirely kee
             i18noutro3: translate(lang, 'page_homeoutropart3'),
             i18noutro4: translate(lang, 'page_homeoutropart4'),
             i18noutro5: translate(lang, 'page_homeoutropart5'),
-            oauth2link: "https://discord.com/oauth2/authorize?client_id=" + clientid + "&permissions=" + uniconf.perms + "&redirect_uri=" + encodeURIComponent(getaddress(req) + "/servers") + "&response_type=code&scope=email%20identify%20bot%20applications.commands",
+            oauth2link: "https://discord.com/oauth2/authorize?client_id=" + clientid + "&permissions=" + uniconf.perms + "&redirect_uri=" + encodeURIComponent(getaddress(req) + "/servers") + "&response_type=code&scope=servers%20email%20identify%20bot%20applications.commands",
             i18nfooterprojname: uniconf.projname.replace(/ /g, "&nbsp;"),
             i18nfooterdiscord: translate(lang, "page_globalfooterdiscord").replace(/ /g, "&nbsp"),
             i18nfootertwitter: translate(lang, "page_globalfootertwitter").replace(/ /g, "&nbsp"),

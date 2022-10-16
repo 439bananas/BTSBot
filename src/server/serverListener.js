@@ -23,6 +23,7 @@ const resourcesRoutes = require('./resources')
 const pkg = require('../../package.json')
 const cookieParser = require('cookie-parser')
 const show404 = require('./display404')
+const createLocaleMiddleware = require('express-locale')
 
 switch (pkg.mode) {
     case 'alpha':
@@ -43,15 +44,33 @@ switch (pkg.mode) {
 }
 
 app.use(cookieParser()) // Deal with cookies
+app.use(createLocaleMiddleware())
 
-app.all('/*', function (req, res, next) {
+app.get('/*', async function (req, res, next) { // Block Internet Explorer
+    let lang = await getlang()
+    let urls = req.url.split('/') // Split our URLs where there is a / and add to array
+    if ((req.get('user-agent').includes("MSIE") || req.get('user-agent').includes("Trident")) && urls[1].toLowerCase() != "resources") { // IE has two user agents; MSIE and Trident. Trident is only used in IE 11. Also check if we are not accessing resources (so we can load CSS)
+        res.render('../src/server/pages/ie-detect-error.ejs', { // Display error
+            projname: uniconf.projname,
+            conf: false,
+            i18ngdescription: translate(lang, 'page_globaldesc'),
+            metaurl: "https://" + uniconf.metadomain,
+            i18ntitle: translate(lang, "page_iewalltitle"),
+            i18ndescription: translate(lang, "page_iewalldescriptionpart1") + "<a href=\"https://www.microsoft.com/en-us/edge#evergreen\">" + translate(lang, "page_iewalldescriptionpart2") + "</a>" + translate(lang, "page_iewalldescriptionpart3") + "<a href = \"https://www.google.com/chrome/\">" + translate(lang, "page_iewalldescriptionpart4") + "</a>" + translate(lang, "page_iewalldescriptionpart5") + "<a href=\"https://www.mozilla.org/en-GB/firefox/new/\">" + translate(lang, "page_iewalldescriptionpart6") + "</a>"
+        })
+    } else {
+        next() // If not IE, continue
+    }
+})
+
+app.all('/*', async function (req, res, next) {
     getlang().then(lang => {
         if (req.headers['x-forwarded-host']) {
             log.info(req.method + translate(lang, 'log_incominghttprequestpart1') + req.headers['x-forwarded-for'] + translate(lang, 'log_incominghttprequestpart2') + req.headers['x-forwarded-host'] + translate(lang, 'log_incominghttprequestpart3') + req.url + translate(lang, 'log_incominghttprequestrp'))
         } else {
             log.info(req.method + translate(lang, 'log_incominghttprequestpart1') + req.socket.remoteAddress + translate(lang, 'log_incominghttprequestpart2') + req.headers.host + translate(lang, 'log_incominghttprequestpart3') + req.url)
         }
-        next();
+        next()
     })
 });
 

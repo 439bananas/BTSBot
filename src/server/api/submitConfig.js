@@ -17,6 +17,7 @@ const express = require('express');
 const router = express.Router()
 const formidable = require('express-formidable')
 const createConf = require('../../core/createConf')
+const getUserLang = require('../../core/getUserLang')
 let missingFields
 
 router.use(formidable()) // Grab fields of form entered
@@ -50,7 +51,7 @@ router.post('/', async (req, res, next) => {
                 if (fs.existsSync(path.join(__dirname, '..', '..', 'configs', 'confinterim.json'))) { // Check for conf interim, if all good then throw this error in API
                     checkConf('confinterim').then(result => {
                         if (badclientsecret === true) {
-                            createConf(req).then(response => { // Creating conf is slow, we don't want to restart before we've created it so let's wrap it in a promise
+                            createConf(req, res).then(response => { // Creating conf is slow, we don't want to restart before we've created it so let's wrap it in a promise
                                 res.status(200)
                                 res.json({
                                     response: "VERIFY_CLIENT_SECRET"
@@ -67,7 +68,7 @@ router.post('/', async (req, res, next) => {
                             })
                         }
                     }).catch(err => { // If error in conf interim create conf again
-                        createConf(req).then(response => { // Creating conf is slow, we don't want to restart before we've created it so let's wrap it in a promise
+                        createConf(req, res).then(response => { // Creating conf is slow, we don't want to restart before we've created it so let's wrap it in a promise
                             res.status(200)
                             res.json({
                                 response: "VERIFY_CLIENT_SECRET"
@@ -79,7 +80,7 @@ router.post('/', async (req, res, next) => {
                         })
                     })
                 } else {
-                    createConf(req).then(response => {
+                    createConf(req, res).then(response => {
                         res.status(200)
                         res.json({
                             response: "VERIFY_CLIENT_SECRET"
@@ -97,12 +98,12 @@ router.post('/', async (req, res, next) => {
 
 router.get('/', async (req, res, next) => { // This should totally not be GET'd
     checkConf().catch(err => {
-        getlang(true)
+        getUserLang(req)
             .then(langcode => {
                 if (err) {  // If error in conf, don't show things like login etc that couldn't possibly exist
-                    show404(res, lang, false) // ANB
+                    show404(res, langcode, false) // ANB
                 } else {
-                    show404(res, lang, true) // ANB
+                    show404(res, langcode, true) // ANB
                 }
             })
     })
