@@ -242,5 +242,17 @@
   "log_redisbadcredspart1": "The Redis credentials entered in the conf.json file were not recognised as valid. Please follow the steps by navigating to ",
   "log_redisbadcredspart2": " in your web browser of choice to rectify this and regenerate the conf.json file.",
   "log_redisbaddbpart1": "The Redis database configured in conf.json is outside of the maximum range of the Redis instance. Please rectify this by navigating to ",
-  "log_redisbaddbpart2": " in your web browser of choice and following the steps to regenerate the conf.json file."
+  "log_redisbaddbpart2": " in your web browser of choice and following the steps to regenerate the conf.json file.",
+  "page_globalsigninwithdiscord": "Sign in with Discord",
+  "page_loginbadclientsecret": "The client secret entered in the configuration is invalid.",
+  "page_loginbadclientsecretdiag": "Please contact the host of this instance to rectify the issue.",
+  "page_missingdbperms": " cannot query the configured database with its current permissions.",
+  "page_missingdbpermsdiagpart1": "To fix this, tell the host of this instance to grant all privileges on ",
+  "page_missingdbpermsdiagpart2": ".* to ",
+  "page_globalservers": "Servers",
+  "page_globalaccountsettings": "Account settings",
+  "page_globalsignout": "Sign out",
+  "page_globalallservers": "All servers",
+  "page_globalusermanager": "User manager",
+  "page_globalhelpdesk": "Helpdesk"
 }

@@ -12,7 +12,7 @@
 
 const { createClient } = require('redis')
 
-let url = "redis://" + conf.redisusername // Construct our UR:
+let url = "redis://" + conf.redisusername // Construct our URL
 let identity = ""
 let lang = getlang()
 

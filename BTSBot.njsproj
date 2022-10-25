@@ -937,9 +937,11 @@
     </Content>
     <Content Include="src\core\getReqAddress.js" />
     <Content Include="src\core\getUserLang.js" />
+    <Content Include="src\core\getUserModStatus.js" />
     <Content Include="src\core\index.js" />
     <Content Include="src\core\init.js" />
     <Content Include="src\core\logHandler.js" />
+    <Content Include="src\core\refreshDiscordBearerToken.js" />
     <Content Include="src\core\restartProcess.js" />
     <Content Include="src\core\warnUserIfNoConf.js" />
     <Content Include="src\database\databaseManager.js" />
@@ -948,6 +950,10 @@
     <Content Include="src\database\updateDatabase.js" />
     <Content Include="src\database\updateDatabaseVersion.js" />
     <Content Include="src\server\alwaysAvailablePages.js" />
+    <Content Include="src\server\login.js" />
+    <Content Include="src\server\logout.js" />
+    <Content Include="src\server\pages\servers.ejs" />
+    <Content Include="src\server\serversPage.js" />
     <Content Include="src\server\api\submitConfig.js" />
     <Content Include="src\server\api\version.js" />
     <Content Include="src\server\confPage.js" />
@@ -969,6 +975,7 @@
     <Content Include="src\server\pages\partials\footer.ejs" />
     <Content Include="src\server\pages\partials\head.ejs" />
     <Content Include="src\server\pages\partials\header.ejs" />
+    <Content Include="src\server\pages\partials\prerelease-warning.ejs" />
     <Content Include="src\server\pages\resources\css\bootstrap.css" />
     <Content Include="src\server\pages\resources\css\bootstrap.css.map" />
     <Content Include="src\server\pages\resources\css\main.css" />

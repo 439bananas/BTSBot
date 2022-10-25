@@ -28,7 +28,7 @@ router.get('/', async (req, res, next) => { // /config endpoint
     getUserLang(req).then(lang => { // ANB for the sake that no options depending on if user signed in or not
         checkConf().then(response => { // Check conf before continuing
             if (response == true) { // If conf good, return 404
-                show404(res, lang, true)
+                show404(res, lang, true, req)
             }
         }).catch(err => {
             switch (err) {

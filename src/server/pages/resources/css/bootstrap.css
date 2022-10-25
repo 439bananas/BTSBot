@@ -3693,10 +3693,10 @@ textarea.form-control-lg {
     padding: 0.5rem 0;
     margin: 0;
     font-size: 1rem;
-    color: #212529;
+    color: #ffffff;
     text-align: left;
     list-style: none;
-    background-color: #fff;
+    background-color: #36393f;
     background-clip: padding-box;
     border: 1px solid rgba(0, 0, 0, 0.15);
     border-radius: 0.25rem;
@@ -3925,7 +3925,7 @@ textarea.form-control-lg {
     padding: 0.25rem 1rem;
     clear: both;
     font-weight: 400;
-    color: #212529;
+    color: #ffffff;
     text-align: inherit;
     text-decoration: none;
     white-space: nowrap;
@@ -3934,14 +3934,9 @@ textarea.form-control-lg {
 }
 
     .dropdown-item:hover, .dropdown-item:focus {
-        color: #1e2125;
-        background-color: #e9ecef;
-    }
-
-    .dropdown-item.active, .dropdown-item:active {
-        color: #fff;
+        background-color: #33353b;
+        color: #ffffff;
         text-decoration: none;
-        background-color: #0d6efd;
     }
 
     .dropdown-item.disabled, .dropdown-item:disabled {
@@ -4136,6 +4131,7 @@ textarea.form-control-lg {
 
 .nav-link:hover, .nav-link:focus {
     color: #0a58ca;
+    text-decoration: none;
 }
 
 .nav-link.disabled {

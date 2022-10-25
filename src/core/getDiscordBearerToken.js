@@ -39,7 +39,7 @@ function getDiscordToken(token, clientsecret, redirecturi, code) {
                         reject("UNKNOWN_DISCORD_ERROR")
                         log.error(response.error)
                     } else {
-                        resolve(response.access_token)
+                        resolve({ "bearertoken": response.access_token, "refreshtoken": response.refresh_token })
                     }
                 })
         }).catch(err => {

@@ -18,14 +18,3 @@
 <meta property="twitter:image" content="<%= metaurl %>/resources/logo.png">
 <meta property="twitter:description" content="<%= i18ngdescription %>">
 <meta property="theme-color" content="#f0600f">
-<script type="module">
-    if (<%- conf %> == false) {
-        document.getElementById("dashboard-button").style.display = "block";
-        document.getElementById("login-button").style.display = "none";
-        document.getElementById("logged-in-dropdown").style.display = "none";
-    } else {
-        document.getElementById("dashboard-button").style.display = "none";
-        document.getElementById("login-button").style.display = "block";
-        document.getElementById("logged-in-dropdown").style.display = "block";
-    }
-</script>

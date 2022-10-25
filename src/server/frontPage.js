@@ -88,7 +88,7 @@ router.get('/', async (req, res, next) => { // When / is GET'd, if checkConf ret
                     noconfintro2 = "</div>"
                     confpath = ""
                     noconfintro4 = translate(lang, 'page_noconfintroaccessdenied')
-                    noconfintrodiag = translate(lang, 'page_noconfintroaccessdenieddiagpart1') + conf.db + ".*" + translate(lang, 'page_noconfintroaccessdenieddiagpart2') + conf.username + "@" + conf.hostname
+                    noconfintrodiag = translate(lang, 'page_noconfintroaccessdenieddiagpart1') + conf.database + ".*" + translate(lang, 'page_noconfintroaccessdenieddiagpart2') + conf.dbusername + "@" + conf.hostname
                     break;
                 case "REDIS_CONNECTION_REFUSED":
                     noconfintro1 = "<div style=\"display:none\">"
@@ -156,7 +156,7 @@ router.get('/', async (req, res, next) => { // When / is GET'd, if checkConf ret
                     case "ACCESS_DENIED":
                         let conf = require('../configs/conf.json')
                         noconfintro4 = translate(lang, 'page_noconfintroaccessdenied')
-                        noconfintrodiag = translate(lang, 'page_noconfintroaccessdenieddiagpart1') + conf.db + ".*" + translate(lang, 'page_noconfintroaccessdenieddiagpart2') + conf.username + "@" + conf.hostname
+                        noconfintrodiag = translate(lang, 'page_noconfintroaccessdenieddiagpart1') + conf.database + ".*" + translate(lang, 'page_noconfintroaccessdenieddiagpart2') + conf.dbusername + "@" + conf.hostname
                         break;
                     case "REDIS_CONNECTION_REFUSED":
                         noconfintro4 = translate(lang, 'page_noconfintroredisconnectionrefused')

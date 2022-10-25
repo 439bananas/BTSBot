@@ -12,7 +12,7 @@
 
 const express = require('express');
 const router = express.Router();
-const pkg = require('../../package.json')
+const pkg = require('../../package.json');
 
 // There are three copies of the same image file to signify the intent of the instance, this all depends on "mode" in package.json
 

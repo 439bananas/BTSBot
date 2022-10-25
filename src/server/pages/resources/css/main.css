@@ -362,3 +362,7 @@ input[type=number] {
     text-align: center;
     font-size: calc(1ex + 0.75em);
 }
+
+main {
+    min-height: calc(100vh - (225px - 60px - 1.625rem));
+}
