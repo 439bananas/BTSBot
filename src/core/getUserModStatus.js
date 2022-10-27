@@ -14,7 +14,7 @@ const checkconf = require('./checkConfExists')
 
 async function isMod(userId) { // If specified user is moderator in configured guild, return true, else or if error, return false
     try {
-        checkConf()
+        checkconf()
         try {
             let rawResponse = await fetch('https://discord.com/api/v10/guilds/' + conf.guildid + '/members/' + userId, {
                 headers: {

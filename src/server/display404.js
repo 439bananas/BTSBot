@@ -15,11 +15,13 @@ const refreshBearerToken = require('../core/refreshDiscordBearerToken')
 const getid = require('../core/getApplicationId')
 const getContactLink = require('../core/getContactLink')
 const isMod = require('../core/getUserModStatus')
+const isOwner = require('../core/getUserOwnerStatus')
 let user
 let clientid
 let modDropdownOptions
 let footer
 let link
+let avatarurl
 
 async function show404(res, lang, confpresent, req) {
     if (confpresent == true) { // If there is a configuration, if user signed in make motion to display such options else make motion to display a sign in button
@@ -36,7 +38,7 @@ async function show404(res, lang, confpresent, req) {
                     avatarfilename = user.avatar
                     avatarurl = 'https://cdn.discordapp.com/avatars/' + user.id + "/" + avatarfilename
                 }
-                if (isMod(user.id)) {
+                if (await isMod(user.id) || await isOwner(user.id)) {
                     modDropdownOptions = "<li><a class=\"dropdown-item\" href=\"/helpdesk\">" + translate(lang, "page_globalhelpdesk") + "</a></li><li><a class=\"dropdown-item\" href=\"/all-servers\">" + translate(lang, "page_globalallservers") + "</a></li><li><a class=\"dropdown-item\" href=\"/user-manager\">" + translate(lang, "page_globalusermanager") + "</a></li>"
                 } else {
                     modDropdownOptions = ""

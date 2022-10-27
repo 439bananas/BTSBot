@@ -17,8 +17,10 @@ const pkg = require('../../package.json')
 const getDiscordUser = require('../core/getDiscordUserInfo')
 const refreshToken = require('../core/refreshDiscordBearerToken')
 const isMod = require('../core/getUserModStatus')
+const isOwner = require('../core/getUserOwnerStatus')
 let user
 let modDropdownOptions
+let avatarurl
 
 async function showhome(req, res, lang, clientid) { // Not gonna lie, not entirely keen that some of these pages have so many variables one needs to pass (if there's a way to automatically pass variables in consistently templated content like head, header and footer please submit an issue or let me know somehow) but we live with it
     if (typeof redisConnection === 'undefined' || typeof MySQLConnection === 'undefined') { // Database can be accessed after downtime during initialisation of project
@@ -51,7 +53,7 @@ async function showhome(req, res, lang, clientid) { // Not gonna lie, not entire
         }
     }
 
-    if (isMod(user.id)) {
+    if (await isMod(user.id) || await isOwner(user.id)) {
         modDropdownOptions = "<li><a class=\"dropdown-item\" href=\"/helpdesk\">" + translate(lang, "page_globalhelpdesk") + "</a></li><li><a class=\"dropdown-item\" href=\"/all-servers\">" + translate(lang, "page_globalallservers") + "</a></li><li><a class=\"dropdown-item\" href=\"/user-manager\">" + translate(lang, "page_globalusermanager") + "</a></li>"
     } else {
         modDropdownOptions = ""

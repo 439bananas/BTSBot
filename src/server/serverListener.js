@@ -144,8 +144,8 @@ app.get('/*', async function (req, res, next) { // Block Internet Explorer
                 }
             }
         } else if ((typeof (redisConnection) === 'undefined' || typeof (MySQLConnection) === 'undefined') && confExists === true) { // Database can be accessed after downtime during initialisation of project
-            require('../database/databaseManager')
             global.conf = require('../configs/conf.json')
+            require('../database/databaseManager')
             next()
         } else {
             next()

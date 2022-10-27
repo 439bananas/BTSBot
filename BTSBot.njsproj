@@ -938,6 +938,7 @@
     <Content Include="src\core\getReqAddress.js" />
     <Content Include="src\core\getUserLang.js" />
     <Content Include="src\core\getUserModStatus.js" />
+    <Content Include="src\core\getUserOwnerStatus.js" />
     <Content Include="src\core\index.js" />
     <Content Include="src\core\init.js" />
     <Content Include="src\core\logHandler.js" />
