@@ -11,6 +11,7 @@
 /////////////////////////////////////////////////////////////
 
 const checkconf = require('./checkConfExists')
+const isOwner = require('./getUserOwnerStatus')
 
 async function isMod(userId) { // If specified user is moderator in configured guild, return true, else or if error, return false
     try {
@@ -23,7 +24,7 @@ async function isMod(userId) { // If specified user is moderator in configured g
                 }
             })
             let response = await rawResponse.json()
-            if (response.roles && response.roles.includes(conf.moderatorsroleid)) {
+            if ((response.roles && response.roles.includes(conf.moderatorsroleid)) || isOwner(userId)) {
                 return true;
             } else return false
         } catch (err) {

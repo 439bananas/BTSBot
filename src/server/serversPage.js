@@ -16,7 +16,6 @@ const router = express.Router()
 const getDiscordUser = require('../core/getDiscordUserInfo')
 const getContactLink = require('../core/getContactLink')
 const isMod = require('../core/getUserModStatus')
-const isOwner = require('../core/getUserOwnerStatus')
 let modDropdownOptions
 let avatarurl
 
@@ -36,7 +35,7 @@ router.get('/', async (req, res, next) => {
                     avatarurl = 'https://cdn.discordapp.com/avatars/' + user.id + "/" + avatarfilename
                 }
 
-                if (await isMod(user.id) || await isOwner(user.id)) {
+                if (await isMod(user.id)) {
                     modDropdownOptions = "<li><a class=\"dropdown-item\" href=\"/helpdesk\">" + translate(lang, "page_globalhelpdesk") + "</a></li><li><a class=\"dropdown-item\" href=\"/all-servers\">" + translate(lang, "page_globalallservers") + "</a></li><li><a class=\"dropdown-item\" href=\"/user-manager\">" + translate(lang, "page_globalusermanager") + "</a></li>"
                 } else {
                     modDropdownOptions = ""
