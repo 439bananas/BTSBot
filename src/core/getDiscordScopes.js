@@ -29,15 +29,15 @@ function getDiscordScopes(bearertoken) { // Get the scopes that belong to the be
                 else if (response.message == "401: Unauthorized") { // If unauthorized, we have a bad access token
                     reject("BAD_ACCESS_TOKEN")
                 } else {
-                    reject("UNKNOWN_ERROR")
                     log.error(response.message)
+                    reject("UNKNOWN_ERROR")
                 }
             }).catch(err => {
                 if (err.name == "FetchError") {
                     reject("CANNOT_CONNECT_TO_DISCORD")
                 } else {
-                    reject("UNKNOWN_ERROR")
                     log.error(err)
+                    reject("UNKNOWN_ERROR")
                 }
             })
     })

@@ -47,7 +47,7 @@ function googleOAuth2(req, res, conf) { // Cope with Google's OAuth2 in a more c
                             global.badclientsecret = true
                             break;
                         case "CANNOT_CONNECT_TO_GOOGLE": // If cannot connect to Google or some other error, show a wall
-                        showwall(res, lang, uniconf.projname + translate(lang, 'page_wallcannotconnecttodiscord'), translate(lang, 'page_wallcannotconnecttoservicediagpart1') + uniconf.projname + translate(lang, 'page_wallcannotconnecttogooglediagpart2'))
+                            showwall(res, lang, uniconf.projname + translate(lang, 'page_wallcannotconnecttogoogle'), translate(lang, 'page_wallcannotconnecttoservicediagpart1') + uniconf.projname + translate(lang, 'page_wallcannotconnecttogooglediagpart2'))
                             break;
                         case "BAD_CODE": // If bad code, redirect to Google OAuth2
                             getgoogletoken(conf.googleclientid, conf.googleclientsecret, ['https://www.googleapis.com/auth/userinfo.profile'], getaddress(req) + "/config").then(url => {

@@ -10,13 +10,6 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-//const fetch = require('node-fetch')
-const fs = require('fs')
-const fsPromises = require('fs/promises')
-const { createWriteStream } = require('fs');
-const getlang = require('./getLanguageJSON')
-let avatarurl
-let avatarfilename
 let response
 
 async function fetchDiscordUser(bearertoken) {

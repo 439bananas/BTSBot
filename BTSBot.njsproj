@@ -914,6 +914,7 @@
     <Content Include="src\configs\databaseTables.json" />
     <Content Include="src\configs\features.json" />
     <Content Include="src\configs\uniconf.json" />
+    <Content Include="src\core\checkBotInGuild.js" />
     <Content Include="src\core\checkConfExists.js" />
     <Content Include="src\core\checkDb.js" />
     <Content Include="src\core\checkDiscord.js" />
@@ -936,6 +937,7 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="src\core\getReqAddress.js" />
+    <Content Include="src\core\getUserGuilds.js" />
     <Content Include="src\core\getUserLang.js" />
     <Content Include="src\core\getUserModStatus.js" />
     <Content Include="src\core\getUserOwnerStatus.js" />

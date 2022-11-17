@@ -23,8 +23,8 @@ async function isMod(userId) { // If specified user is moderator in configured g
                     'Authorization': `Bot ${conf.token}`
                 }
             })
-            let response = await rawResponse.json()
-            if ((response.roles && response.roles.includes(conf.moderatorsroleid)) || isOwner(userId)) {
+            let response = await rawResponse.json
+            if ((response.roles && response.roles.includes(conf.moderatorsroleid)) || await isOwner(userId)) {
                 return true;
             } else return false
         } catch (err) {

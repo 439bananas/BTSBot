@@ -41,7 +41,6 @@ async function refreshBearerToken(refreshtoken) {
                 default:
                     log.error(response.error)
                     throw "UNKNOWN_ERROR"
-                    break;
             }
         }
 
@@ -53,8 +52,7 @@ async function refreshBearerToken(refreshtoken) {
         if (err.name == "FetchError") {
             throw "CANNOT_CONNECT_TO_DISCORD"
         } else {
-            log.error(err)
-            throw "UNKNOWN_ERROR"
+            throw err
         }
     }
 }

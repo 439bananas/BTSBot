@@ -29,9 +29,13 @@ router.get('/', async (req, res, next) => {
         let confExists = await checkConf() // If conf does not exist return home and display error
         if (confExists) {
             try { // If bearer token valid, redirect to /servers
-                let user = await getDiscordUser(req.cookies.discordbearertoken)
-                if (user && typeof (user.id) != "undefined") {
-                    res.redirect('/servers')
+                if ((req.query.bypasscache && req.query.bypasscache == "true") || req.query.code) {
+                    throw "CACHE_BYPASSED"
+                } else {
+                    let user = await getDiscordUser(req.cookies.discordbearertoken)
+                    if (user && typeof (user.id) != "undefined") {
+                        res.redirect('/servers')
+                    }
                 }
             } catch (err) { // If not valid and no code, try refreshing the user's bearer token. If that fails, redirect to OAuth2 link
                 let clientid = await getid(conf.token)
@@ -52,7 +56,7 @@ router.get('/', async (req, res, next) => {
                         if (scopes.includes('email') && scopes.includes('identify') && scopes.includes('guilds')) {
                             res.cookie("discordbearertoken", token.bearertoken, { maxAge: 604800000, httpOnly: true }) // Store bearer token and refresh token
                             res.cookie('discordrefreshtoken', token.refreshtoken, { httpOnly: true })
-                            res.redirect(req.originalUrl)
+                            res.redirect('/servers')
                         } else { // If not the correct scopes, redirect to Discord's OAuth2 page
                             res.redirect(signinlink)
                         }

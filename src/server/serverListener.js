@@ -79,7 +79,7 @@ app.get('/*', async function (req, res, next) { // Block Internet Explorer
             i18ndescription: translate(lang, "page_iewalldescriptionpart1") + "<a href=\"https://www.microsoft.com/en-us/edge#evergreen\">" + translate(lang, "page_iewalldescriptionpart2") + "</a>" + translate(lang, "page_iewalldescriptionpart3") + "<a href = \"https://www.google.com/chrome/\">" + translate(lang, "page_iewalldescriptionpart4") + "</a>" + translate(lang, "page_iewalldescriptionpart5") + "<a href=\"https://www.mozilla.org/en-GB/firefox/new/\">" + translate(lang, "page_iewalldescriptionpart6") + "</a>"
         })
     } else { // If there are MySQL and Redis connections, try querying the database for the user
-        if (typeof (redisConnection) != "undefined" && typeof (MySQLConnection) != "undefined" && req.cookies.discordbearertoken && urls[1].toLowerCase() != "resources") {
+        if (typeof (redisConnection) != "undefined" && typeof (MySQLConnection) != "undefined" && req.cookies.discordbearertoken && urls[1].toLowerCase() != "resources" && urls[1].toLowerCase() != "servers") {
             try {
                 let user = await getDiscordUser(req.cookies.discordbearertoken)
                 try {
@@ -123,14 +123,13 @@ app.get('/*', async function (req, res, next) { // Block Internet Explorer
                 }
             } catch (err) {
                 try {
-                    let token = refreshBearerToken(req.cookies.discordrefreshtoken) // If we can't get the user's info, refresh their bearer token and reload the page
+                    let token = await refreshBearerToken(req.cookies.discordrefreshtoken) // If we can't get the user's info, refresh their bearer token and reload the page
                     res.cookie("discordbearertoken", token.bearertoken, { maxAge: 604800000, httpOnly: true }) // Store bearer token and refresh token
                     res.cookie('discordrefreshtoken', token.refreshtoken, { httpOnly: true })
                     res.redirect(req.originalUrl)
                 } catch (err) { // If we can't do that, err
                     switch (err) {
                         case "BAD_DISCORD_CLIENT_SECRET": // Show wall if bad client secret
-                            let lang = await getUserLang(req)
                             showwall(res, lang, translate(lang, 'page_loginbadclientsecret'), translate(lang, 'page_loginbadclientsecretdiag'))
                             break;
                         case "BAD_REFRESH_TOKEN": // Don't worry if bad refresh token

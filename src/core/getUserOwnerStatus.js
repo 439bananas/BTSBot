@@ -19,7 +19,6 @@ async function isMod(userId) { // If specified user is owner, return true, else 
             return true
         } else return false
     } catch (err) {
-        log.temp(err)
         return false;
     }
 

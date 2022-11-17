@@ -316,7 +316,7 @@ p {
 .global-intro-section {
     padding-top: calc(1.325rem + 0.5vw);
     background-color: #2f3136;
-    padding-bottom: 0.25rem;
+    padding-bottom: calc(1.325rem + 0.5vw);
 }
 
 .home-feature-section {
@@ -365,4 +365,50 @@ input[type=number] {
 
 main {
     min-height: calc(100vh - (225px - 60px - 1.625rem));
+}
+
+.guild-bot-not-in {
+    filter: grayscale(100%);
+    transition: filter 0.15s ease-in-out;
+}
+
+.guild-bot-not-in:hover {
+    filter: grayscale(0%);
+}
+
+.guild-icon {
+    width: 100px;
+}
+
+.guild-list {
+    padding: 1.5rem;
+    justify-content: center;
+    display: flex;
+}
+
+.guild {
+    width: 136px;
+    padding: 2ex;
+}
+
+a.guild-link {
+    color: rgba(255, 255, 255, 0.55);
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+}
+
+    a.guild-link:hover {
+        color: rgba(255, 255, 255, 0.75);
+        text-decoration: none;
+        transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+    }
+
+.guild-link p {
+    text-align: center;
+}
+
+.no-guilds {
+    font-weight: bold;
+    color: rgba(255, 255, 255, 0.55);
+    padding-top: 5em;
+    text-align: center;
 }

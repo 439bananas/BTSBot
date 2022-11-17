@@ -254,5 +254,6 @@
   "page_globalsignout": "Sign out",
   "page_globalallservers": "All servers",
   "page_globalusermanager": "User manager",
-  "page_globalhelpdesk": "Helpdesk"
+  "page_globalhelpdesk": "Helpdesk",
+  "page_noguildstolist": "Servers where you have the \"Manage Server\" permission will show here."
 }

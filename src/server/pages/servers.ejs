@@ -7,11 +7,15 @@
 <body>
     <%- include('./partials/header'); %>
     <main>
+        <div class="global-intro-section">
+            <div class="container">
+                <center><h1><%= i18npagetitle %></h1></center>
+            </div>
+        </div>
         <div class="container">
-            <h1>Under construction</h1>
-            <p>
-                This page is under construction. Come back later when more progress has been made.
-            </p>
+            <div class="guild-list flex-wrap">
+                <%- guilds %>
+            </div>
         </div>
     </main>
     <%- include('./partials/footer') %>
