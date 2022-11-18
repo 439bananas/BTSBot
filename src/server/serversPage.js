@@ -27,6 +27,10 @@ let guild
 let guildIconLink
 let greyedOut
 
+/*router.get('/*', async (req, res, next) => { // WORK ON SERVER CONFIG
+
+})*/
+
 router.get('/', async (req, res, next) => {
     let link = await getContactLink()
     let lang = await getUserLang()
@@ -86,7 +90,9 @@ router.get('/', async (req, res, next) => {
                             guildIconLink = "https://cdn.discordapp.com/icons/" + guild.id + "/" + guild.icon
                         }
 
-                        if (await botInGuild(guild.id)) {
+                        let inGuild = await botInGuild(guild.id)
+
+                        if (inGuild) {
                             greyedOut = ""
                         } else {
                             greyedOut = " guild-bot-not-in"

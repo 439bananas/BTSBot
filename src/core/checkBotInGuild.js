@@ -40,14 +40,14 @@ async function botInGuild(guildId, bypassCache) { // If bot in specified guild, 
                     let guildPresence = Number((await getGuildPresence(guildId))).toString()
                     redisConnection.set(`BotInGuild:${guildId}`, guildPresence)
                     redisConnection.expire('BotInGuild:' + guildId, 7200) // This should expire in two hours
-                    return guildPresence
+                    return Number(guildPresence)
                 } else {
                     return Number(botPresence) // If not in cache, contact Discord's API, else return cached value
                 }
             } catch (err) { return false; }
             try {
                 let guildPresence = await getGuildPresence(guildId)
-                return guildPresence
+                return Number(guildPresence)
             } catch (err) { return false; }
         }
     } catch (err) { return false; }
