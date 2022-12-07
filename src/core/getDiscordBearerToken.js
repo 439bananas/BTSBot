@@ -16,6 +16,7 @@ const getid = require('./getApplicationId')
 function getDiscordToken(token, clientsecret, redirecturi, code) {
     return new Promise(function promise(resolve, reject) {
         getid(token).then(id => {
+            log.temp("fetch for getDiscordBearerToken.js failed")
             fetch("https://discord.com/api/v10/oauth2/token", { // Get the token
                 method: 'POST',
                 body: new URLSearchParams({
@@ -43,6 +44,8 @@ function getDiscordToken(token, clientsecret, redirecturi, code) {
                     } else {
                         resolve({ "bearertoken": response.access_token, "refreshtoken": response.refresh_token })
                     }
+                }).catch(err => {
+                    reject("CANNOT_CONNECT_TO_DISCORD")
                 })
         }).catch(err => {
             reject(err)

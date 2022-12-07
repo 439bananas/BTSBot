@@ -12,6 +12,7 @@
 
 async function getGuilds(bearerToken) { // Get the guilds for a user that the specified bearer token belongs to
     try {
+        log.temp("fetch for getUserGuilds.js")
         let rawResponse = await fetch('https://discord.com/api/v10/users/@me/guilds', {
             headers: {
                 'Content-Type': 'application/json',
@@ -34,6 +35,7 @@ async function getGuilds(bearerToken) { // Get the guilds for a user that the sp
         if (err.name != "FetchError") {
             throw err;
         } else {
+            log.temp("getUserGuilds failed")
             throw "CANNOT_CONNECT_TO_DISCORD"
         }
     }

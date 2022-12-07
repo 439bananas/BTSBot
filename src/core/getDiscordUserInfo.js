@@ -11,9 +11,11 @@
 /////////////////////////////////////////////////////////////
 
 let response
+let user
 
 async function fetchDiscordUser(bearertoken) {
     try {
+        log.temp("fetch for getDiscordUserInfo.js")
         let fetchRes = await fetch('https://discord.com/api/v10/users/@me', { // We were going to properly check for scopes except it made loading the page for the first time per new bearer token per session that the bot is running incredibly slow
             headers: {
                 'Content-Type': 'application/json',
@@ -21,8 +23,10 @@ async function fetchDiscordUser(bearertoken) {
             }
         })
         response = await fetchRes.json()
+        return response
     } catch (err) {
         if (err.name == "FetchError") {
+            log.temp("fetchDiscordUser failed")
             throw "CANNOT_CONNECT_TO_DISCORD"
         } else {
             log.error(err)
@@ -44,17 +48,22 @@ async function getDiscordUser(bearertoken) { // Get the user's info from their b
     try {
         let cachedInfo = await redisConnection.json.get('DiscordBearerToken:' + bearertoken)
         if (cachedInfo == null) {
-            await fetchDiscordUser(bearertoken) // Fetch our user
-            await requireValidDiscordUserResp(response) // Throw errors if anything bad happens
-            if (response.email && response.discriminator) { // If we have the email and discriminator, we should be good
-                redisConnection.json.set('DiscordBearerToken:' + bearertoken, '$', response) // Cache our response
+            try {
+                user = await fetchDiscordUser(bearertoken) // Fetch our user
+            } catch (err) {
+                log.temp(err)
+                console.log("ERROR2")
+            }
+            await requireValidDiscordUserResp(user) // Throw errors if anything bad happens
+            if (user.email && user.discriminator) { // If we have the email and discriminator, we should be good
+                redisConnection.json.set('DiscordBearerToken:' + bearertoken, '$', user) // Cache our response
                 redisConnection.expire('DiscordBearerToken:' + bearertoken, 86400) // This should expire in a day if anything
                 // We were previously using a method where we had a cache object and put things in that but we figured on different platforms it would cause stability/performance/resources problems and could potentially hang devices like Raspberry Pi so we switched to Redis
             } else { // If something weird, we possibly have an error, v10 shouldn't from this point in have any breaking changes (they should be issued in v11 or so)
-                log.error(response.message)
+                log.error(user.message)
                 throw "UNKNOWN_ERROR"
             }
-            return response;
+            return user;
         } else {
             return cachedInfo;
         }

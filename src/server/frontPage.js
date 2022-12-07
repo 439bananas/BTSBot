@@ -37,6 +37,9 @@ router.get('/', async (req, res, next) => { // When / is GET'd, if checkConf ret
                 getUserLang(req).then(lang => {
                     showhome(req, res, lang, clientid)
                 })
+            }).catch(err => {
+                log.temp(err)
+                console.log("ERROR")
             })
         }).catch(err => {
             lang = getlang()

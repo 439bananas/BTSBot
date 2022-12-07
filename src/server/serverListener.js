@@ -98,6 +98,7 @@ app.get('/*', async function (req, res, next) { // Block Internet Explorer
                             } else if (!(err.code == "ER_TABLEACCESS_DENIED_ERROR" || err.code == "ER_DBACCESS_DENIED_ERROR") && urls[1].toLowerCase() != "resources") {
                                 log.error(err)
                                 showwall(res, conf.language, translate(lang, "page_confunknownerror"), translate(lang, "page_wallunknownerrordiag"))
+                                log.temp("line 101")
                             } else next()
                         }
                     } else if (userRow[0] != user.email) { // If email is outdated, update in database
@@ -109,6 +110,7 @@ app.get('/*', async function (req, res, next) { // Block Internet Explorer
                                 showwall(res, lang, uniconf.projname + translate(lang, "page_missingdbperms"), translate(lang, "page_missingdbpermsdiagpart1") + conf.database + translate(lang, "page_missingdbpermsdiagpart2") + '\'' + conf.dbusername + '\'@\'' + conf.hostname + '\'.')
                             } else if (!(err.code == "ER_TABLEACCESS_DENIED_ERROR" || err.code == "ER_DBACCESS_DENIED_ERROR") && urls[1].toLowerCase() != "resources") {
                                 log.error(err)
+                                log.temp("line 113")
                                 showwall(res, conf.language, translate(lang, "page_confunknownerror"), translate(lang, "page_wallunknownerrordiag"))
                             } else next()
                         }
@@ -118,6 +120,9 @@ app.get('/*', async function (req, res, next) { // Block Internet Explorer
                         showwall(res, lang, uniconf.projname + translate(lang, "page_missingdbperms"), translate(lang, "page_missingdbpermsdiagpart1") + conf.database + translate(lang, "page_missingdbpermsdiagpart2") + '\'' + conf.dbusername + '\'@\'' + conf.hostname + '\'.')
                     } else if (!(err.code == "ER_TABLEACCESS_DENIED_ERROR" || err.code == "ER_DBACCESS_DENIED_ERROR") && urls[1].toLowerCase() != "resources") {
                         log.error(err)
+                        log.temp("line 123")
+                        log.temp(err.name)
+                        log.temp(err.code)
                         showwall(res, conf.language, translate(lang, "page_confunknownerror"), translate(lang, "page_wallunknownerrordiag"))
                     } else next()
                 }
@@ -136,6 +141,7 @@ app.get('/*', async function (req, res, next) { // Block Internet Explorer
                             next()
                             break;
                         default:
+                            log.temp("line 142")
                             showwall(res, conf.language, translate(lang, "page_confunknownerror"), translate(lang, "page_wallunknownerrordiag")) // Show wall if other error
                             log.error(err)
                             break;
@@ -164,13 +170,21 @@ app.all('/*', async function (req, res, next) {
 });
 
 app.use(favicon(path.join(__dirname, 'pages', 'resources', 'img', faviconfilename)))
-app.use('/', frontpage) // If root directory is contacted, we'll check if conf.json exists before serving
+try {
+    app.use('/', frontpage) // If root directory is contacted, we'll check if conf.json exists before serving
+} catch (err) {
+    console.log("eswfojpfejopejoipewhjoliwejewhio" + err)
+}
 app.use('/config', confpage) // Fun fact, I forgot to call this file, and wondered why I was getting 404s on /config
 app.use('/resources', resourcesRoutes) // Yeah let's get these resources
 app.use('/api', routes) // All API endpoints then begin with "/api"
 app.use('/login', loginRoutes) // Login
 app.use('/logout', logoutRoutes) // And logging out
-app.use('/servers', serversRoutes) // Servers page + actual dashboard
+try {
+    app.use('/servers', serversRoutes) // Servers page + actual dashboard
+} catch (err) {
+    console.log("eswfojpfejopejoipewhjoliwejewhio" + err)
+}
 
 app.use(function (req, res, next) {
     getlang(true).then(lang => {

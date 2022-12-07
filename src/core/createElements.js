@@ -21,3 +21,9 @@ require('./warnUserIfNoConf') // Check if conf.json exists and if not, send a wa
 
 require('../server/createServer') // Start the dashboard
 //require('../bot/createBot') // Start the bot
+
+/*process.on('unhandledRejection', (reason, p) => {
+    console.log('Unhandled Rejection at: Promise', p, 'reason:', reason);
+    console.log(reason.stack)
+    // application specific logging, throwing an error, or other logic here
+})*/

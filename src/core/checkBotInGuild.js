@@ -13,17 +13,23 @@
 const checkconf = require('./checkConfExists')
 
 async function getGuildPresence(guildId) {
-    let rawResponse = await fetch('https://discord.com/api/v10/guilds/' + guildId, {
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bot ${conf.token}`
-        }
-    })
-    let response = await rawResponse.json()
-    if (response.id) {
-        return true
-    } else return false
+    try {
+        log.temp("fetch for checkBotInGuild.js failed")
+        let rawResponse = await fetch('https://discord.com/api/v10/guilds/' + guildId, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bot ${conf.token}`
+            }
+        })
+        let response = await rawResponse.json()
+        if (response.id) {
+            return true
+        } else return false
+    } catch (err) {
+        return false
+    }
 }
+    
 
 async function botInGuild(guildId, bypassCache) { // If bot in specified guild, return true, else or if error, return false
     try {

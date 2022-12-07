@@ -15,6 +15,7 @@ const getid = require('./getApplicationId')
 async function refreshBearerToken(refreshtoken) {
     let clientid = await getid(conf.token)
     try {
+        log.temp("fetch for refreshDiscordBearerToken.js")
         let rawResponse = await fetch('https://discord.com/api/v10/oauth2/token', { // Send POST request for bearer token
             method: "POST",
             body: new URLSearchParams({
@@ -50,6 +51,7 @@ async function refreshBearerToken(refreshtoken) {
         } else return { "bearertoken": response.access_token, "refreshtoken": response.refresh_token } // If success, return barer token and refresh token
     } catch (err) {
         if (err.name == "FetchError") {
+            log.temp("refreshDiscordBearerToken failed")
             throw "CANNOT_CONNECT_TO_DISCORD"
         } else {
             throw err

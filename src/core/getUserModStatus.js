@@ -17,6 +17,7 @@ async function isMod(userId) { // If specified user is moderator in configured g
     try {
         checkconf()
         try {
+            log.temp("fetch for getUserModStatus.js")
             let rawResponse = await fetch('https://discord.com/api/v10/guilds/' + conf.guildid + '/members/' + userId, {
                 headers: {
                     'Content-Type': 'application/json',
@@ -28,6 +29,7 @@ async function isMod(userId) { // If specified user is moderator in configured g
                 return true;
             } else return false
         } catch (err) {
+            console.log(err)
             return false;
         }
     } catch (err) { return false; }

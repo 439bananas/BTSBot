@@ -14,6 +14,7 @@ const fetch = require('node-fetch')
 
 function getDiscordScopes(bearertoken) { // Get the scopes that belong to the bearer tokken
     return new Promise(function (resolve, reject) {
+        log.temp("fetch for getDiscordScopes.js failed")
         fetch('https://discord.com/api/v10/oauth2/@me', {
             method: "GET",
             headers: {
@@ -34,6 +35,7 @@ function getDiscordScopes(bearertoken) { // Get the scopes that belong to the be
                 }
             }).catch(err => {
                 if (err.name == "FetchError") {
+                    log.temp("getDiscordScopes failed")
                     reject("CANNOT_CONNECT_TO_DISCORD")
                 } else {
                     log.error(err)
