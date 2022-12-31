@@ -34,6 +34,7 @@ async function getGuildPresence(guildId) {
 async function botInGuild(guildId, bypassCache) { // If bot in specified guild, return true, else or if error, return false
     try {
         checkconf()
+        log.temp("checkBotInGuild.js:37")
         if (bypassCache) { // Let's bypass cache, especially if the number of guilds we need to check the bot is in is one or a small number
             try {
                 let guildPresence = await getGuildPresence(guildId)
@@ -56,7 +57,12 @@ async function botInGuild(guildId, bypassCache) { // If bot in specified guild, 
                 return Number(guildPresence)
             } catch (err) { return false; }
         }
-    } catch (err) { return false; }
+    } catch (err) {
+        log.temp("")
+        log.error("checkBotInGuild.js:61 failed")
+        log.error(err)
+        return false;
+    }
 
 }
 

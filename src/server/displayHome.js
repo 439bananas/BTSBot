@@ -50,13 +50,17 @@ async function showhome(req, res, lang, clientid) { // Not gonna lie, not entire
         } else {
             user = {}
         }
+    } finally {
+        if (await isMod(user.id)) {
+            modDropdownOptions = "<li><a class=\"dropdown-item\" href=\"/helpdesk\">" + translate(lang, "page_globalhelpdesk") + "</a></li><li><a class=\"dropdown-item\" href=\"/all-servers\">" + translate(lang, "page_globalallservers") + "</a></li><li><a class=\"dropdown-item\" href=\"/user-manager\">" + translate(lang, "page_globalusermanager") + "</a></li>"
+        } else {
+            modDropdownOptions = ""
+        }
     }
 
-    if (await isMod(user.id)) {
-        modDropdownOptions = "<li><a class=\"dropdown-item\" href=\"/helpdesk\">" + translate(lang, "page_globalhelpdesk") + "</a></li><li><a class=\"dropdown-item\" href=\"/all-servers\">" + translate(lang, "page_globalallservers") + "</a></li><li><a class=\"dropdown-item\" href=\"/user-manager\">" + translate(lang, "page_globalusermanager") + "</a></li>"
-    } else {
-        modDropdownOptions = ""
-    }
+    //log.temp("**************************************")
+    //console.log(user)
+    //log.temp("**************************************")
 
     res.status(200);
     res.render('../src/server/pages/home.ejs', {

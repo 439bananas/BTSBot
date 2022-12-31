@@ -14,7 +14,7 @@ const fetch = require('node-fetch')
 
 function checkDiscord(token) {
     return new Promise(function (resolve, reject) { // Rejections/resolutions will be returned to the caller
-        log.temp("fetch for checkDiscord.js failed")
+        log.temp("fetch for checkDiscord.js")
         fetch('https://discord.com/api/v10/oauth2/applications/@me', { // Validate the token this way, we used Discord.JS to validate the token and validating the token that way barfed all sorts of weird errors
             method: 'GET',
             headers: {

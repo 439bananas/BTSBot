@@ -65,6 +65,8 @@ app.get('/*', async function (req, res, next) { // Block Internet Explorer
     try {
         confExists = await checkConf()
     } catch (err) {
+        log.temp("conf does not exist")
+        log.temp(err)
         confExists = false
     }
     let lang = await getUserLang(req)
@@ -191,6 +193,7 @@ app.use(function (req, res, next) {
         checkConf().then(result => {
             show404(res, lang, true, req)
         }).catch(err => { // If error in conf, don't show things like login etc that couldn't possibly exist
+            log.temp(err)
             show404(res, lang, false)
         })
     })

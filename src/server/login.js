@@ -78,6 +78,8 @@ router.get('/', async (req, res, next) => {
             }
         }
     } catch (err) {
+        log.temp(err)
+        log.temp("login.js:82")
         res.redirect('/') // If bad conf, return home
     }
 })

@@ -31,12 +31,14 @@ router.get('/', async (req, res, next) => { // /config endpoint
                 show404(res, lang, true, req)
             }
         }).catch(err => {
+            log.temp(err)
             switch (err) {
                 case false:
                     checkConf('confinterim').then(result => {
                         const conf = require('../configs/confinterim.json')
                         validateOAuth2(req, res, conf)
                     }).catch(confinterimerror => {
+                        log.temp(err)
                         if (confinterimerror == false) {
                             showconf(res, lang, uniconf.defaultlanguage, settings[1][1], settings[2][1], settings[3][1], settings[4][1], settings[5][1], settings[6][1], settings[7][1], settings[8][1], settings[9][1], settings[10][1], settings[11][1], settings[12][1], settings[13][1], settings[14][1], settings[15][1], settings[16][1], settings[17][1], settings[18][1], settings[19][1], settings[20][1], settings[21][1])
                         } else {
@@ -163,6 +165,7 @@ router.get('/', async (req, res, next) => { // /config endpoint
                         conf = require('../configs/confinterim.json')
                         validateOAuth2(req, res, conf)
                     }).catch(confinterimerr => {
+                        log.temp(confinterimerr)
                         if (confinterimerr == false) {
                             conf = require('../configs/conf.json')
                             if (conf[settings[0][0]] === undefined) { // We put settings that should be there in uniconf so it's slightly easier to edit as we go along

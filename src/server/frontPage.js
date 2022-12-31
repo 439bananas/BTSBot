@@ -28,13 +28,17 @@ let lang
 global.discordsuccess = false // Ensure we only ping Discord's API once
 router.get('/', async (req, res, next) => { // When / is GET'd, if checkConf returns true, send the noconfintro file and fill variables with respective values, else send back the front page
     // Get default language if no user language is set
+    log.temp('/ called')
     if (discordsuccess == false) {
+        log.temp('checking conf at line frontPage.js:33')
         checkConf().then(result => {
             const conf = require('../configs/conf.json')
             global.discordsuccess = true
+            log.temp("frontPage.js:37 - client id has been fetched")
             getid(conf.token).then(id => {
                 global.clientid = id
                 getUserLang(req).then(lang => {
+                    log.temp("home is being displayed at frontPage.js:41")
                     showhome(req, res, lang, clientid)
                 })
             }).catch(err => {
@@ -42,6 +46,7 @@ router.get('/', async (req, res, next) => { // When / is GET'd, if checkConf ret
                 console.log("ERROR")
             })
         }).catch(err => {
+            log.warn(err + ": " + projname + translate(lang, "log_cannotconnecttodiscordwarn")) // This is stupid but this line is kinda required so that te project does not crash???
             lang = getlang()
             let confpath = path.join(__dirname, 'configs') // Set defaults
             let noconfintro1 = ""
@@ -70,6 +75,7 @@ router.get('/', async (req, res, next) => { // When / is GET'd, if checkConf ret
                     noconfintrodiag = translate(lang, 'page_noconfintrobadtokendiagpart1') + translate(lang, 'page_globalnext') + translate(lang, 'page_noconfintrobadtokendiagpart2')
                     break;
                 case "CANNOT_CONNECT_TO_DISCORD": // Display wall
+                    log.temp("frontPage.js:77")
                     showwall(res, lang, uniconf.projname + translate(lang, 'page_wallcannotconnecttodiscord'), translate(lang, 'page_wallcannotconnecttoservicediagpart1') + uniconf.projname + translate(lang, 'page_wallcannotconnecttodiscorddiagpart2'))
                     break;
                 case "CONNECTION_REFUSED":
@@ -125,17 +131,21 @@ router.get('/', async (req, res, next) => { // When / is GET'd, if checkConf ret
                     break;
             }
 
+            log.temp("frontPage.js:134")
+
             if (err != "CANNOT_CONNECT_TO_DISCORD") {
                 shownci(res, lang, confpath, noconfintro1, noconfintro2, noconfintro3, noconfintro4, noconfintrodiag)
             }
         })
     } else {
         if (!fs.existsSync(path.join(__dirname, '..', 'configs', 'conf.json'))) { // If no conf, then return that warning
+            log.temp("frontPage.js:142")
             let lang = getlang()
             shownci(res, lang, path.join(__dirname, 'configs'), translate(lang, 'page_noconfintropart1'), translate(lang, 'page_noconfintropart2'), translate(lang, 'page_noconfintropart3'), translate(lang, 'page_noconfintropart4'), translate(lang, 'page_noconfintropartdiag'))
         } else {
             const conf = require('../configs/conf.json')
             checkDatabase(conf.hostname, conf.dbusername, conf.dbpassword, conf.database, conf.redishostname, conf.redisusername, conf.redispassword, conf.redisdatabase).then(result => {
+                log.temp("frontPage.js:148")
                 getUserLang(req).then(lang => {
                     showhome(req, res, lang, clientid)
                 })
@@ -181,6 +191,7 @@ router.get('/', async (req, res, next) => { // When / is GET'd, if checkConf ret
                         log.error(err)
                         break;
                 }
+                log.temp("frontPage.js:194")
                 shownci(res, lang, confpath, noconfintro1, noconfintro2, noconfintro3, noconfintro4, noconfintrodiag)
             })
         }

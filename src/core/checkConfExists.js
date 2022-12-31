@@ -42,6 +42,7 @@ async function checkConf(conffilename) {
                                 resolve(true) // If all good, resolve with true
                             }
                         }).catch(err => {
+                            log.temp("checkConfExists.js:45")
                             reject(err) // Else, reject with the error
                         })
                     }).catch(err => {

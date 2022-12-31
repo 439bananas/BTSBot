@@ -255,5 +255,6 @@
   "page_globalallservers": "All servers",
   "page_globalusermanager": "User manager",
   "page_globalhelpdesk": "Helpdesk",
-  "page_noguildstolist": "Servers where you have the \"Manage Server\" permission will show here."
+  "page_noguildstolist": "Servers where you have the \"Manage Server\" permission will show here.",
+  "log_cannotconnecttodiscordwarn": " cannot currently connect to Discord."
 }

@@ -15,6 +15,7 @@ const isOwner = require('./getUserOwnerStatus')
 
 async function isMod(userId) { // If specified user is moderator in configured guild, return true, else or if error, return false
     try {
+        log.temp("getUserModStatus.js:18")
         checkconf()
         try {
             log.temp("fetch for getUserModStatus.js")
@@ -32,7 +33,11 @@ async function isMod(userId) { // If specified user is moderator in configured g
             console.log(err)
             return false;
         }
-    } catch (err) { return false; }
+    } catch (err) {
+        log.temp("getUserModStatus.js:37")
+        log.temp(err)
+        return false;
+    }
     
 }
 

@@ -199,6 +199,7 @@ router.get('/', async (req, res, next) => {
             }
         }
     } catch (err) {
+        log.temp(err)
         res.redirect('/')
     }
 })
