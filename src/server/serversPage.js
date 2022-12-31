@@ -39,7 +39,6 @@ router.get('/', async (req, res, next) => { // WORK ON SERVER CONFIG
 //router.use('/', )
 
 router.get('/', async (req, res, next) => {
-    log.temp("line 42")
     let link = await getContactLink()
     let lang = await getUserLang()
 
@@ -47,7 +46,6 @@ router.get('/', async (req, res, next) => {
         const confExists = await checkConf()
         if (confExists === true) {
             try {
-                log.temp("line 50")
                 const user = await getDiscordUser(req.cookies.discordbearertoken)
                 if (user.avatar == null) { // If we have no profile picture, do the magic calculation! https://discord.com/developers/docs/reference#image-formatting
                     avatarfilename = user.discriminator % 5
@@ -64,7 +62,6 @@ router.get('/', async (req, res, next) => {
                 }
 
                 try {
-                    log.temp("line 67")
                     let guilds = await getGuilds(req.cookies.discordbearertoken)
                     let listedGuilds = []
                     for (guildIndex in guilds) {
@@ -155,7 +152,6 @@ router.get('/', async (req, res, next) => {
                         i18nfootertos: translate(lang, 'page_globalfootertos').replace(/ /g, "&nbsp")
                     })
                 } catch (err) {
-                    log.temp("line 158")
                     switch (err) {
                         case "BAD_DISCORD_BEARER_TOKEN": // While the scopes may be wrong there may also be an incident where the bearer token has expired but it's not reflected in Redis yet
                             try {
@@ -199,7 +195,6 @@ router.get('/', async (req, res, next) => {
             }
         }
     } catch (err) {
-        log.temp(err)
         res.redirect('/')
     }
 })

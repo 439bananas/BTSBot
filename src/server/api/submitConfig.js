@@ -48,7 +48,6 @@ router.post('/', async (req, res, next) => {
                     response: "CONF_OK"
                 })
             }).catch(err => {
-                log.temp(err)
                 if (fs.existsSync(path.join(__dirname, '..', '..', 'configs', 'confinterim.json'))) { // Check for conf interim, if all good then throw this error in API
                     checkConf('confinterim').then(result => {
                         if (badclientsecret === true) {
@@ -69,7 +68,6 @@ router.post('/', async (req, res, next) => {
                             })
                         }
                     }).catch(err => { // If error in conf interim create conf again
-                        log.temp(err)
                         createConf(req, res).then(response => { // Creating conf is slow, we don't want to restart before we've created it so let's wrap it in a promise
                             res.status(200)
                             res.json({
@@ -100,7 +98,6 @@ router.post('/', async (req, res, next) => {
 
 router.get('/', async (req, res, next) => { // This should totally not be GET'd
     checkConf().catch(err => {
-        log.temp(err)
         getUserLang(req)
             .then(langcode => {
                 if (err) {  // If error in conf, don't show things like login etc that couldn't possibly exist

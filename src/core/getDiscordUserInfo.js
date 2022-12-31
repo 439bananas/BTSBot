@@ -15,7 +15,6 @@ let user
 
 async function fetchDiscordUser(bearertoken) {
     try {
-        log.temp("fetch for getDiscordUserInfo.js")
         let fetchRes = await fetch('https://discord.com/api/v10/users/@me', { // We were going to properly check for scopes except it made loading the page for the first time per new bearer token per session that the bot is running incredibly slow
             headers: {
                 'Content-Type': 'application/json',
@@ -26,7 +25,6 @@ async function fetchDiscordUser(bearertoken) {
         return response
     } catch (err) {
         if (err.name == "FetchError") {
-            log.temp("fetchDiscordUser failed")
             throw "CANNOT_CONNECT_TO_DISCORD"
         } else {
             log.error(err)
@@ -51,8 +49,7 @@ async function getDiscordUser(bearertoken) { // Get the user's info from their b
             try {
                 user = await fetchDiscordUser(bearertoken) // Fetch our user
             } catch (err) {
-                log.temp(err)
-                console.log("ERROR2")
+                throw err;
             }
             await requireValidDiscordUserResp(user) // Throw errors if anything bad happens
             if (user.email && user.discriminator) { // If we have the email and discriminator, we should be good

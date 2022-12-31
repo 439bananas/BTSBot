@@ -48,7 +48,6 @@ function getOwner(token) {
                 }
             }).catch(err => {
                 if (err.name == "FetchError") {
-                    log.temp("getOwnerID failed")
                     reject("CANNOT_CONNECT_TO_DISCORD")
                 } else {
                     reject("UNKNOWN_DISCORD_ERROR")

@@ -14,7 +14,6 @@ const fetch = require('node-fetch')
 
 function checkDiscord(token) {
     return new Promise(function (resolve, reject) { // Rejections/resolutions will be returned to the caller
-        log.temp("fetch for checkDiscord.js")
         fetch('https://discord.com/api/v10/oauth2/applications/@me', { // Validate the token this way, we used Discord.JS to validate the token and validating the token that way barfed all sorts of weird errors
             method: 'GET',
             headers: {
@@ -37,7 +36,6 @@ function checkDiscord(token) {
             })
             .catch(err => {
                 if (err.name == "FetchError") { // At some point when Discord's down (which is pretty frequent, I can't lie), we should test this! This currently only works as far as I know if the bot has no internet
-                    log.temp("checkDiscord failed")
                     reject('CANNOT_CONNECT_TO_DISCORD')
                 }
             })

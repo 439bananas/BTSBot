@@ -27,7 +27,6 @@ function getgoogletoken(clientid, clientsecret, scopes, redirecturi, code) { // 
             })
             resolve(authorisationUrl)
         } else { // If there is a code, proceed to get the token
-            log.temp("fetch for getGoogleToken.js")
             fetch('https://oauth2.googleapis.com/token', {
                 method: 'POST',
                 body: JSON.stringify({
