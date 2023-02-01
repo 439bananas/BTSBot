@@ -10,6 +10,7 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
+const { redis } = require('googleapis/build/src/apis/redis')
 const { createClient } = require('redis')
 
 let url = "redis://" + conf.redisusername // Construct our URL
@@ -37,6 +38,13 @@ redisConnection.on('error', (err) => { // If Redis gets disconnected then reconn
             log.warn(translate(lang, "log_redisreconnecting"))
             break;
         default:
+            log.temp("redisGlobaliser.js:40")
+            log.temp(err.name)
+            log.temp(err.code)
             log.error(err)
     }
+})
+
+redisConnection.on('end', (msg) => {
+    log.temp(msg)
 })

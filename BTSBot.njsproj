@@ -8,6 +8,9 @@
     <NodejsPort>8082</NodejsPort>
     <LaunchUrl>http://localhost</LaunchUrl>
     <ScriptArguments>--trace-warnings</ScriptArguments>
+    <EnableTypeScript>true</EnableTypeScript>
+    <TypeScriptSourceMap>true</TypeScriptSourceMap>
+    <TypeScriptModuleKind>CommonJS</TypeScriptModuleKind>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -920,6 +923,7 @@
     <Content Include="src\core\checkDiscord.js" />
     <Content Include="src\core\checkMySQL.js" />
     <Content Include="src\core\checkRedis.js" />
+    <Content Include="src\core\checkUserSignedIn.js" />
     <Content Include="src\core\createConf.js">
       <SubType>Code</SubType>
     </Content>
@@ -941,6 +945,7 @@
     <Content Include="src\core\getUserLang.js" />
     <Content Include="src\core\getUserModStatus.js" />
     <Content Include="src\core\getUserOwnerStatus.js" />
+    <Content Include="src\core\getUserPermissions.js" />
     <Content Include="src\core\index.js" />
     <Content Include="src\core\init.js" />
     <Content Include="src\core\logHandler.js" />
@@ -956,6 +961,7 @@
     <Content Include="src\server\login.js" />
     <Content Include="src\server\logout.js" />
     <Content Include="src\server\pages\servers.ejs" />
+    <Content Include="src\server\serverConfigRoutes.js" />
     <Content Include="src\server\serversPage.js" />
     <Content Include="src\server\api\submitConfig.js" />
     <Content Include="src\server\api\version.js" />

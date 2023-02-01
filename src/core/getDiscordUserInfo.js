@@ -58,6 +58,8 @@ async function getDiscordUser(bearertoken) { // Get the user's info from their b
                 // We were previously using a method where we had a cache object and put things in that but we figured on different platforms it would cause stability/performance/resources problems and could potentially hang devices like Raspberry Pi so we switched to Redis
             } else { // If something weird, we possibly have an error, v10 shouldn't from this point in have any breaking changes (they should be issued in v11 or so)
                 log.error(user.message)
+                log.temp(err.code)
+                log.temp(err.name)
                 throw "UNKNOWN_ERROR"
             }
             return user;
@@ -77,6 +79,8 @@ async function getDiscordUser(bearertoken) { // Get the user's info from their b
                 break;
             default:
                 log.error(err)
+                log.temp(err.code)
+                log.temp(err.name)
                 throw "UNKNOWN_ERROR"
         }
     }

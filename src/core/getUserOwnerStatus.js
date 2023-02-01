@@ -12,9 +12,9 @@
 
 const checkconf = require('./checkConfExists')
 
-async function isMod(userId) { // If specified user is owner, return true, else or if error, return false
+async function isOwner(userId) { // If specified user is owner, return true, else or if error, return false
     try {
-        checkconf()
+        if (!conf) throw "NO_CONF";
         if ((Array.isArray(conf.ownerid) && conf.ownerid.includes(userId)) || (!Array.isArray(conf.ownerid) && conf.ownerid === userId)) {
             return true
         } else return false
@@ -24,4 +24,4 @@ async function isMod(userId) { // If specified user is owner, return true, else 
 
 }
 
-module.exports = isMod
+module.exports = isOwner

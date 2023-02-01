@@ -21,7 +21,7 @@ let user
 let modDropdownOptions
 let avatarurl
 
-async function showhome(req, res, lang, clientid) { // Not gonna lie, not entirely keen that some of these pages have so many variables one needs to pass (if there's a way to automatically pass variables in consistently templated content like head, header and footer please submit an issue or let me know somehow) but we live with it
+async function showhome(req, res, lang, clientid, user) { // Not gonna lie, not entirely keen that some of these pages have so many variables one needs to pass (if there's a way to automatically pass variables in consistently templated content like head, header and footer please submit an issue or let me know somehow) but we live with it
     if (typeof redisConnection === 'undefined' || typeof MySQLConnection === 'undefined') { // Database can be accessed after downtime during initialisation of project
         require('../database/databaseManager')
     }
@@ -29,7 +29,9 @@ async function showhome(req, res, lang, clientid) { // Not gonna lie, not entire
     let link = await getContactLink()
 
     try {
-        user = await getDiscordUser(req.cookies.discordbearertoken)
+        if (!user) {
+            user = await getDiscordUser(req.cookies.discordbearertoken)
+        }
         if (user.avatar == null) { // If we have no profile picture, do the magic calculation! https://discord.com/developers/docs/reference#image-formatting
             avatarfilename = user.discriminator % 5
             avatarurl = 'https://cdn.discordapp.com/embed/avatars/' + avatarfilename + ".png"
@@ -37,30 +39,15 @@ async function showhome(req, res, lang, clientid) { // Not gonna lie, not entire
             avatarfilename = user.avatar
             avatarurl = 'https://cdn.discordapp.com/avatars/' + user.id + "/" + avatarfilename
         }
-    } catch (err) {
-        if (err == "BAD_ACCESS_TOKEN") {
-            try {
-                token = await refreshToken(req.cookies.discordrefreshtoken)
-                res.cookie("discordbearertoken", token.bearertoken, { maxAge: 604800000, httpOnly: true }) // Store bearer token and refresh token
-                res.cookie('discordrefreshtoken', token.refreshtoken, { httpOnly: true })
-                res.redirect(req.originalUrl) // Redirect so that the cookies get sent to the client
-            } catch (err) {
-                user = {}
-            }
-        } else {
-            user = {}
-        }
-    } finally {
-        if (await isMod(user.id)) {
+
+        if (user.id && await isMod(user.id)) {
             modDropdownOptions = "<li><a class=\"dropdown-item\" href=\"/helpdesk\">" + translate(lang, "page_globalhelpdesk") + "</a></li><li><a class=\"dropdown-item\" href=\"/all-servers\">" + translate(lang, "page_globalallservers") + "</a></li><li><a class=\"dropdown-item\" href=\"/user-manager\">" + translate(lang, "page_globalusermanager") + "</a></li>"
         } else {
             modDropdownOptions = ""
         }
+    } catch (err) {
+        user = {}
     }
-
-    //log.temp("**************************************")
-    //console.log(user)
-    //log.temp("**************************************")
 
     res.status(200);
     res.render('../src/server/pages/home.ejs', {

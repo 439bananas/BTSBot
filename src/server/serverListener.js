@@ -33,6 +33,9 @@ const refreshBearerToken = require('../core/refreshDiscordBearerToken')
 const showwall = require('./displayWall')
 const getUserLang = require('../core/getUserLang')
 let faviconfilename
+let confExists
+let confErr
+let user
 
 switch (pkg.mode) {
     case 'alpha':
@@ -61,10 +64,11 @@ app.use(cookieParser()) // Deal with cookies
 app.use(createLocaleMiddleware())
 
 app.get('/*', async function (req, res, next) { // Block Internet Explorer
-    let confExists
+    user = {}
     try {
         confExists = await checkConf()
     } catch (err) {
+        confErr = err
         confExists = false
     }
     let lang = await getUserLang(req)
@@ -79,9 +83,9 @@ app.get('/*', async function (req, res, next) { // Block Internet Explorer
             i18ndescription: translate(lang, "page_iewalldescriptionpart1") + "<a href=\"https://www.microsoft.com/en-us/edge#evergreen\">" + translate(lang, "page_iewalldescriptionpart2") + "</a>" + translate(lang, "page_iewalldescriptionpart3") + "<a href = \"https://www.google.com/chrome/\">" + translate(lang, "page_iewalldescriptionpart4") + "</a>" + translate(lang, "page_iewalldescriptionpart5") + "<a href=\"https://www.mozilla.org/en-GB/firefox/new/\">" + translate(lang, "page_iewalldescriptionpart6") + "</a>"
         })
     } else { // If there are MySQL and Redis connections, try querying the database for the user
-        if (typeof (redisConnection) != "undefined" && typeof (MySQLConnection) != "undefined" && req.cookies.discordbearertoken && urls[1].toLowerCase() != "resources" && urls[1].toLowerCase() != "servers") {
+        if (typeof (redisConnection) != "undefined" && typeof (MySQLConnection) != "undefined" && req.cookies.discordbearertoken && urls[1].toLowerCase() != "resources") {
             try {
-                let user = await getDiscordUser(req.cookies.discordbearertoken)
+                user = await getDiscordUser(req.cookies.discordbearertoken)
                 try {
                     let userRow = await MySQLConnection.query('SELECT * FROM user WHERE id=?', [user.id]) // If there is no user entry, add it to the database
                     if (!userRow[0][0]) {
@@ -91,11 +95,12 @@ app.get('/*', async function (req, res, next) { // Block Internet Explorer
                         }
                         try {
                             let response = MySQLConnection.query('INSERT INTO user (id, email, language, theme, stringsTranslated) VALUES (?, ?, ?, ?, 0)', [user.id, user.email, user.locale, theme])
+                            void response
                             next()
                         } catch (err) { // If there is an error, display a wall
-                            if ((err.code == "ER_TABLEACCESS_DENIED_ERROR" || err.code == "ER_DBACCESS_DENIED_ERROR") && urls[1].toLowerCase() != "resources") {
+                            if ((err.code == "ER_TABLEACCESS_DENIED_ERROR" || err.code == "ER_DBACCESS_DENIED_ERROR")) {
                                 showwall(res, lang, uniconf.projname + translate(lang, "page_missingdbperms"), translate(lang, "page_missingdbpermsdiagpart1") + conf.database + translate(lang, "page_missingdbpermsdiagpart2") + '\'' + conf.dbusername + '\'@\'' + conf.hostname + '\'.')
-                            } else if (!(err.code == "ER_TABLEACCESS_DENIED_ERROR" || err.code == "ER_DBACCESS_DENIED_ERROR") && urls[1].toLowerCase() != "resources") {
+                            } else if (!(err.code == "ER_TABLEACCESS_DENIED_ERROR" || err.code == "ER_DBACCESS_DENIED_ERROR")) {
                                 log.error(err)
                                 showwall(res, conf.language, translate(lang, "page_confunknownerror"), translate(lang, "page_wallunknownerrordiag"))
                             } else next()
@@ -105,24 +110,25 @@ app.get('/*', async function (req, res, next) { // Block Internet Explorer
                             let response = await MySQLConnection.query('UPDATE user SET email=? WHERE id=?', [user.email, user.id])
                             next()
                         } catch (err) { // error -> display wall
-                            if ((err.code == "ER_TABLEACCESS_DENIED_ERROR" || err.code == "ER_DBACCESS_DENIED_ERROR") && urls[1].toLowerCase() != "resources") {
+                            if ((err.code == "ER_TABLEACCESS_DENIED_ERROR" || err.code == "ER_DBACCESS_DENIED_ERROR")) {
                                 showwall(res, lang, uniconf.projname + translate(lang, "page_missingdbperms"), translate(lang, "page_missingdbpermsdiagpart1") + conf.database + translate(lang, "page_missingdbpermsdiagpart2") + '\'' + conf.dbusername + '\'@\'' + conf.hostname + '\'.')
-                            } else if (!(err.code == "ER_TABLEACCESS_DENIED_ERROR" || err.code == "ER_DBACCESS_DENIED_ERROR") && urls[1].toLowerCase() != "resources") {
+                            } else if (!(err.code == "ER_TABLEACCESS_DENIED_ERROR" || err.code == "ER_DBACCESS_DENIED_ERROR")) {
                                 log.error(err)
                                 showwall(res, conf.language, translate(lang, "page_confunknownerror"), translate(lang, "page_wallunknownerrordiag"))
                             } else next()
                         }
                     }
                 } catch (err) {
-                    if ((err.code == "ER_TABLEACCESS_DENIED_ERROR" || err.code == "ER_DBACCESS_DENIED_ERROR") && urls[1].toLowerCase() != "resources") {
+                    if ((err.code == "ER_TABLEACCESS_DENIED_ERROR" || err.code == "ER_DBACCESS_DENIED_ERROR")) {
                         showwall(res, lang, uniconf.projname + translate(lang, "page_missingdbperms"), translate(lang, "page_missingdbpermsdiagpart1") + conf.database + translate(lang, "page_missingdbpermsdiagpart2") + '\'' + conf.dbusername + '\'@\'' + conf.hostname + '\'.')
-                    } else if (!(err.code == "ER_TABLEACCESS_DENIED_ERROR" || err.code == "ER_DBACCESS_DENIED_ERROR") && urls[1].toLowerCase() != "resources") {
+                    } else if (!(err.code == "ER_TABLEACCESS_DENIED_ERROR" || err.code == "ER_DBACCESS_DENIED_ERROR")) {
                         log.error(err)
                         showwall(res, conf.language, translate(lang, "page_confunknownerror"), translate(lang, "page_wallunknownerrordiag"))
                     } else next()
                 }
             } catch (err) {
                 try {
+                    log.temp("serverListener.js:126")
                     let token = await refreshBearerToken(req.cookies.discordrefreshtoken) // If we can't get the user's info, refresh their bearer token and reload the page
                     res.cookie("discordbearertoken", token.bearertoken, { maxAge: 604800000, httpOnly: true }) // Store bearer token and refresh token
                     res.cookie('discordrefreshtoken', token.refreshtoken, { httpOnly: true })
@@ -164,13 +170,28 @@ app.all('/*', async function (req, res, next) {
 });
 
 app.use(favicon(path.join(__dirname, 'pages', 'resources', 'img', faviconfilename)))
-app.use('/', frontpage) // If root directory is contacted, we'll check if conf.json exists before serving
+app.use('/', function (req, res, next) {
+    req.confExists = confExists
+    req.confErr = confErr
+    req.user = user
+    next();
+}, frontpage) // If root directory is contacted, we'll check if conf.json exists before serving
 app.use('/config', confpage) // Fun fact, I forgot to call this file, and wondered why I was getting 404s on /config
 app.use('/resources', resourcesRoutes) // Yeah let's get these resources
 app.use('/api', routes) // All API endpoints then begin with "/api"
-app.use('/login', loginRoutes) // Login
+app.use('/login', function (req, res, next) {
+    req.confExists = confExists
+    req.confErr = confErr
+    req.user = user
+    next();
+}, loginRoutes) // Login
 app.use('/logout', logoutRoutes) // And logging out
-app.use('/servers', serversRoutes) // Servers page + actual dashboard
+app.use('/servers', function (req, res, next) {
+    req.confExists = confExists
+    req.confErr = confErr
+    req.user = user
+    next();
+}, serversRoutes) // Servers page + actual dashboard
 
 app.use(function (req, res, next) {
     getlang(true).then(lang => {

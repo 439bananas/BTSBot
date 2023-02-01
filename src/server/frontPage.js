@@ -14,36 +14,32 @@
 
 const path = require('path')
 const express = require('express')
-const fs = require('fs')
-const checkConf = require('../core/checkConfExists')
 const router = express.Router()
 const getid = require('../core/getApplicationId')
 const showhome = require('./displayHome')
 const showwall = require('./displayWall')
 const shownci = require('./displayNoConfIntro')
-const checkDatabase = require('../core/checkDb')
 const getUserLang = require('../core/getUserLang')
+let clientid
 let lang
 
-global.discordsuccess = false // Ensure we only ping Discord's API once
 router.get('/', async (req, res, next) => { // When / is GET'd, if checkConf returns true, send the noconfintro file and fill variables with respective values, else send back the front page
     // Get default language if no user language is set
-    if (discordsuccess == false) {
-        checkConf().then(result => {
+        if (req.confExists) {
             const conf = require('../configs/conf.json')
-            global.discordsuccess = true
             getid(conf.token).then(id => {
-                global.clientid = id
+                clientid = id
                 getUserLang(req).then(lang => {
-                    showhome(req, res, lang, clientid)
+                    showhome(req, res, lang, clientid, req.user)
                 })
             }).catch(err => {
                 getUserLang(req).then(lang => {
                     showwall(res, lang, uniconf.projname + translate(lang, 'page_wallcannotconnecttodiscord'), translate(lang, 'page_wallcannotconnecttoservicediagpart1') + uniconf.projname + translate(lang, 'page_wallcannotconnecttodiscorddiagpart2'))
                 })
             })
-        }).catch(err => {
-            log.warn(err + ": " + projname + translate(lang, "log_cannotconnecttodiscordwarn")) // This is stupid but this line is kinda required so that te project does not crash???
+        } else {
+            let err = req.confErr
+            void err // This is stupid but this line is kinda required so that te project does not crash???
             lang = getlang()
             let confpath = path.join(__dirname, 'configs') // Set defaults
             let noconfintro1 = ""
@@ -51,6 +47,7 @@ router.get('/', async (req, res, next) => { // When / is GET'd, if checkConf ret
             let noconfintro3 = ""
             let noconfintro4 = ""
             let noconfintrodiag = translate(lang, 'page_noconfintrodiag')
+            log.temp(err)
             switch (err) {
                 case false:
                     noconfintro1 = translate(lang, 'page_noconfintropart1')
@@ -130,63 +127,7 @@ router.get('/', async (req, res, next) => { // When / is GET'd, if checkConf ret
             if (err != "CANNOT_CONNECT_TO_DISCORD") {
                 shownci(res, lang, confpath, noconfintro1, noconfintro2, noconfintro3, noconfintro4, noconfintrodiag)
             }
-        })
-    } else {
-        if (!fs.existsSync(path.join(__dirname, '..', 'configs', 'conf.json'))) { // If no conf, then return that warning
-            let lang = getlang()
-            shownci(res, lang, path.join(__dirname, 'configs'), translate(lang, 'page_noconfintropart1'), translate(lang, 'page_noconfintropart2'), translate(lang, 'page_noconfintropart3'), translate(lang, 'page_noconfintropart4'), translate(lang, 'page_noconfintropartdiag'))
-        } else {
-            const conf = require('../configs/conf.json')
-            checkDatabase(conf.hostname, conf.dbusername, conf.dbpassword, conf.database, conf.redishostname, conf.redisusername, conf.redispassword, conf.redisdatabase).then(result => {
-                getUserLang(req).then(lang => {
-                    showhome(req, res, lang, clientid)
-                })
-            }).catch(err => {
-                lang = getlang()
-                let noconfintro1 = "<div style=\"display:none\">"
-                let noconfintro2 = "</div>"
-                let noconfintro3 = ""
-                let noconfintro4 = ""
-                let noconfintrodiag = ""
-                let confpath = ""
-                switch (err) {
-                    case "CONNECTION_REFUSED":
-                        noconfintro4 = translate(lang, 'page_noconfintroconnectionrefused')
-                        noconfintrodiag = translate(lang, 'page_noconfintroconnectionrefuseddiagpart1') + translate(lang, 'page_globalnext') + translate(lang, 'page_noconfintroconnectionrefuseddiagpart2')
-                        break;
-                    case "INCORRECT_CREDENTIALS":
-                        noconfintro4 = translate(lang, 'page_noconfintroincorrectcredentials')
-                        noconfintrodiag = translate(lang, 'page_noconfintrodiag')
-                        break;
-                    case "ACCESS_DENIED":
-                        let conf = require('../configs/conf.json')
-                        noconfintro4 = translate(lang, 'page_noconfintroaccessdenied')
-                        noconfintrodiag = translate(lang, 'page_noconfintroaccessdenieddiagpart1') + conf.database + ".*" + translate(lang, 'page_noconfintroaccessdenieddiagpart2') + conf.dbusername + "@" + conf.hostname
-                        break;
-                    case "REDIS_CONNECTION_REFUSED":
-                        noconfintro4 = translate(lang, 'page_noconfintroredisconnectionrefused')
-                        noconfintrodiag = translate(lang, 'page_noconfintroconnectionrefuseddiagpart1') + translate(lang, 'page_globalnext') + translate(lang, 'page_noconfintroconnectionrefuseddiagpart2')
-                        break;
-                    case "WRONGPASS":
-                        noconfintro4 = translate(lang, 'page_noconfintroincorrectcredentials')
-                        noconfintrodiag = translate(lang, 'page_noconfintrodiag')
-                        break;
-                    case "BAD_DATABASE":
-                        noconfintro3 = translate(lang, 'page_redisbaddatabasepart1')
-                        noconfintro4 = translate(lang, 'page_redisbaddatabasepart2') + "<code>redis.conf</code>" + translate(lang, 'page_redisbaddatabasepart3')
-                        noconfintrodiag = translate(lang, 'page_redisbaddatabasediagpart1') + translate(lang, 'page_globalnext') + translate(lang, 'page_redisbaddatabasediagpart2') + "<code>conf.json</code>" + translate(lang, "page_redisbaddatabasediagpart3") + "<code>redis.conf</code>"
-                        break;
-                    default:
-                        noconfintro2 = "</div>" + translate(lang, 'page_noconfintrounknowndiscorderror1')
-                        noconfintro4 = translate(lang, 'page_noconfintrounknowndiscorderror2')
-                        noconfintrodiag = translate(lang, "page_confunknownerrordiag") + "<a href=\"" + uniconf.discord + "\">" + translate(lang, 'global_discorderver') + "</a>" + translate(lang, 'page_serverlostconnectiondiagpart3')
-                        log.error(err)
-                        break;
-                }
-                shownci(res, lang, confpath, noconfintro1, noconfintro2, noconfintro3, noconfintro4, noconfintrodiag)
-            })
         }
-    }
 })
 
 module.exports = router;
