@@ -43,11 +43,11 @@ for item in urls: # For each URL, get and save them
 print('Downloaded all', filecount, 'files!')
 
 print('Attempting to modify CSS file...') # Replace all references with local
-css = open('../src/server/pages/resources/css/twemoji-amazing.css', 'rt') # Read and replace in the program itself
+css = open('../src/server/views/resources/css/twemoji-amazing.css', 'rt') # Read and replace in the program itself
 data = css.read()
 data = data.replace('https://twemoji.maxcdn.com/v/latest/svg', '/resources/emojis')
 css.close()
-css = open('../src/server/pages/resources/css/twemoji-amazing.css', 'wt') # Write the changes
+css = open('../src/server/views/resources/css/twemoji-amazing.css', 'wt') # Write the changes
 css.write(data)
 css.close()
 print('All', filecount, 'instances of "https://twemoji.maxcdn.com/v/latest/svg" have been replaced with "/resources/emojis".')
@@ -57,7 +57,7 @@ js = open('resources-original.js', 'rt')
 data = js.read()
 data = data.replace('module.exports = router;', '') # Remove so that BTS Bot doesn't crash
 for item in urls:
-  data = data + "router.get('/emojis/" + get_filename_from_url(item) + "', (req, res) => {\n    res.sendFile('./pages/resources/emojis/" + get_filename_from_url(item) + "', { root: __dirname });\n});\n\n" # Replace
+  data = data + "router.get('/emojis/" + get_filename_from_url(item) + "', (req, res) => {\n    res.sendFile('./pages/views/emojis/" + get_filename_from_url(item) + "', { root: __dirname });\n});\n\n" # Replace
 data = data + "module.exports = router;" # Add back to end so BTS Bot doesn't crash
 js.close()
 js = open('../src/server/resources.js', 'wt')

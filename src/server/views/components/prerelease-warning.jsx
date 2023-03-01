@@ -2,7 +2,7 @@
 //                                                         //
 //                         BTS Bot                         //
 //                                                         //
-//                 File: strip-comments.js                 //
+//              File: prerelease-warning.jsx               //
 //                                                         //
 //               Author: Thomas (439bananas)               //
 //                                                         //
@@ -10,15 +10,10 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-const strip = require('strip-comments');
-const fs = require('fs');
+const translate = require('../../../core/getLanguageString');
 
-console.log("Stripping comments...")
-
-fs.readFile('../src/server/views/resources/css/twemoji-amazing.css', 'utf8', function(err, data) { // Read the file then remove the comments
-    if (err) throw err;
-    fs.writeFile('../src/server/views/resources/css/twemoji-amazing.css', strip(data), function (err) {
-        if (err) return console.log(err);
-    });
-});
-
+<div class="prerelease-warning">
+    <strong>
+        {translate(lang, 'page_globalprereleasewarningpart1') + uniconf.projname + translate(lang, 'page_globalprereleasewarningpart2')}
+    </strong>
+</div>

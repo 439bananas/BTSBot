@@ -210,7 +210,7 @@
   "page_redisbaddbdiag": "Check your Redis server's configuration as to how many databases there are, and ensure that you entered a positive integer.",
   "page_redisinvalidurl": "The connection URL to the Redis server is invalid.",
   "page_redisinvalidurldiagpart1": "Unfortunately, the version of the Redis module that ",
-  "page_redisinvalidurldiagpart2": " uses (4.2.0) has a bug where entering some characters (such as #) cause the module to throw a weird outlandish error. In the meantime, try setting your Redis user's password to a password that does not have potentially breaking characters.",
+  "page_redisinvalidurldiagpart2": " uses (4.5.0) has a bug where entering some characters (such as #) cause the module to throw a weird outlandish error. In the meantime, try setting your Redis user's password to a password that does not have potentially breaking characters.",
   "log_initialisingdbm": "Initialising database manager...",
   "log_newtablecreated": "New database table created: ",
   "log_newtablecreationerror": "Failed to create table ",
@@ -256,5 +256,6 @@
   "page_globalusermanager": "User manager",
   "page_globalhelpdesk": "Helpdesk",
   "page_noguildstolist": "Servers where you have the \"Manage Server\" permission will show here.",
-  "log_cannotconnecttodiscordwarn": " cannot currently connect to Discord."
+  "log_cannotconnecttodiscordwarn": " cannot currently connect to Discord.",
+  "page_configcompleteheader": "Congratulations!"
 }

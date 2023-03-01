@@ -11,8 +11,9 @@
 /////////////////////////////////////////////////////////////
 
 const checkConf = require('../core/checkConfExists')
-const path = require('path')
+const engine = require('express-engine-jsx');
 const express = require('express')
+const title = require('express-title')
 const app = express()
 const favicon = require('serve-favicon')
 const routes = require('./routes')
@@ -28,7 +29,6 @@ const cookieParser = require('cookie-parser')
 const show404 = require('./display404')
 const createLocaleMiddleware = require('express-locale')
 const getDiscordUser = require('../core/getDiscordUserInfo')
-const checkMySQL = require('../core/checkMySQL')
 const refreshBearerToken = require('../core/refreshDiscordBearerToken')
 const showwall = require('./displayWall')
 const getUserLang = require('../core/getUserLang')
@@ -37,31 +37,32 @@ let confExists
 let confErr
 let user
 
+app.set('views', path.join(__dirname, 'views'))
+app.set('view engine', 'jsx'); // We're using React as the templating engine
+app.engine('jsx', engine);
+
 switch (pkg.mode) {
     case 'alpha':
         faviconfilename = 'faviconalpha.ico'
-        global.prereleasewarning = "<%- include('./prerelease-warning'); %>"
         break;
     case 'beta':
         faviconfilename = 'faviconbeta.ico'
-        global.prereleasewarning = "<%- include('./prerelease-warning'); %>"
         break;
     case 'active-development':
         faviconfilename = 'faviconad.ico'
-        global.prereleasewarning = "<%- include('./prerelease-warning'); %>"
         break;
     case 'ad':
         faviconfilename = 'faviconad.ico'
-        global.prereleasewarning = "<%- include('./prerelease-warning'); %>"
         break;
     default:
         faviconfilename = 'favicon.ico'
-        global.prereleasewarning = ""
         break;
 }
 
 app.use(cookieParser()) // Deal with cookies
 app.use(createLocaleMiddleware())
+app.use(title()); // Set tab title
+app.set('title', uniconf.projname);
 
 app.get('/*', async function (req, res, next) { // Block Internet Explorer
     user = {}
@@ -74,14 +75,10 @@ app.get('/*', async function (req, res, next) { // Block Internet Explorer
     let lang = await getUserLang(req)
     let urls = req.url.split('/') // Split our URLs where there is a / and add to array
     if ((req.get('user-agent').includes("MSIE") || req.get('user-agent').includes("Trident")) && urls[1].toLowerCase() != "resources") { // IE has two user agents; MSIE and Trident. Trident is only used in IE 11. Also check if we are not accessing resources (so we can load CSS)
-        res.render('../src/server/pages/ie-detect-error.ejs', { // Display error
-            projname: uniconf.projname,
-            conf: false,
-            i18ngdescription: translate(lang, 'page_globaldesc'),
-            metaurl: "https://" + uniconf.metadomain,
-            i18ntitle: translate(lang, "page_iewalltitle"),
-            i18ndescription: translate(lang, "page_iewalldescriptionpart1") + "<a href=\"https://www.microsoft.com/en-us/edge#evergreen\">" + translate(lang, "page_iewalldescriptionpart2") + "</a>" + translate(lang, "page_iewalldescriptionpart3") + "<a href = \"https://www.google.com/chrome/\">" + translate(lang, "page_iewalldescriptionpart4") + "</a>" + translate(lang, "page_iewalldescriptionpart5") + "<a href=\"https://www.mozilla.org/en-GB/firefox/new/\">" + translate(lang, "page_iewalldescriptionpart6") + "</a>"
-        })
+        res.locals.uniconf = uniconf
+        res.locals.title = " "
+        res.locals.lang = lang
+        res.render('ie-detect-error')// Display error
     } else { // If there are MySQL and Redis connections, try querying the database for the user
         if (typeof (redisConnection) != "undefined" && typeof (MySQLConnection) != "undefined" && req.cookies.discordbearertoken && urls[1].toLowerCase() != "resources") {
             try {
@@ -169,7 +166,7 @@ app.all('/*', async function (req, res, next) {
     })
 });
 
-app.use(favicon(path.join(__dirname, 'pages', 'resources', 'img', faviconfilename)))
+app.use(favicon(path.join(__dirname, 'views', 'resources', 'img', faviconfilename)))
 app.use('/', function (req, res, next) {
     req.confExists = confExists
     req.confErr = confErr
@@ -194,11 +191,11 @@ app.use('/servers', function (req, res, next) {
 }, serversRoutes) // Servers page + actual dashboard
 
 app.use(function (req, res, next) {
-    getlang(true).then(lang => {
+    getUserLang(req).then(lang => {
         checkConf().then(result => {
-            show404(res, lang, true, req)
+            show404(req, res, lang, true)
         }).catch(err => { // If error in conf, don't show things like login etc that couldn't possibly exist
-            show404(res, lang, false)
+            show404(req, res, lang, false)
         })
     })
 });

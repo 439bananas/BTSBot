@@ -5,8 +5,8 @@
 /.vs
 /node_modules
 /cache
-/src/server/pages/resources/emojis
-/src/server/pages/resources/css/twemoji-amazing.css
+/src/server/views/resources/emojis
+/src/server/views/resources/css/twemoji-amazing.css
 /src/server/resources.js
 /src/configs/conf.json
 /src/configs/confinterim.json

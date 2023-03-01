@@ -28,6 +28,7 @@ async function fetchDiscordUser(bearertoken) {
             throw "CANNOT_CONNECT_TO_DISCORD"
         } else {
             log.error(err)
+            log.temp("getDiscordUserInfo.js:31")
             throw "UNKNOWN_ERROR"
         }
     }
@@ -49,6 +50,9 @@ async function getDiscordUser(bearertoken) { // Get the user's info from their b
             try {
                 user = await fetchDiscordUser(bearertoken) // Fetch our user
             } catch (err) {
+                log.temp(err.name)
+                log.temp(err.code)
+                log.temp("getDiscordUserInfo.js:55")
                 throw err;
             }
             await requireValidDiscordUserResp(user) // Throw errors if anything bad happens
@@ -58,8 +62,9 @@ async function getDiscordUser(bearertoken) { // Get the user's info from their b
                 // We were previously using a method where we had a cache object and put things in that but we figured on different platforms it would cause stability/performance/resources problems and could potentially hang devices like Raspberry Pi so we switched to Redis
             } else { // If something weird, we possibly have an error, v10 shouldn't from this point in have any breaking changes (they should be issued in v11 or so)
                 log.error(user.message)
-                log.temp(err.code)
-                log.temp(err.name)
+                log.temp("getDiscordUserInfo.js:65")
+                log.temp(user.code)
+                log.temp(user.name)
                 throw "UNKNOWN_ERROR"
             }
             return user;
@@ -79,6 +84,7 @@ async function getDiscordUser(bearertoken) { // Get the user's info from their b
                 break;
             default:
                 log.error(err)
+                log.temp("getDiscordUserInfo.js:88")
                 log.temp(err.code)
                 log.temp(err.name)
                 throw "UNKNOWN_ERROR"

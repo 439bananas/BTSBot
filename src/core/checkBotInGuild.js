@@ -10,7 +10,7 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-const checkconf = require('./checkConfExists')
+const conf = require('../configs/conf.json')
 
 async function getGuildPresence(guildId) {
     try {

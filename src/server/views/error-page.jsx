@@ -2,7 +2,7 @@
 //                                                         //
 //                         BTS Bot                         //
 //                                                         //
-//                 File: strip-comments.js                 //
+//                  File: error-page.jsx                   //
 //                                                         //
 //               Author: Thomas (439bananas)               //
 //                                                         //
@@ -10,15 +10,14 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-const strip = require('strip-comments');
-const fs = require('fs');
+const Layout = require('./components/layout');
 
-console.log("Stripping comments...")
-
-fs.readFile('../src/server/views/resources/css/twemoji-amazing.css', 'utf8', function(err, data) { // Read the file then remove the comments
-    if (err) throw err;
-    fs.writeFile('../src/server/views/resources/css/twemoji-amazing.css', strip(data), function (err) {
-        if (err) return console.log(err);
-    });
-});
-
+<Layout>
+    <div className="container">
+        <div className="alert-box danger text-wrap">
+            {error}
+            <br />
+            {diag}
+        </div>
+    </div>
+</Layout>

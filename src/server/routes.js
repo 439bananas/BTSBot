@@ -15,8 +15,10 @@ const router = express.Router()
 
 const submitConfigRoutes = require('./api/submitConfig')
 const versionRoutes = require('./api/version')
+const uniconfRoutes = require('./api/uniconf')
 
 router.use('/submit-config', submitConfigRoutes)
 router.use('/version', versionRoutes)
+router.use('/uniconf', uniconfRoutes)
 
 module.exports = router;

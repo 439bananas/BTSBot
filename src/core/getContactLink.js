@@ -18,7 +18,7 @@ let address
 
 async function getContactLink() {
     if (Math.floor(Date.now() / 1000) >= expiryTime) { // If current time is longer than expiry time, validate mail server
-        expiryTime = Math.floor(Date.now() / 1000) + 3600 // Set expiry for an hour's time
+        expiryTime = Math.floor(Date.now() / 1000) + 14400 // Set expiry for 4 hours' time
         let transporter = nodemailer.createTransport({
             host: conf.smtpserver, // Conf should really exist when this is called
             port: conf.smtpport,

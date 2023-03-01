@@ -12,7 +12,17 @@
 
 function showwall(res, lang, error, diag) { // Really just useful to prevent people from going any further
     res.status(200)
-    res.render('../src/server/pages/errorpage.ejs', {
+    res.locals.lang = lang
+    res.locals.uniconf = uniconf
+    res.locals.title = " - " + translate(lang, 'page_configpagetitle')
+    res.locals.conf = false
+    res.locals.DiscordUser = {}
+    res.locals.pkg = pkg
+    res.render('error-page', {
+        error: error,
+        diag: diag
+    })
+    /*res.render('../pages/errorpage.ejs', {
         projname: uniconf.projname,
         metadomain: uniconf.metadomain,
         metaurl: "https://" + uniconf.metadomain,
@@ -29,7 +39,7 @@ function showwall(res, lang, error, diag) { // Really just useful to prevent peo
         i18ndiscord: translate(lang, 'page_globaldiscord'),
         i18ndashboard: translate(lang, 'page_noconfdashboard'),
         conf: false
-    })
+    })*/
 }
 
 module.exports = showwall;

@@ -22,7 +22,6 @@ const { response } = require('./serverListener')
 const server = http.createServer(app)
 
 e.use(express.static('public'))
-e.set('view engine', 'ejs') // We're using EJS as the templating engine
 
 getlang().then(lang => {
     server.listen(uniconf.port)

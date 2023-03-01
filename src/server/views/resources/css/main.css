@@ -412,3 +412,7 @@ a.guild-link {
     padding-top: 5em;
     text-align: center;
 }
+
+.navbar-nav a:hover {
+    text-decoration: none;
+}

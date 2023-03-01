@@ -12,6 +12,7 @@
 
 global.path = require('path') // Define anything to be globally used here
 global.uniconf = require('../configs/uniconf.json')
+global.pkg = require('../../package.json')
 global.translate = require('./getLanguageString')
 global.log = require('./logHandler')
 global.restart = require('./restartProcess')

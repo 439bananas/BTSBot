@@ -10,31 +10,29 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-function shownci(res, lang, confpath, noconfintro1, noconfintro2, noconfintro3, noconfintro4, noconfintrodiag) {
+let config
+let knownErrors = [false, "MISSING_FIELDS", "TOKEN_INVALID", "CONNECTION_REFUSED", "INCORRECT_CREDENTIALS", "ACCESS_DENIED", "REDIS_CONNECTION_REFUSED", "WRONGPASS", "BAD_DATABASE"]
+
+function shownci(req, res, lang, err) {
+    if (!knownErrors.includes(err)) {
+        log.error(err)
+    }
     res.status(200);
-    res.render('../src/server/pages/noconfintro.ejs', {
-        projname: uniconf.projname,
-        confpath: confpath,
-        metadomain: uniconf.metadomain,
-        metaurl: "https://" + uniconf.metadomain,
-        wikiurl: "https://wiki." + uniconf.metadomain,
-        discord: uniconf.discord,
-        i18npagetitle: translate(lang, 'page_configpagetitle'),
-        i18ngdescription: translate(lang, 'page_globaldesc'),
-        i18ndocumentation: translate(lang, 'page_globaldocumentation'),
-        i18ndiscord: translate(lang, 'page_globaldiscord'),
-        i18ngithub: translate(lang, 'page_globalgithub'),
-        i18ndashboard: translate(lang, 'page_noconfdashboard'),
-        prereleasewarning: "",
-        i18nprereleasewarning: translate(lang, 'page_globalprereleasewarningpart1') + uniconf.projname + translate(lang, 'page_globalprereleasewarningpart2'),
-        i18nheadertitle: translate(lang, 'page_noconfintroheader'),
-        i18nnextbutton: translate(lang, 'page_globalnext'),
-        i18nnoconfintro1: noconfintro1,
-        i18nnoconfintro2: noconfintro2,
-        i18nnoconfintro3: noconfintro3,
-        i18nnoconfintro4: noconfintro4,
-        i18nnoconfintrodiag: noconfintrodiag,
-        conf: false
+    res.locals.lang = lang
+    res.locals.pkg = pkg
+    res.locals.DiscordUser = req.user
+    res.locals.conf = false
+    res.locals.title = " - " + translate(lang, 'page_configpagetitle')
+    res.locals.uniconf = uniconf
+    res.locals.err = err.toString()
+    if (err.toString() == "ACCESS_DENIED") {
+        config = require('../configs/conf.json')
+        res.locals.database = config.database
+        res.locals.dbusername = config.dbusername
+        res.locals.hostname = config.hostname
+    }
+    res.render('no-conf-intro', {
+        lang: lang
     });
 }
 

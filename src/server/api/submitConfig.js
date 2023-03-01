@@ -101,9 +101,9 @@ router.get('/', async (req, res, next) => { // This should totally not be GET'd
         getUserLang(req)
             .then(langcode => {
                 if (err) {  // If error in conf, don't show things like login etc that couldn't possibly exist
-                    show404(res, langcode, false)
+                    show404(req, res, langcode, false)
                 } else {
-                    show404(res, langcode, true, req)
+                    show404(req, res, langcode, true)
                 }
             })
     })

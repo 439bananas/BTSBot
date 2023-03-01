@@ -4,11 +4,11 @@
   "metadomain": "btsbot.439bananas.com",
   "discord": "https://discord.gg/ahyzfEv",
   "twitter": "https://twitter.com/BTSBotDiscord",
-  "defaultlanguage": "en-GB",
+  "defaultlanguage": "en-gb",
   "perms": "1495625362655",
   "defaultemail": "btsbot@439bananas.com",
   "settings": [
-    [ "language", "en-GB" ],
+    [ "language", "en-gb" ],
     [ "hostname", "127.0.0.1" ],
     [ "dbusername", "btsbot" ],
     [ "database", "btsbot" ],

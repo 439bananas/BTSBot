@@ -36,28 +36,13 @@ router.get('/', async (req, res, next) => {
     let lang = await getUserLang()
 
     if (req.confExists === true) {
-        try {
-            const user = req.user
-            if (user.avatar == null) { // If we have no profile picture, do the magic calculation! https://discord.com/developers/docs/reference#image-formatting
-                avatarfilename = user.discriminator % 5
-                avatarurl = 'https://cdn.discordapp.com/embed/avatars/' + avatarfilename + ".png"
-            } else { // If we do have one, set the link to this.
-                avatarfilename = user.avatar
-                avatarurl = 'https://cdn.discordapp.com/avatars/' + user.id + "/" + avatarfilename
-            }
-
-            if (await isMod(user.id)) {
-                modDropdownOptions = "<li><a class=\"dropdown-item\" href=\"/helpdesk\">" + translate(lang, "page_globalhelpdesk") + "</a></li><li><a class=\"dropdown-item\" href=\"/all-servers\">" + translate(lang, "page_globalallservers") + "</a></li><li><a class=\"dropdown-item\" href=\"/user-manager\">" + translate(lang, "page_globalusermanager") + "</a></li>"
-            } else {
-                modDropdownOptions = ""
-            }
-
             try {
+                const user = req.user
                 let guilds = await getGuilds(req.cookies.discordbearertoken)
                 let listedGuilds = []
                 for (guildIndex in guilds) {
                     guild = guilds[guildIndex] // I would've used getUserPermissions but it only gets the permissions for one guild (which is many API requests)
-                    let reversedPermsInt = parseInt(guild.permissions).toString(2).split("") 
+                    let reversedPermsInt = parseInt(guild.permissions).toString(2).split("")
                     reversedPermsInt = reversedPermsInt.reverse() // Sadly no way to reverse strings, sad
                     if (reversedPermsInt[3] == 1 || reversedPermsInt[5] == 1) { // There's no point in rejoining the array back together, working on it like this is fiiiine
                         listedGuilds.push(guilds[guildIndex]) // User must be administrator or have manage server permissions for their server to show up in the list
@@ -76,70 +61,31 @@ router.get('/', async (req, res, next) => {
                     return 0;
                 });
 
-                let guildElements = ""
+                let guildsBotIsIn = []
+
                 for (guildIndex in listedGuilds) {
-                    log.temp(guildIndex)
-                    guild = listedGuilds[guildIndex]
-                    if (guild.icon == null) {
-                        guildIconLink = 'https://cdn.discordapp.com/embed/avatars/' + Math.abs((guild.id >> 22) % 5) + ".png"
-                    } else {
-                        guildIconLink = "https://cdn.discordapp.com/icons/" + guild.id + "/" + guild.icon
-                    }
-
+                    let guild = listedGuilds[guildIndex]
                     let inGuild = await botInGuild(guild.id)
-
                     if (inGuild) {
-                        greyedOut = ""
+                        guildsBotIsIn.push(true)
                     } else {
-                        greyedOut = " guild-bot-not-in"
+                        guildsBotIsIn.push(false)
                     }
-
-                    guildElements += "<div class=\"guild\"><a href=\"/servers/" + guild.id + "\" class=\"guild-link" + greyedOut + "\"><img src=\"" + guildIconLink + "\" class=\"rounded-circle guild-icon\" /><br/><p class=\"guild-link\">" + guild.name + "</p></a></div>"
+                    if (guildIndex == listedGuilds.length - 1) {
+                        res.locals.lang = lang
+                        res.locals.uniconf = uniconf
+                        res.locals.title = " - " + translate(lang, "page_globalservers")
+                        res.locals.DiscordUser = req.user
+                        res.locals.conf = true
+                        res.locals.isMod = await isMod(user.id)
+                        res.locals.pkg = pkg
+                        res.locals.contactLink = await getContactLink()
+                        res.locals.guildsBotIsIn = guildsBotIsIn
+                        res.render('servers', {
+                            listedGuilds: listedGuilds
+                        })
+                    }
                 }
-                if (guildElements == "") {
-                    guildElements = "<div class=\"no-guilds\">" + translate(lang, "page_noguildstolist") + "</div>" // This element is in bold, strong quotes manipulate text to speech, while bold is for purely aesthetic purposes
-                }
-
-                res.render('../src/server/pages/servers.ejs', {
-                    projname: uniconf.projname,
-                    confpath: path.join(__dirname, 'configs'),
-                    metadomain: uniconf.metadomain,
-                    metaurl: "https://" + uniconf.metadomain,
-                    wikiurl: "https://wiki." + uniconf.metadomain,
-                    discord: uniconf.discord,
-                    twitter: uniconf.twitter,
-                    i18ngdescription: translate(lang, 'page_globaldesc'),
-                    i18ndocumentation: translate(lang, 'page_globaldocumentation'),
-                    i18ndiscord: translate(lang, 'page_globaldiscord'),
-                    i18ngithub: translate(lang, 'page_globalgithub'),
-                    conf: true,
-                    signinlink: "/login",
-                    modDropdownOptions: modDropdownOptions,
-                    user: user,
-                    guilds: guildElements,
-                    pfpUrl: avatarurl,
-                    i18nserverslink: translate(lang, "page_globalservers"),
-                    i18npagetitle: translate(lang, "page_globalservers"),
-                    i18naccountsettingslink: translate(lang, "page_globalaccountsettings"),
-                    i18nsignoutlink: translate(lang, "page_globalsignout"),
-                    prereleasewarning: prereleasewarning,
-                    contactlink: link,
-                    i18ndashboard: translate(lang, 'page_noconfdashboard'),
-                    i18nsigninwithdiscord: translate(lang, 'page_globalsigninwithdiscord'),
-                    i18nprereleasewarning: translate(lang, 'page_globalprereleasewarningpart1') + uniconf.projname + translate(lang, 'page_globalprereleasewarningpart2'),
-                    i18nheadertitle: translate(lang, 'page_serverstitle'),
-                    i18nfooterprojname: uniconf.projname.replace(/ /g, "&nbsp;"),
-                    i18nfooterdiscord: translate(lang, "page_globalfooterdiscord").replace(/ /g, "&nbsp"),
-                    i18nfootertwitter: translate(lang, "page_globalfootertwitter").replace(/ /g, "&nbsp"),
-                    i18nfootercredits: translate(lang, "page_globalfootercredits").replace(/ /g, "&nbsp"),
-                    i18nfootercontact: translate(lang, "page_globalfootercontact").replace(/ /g, "&nbsp"),
-                    i18nfooterwiki: translate(lang, "page_globalfooterwiki").replace(/ /g, "&nbsp"),
-                    i18nfooterstatus: translate(lang, "page_globalfooterstatus").replace(/ /g, "&nbsp"),
-                    i18nfootergithub: translate(lang, 'page_globalgithub').replace(/ /g, "&nbsp;"),
-                    i18nfootertranslate: translate(lang, 'page_globalfootertranslate').replace(/ /g, "&nbsp"), // Kind of ironic that we're performing the translate function on a piece of text called "translate"
-                    i18nfooterprivacypolicy: translate(lang, 'page_globalfooterprivacypolicy').replace(/ /g, "&nbsp"),
-                    i18nfootertos: translate(lang, 'page_globalfootertos').replace(/ /g, "&nbsp")
-                })
             } catch (err) {
                 switch (err) {
                     case "BAD_DISCORD_BEARER_TOKEN": // While the scopes may be wrong there may also be an incident where the bearer token has expired but it's not reflected in Redis yet
@@ -168,22 +114,6 @@ router.get('/', async (req, res, next) => {
                         showwall(res, conf.language, translate(lang, "page_confunknownerror"), translate(lang, "page_wallunknownerrordiag"))
                 }
             }
-        } catch (err) {
-            let redirectUrl
-            try {
-                log.temp("serversPage.j:178")
-                let token = await refreshBearerToken(req.cookies.discordrefreshtoken)
-                await res.cookie("discordbearertoken", token.bearertoken, { maxAge: 604800000, httpOnly: true }) // Store bearer token and refresh token
-                await res.cookie('discordrefreshtoken', token.refreshtoken, { httpOnly: true })
-                if (token.bearertoken) {
-                    redirectUrl = req.originalUrl // If bad bearer token try to get a new token
-                }
-            } catch (err) {
-                redirectUrl = '/login'
-            } finally {
-                res.redirect(redirectUrl)
-            }
-        }
     } else {
         res.redirect('/')
     }

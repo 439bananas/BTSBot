@@ -28,7 +28,7 @@ router.get('/', async (req, res, next) => { // /config endpoint
     getUserLang(req).then(lang => { // ANB for the sake that no options depending on if user signed in or not
         checkConf().then(response => { // Check conf before continuing
             if (response == true) { // If conf good, return 404
-                show404(res, lang, true, req)
+                show404(req, res, lang, true)
             }
         }).catch(err => {
             switch (err) {
@@ -38,7 +38,8 @@ router.get('/', async (req, res, next) => { // /config endpoint
                         validateOAuth2(req, res, conf)
                     }).catch(confinterimerror => {
                         if (confinterimerror == false) {
-                            showconf(res, lang, uniconf.defaultlanguage, settings[1][1], settings[2][1], settings[3][1], settings[4][1], settings[5][1], settings[6][1], settings[7][1], settings[8][1], settings[9][1], settings[10][1], settings[11][1], settings[12][1], settings[13][1], settings[14][1], settings[15][1], settings[16][1], settings[17][1], settings[18][1], settings[19][1], settings[20][1], settings[21][1])
+                            log.temp("default language " + uniconf.defaultlanguage)
+                            showconf(req, res, lang, uniconf.defaultlanguage, settings[1][1], settings[2][1], settings[3][1], settings[4][1], settings[5][1], settings[6][1], settings[7][1], settings[8][1], settings[9][1], settings[10][1], settings[11][1], settings[12][1], settings[13][1], settings[14][1], settings[15][1], settings[16][1], settings[17][1], settings[18][1], settings[19][1], settings[20][1], settings[21][1])
                         } else {
                             conf = require('../configs/confinterim.json')
                             if (conf[settings[0][0]] === undefined) { // We put settings that should be there in uniconf so it's slightly easier to edit as we go along
@@ -152,7 +153,7 @@ router.get('/', async (req, res, next) => { // /config endpoint
                             } else {
                                 global.gemailusername = conf.emailusername
                             }
-                            showconf(res, lang, gdefaultlanguage, ghostname, gusername, gdatabase, gtableprefix, gredishostname, gredisusername, gredisdatabase, gpstatus, gostatus, gguildid, gmoderatorsroleid, ggoogleclientid, gmsclientid, gsmtpserver, gsmtpport, gsmtpssl, gimapssl, gimapserver, gimapport, gemailaddress, gemailusername)
+                            showconf(req, res, lang, gdefaultlanguage, ghostname, gusername, gdatabase, gtableprefix, gredishostname, gredisusername, gredisdatabase, gpstatus, gostatus, gguildid, gmoderatorsroleid, ggoogleclientid, gmsclientid, gsmtpserver, gsmtpport, gsmtpssl, gimapssl, gimapserver, gimapport, gemailaddress, gemailusername)
                         }
                     })
                     break;
@@ -276,7 +277,7 @@ router.get('/', async (req, res, next) => { // /config endpoint
                             } else {
                                 global.gemailusername = conf.emailusername
                             }
-                            showconf(res, lang, gdefaultlanguage, ghostname, gusername, gdatabase, gtableprefix, gredishostname, gredisusername, gredisdatabase, gpstatus, gostatus, gguildid, gmoderatorsroleid, ggoogleclientid, gmsclientid, gsmtpserver, gsmtpport, gsmtpssl, gimapssl, gimapserver, gimapport, gemailaddress, gemailusername)
+                            showconf(req, res, lang, gdefaultlanguage, ghostname, gusername, gdatabase, gtableprefix, gredishostname, gredisusername, gredisdatabase, gpstatus, gostatus, gguildid, gmoderatorsroleid, ggoogleclientid, gmsclientid, gsmtpserver, gsmtpport, gsmtpssl, gimapssl, gimapserver, gimapport, gemailaddress, gemailusername)
                         } else {
                             conf = require('../configs/confinterim.json')
                             if (conf[settings[0][0]] === undefined) { // We put settings that should be there in uniconf so it's slightly easier to edit as we go along
@@ -390,13 +391,13 @@ router.get('/', async (req, res, next) => { // /config endpoint
                             } else {
                                 global.gemailusername = conf.emailusername
                             }
-                            showconf(res, lang, gdefaultlanguage, ghostname, gusername, gdatabase, gtableprefix, gredishostname, gredisusername, gredisdatabase, gpstatus, gostatus, gguildid, gmoderatorsroleid, ggoogleclientid, gmsclientid, gsmtpserver, gsmtpport, gsmtpssl, gimapssl, gimapserver, gimapport, gemailaddress, gemailusername)
+                            showconf(req, res, lang, gdefaultlanguage, ghostname, gusername, gdatabase, gtableprefix, gredishostname, gredisusername, gredisdatabase, gpstatus, gostatus, gguildid, gmoderatorsroleid, ggoogleclientid, gmsclientid, gsmtpserver, gsmtpport, gsmtpssl, gimapssl, gimapserver, gimapport, gemailaddress, gemailusername)
                         }
                     })
                     break;
                 default:
                     conf = require('../configs/conf.json') // We can't really require it in the top of the file else BTS Bot would fatally crash if there was no conf file at all, hence rendering the entire thing useless
-                    showconf(res, lang, conf.language, conf.hostname, conf.dbusername, conf.database, conf.tableprefix, conf.redishostname, conf.redisusername, conf.redisdatabase, conf.pstatus, conf.ostatus, conf.guildid, conf.moderatorsroleid, conf.googleclientid, conf.msclientid, conf.smtpserver, conf.smtpport, conf.smtpssl, conf.imapssl, conf.imapserver, conf.imapport, conf.emailaddress, conf.emailusername)
+                    showconf(req, res, lang, conf.language, conf.hostname, conf.dbusername, conf.database, conf.tableprefix, conf.redishostname, conf.redisusername, conf.redisdatabase, conf.pstatus, conf.ostatus, conf.guildid, conf.moderatorsroleid, conf.googleclientid, conf.msclientid, conf.smtpserver, conf.smtpport, conf.smtpssl, conf.imapssl, conf.imapserver, conf.imapport, conf.emailaddress, conf.emailusername)
             }
         })    
     })
