@@ -4637,7 +4637,6 @@
     <Folder Include="src\server\api\" />
     <Folder Include="src\server\views\" />
     <Folder Include="src\server\views\components\" />
-    <Folder Include="src\server\views\components\api\" />
     <Folder Include="src\server\views\resources\" />
     <Folder Include="src\server\views\resources\css\" />
     <Folder Include="src\server\views\resources\emojis\" />
