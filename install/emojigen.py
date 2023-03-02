@@ -19,15 +19,15 @@ import re
 import fileinput
 
 text = requests.get('https://raw.githubusercontent.com/SebastianAigner/twemoji-amazing/master/twemoji-amazing.css').text
-with open('../src/server/pages/resources/css/twemoji-amazing.css', 'w') as f: # Get and write the file
+with open('../src/server/views/resources/css/twemoji-amazing.css', 'w') as f: # Get and write the file
   f.write(text)
 
 os.system('node strip-comments.js') # Comments make generation crash? Oops
 
 print('Generating emojis, this could take a while...')
 
-os.mkdir('../src/server/pages/resources/emojis') # Create dir
-with open('../src/server/pages/resources/css/twemoji-amazing.css') as css: # Look through CSS for links
+os.mkdir('../src/server/views/resources/emojis') # Create dir
+with open('../src/server/views/resources/css/twemoji-amazing.css') as css: # Look through CSS for links
   text = css.read()
 urls = re.findall(r'https?://[^"]+', text, re.I) # Find URLs then add to list
 urls = list(set(urls))
@@ -35,7 +35,7 @@ urls = list(set(urls))
 filecount = int(0) # Purely statistical
 for item in urls: # For each URL, get and save them
   text = requests.get(item).text
-  with open('../src/server/pages/resources/emojis/' + get_filename_from_url(item), 'w') as svg:
+  with open('../src/server/views/resources/emojis/' + get_filename_from_url(item), 'w') as svg:
     svg.write(text)
     print('Downloaded ' + get_filename_from_url(item))
     filecount = filecount + 1
