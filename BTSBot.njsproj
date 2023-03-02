@@ -978,7 +978,9 @@
     <Content Include="src\core\getDiscordBearerToken.js" />
     <Content Include="src\server\displayConfigComplete.js" />
     <Content Include="src\server\resources.js" />
-    <Content Include="src\server\routes.js" />
+    <Content Include="src\server\routes.js">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="src\server\serverListener.js" />
     <Content Include="src\server\validateOAuth2.js" />
     <Content Include="src\server\views\404.jsx">
