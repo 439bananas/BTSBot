@@ -57,7 +57,7 @@ js = open('resources-original.js', 'rt')
 data = js.read()
 data = data.replace('module.exports = router;', '') # Remove so that BTS Bot doesn't crash
 for item in urls:
-  data = data + "router.get('/emojis/" + get_filename_from_url(item) + "', (req, res) => {\n    res.sendFile('./views/views/emojis/" + get_filename_from_url(item) + "', { root: __dirname });\n});\n\n" # Replace
+  data = data + "router.get('/emojis/" + get_filename_from_url(item) + "', (req, res) => {\n    res.sendFile('./views/resources/emojis/" + get_filename_from_url(item) + "', { root: __dirname });\n});\n\n" # Replace
 data = data + "module.exports = router;" # Add back to end so BTS Bot doesn't crash
 js.close()
 js = open('../src/server/resources.js', 'wt')
