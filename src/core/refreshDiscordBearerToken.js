@@ -15,6 +15,8 @@ const getid = require('./getApplicationId')
 async function refreshBearerToken(refreshtoken) {
     let clientid = await getid(conf.token)
     try {
+        log.temp(++requestsToDiscord)
+        log.temp("refreshing user's bearer token")
         let rawResponse = await fetch('https://discord.com/api/v10/oauth2/token', { // Send POST request for bearer token
             method: "POST",
             body: new URLSearchParams({

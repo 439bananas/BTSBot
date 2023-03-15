@@ -14,6 +14,8 @@ const fetch = require('node-fetch')
 
 function getDiscordScopes(bearertoken) { // Get the scopes that belong to the bearer tokken
     return new Promise(function (resolve, reject) {
+        log.temp(++requestsToDiscord)
+        log.temp("getting the scopes granted to the user")
         fetch('https://discord.com/api/v10/oauth2/@me', {
             method: "GET",
             headers: {

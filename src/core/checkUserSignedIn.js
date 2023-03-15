@@ -10,18 +10,18 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-const checkConf = require('../core/checkConfExists')
 const getDiscordUser = require('./getDiscordUserInfo')
 const refreshBearerToken = require('./refreshDiscordBearerToken')
 
 async function signedIn(req, res) { // Return a value depending on whether the user is signed in or not
     try {
-        let confexists = await checkConf() // If conf does not exist, return false, else check if user bearer token has not expired or exists at all
-        if (confexists) {
+        if (req.confExists) {
             let user = await getDiscordUser(req.cookies.discordbearertoken) // Check that the bearer token works
             if (user) {
                 return true // Return true if it does
             }
+        } else {
+            throw req.confErr
         }
     } catch (err) {
         if (err == "BAD_ACCESS_TOKEN") { // Bad access token? Refresh it

@@ -17,6 +17,8 @@ let tokencache
 function getid(token) {
     return new Promise(function (resolve, reject) {
         if (tokencache != token) { // Let's try and minimise our requests to Discord as much as possible
+            log.temp(++requestsToDiscord)
+        log.temp("getting the application id")
             tokencache = token
             fetch('https://discord.com/api/v10/oauth2/applications/@me', { // Fetch OAuth2 endpoint
                 method: 'GET',

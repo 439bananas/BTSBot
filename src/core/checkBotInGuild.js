@@ -20,6 +20,8 @@ async function getGuildPresence(guildId) {
                 'Authorization': `Bot ${conf.token}`
             }
         })
+        log.temp(++requestsToDiscord)
+        log.temp("checking if the bot is in " + guildId)
         let response = await rawResponse.json()
         if (response.id) {
             return true

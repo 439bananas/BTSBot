@@ -15,6 +15,8 @@ const getid = require('./getApplicationId')
 
 function getDiscordToken(token, clientsecret, redirecturi, code) {
     return new Promise(function promise(resolve, reject) {
+        log.temp(++requestsToDiscord)
+        log.temp("getting the user's bearer token")
         getid(token).then(id => {
             fetch("https://discord.com/api/v10/oauth2/token", { // Get the token
                 method: 'POST',

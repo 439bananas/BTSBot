@@ -17,6 +17,8 @@ let teammembers
 function getOwner(token) {
     return new Promise(function (resolve, reject) {
         teammembers = []
+        log.temp(++requestsToDiscord)
+        log.temp("getting the owner's id")
         fetch('https://discord.com/api/v10/oauth2/applications/@me', { // Fetch OAuth2 endpoint
             method: 'GET',
             headers: {

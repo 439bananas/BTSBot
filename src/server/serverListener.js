@@ -65,9 +65,13 @@ app.use(title()); // Set tab title
 app.set('title', uniconf.projname);
 
 app.get('/*', async function (req, res, next) { // Block Internet Explorer
+    global.requestsToDiscord = 0
     user = {}
     try {
-        confExists = await checkConf()
+        url = req.url.split('/')
+        if (url[1] != "resources" && (url[1] != "api" && (url[2] != "uniconf" || url[2] != "version"))) {
+            confExists = await checkConf()
+        } else confExists = true
     } catch (err) {
         confErr = err
         confExists = false
@@ -78,7 +82,7 @@ app.get('/*', async function (req, res, next) { // Block Internet Explorer
         res.locals.uniconf = uniconf
         res.locals.title = " "
         res.locals.lang = lang
-        res.render('ie-detect-error')// Display error
+        res.render('ie-detect-error') // Display error
     } else { // If there are MySQL and Redis connections, try querying the database for the user
         if (typeof (redisConnection) != "undefined" && typeof (MySQLConnection) != "undefined" && req.cookies.discordbearertoken && urls[1].toLowerCase() != "resources") {
             try {
@@ -99,6 +103,7 @@ app.get('/*', async function (req, res, next) { // Block Internet Explorer
                                 showwall(res, lang, uniconf.projname + translate(lang, "page_missingdbperms"), translate(lang, "page_missingdbpermsdiagpart1") + conf.database + translate(lang, "page_missingdbpermsdiagpart2") + '\'' + conf.dbusername + '\'@\'' + conf.hostname + '\'.')
                             } else if (!(err.code == "ER_TABLEACCESS_DENIED_ERROR" || err.code == "ER_DBACCESS_DENIED_ERROR")) {
                                 log.error(err)
+                                log.temp("serverListener.js:102")
                                 showwall(res, conf.language, translate(lang, "page_confunknownerror"), translate(lang, "page_wallunknownerrordiag"))
                             } else next()
                         }
@@ -110,6 +115,7 @@ app.get('/*', async function (req, res, next) { // Block Internet Explorer
                             if ((err.code == "ER_TABLEACCESS_DENIED_ERROR" || err.code == "ER_DBACCESS_DENIED_ERROR")) {
                                 showwall(res, lang, uniconf.projname + translate(lang, "page_missingdbperms"), translate(lang, "page_missingdbpermsdiagpart1") + conf.database + translate(lang, "page_missingdbpermsdiagpart2") + '\'' + conf.dbusername + '\'@\'' + conf.hostname + '\'.')
                             } else if (!(err.code == "ER_TABLEACCESS_DENIED_ERROR" || err.code == "ER_DBACCESS_DENIED_ERROR")) {
+                                log.temp("serverListener.js:114")
                                 log.error(err)
                                 showwall(res, conf.language, translate(lang, "page_confunknownerror"), translate(lang, "page_wallunknownerrordiag"))
                             } else next()
@@ -119,9 +125,15 @@ app.get('/*', async function (req, res, next) { // Block Internet Explorer
                     if ((err.code == "ER_TABLEACCESS_DENIED_ERROR" || err.code == "ER_DBACCESS_DENIED_ERROR")) {
                         showwall(res, lang, uniconf.projname + translate(lang, "page_missingdbperms"), translate(lang, "page_missingdbpermsdiagpart1") + conf.database + translate(lang, "page_missingdbpermsdiagpart2") + '\'' + conf.dbusername + '\'@\'' + conf.hostname + '\'.')
                     } else if (!(err.code == "ER_TABLEACCESS_DENIED_ERROR" || err.code == "ER_DBACCESS_DENIED_ERROR")) {
+                        log.temp("serverListener.js:124")
+                        log.tempinfo(err.code)
                         log.error(err)
                         showwall(res, conf.language, translate(lang, "page_confunknownerror"), translate(lang, "page_wallunknownerrordiag"))
-                    } else next()
+                    } else {
+                        log.temp("serverListener.js:124")
+                        log.error(err)
+                        showwall(res, conf.language, translate(lang, "page_confunknownerror"), translate(lang, "page_wallunknownerrordiag"))
+                    }
                 }
             } catch (err) {
                 try {
@@ -140,6 +152,7 @@ app.get('/*', async function (req, res, next) { // Block Internet Explorer
                             break;
                         default:
                             showwall(res, conf.language, translate(lang, "page_confunknownerror"), translate(lang, "page_wallunknownerrordiag")) // Show wall if other error
+                            log.temp("serverListener.js:146")
                             log.error(err)
                             break;
                     }

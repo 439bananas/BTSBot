@@ -73,7 +73,6 @@ router.get('/', async (req, res, next) => {
                 let guildsBotIsIn = []
 
                 for (guildIndex in listedGuilds) {
-                    log.temp("test")
                     let guild = listedGuilds[guildIndex]
                     let inGuild = await botInGuild(guild.id)
                     if (inGuild) {
@@ -81,7 +80,6 @@ router.get('/', async (req, res, next) => {
                     } else {
                         guildsBotIsIn.push(false)
                     }
-                    log.temp(listedGuilds.length)
                     if (guildIndex == listedGuilds.length - 1) {
                         renderServersPage(req, res, lang, user, guildsBotIsIn, listedGuilds)
                     }

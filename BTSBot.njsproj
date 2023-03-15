@@ -26,7 +26,7 @@
     <OutputPath>.</OutputPath>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
-    <StartWebBrowser>True</StartWebBrowser>
+    <StartWebBrowser>False</StartWebBrowser>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -934,6 +934,7 @@
     <Content Include="src\core\getDiscordScopes.js" />
     <Content Include="src\core\getDiscordUserInfo.js" />
     <Content Include="src\core\getGoogleToken.js" />
+    <Content Include="src\core\getGuild.js" />
     <Content Include="src\core\getI18nFiles.js" />
     <Content Include="src\core\getLanguageJSON.js" />
     <Content Include="src\core\getLanguageString.js" />
@@ -1008,6 +1009,7 @@
     <Content Include="src\server\views\config.jsx">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="src\server\views\dashboard.jsx" />
     <Content Include="src\server\views\error-page.jsx" />
     <Content Include="src\server\views\home.jsx">
       <SubType>Code</SubType>

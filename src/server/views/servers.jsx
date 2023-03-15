@@ -12,7 +12,6 @@
 
 const ConfLayout = require('./components/conf-layout');
 const translate = require('../../core/getLanguageString');
-const botInGuild = require('../../core/checkBotInGuild');
 let guildIconLink;
 
 function Guilds() { // I keep forgetting I can't do async functions in JSX
@@ -30,8 +29,6 @@ function Guilds() { // I keep forgetting I can't do async functions in JSX
             } else {
                 guildElements.push(<div className="guild"><a href={"/servers/" + guild.id} className="guild-link guild-bot-not-in"><img src={guildIconLink} className="rounded-circle guild-icon" /><br /><p className="guild-link">{guild.name}</p></a></div>)
             }
-
-        
     }
 
     if (!guildElements[0]) {
