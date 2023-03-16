@@ -43,7 +43,6 @@ router.get('/', async (req, res, next) => {
     let lang = await getUserLang()
 
     if (req.confExists === true) {
-        log.temp("39")
             try {
                 const user = req.user
                 let guilds = await getGuilds(req.cookies.discordbearertoken)
@@ -56,7 +55,6 @@ router.get('/', async (req, res, next) => {
                         listedGuilds.push(guilds[guildIndex]) // User must be administrator or have manage server permissions for their server to show up in the list
                     }
                 }
-                log.temp(52)
                 listedGuilds.sort((a, b) => { // Sort the list into A-Z of guild name
                     const nameA = a.name.toUpperCase(); // Thanks MDN! https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
                     const nameB = b.name.toUpperCase();

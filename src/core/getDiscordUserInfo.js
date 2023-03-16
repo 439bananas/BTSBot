@@ -15,8 +15,6 @@ let user
 
 async function fetchDiscordUser(bearertoken) {
     try {
-        log.temp(++requestsToDiscord)
-        log.temp("getting the user's info from their bearer token")
         let fetchRes = await fetch('https://discord.com/api/v10/users/@me', { // We were going to properly check for scopes except it made loading the page for the first time per new bearer token per session that the bot is running incredibly slow
             headers: {
                 'Content-Type': 'application/json',

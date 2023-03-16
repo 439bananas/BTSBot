@@ -12,8 +12,6 @@
 
 async function getGuilds(bearerToken) { // Get the guilds for a user that the specified bearer token belongs to
     try {
-        log.temp(++requestsToDiscord)
-        log.temp("getting the guilds of user " + bearerToken)
         let rawResponse = await fetch('https://discord.com/api/v10/users/@me/guilds', {
             headers: {
                 'Content-Type': 'application/json',
