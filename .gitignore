@@ -8,10 +8,10 @@
 /src/server/views/resources/emojis
 /src/server/views/resources/css/twemoji-amazing.css
 /src/server/resources.js
-/src/configs/conf.json
-/src/configs/confinterim.json
+/configs
 /logs
 /push.bat
 /bin
+/build
 /obj
 *.ini

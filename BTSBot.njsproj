@@ -26,7 +26,7 @@
     <OutputPath>.</OutputPath>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
-    <StartWebBrowser>True</StartWebBrowser>
+    <StartWebBrowser>False</StartWebBrowser>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -41,6 +41,9 @@
     <Content Include=".gitignore" />
     <Content Include=".vscode\launch.json" />
     <Content Include="BTS Bot.code-workspace" />
+    <Content Include="build\server.js" />
+    <Content Include="configs\conf.json" />
+    <Content Include="configs\config.json" />
     <Content Include="i18n\contexts.json" />
     <Content Include="i18n\en-gb.json" />
     <Content Include="i18n\fr-fr.json" />
@@ -912,7 +915,6 @@
     <Content Include="README.md" />
     <Content Include="resources\readmeHeaderBanner.png" />
     <Content Include="resources\readmeHeaderBanner.xcf" />
-    <Content Include="src\configs\conf.json" />
     <Content Include="src\configs\databaseTables.json" />
     <Content Include="src\configs\features.json" />
     <Content Include="src\configs\uniconf.json" />
@@ -958,6 +960,10 @@
     <Content Include="src\database\redisGlobaliser.js" />
     <Content Include="src\database\updateDatabase.js" />
     <Content Include="src\database\updateDatabaseVersion.js" />
+    <Content Include="src\i18n\contexts.json" />
+    <Content Include="src\i18n\en-gb.json" />
+    <Content Include="src\i18n\fr-fr.json" />
+    <Content Include="src\i18n\test.json" />
     <Content Include="src\server\alwaysAvailablePages.js" />
     <Content Include="src\server\api\uniconf.js">
       <SubType>Code</SubType>
@@ -1019,7 +1025,6 @@
     <Content Include="src\server\views\resources\css\bootstrap.css" />
     <Content Include="src\server\views\resources\css\bootstrap.css.map" />
     <Content Include="src\server\views\resources\css\main.css" />
-    <Content Include="src\server\views\resources\css\twemoji-amazing.css" />
     <Content Include="src\server\views\resources\emojis\1f004.svg" />
     <Content Include="src\server\views\resources\emojis\1f0cf.svg" />
     <Content Include="src\server\views\resources\emojis\1f170.svg" />
@@ -4629,14 +4634,17 @@
     <Folder Include=".github\" />
     <Folder Include=".github\ISSUE_TEMPLATE\" />
     <Folder Include=".vscode\" />
+    <Folder Include="build\" />
     <Folder Include="i18n\" />
     <Folder Include="install\" />
     <Folder Include="logs\" />
     <Folder Include="resources\" />
     <Folder Include="src\" />
+    <Folder Include="configs\" />
     <Folder Include="src\configs\" />
     <Folder Include="src\core\" />
     <Folder Include="src\database\" />
+    <Folder Include="src\i18n\" />
     <Folder Include="src\server\" />
     <Folder Include="src\server\api\" />
     <Folder Include="src\server\views\" />

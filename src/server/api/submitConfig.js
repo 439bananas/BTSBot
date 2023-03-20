@@ -31,7 +31,7 @@ router.post('/', async (req, res, next) => {
     } else {
         missingFields = false
         for (i in uniconf.settings) {
-            if (req.fields[uniconf.settings[i][0]] == undefined && uniconf.settings[i][0] != "ownerid") { // Iterate through the list of settings to see if there are any that are not specified; owner ID is not going to be sent so we can ignore it
+            if (req.fields[uniconf.settings[i][0]] === undefined && uniconf.settings[i][0] != "ownerid") { // Iterate through the list of settings to see if there are any that are not specified; owner ID is not going to be sent so we can ignore it
                 missingFields = true
                 break; // To reduce the cycles in the loop, we break once there is a missing parameter
             }
@@ -56,7 +56,7 @@ router.post('/', async (req, res, next) => {
                                 res.json({
                                     response: "VERIFY_CLIENT_SECRET"
                                 })
-                                const conf = require('../../configs/confinterim.json')
+                                const conf = require('./configs/confinterim.json')
                                 log.info(translate(conf.language, 'log_mysqlconffilesaved') + path.join(__dirname, '..', '..', 'configs', 'confinterim.json'))
                                 log.info(translate(conf.language, 'log_changestakeefect_part1') + uniconf.projname + translate(conf.language, 'log_changestakeefect_part2'))
                                 restart()
@@ -73,7 +73,7 @@ router.post('/', async (req, res, next) => {
                             res.json({
                                 response: "VERIFY_CLIENT_SECRET"
                             })
-                            const conf = require('../../configs/confinterim.json')
+                            const conf = require('./configs/confinterim.json')
                             log.info(translate(conf.language, 'log_mysqlconffilesaved') + path.join(__dirname, '..', '..', 'configs', 'confinterim.json'))
                             log.info(translate(conf.language, 'log_changestakeefect_part1') + uniconf.projname + translate(conf.language, 'log_changestakeefect_part2'))
                             restart()
@@ -85,7 +85,7 @@ router.post('/', async (req, res, next) => {
                         res.json({
                             response: "VERIFY_CLIENT_SECRET"
                         })
-                        const conf = require('../../configs/confinterim.json')
+                        const conf = require('./configs/confinterim.json')
                         log.info(translate(conf.language, 'log_mysqlconffilesaved') + path.join(__dirname, '..', '..', 'configs', 'confinterim.json'))
                         log.info(translate(conf.language, 'log_changestakeefect_part1') + uniconf.projname + translate(conf.language, 'log_changestakeefect_part2'))
                         restart()

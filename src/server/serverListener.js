@@ -33,11 +33,12 @@ const refreshBearerToken = require('../core/refreshDiscordBearerToken')
 const showwall = require('./displayWall')
 const getUserLang = require('../core/getUserLang')
 let faviconfilename
+let excludedApis = ["version", "uniconf", "submit-config"]
 let confExists
 let confErr
 let user
 
-app.set('views', path.join(__dirname, 'views'))
+app.set('views', path.join(__dirname, '..', 'src', 'server', 'views'))
 app.set('view engine', 'jsx'); // We're using React as the templating engine
 app.engine('jsx', engine);
 
@@ -158,8 +159,8 @@ app.get('/*', async function (req, res, next) { // Block Internet Explorer
                     }
                 }
             }
-        } else if ((typeof (redisConnection) === 'undefined' || typeof (MySQLConnection) === 'undefined') && confExists === true) { // Database can be accessed after downtime during initialisation of project
-            global.conf = require('../configs/conf.json')
+        } else if ((typeof (redisConnection) === 'undefined' || typeof (MySQLConnection) === 'undefined') && urls[1].toLowerCase() != "resources" && confExists === true && !excludedApis.includes(urls[2])) { // Database can be accessed after downtime during initialisation of project
+            global.conf = require('./configs/conf.json')
             require('../database/databaseManager')
             next()
         } else {
@@ -179,7 +180,7 @@ app.all('/*', async function (req, res, next) {
     })
 });
 
-app.use(favicon(path.join(__dirname, 'views', 'resources', 'img', faviconfilename)))
+app.use(favicon(path.join(__dirname, '..', 'src', 'server', 'views', 'resources', 'img', faviconfilename)))
 app.use('/', function (req, res, next) {
     req.confExists = confExists
     req.confErr = confErr

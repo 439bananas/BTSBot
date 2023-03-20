@@ -15,28 +15,37 @@
 const fs = require('fs')
 const path = require('path')
 let language
-let defaultlanguage = require('../../i18n/' + uniconf.defaultlanguage + '.json')
+let basePath
 
-function translate(languagecode, string) { // This function allows the caller to get a translated string
-    if (fs.existsSync(path.join(__dirname, '..', '..', 'i18n', languagecode + '.json'))) { // If the specified language file exists, check if the string requested exists
-        language = require('../../i18n/' + languagecode + '.json')
-    } else if (conf && fs.existsSync(path.join(__dirname, '..', '..', 'i18n', conf.language + '.json'))) { // Else if the default language has the string, return that, elsse return null
-        language = require('../../i18n/' + conf.language + '.json')
+function translate(languagecode, string, reactEngine) { // This function allows the caller to get a translated string
+    switch (reactEngine) {
+        case "express-engine-jsx":
+            basePath = '..'
+            break;
+        default:
+            basePath = '../src'
+            break;
+    }
+    let defaultlanguage = require(basePath + '/i18n/' + uniconf.defaultlanguage + '.json')
+    if (fs.existsSync(path.join(__dirname, basePath, 'i18n', languagecode + '.json'))) { // If the specified language file exists, check if the string requested exists
+        language = require(basePath + '/i18n/' + languagecode + '.json')
+    } else if (typeof(conf) != "undefined" && fs.existsSync(path.join(__dirname, basePath, 'i18n', conf.language + '.json'))) { // Else if the default language has the string, return that, elsse return null
+        language = require(basePath + '/i18n/' + conf.language + '.json')
     } else {
         language = defaultlanguage
     }
     if (language[string] !== undefined) { // If it exists, return the string
         return language[string]
     } else if (typeof (conf) !== "undefined" && typeof (conf.language) !== "undefined") { /// If language does not exist, if there is a config language defined, use that if possible, else default to default language
-        language = require('../../i18n/' + conf.language + '.json')
+        language = require(basePath + '/i18n/' + conf.language + '.json')
         if (language[string] !== undefined) {
             language[string]
         } else if (defaultlanguage[string] !== undefined) {
             return defaultlanguage[string]
         } else return null
-    } else if (fs.existsSync(path.join(__dirname, '..', 'configs', 'confinterim.json'))) { // Failing that, confinterim will do
-        let conf = require('../configs/confinterim.json')
-        language = require('../../i18n/' + conf.language + '.json')
+    } else if (fs.existsSync(path.join(__dirname, '..', 'src', 'configs', 'confinterim.json'))) { // Failing that, confinterim will do
+        let conf = require('./configs/confinterim.json')
+        language = require(basePath + '/i18n/' + conf.language + '.json')
         if (language[string] !== undefined) {
             return language[string]
         } else if (defaultlanguage[string] !== undefined) {

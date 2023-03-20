@@ -13,103 +13,104 @@
 const express = require('express');
 const router = express.Router();
 const pkg = require('../../package.json');
+const path = require('path')
 
 // There are three copies of the same image file to signify the intent of the instance, this all depends on "mode" in package.json
 
 router.get('/main.css', (req, res) => { // CSS file
-    res.sendFile('./views/resources/css/main.css', { root: __dirname });
+    res.sendFile(path.resolve('../src/server/views/resources/css/main.css'));
 });
 
 router.get('/bootstrap.css', (req, res) => { // Bootstrap
-    res.sendFile('./views/resources/css/bootstrap.css', { root: __dirname });
+    res.sendFile(path.resolve('../src/server/views/resources/css/bootstrap.css'));
 });
 
 router.get('/btsfrown.png', (req, res) => { // Image for if user uses Internet Explorer
-    res.sendFile('./views/resources/img/btsfrown.png', { root: __dirname });
+    res.sendFile(path.resolve('../src/server/views/resources/img/btsfrown.png'));
 });
 
 router.get('/bootstrap.css.map', (req, res) => { // Edge yelled at me for forgetting this
-    res.sendFile('./views/resources/css/bootstrap.css.map', { root: __dirname });
+    res.sendFile(path.resolve('../src/server/views/resources/css/bootstrap.css.map'));
 });
 
 router.get('/logo.png', (req, res) => { // Can't forget the iconic BTS robot that I totally did not steal from the Scratch Wiki
     if (pkg.mode == 'stable') {
-        res.sendFile('./views/resources/img/logo.png', { root: __dirname });
+        res.sendFile(path.resolve('../src/server/views/resources/img/logo.png'));
     }
     else if (pkg.mode == 'alpha') {
-        res.sendFile('./views/resources/img/logoalpha.png', { root: __dirname });
+        res.sendFile(path.resolve('../src/server/views/resources/img/logoalpha.png'));
     }
     else if (pkg.mode == 'beta') {
-        res.sendFile('./views/resources/img/logobeta.png', { root: __dirname });
+        res.sendFile(path.resolve('../src/server/views/resources/img/logobeta.png'));
     }
     else if (pkg.mode == 'active-development' || pkg.mode == 'ad') {
-        res.sendFile('./views/resources/img/logoad.png', { root: __dirname });
+        res.sendFile(path.resolve('../src/server/views/resources/img/logoad.png'));
     }
     else {
-        res.sendFile('./views/resources/img/logo.png', { root: __dirname });
+        res.sendFile(path.resolve('../src/server/views/resources/img/logo.png'));
     }
 });
 
 router.get('/60px.png', (req, res) => { // Sized down for homepage, sandi said it was slightly too big as 70px
     if (pkg.mode == 'stable') {
-        res.sendFile('./views/resources/img/60px.png', { root: __dirname });
+        res.sendFile(path.resolve('../src/server/views/resources/img/60px.png'));
     }
     else if (pkg.mode == 'alpha') {
-        res.sendFile('./views/resources/img/60pxalpha.png', { root: __dirname });
+        res.sendFile(path.resolve('../src/server/views/resources/img/60pxalpha.png'));
     }
     else if (pkg.mode == 'beta') {
-        res.sendFile('./views/resources/img/60pxbeta.png', { root: __dirname });
+        res.sendFile(path.resolve('../src/server/views/resources/img/60pxbeta.png'));
     }
     else if (pkg.mode == 'active-development' || pkg.mode == 'ad') {
-        res.sendFile('./views/resources/img/60pxad.png', { root: __dirname });
+        res.sendFile(path.resolve('../src/server/views/resources/img/60pxad.png'));
     }
     else {
-        res.sendFile('./views/resources/img/60px.png', { root: __dirname });
+        res.sendFile(path.resolve('../src/server/views/resources/img/60px.png'));
     }
 });
 
 router.get('/h1.woff', (req, res) => { // A very poggers font
-    res.sendFile('./views/resources/fonts/h1.woff', { root: __dirname });
+    res.sendFile(path.resolve('../src/server/views/resources/fonts/h1.woff'));
 });
 
 router.get('/twemoji-amazing.css', (req, res) => { // Allows for emojis
-    res.sendFile('./views/resources/css/twemoji-amazing.css', { root: __dirname });
+    res.sendFile(path.resolve('../src/server/views/resources/css/twemoji-amazing.css'));
 });
 
 router.get('/smc.js', (req, res) => { // Submit MySQL frontend script from now on is auto-generated
-    res.sendFile('./views/resources/js/smc.js', { root: __dirname });
+    res.sendFile(path.resolve('../src/server/views/resources/js/smc.js'));
 });
 
 router.get('/buttons.js', (req, res) => { // Bootstrap
-    res.sendFile('./views/resources/js/buttons.js', { root: __dirname });
+    res.sendFile(path.resolve('../src/server/views/resources/js/buttons.js'));
 });
 
 router.get('/btsthonk.png', (req, res) => { // 404s
-    res.sendFile('./views/resources/img/btsthonk.png', { root: __dirname });
+    res.sendFile(path.resolve('../src/server/views/resources/img/btsthonk.png'));
 });
 
 router.get('/appealdemo.png', (req, res) => { // Demo image for front page
-    res.sendFile('./views/resources/img/appealdemo.png', { root: __dirname });
+    res.sendFile(path.resolve('../src/server/views/resources/img/appealdemo.png'));
 });
 
 router.get('/invitedemo.png', (req, res) => { // Demo image for front page
-    res.sendFile('./views/resources/img/invitedemo.png', { root: __dirname });
+    res.sendFile(path.resolve('../src/server/views/resources/img/invitedemo.png'));
 });
 
 router.get('/restoredemo.png', (req, res) => { // Demo image for front page
-    res.sendFile('./views/resources/img/restoredemo.png', { root: __dirname });
+    res.sendFile(path.resolve('../src/server/views/resources/img/restoredemo.png'));
 });
 
 router.get('/scamdemo.png', (req, res) => { // Demo image for front page
-    res.sendFile('./views/resources/img/scamdemo.png', { root: __dirname });
+    res.sendFile(path.resolve('../src/server/views/resources/img/scamdemo.png'));
 });
 
 router.get('/verifydemo.png', (req, res) => { // Demo image for front page
-    res.sendFile('./views/resources/img/verifydemo.png', { root: __dirname });
+    res.sendFile(path.resolve('../src/server/views/resources/img/verifydemo.png'));
 });
 
 router.get('/voicedemo.png', (req, res) => { // Demo image for front page
-    res.sendFile('./views/resources/img/voicedemo.png', { root: __dirname });
+    res.sendFile(path.resolve('../src/server/views/resources/img/voicedemo.png'));
 });
 
 module.exports = router;

@@ -10,8 +10,6 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-const conf = require('../configs/conf.json')
-
 async function getGuildPresence(guildId) {
     try {
         let rawResponse = await fetch('https://discord.com/api/v10/guilds/' + guildId, {

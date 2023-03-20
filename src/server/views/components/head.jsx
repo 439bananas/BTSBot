@@ -21,7 +21,7 @@ import translate from '../../../core/getLanguageString';
     <link rel='stylesheet' href='/resources/twemoji-amazing.css' />
     <meta charset="UTF-8" />
     <meta name="title" content={uniconf.projname} />
-    <meta name="description" content={translate(lang, 'page_globaldesc')} />
+    <meta name="description" content={translate(lang, 'page_globaldesc', 'express-engine-jsx')} />
     <meta name="keywords" content="bot, discord, test, testing, server, bots, discord bots, BTS, BTS Bot" />
     <meta name="author" content="439bananas" />
     <meta name="email" content="btsbot@439bananas.com" />
@@ -32,7 +32,7 @@ import translate from '../../../core/getLanguageString';
     <meta property="twitter:url" content={"https://" + uniconf.metadomain} />
     <meta property="twitter:title" content={uniconf.projname} />
     <meta property="twitter:image" content={"https://" + uniconf.metadomain + "/resources/logo.png"} />
-    <meta property="twitter:description" content={translate(lang, 'page_globaldesc')} />
+    <meta property="twitter:description" content={translate(lang, 'page_globaldesc', 'express-engine-jsx')} />
     <meta property="theme-color" content="#f0600f" />
     <title>{uniconf.projname + title}</title>
 </head>

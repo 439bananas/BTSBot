@@ -26,7 +26,7 @@ function shownci(req, res, lang, err) {
     res.locals.uniconf = uniconf
     res.locals.err = err.toString()
     if (err.toString() == "ACCESS_DENIED") {
-        config = require('../configs/conf.json')
+        config = require('./configs/conf.json')
         res.locals.database = config.database
         res.locals.dbusername = config.dbusername
         res.locals.hostname = config.hostname

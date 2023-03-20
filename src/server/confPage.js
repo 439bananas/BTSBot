@@ -34,14 +34,14 @@ router.get('/', async (req, res, next) => { // /config endpoint
             switch (err) {
                 case false:
                     checkConf('confinterim').then(result => {
-                        const conf = require('../configs/confinterim.json')
+                        const conf = require('./configs/confinterim.json')
                         validateOAuth2(req, res, conf)
                     }).catch(confinterimerror => {
                         if (confinterimerror == false) {
                             log.temp("default language " + uniconf.defaultlanguage)
                             showconf(req, res, lang, uniconf.defaultlanguage, settings[1][1], settings[2][1], settings[3][1], settings[4][1], settings[5][1], settings[6][1], settings[7][1], settings[8][1], settings[9][1], settings[10][1], settings[11][1], settings[12][1], settings[13][1], settings[14][1], settings[15][1], settings[16][1], settings[17][1], settings[18][1], settings[19][1], settings[20][1], settings[21][1])
                         } else {
-                            conf = require('../configs/confinterim.json')
+                            conf = require('./configs/confinterim.json')
                             if (conf[settings[0][0]] === undefined) { // We put settings that should be there in uniconf so it's slightly easier to edit as we go along
                                 global.gdefaultlanguage = uniconf.defaultlanguage // I don't know if I ever told you this but I absolutely HATE using globals, yet here we are...
                                 // ^^ If I recall correctly that might have actually been in a more primative version of the bot and the comment was likely since removed
@@ -161,11 +161,11 @@ router.get('/', async (req, res, next) => { // /config endpoint
                     showwall(res, lang, uniconf.projname + translate(lang, 'page_wallcannotconnecttodiscord'), translate(lang, 'page_wallcannotconnecttoservicediagpart1') + uniconf.projname + translate(lang, 'page_wallcannotconnecttodiscorddiagpart2')) // If cannot connect to Discord, send user to wall
                 case "MISSING_FIELDS":
                     checkConf('confinterim').then(result => {
-                        conf = require('../configs/confinterim.json')
+                        conf = require('./configs/confinterim.json')
                         validateOAuth2(req, res, conf)
                     }).catch(confinterimerr => {
                         if (confinterimerr == false) {
-                            conf = require('../configs/conf.json')
+                            conf = require('./configs/conf.json')
                             if (conf[settings[0][0]] === undefined) { // We put settings that should be there in uniconf so it's slightly easier to edit as we go along
                                 global.gdefaultlanguage = uniconf.defaultlanguage // I don't know if I ever told you this but I absolutely HATE using globals, yet here we are...
                                 // ^^ If I recall correctly that might have actually been in a more primative version of the bot and the comment was likely since removed
@@ -279,7 +279,7 @@ router.get('/', async (req, res, next) => { // /config endpoint
                             }
                             showconf(req, res, lang, gdefaultlanguage, ghostname, gusername, gdatabase, gtableprefix, gredishostname, gredisusername, gredisdatabase, gpstatus, gostatus, gguildid, gmoderatorsroleid, ggoogleclientid, gmsclientid, gsmtpserver, gsmtpport, gsmtpssl, gimapssl, gimapserver, gimapport, gemailaddress, gemailusername)
                         } else {
-                            conf = require('../configs/confinterim.json')
+                            conf = require('./configs/confinterim.json')
                             if (conf[settings[0][0]] === undefined) { // We put settings that should be there in uniconf so it's slightly easier to edit as we go along
                                 global.gdefaultlanguage = uniconf.defaultlanguage // I don't know if I ever told you this but I absolutely HATE using globals, yet here we are...
                                 // ^^ If I recall correctly that might have actually been in a more primative version of the bot and the comment was likely since removed
@@ -396,7 +396,7 @@ router.get('/', async (req, res, next) => { // /config endpoint
                     })
                     break;
                 default:
-                    conf = require('../configs/conf.json') // We can't really require it in the top of the file else BTS Bot would fatally crash if there was no conf file at all, hence rendering the entire thing useless
+                    conf = require('./configs/conf.json') // We can't really require it in the top of the file else BTS Bot would fatally crash if there was no conf file at all, hence rendering the entire thing useless
                     showconf(req, res, lang, conf.language, conf.hostname, conf.dbusername, conf.database, conf.tableprefix, conf.redishostname, conf.redisusername, conf.redisdatabase, conf.pstatus, conf.ostatus, conf.guildid, conf.moderatorsroleid, conf.googleclientid, conf.msclientid, conf.smtpserver, conf.smtpport, conf.smtpssl, conf.imapssl, conf.imapserver, conf.imapport, conf.emailaddress, conf.emailusername)
             }
         })    

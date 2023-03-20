@@ -15,12 +15,12 @@ const translate = require('../../core/getLanguageString');
 
 <Layout>
     <div class="container">
-        <h1>{translate(lang, 'page_configcompleteheader')}</h1>
+        <h1>{translate(lang, 'page_configcompleteheader', "express-engine-jsx")}</h1>
         <p>
-            {translate(lang, 'page_confsuccessfulpart1') + uniconf.projname + translate(lang, 'page_confsuccessfulpart2')}
+            {translate(lang, 'page_confsuccessfulpart1', "express-engine-jsx") + uniconf.projname + translate(lang, 'page_confsuccessfulpart2', "express-engine-jsx")}
             <br />
-            {translate(lang, 'page_confsuccessfuldiag')}
+            {translate(lang, 'page_confsuccessfuldiag', "express-engine-jsx")}
         </p>
-        <input type='submit' class='button' value={translate(lang, 'page_globalnext')} title={translate(lang, 'page_globalnext')} id="ConfigCompleteNextButton" />
+        <input type='submit' class='button' value={translate(lang, 'page_globalnext', "express-engine-jsx")} title={translate(lang, 'page_globalnext', "express-engine-jsx")} id="ConfigCompleteNextButton" />
     </div>
 </Layout>

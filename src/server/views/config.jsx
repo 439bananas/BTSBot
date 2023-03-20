@@ -32,7 +32,7 @@ function Languages() {
 
 function BadClientSecretError() {
     if (badclientsecret) return (<div className="alert-box danger text-wrap" id="badclientsecreterror" style={{ display: "block" }}>
-        {"BAD_CLIENT_SECRET: " + translate(lang, 'page_badclientsecret')}<br />{translate(lang, 'page_badclientsecretdiag')}
+        {"BAD_CLIENT_SECRET: " + translate(lang, 'page_badclientsecret', "express-engine-jsx")}<br />{translate(lang, 'page_badclientsecretdiag', "express-engine-jsx")}
     </div>)
 };
 
@@ -42,9 +42,9 @@ function OnlineStatusOptions() {
 
     statuses.forEach(status => {
         if (defaultstatus == status) {
-            statusList.push(<option selected value={status}>{translate(lang, 'page_' + status)}</option>)
+            statusList.push(<option selected value={status}>{translate(lang, 'page_' + status, "express-engine-jsx")}</option>)
         } else {
-            statusList.push(<option value={status}>{translate(lang, 'page_' + status)}</option>)
+            statusList.push(<option value={status}>{translate(lang, 'page_' + status, "express-engine-jsx")}</option>)
         }
     })
     return (statusList)
@@ -53,11 +53,11 @@ function OnlineStatusOptions() {
 function SMTPSSLOptions() {
     let SMTPOptionsList = []
     if (smtpssl) {
-        SMTPOptionsList.push(<option selected value="true" >{translate(lang, 'page_dropdownyes')}</option>)
-        SMTPOptionsList.push(<option value="false" >{translate(lang, 'page_dropdownno')}</option>)
+        SMTPOptionsList.push(<option selected value="true" >{translate(lang, 'page_dropdownyes', "express-engine-jsx")}</option>)
+        SMTPOptionsList.push(<option value="false" >{translate(lang, 'page_dropdownno', "express-engine-jsx")}</option>)
     } else {
-        SMTPOptionsList.push(<option value="true" >{translate(lang, 'page_dropdownyes')}</option>)
-        SMTPOptionsList.push(<option selected value="false" >{translate(lang, 'page_dropdownno')}</option>)
+        SMTPOptionsList.push(<option value="true" >{translate(lang, 'page_dropdownyes', "express-engine-jsx")}</option>)
+        SMTPOptionsList.push(<option selected value="false" >{translate(lang, 'page_dropdownno', "express-engine-jsx")}</option>)
     }
     return SMTPOptionsList
 }
@@ -65,11 +65,11 @@ function SMTPSSLOptions() {
 function IMAPSSLOptions() {
     let IMAPOptionsList = []
     if (smtpssl) {
-        IMAPOptionsList.push(<option selected value="true" >{translate(lang, 'page_dropdownyes')}</option>)
-        IMAPOptionsList.push(<option value="false" >{translate(lang, 'page_dropdownyes')}</option>)
+        IMAPOptionsList.push(<option selected value="true" >{translate(lang, 'page_dropdownyes', "express-engine-jsx")}</option>)
+        IMAPOptionsList.push(<option value="false" >{translate(lang, 'page_dropdownyes', "express-engine-jsx")}</option>)
     } else {
-        IMAPOptionsList.push(<option value="true" >{translate(lang, 'page_dropdownyes')}</option>)
-        IMAPOptionsList.push(<option selected value="false" >{translate(lang, 'page_dropdownyes')}</option>)
+        IMAPOptionsList.push(<option value="true" >{translate(lang, 'page_dropdownyes', "express-engine-jsx")}</option>)
+        IMAPOptionsList.push(<option selected value="false" >{translate(lang, 'page_dropdownyes', "express-engine-jsx")}</option>)
     }
     return IMAPOptionsList
 }
@@ -81,49 +81,49 @@ function IMAPSSLOptions() {
     </script>
     <div className="global-intro-section">
         <div className="container">
-            <center><h1>{translate(lang, 'page_configheader')}</h1></center>
+            <center><h1>{translate(lang, 'page_configheader', "express-engine-jsx")}</h1></center>
         </div>
     </div>
     <div className="container" style={{ paddingTop: 0.75 + "em" }}>
         <div className="alert-box danger text-wrap" id="cannotcontactservererror">
-            {"SERVER_CONNECTION_REFUSED: " + translate(lang, 'page_serverlostconnectionpart1') + uniconf.projname + translate(lang, 'page_serverlostconnectionpart2')}<br />{translate(lang, 'page_serverlostconnectiondiagpart1') + uniconf.projname + translate(lang, 'page_serverlostconnectiondiagpart2')}<a href={uniconf.discord}>{translate(lang, 'global_discorderver')}</a>{translate(lang, 'page_serverlostconnectiondiagpart3')}
+            {"SERVER_CONNECTION_REFUSED: " + translate(lang, 'page_serverlostconnectionpart1', "express-engine-jsx") + uniconf.projname + translate(lang, 'page_serverlostconnectionpart2', "express-engine-jsx")}<br />{translate(lang, 'page_serverlostconnectiondiagpart1', "express-engine-jsx") + uniconf.projname + translate(lang, 'page_serverlostconnectiondiagpart2', "express-engine-jsx")}<a href={uniconf.discord}>{translate(lang, 'global_discorderver', "express-engine-jsx")}</a>{translate(lang, 'page_serverlostconnectiondiagpart3', "express-engine-jsx")}
         </div>
         <div className="alert-box danger text-wrap" id="accessdeniederror">
-            {"ACCESS_DENIED: " + uniconf.projname + translate(lang, 'page_accessdenied')}<br />{translate(lang, 'page_accessdenieddiag')}
+            {"ACCESS_DENIED: " + uniconf.projname + translate(lang, 'page_accessdenied', "express-engine-jsx")}<br />{translate(lang, 'page_accessdenieddiag', "express-engine-jsx")}
         </div>
         <div className="alert-box danger text-wrap" id="connectionrefusederror">
-            {"CONNECTION_REFUSED: " + uniconf.projname + translate(lang, 'page_dbconnectionrefused')}<em id='userEnteredMySQLHostname'></em>.<br />{translate(lang, 'page_dbconnectionrefuseddiag')}
+            {"CONNECTION_REFUSED: " + uniconf.projname + translate(lang, 'page_dbconnectionrefused', "express-engine-jsx")}<em id='userEnteredMySQLHostname'></em>.<br />{translate(lang, 'page_dbconnectionrefuseddiag', "express-engine-jsx")}
         </div>
         <div className="alert-box danger text-wrap" id="incorrectcredentialserror">
-            {"INCORRECT_CREDENTIALS: " + translate(lang, 'page_dbbadcreds')}<br />{translate(lang, 'page_dbbadcredsdiag')}
+            {"INCORRECT_CREDENTIALS: " + translate(lang, 'page_dbbadcreds', "express-engine-jsx")}<br />{translate(lang, 'page_dbbadcredsdiag', "express-engine-jsx")}
         </div>
         <div className="alert-box danger text-wrap" id="redisconnectionrefusederror">
-            {"REDIS_CONNECTION_REFUSED: " + translate(lang, 'page_redisconnectionrefused')}<em id='userEnteredRedisHostname'></em><br />{translate(lang, 'page_redisconnectionrefuseddiag')}
+            {"REDIS_CONNECTION_REFUSED: " + translate(lang, 'page_redisconnectionrefused', "express-engine-jsx")}<em id='userEnteredRedisHostname'></em><br />{translate(lang, 'page_redisconnectionrefuseddiag', "express-engine-jsx")}
         </div>
         <div className="alert-box danger text-wrap" id="wrongpasserror">
-            {"WRONGPASS: " + translate(lang, 'page_rediswrongpass')}<br />{translate(lang, 'page_dbbadcredsdiag')}
+            {"WRONGPASS: " + translate(lang, 'page_rediswrongpass', "express-engine-jsx")}<br />{translate(lang, 'page_dbbadcredsdiag', "express-engine-jsx")}
         </div>
         <div className="alert-box danger text-wrap" id="baddatabaseerror">
-            {"BAD_DATABASE: " + translate(lang, 'page_redisbaddb')}<br />{translate(lang, 'page_redisbaddbdiag')}
+            {"BAD_DATABASE: " + translate(lang, 'page_redisbaddb', "express-engine-jsx")}<br />{translate(lang, 'page_redisbaddbdiag', "express-engine-jsx")}
         </div>
         <div className="alert-box danger text-wrap" id="invalidurlerror">
-            {"INVALID_URL: " + translate(lang, 'page_redisinvalidurl')}<br />{translate(lang, 'page_redisinvalidurldiagpart1') + uniconf.projname + translate(lang, 'page_redisinvalidurldiagpart2')}
+            {"INVALID_URL: " + translate(lang, 'page_redisinvalidurl', "express-engine-jsx")}<br />{translate(lang, 'page_redisinvalidurldiagpart1', "express-engine-jsx") + uniconf.projname + translate(lang, 'page_redisinvalidurldiagpart2', "express-engine-jsx")}
         </div>
         <div className="alert-box danger text-wrap" id="confokerror">
-            {"CONF_OK: " + translate(lang, 'page_wrongendpoint')}<br />{translate(lang, 'page_wrongendpointdiagpart1')} <a href="/">{translate(lang, 'page_wrongendpointdiagpart2')}</a>{"."}
+            {"CONF_OK: " + translate(lang, 'page_wrongendpoint', "express-engine-jsx")}<br />{translate(lang, 'page_wrongendpointdiagpart1', "express-engine-jsx")} <a href="/">{translate(lang, 'page_wrongendpointdiagpart2', "express-engine-jsx")}</a>{"."}
         </div>
         <BadClientSecretError />
         <div className="alert-box danger text-wrap" id="tokeninvaliderror">
-            {"TOKEN_INVALID: " + translate(lang, 'page_tokeninvalid')}<br />{translate(lang, 'page_tokeninvaliddiag')}
+            {"TOKEN_INVALID: " + translate(lang, 'page_tokeninvalid', "express-engine-jsx")}<br />{translate(lang, 'page_tokeninvaliddiag', "express-engine-jsx")}
         </div>
         <div className="alert-box danger text-wrap" id="cannotconnecttodiscorderror">
-            {"CANNOT_CONNECT_TO_DISCORD: " + uniconf.projname + translate(lang, 'page_cannotconnecttodiscord')}<br />{translate(lang, 'page_cannotconnecttodiscorddiagpart1') + uniconf.projname + translate(lang, 'page_cannotconnecttodiscorddiagpart2')}
+            {"CANNOT_CONNECT_TO_DISCORD: " + uniconf.projname + translate(lang, 'page_cannotconnecttodiscord', "express-engine-jsx")}<br />{translate(lang, 'page_cannotconnecttodiscorddiagpart1', "express-engine-jsx") + uniconf.projname + translate(lang, 'page_cannotconnecttodiscorddiagpart2', "express-engine-jsx")}
         </div>
         <div className="alert-box danger text-wrap" id="unknowndiscorderror">
-            {"UNKNOWN_DISCORD_ERROR: " + translate(lang, 'page_unknowndiscorderror')}<br />{translate(lang, 'page_confunknownerrordiag')}<a href={uniconf.discord}>{translate(lang, 'global_discorderver')}</a>{translate(lang, 'page_serverlostconnectiondiagpart3')}
+            {"UNKNOWN_DISCORD_ERROR: " + translate(lang, 'page_unknowndiscorderror', "express-engine-jsx")}<br />{translate(lang, 'page_confunknownerrordiag',"express-engine-jsx")}<a href={uniconf.discord}>{translate(lang, 'global_discorderver', "express-engine-jsx")}</a>{translate(lang, 'page_serverlostconnectiondiagpart3', "express-engine-jsx")}
         </div>
         <div className="alert-box danger text-wrap" id="unknownerror">
-            {"UNKNOWN_ERROR: " + translate(lang, 'page_confunknownerror')}<br />{translate(lang, 'page_confunknownerrordiag')}<a href={uniconf.discord}>{translate(lang, 'global_discorderver')}</a>{translate(lang, 'page_serverlostconnectiondiagpart3')}
+            {"UNKNOWN_ERROR: " + translate(lang, 'page_confunknownerror', "express-engine-jsx")}<br />{translate(lang, 'page_confunknownerrordiag', "express-engine-jsx")}<a href={uniconf.discord}>{translate(lang, 'global_discorderver', "express-engine-jsx")}</a>{translate(lang, 'page_serverlostconnectiondiagpart3', "express-engine-jsx")}
         </div>
         <form id="configform">
             <div className="container">
@@ -131,48 +131,48 @@ function IMAPSSLOptions() {
                     <div className="accordion-item">
                         <h2 className="accordion-header" id="mySQLHeading">
                             <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMySQL" aria-expanded="true" aria-controls="collapseMySQL">
-                                {translate(lang, 'page_configstep1')}
+                                {translate(lang, 'page_configstep1', "express-engine-jsx")}
                             </button>
                         </h2>
                         <div id="collapseMySQL" className="accordion-collapse collapse show" aria-labelledby="mySQLHeading" data-bs-parent="#configAccordion">
                             <div className="accordion-body">
                                 <div className="row">
                                     <div className="col">
-                                        <label htmlFor='language' className="required label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_defaultlanguagelabel')}</label>
+                                        <label htmlFor='language' className="required label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_defaultlanguagelabel', "express-engine-jsx")}</label>
                                         <select className="size16-1__VVI form-select input-cIJ7To" name="language" id="language">
                                             <Languages />
                                             <option style={{ display: "none" }} value="dummy" className="dropdown-option" id="languagedropdown"></option>
                                         </select>
                                     </div>
                                     <div className="col">
-                                        <label htmlFor='hostname' className="required label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_dbhostlabel')}</label>
+                                        <label htmlFor='hostname' className="required label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_dbhostlabel', "express-engine-jsx")}</label>
                                         <input type='text' className="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='hostname' name='hostname' value={hostname} />
                                     </div>
                                 </div>
                                 <div className="row">
                                     <div className="col">
-                                        <label htmlFor='dbusername' className="required label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_dbusernamelabel')}</label>
+                                        <label htmlFor='dbusername' className="required label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_dbusernamelabel', "express-engine-jsx")}</label>
                                         <input type='text' className="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='dbusername' name='dbusername' value={dbusername} />
                                     </div>
                                     <div className="col">
-                                        <label htmlFor='dbpassword' className="required label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_dbpasswordlabel')}</label>
+                                        <label htmlFor='dbpassword' className="required label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_dbpasswordlabel', "express-engine-jsx")}</label>
                                         <input type='password' className="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='dbpassword' name='dbpassword' />
                                     </div>
                                 </div>
                                 <div className="row">
                                     <div className="col">
-                                        <label htmlFor='database' className="required label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_dblabel')}</label>
+                                        <label htmlFor='database' className="required label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_dblabel', "express-engine-jsx")}</label>
                                         <input type='text' className="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='database' name='database' value={database} />
                                     </div>
                                     <div className="col">
-                                        <label htmlFor='tableprefix' className="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_dbtableprefixlabel')}</label>
+                                        <label htmlFor='tableprefix' className="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_dbtableprefixlabel', "express-engine-jsx")}</label>
                                         <input type='text' className="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='tableprefix' name='tableprefix' value={tableprefix} />
                                     </div>
                                 </div>
                                 <div className="row mt-3 justify-content-sm-end">
-                                    <a target="_blank" href="https://wiki.btsbot.439bananas.com/wiki/Installing#MySQL_configuration">{translate(lang, 'page_globalneedhelp')}</a>
+                                    <a target="_blank" href="https://wiki.btsbot.439bananas.com/wiki/Installing#MySQL_configuration">{translate(lang, 'page_globalneedhelp', "express-engine-jsx")}</a>
                                     <div className="col">
-                                        <input value={translate(lang, 'page_globalnext')} aria-expanded="false" className="button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseRedis" aria-controls="collapseRedis" />
+                                        <input value={translate(lang, 'page_globalnext', "express-engine-jsx")} aria-expanded="false" className="button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseRedis" aria-controls="collapseRedis" />
                                     </div>
                                 </div>
                             </div>
@@ -181,35 +181,35 @@ function IMAPSSLOptions() {
                     <div className="accordion-item">
                         <h2 className="accordion-header" id="redisHeading">
                             <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseRedis" aria-expanded="true" aria-controls="collapseRedis">
-                                {translate(lang, 'page_configstep2')}
+                                {translate(lang, 'page_configstep2', "express-engine-jsx")}
                             </button>
                         </h2>
                         <div id="collapseRedis" className="accordion-collapse collapse" aria-labelledby="redisHeading" data-bs-parent="#configAccordion">
                             <div className="accordion-body">
                                 <div className="row">
                                     <div className="col">
-                                        <label htmlFor='redishostname' className="required label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_dbhostlabel')}</label>
+                                        <label htmlFor='redishostname' className="required label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_dbhostlabel', "express-engine-jsx")}</label>
                                         <input type='text' className="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='redishostname' name='redishostname' value={redishostname} />
                                     </div>
                                     <div className="col">
-                                        <label htmlFor='redisusername' className="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_dbusernamelabel')}</label>
+                                        <label htmlFor='redisusername' className="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_dbusernamelabel', "express-engine-jsx")}</label>
                                         <input type='text' className="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='redisusername' name='redisusername' value={redisusername} />
                                     </div>
                                 </div>
                                 <div className="row">
                                     <div className="col">
-                                        <label htmlFor='redispassword' className="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_dbpasswordlabel')}</label>
+                                        <label htmlFor='redispassword' className="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_dbpasswordlabel', "express-engine-jsx")}</label>
                                         <input type='password' className="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='redispassword' name='redispassword' />
                                     </div>
                                     <div className="col">
-                                        <label htmlFor='redisdatabase' className="required label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_dblabel')}</label>
+                                        <label htmlFor='redisdatabase' className="required label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_dblabel', "express-engine-jsx")}</label>
                                         <input type='number' className="inputDefault-_djjkz input-cIJ7To size16-1__VVI" min="0" id='redisdatabase' name='redisdatabase' value={redisdatabase} />
                                     </div>
                                 </div>
                                 <div className="row mt-3 justify-content-sm-end">
-                                    <a target="_blank" href="https://wiki.btsbot.439bananas.com/wiki/Installing#Redis_configuration">{translate(lang, 'page_globalneedhelp')}</a>
+                                    <a target="_blank" href="https://wiki.btsbot.439bananas.com/wiki/Installing#Redis_configuration">{translate(lang, 'page_globalneedhelp', "express-engine-jsx")}</a>
                                     <div className="col">
-                                        <input value={translate(lang, 'page_globalnext')} aria-expanded="false" className="button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDiscord" aria-controls="collapseDiscord" />
+                                        <input value={translate(lang, 'page_globalnext', "express-engine-jsx")} aria-expanded="false" className="button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDiscord" aria-controls="collapseDiscord" />
                                     </div>
                                 </div>
                             </div>
@@ -218,28 +218,28 @@ function IMAPSSLOptions() {
                     <div className="accordion-item">
                         <h2 className="accordion-header" id="discordHeading">
                             <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDiscord" aria-expanded="false" aria-controls="collapseDiscord">
-                                {translate(lang, 'page_configstep3')}
+                                {translate(lang, 'page_configstep3', "express-engine-jsx")}
                             </button>
                         </h2>
                         <div id="collapseDiscord" className="accordion-collapse collapse" aria-labelledby="discordHeading" data-bs-parent="#configAccordion">
                             <div className="accordion-body">
                                 <div className="row">
                                     <div className="col">
-                                        <label htmlFor='token' className="required label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_discordtoken')}</label>
+                                        <label htmlFor='token' className="required label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_discordtoken', "express-engine-jsx")}</label>
                                         <input type='password' className="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='token' name='token' />
                                     </div>
                                     <div className="col">
-                                        <label htmlFor='discordclientsecret' className="required label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_clientsecret')}</label>
+                                        <label htmlFor='discordclientsecret' className="required label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_clientsecret', "express-engine-jsx")}</label>
                                         <input type='password' className="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='discordclientsecret' name='discordclientsecret' />
                                     </div>
                                 </div>
                                 <div className="row">
                                     <div className="col">
-                                        <label htmlFor='pstatus' className="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_playingstatus')}</label>
+                                        <label htmlFor='pstatus' className="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_playingstatus', "express-engine-jsx")}</label>
                                         <input type='text' className="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='pstatus' name='pstatus' value={pstatus} />
                                     </div>
                                     <div className="col">
-                                        <label htmlFor='ostatus' className="required label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_status')}</label>
+                                        <label htmlFor='ostatus' className="required label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_status', "express-engine-jsx")}</label>
                                         <select className="form-select input-cIJ7To" name="ostatus" id="ostatus">
                                             {/*Unfortunately, I would have styled the dropdown but apparently that's not possible? If it is, please submit a pull request right away.*/}
                                             <OnlineStatusOptions />
@@ -248,18 +248,18 @@ function IMAPSSLOptions() {
                                 </div>
                                 <div className="row">
                                     <div className="col">
-                                        <label htmlFor='guildid' className="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_supportguildid')}</label>
+                                        <label htmlFor='guildid' className="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_supportguildid', "express-engine-jsx")}</label>
                                         <input type='number' className="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='guildid' name='guildid' value={guildid} />
                                     </div>
                                     <div className="col">
-                                        <label htmlFor='moderatorsroleid' className="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_moderatorsroleid')}</label>
+                                        <label htmlFor='moderatorsroleid' className="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_moderatorsroleid', "express-engine-jsx")}</label>
                                         <input type='number' className="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='moderatorsroleid' name='moderatorsroleid' value={moderatorsroleid} />
                                     </div>
                                 </div>
                                 <div className="row mt-3 justify-content-sm-end">
-                                    <a target="_blank" href="https://wiki.btsbot.439bananas.com/wiki/Installing#Discord_configuration">{translate(lang, 'page_globalneedhelp')}</a>
+                                    <a target="_blank" href="https://wiki.btsbot.439bananas.com/wiki/Installing#Discord_configuration">{translate(lang, 'page_globalneedhelp', "express-engine-jsx")}</a>
                                     <div className="col">
-                                        <input value={translate(lang, 'page_globalnext')} aria-expanded="false" className="button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCloud" aria-controls="collapseCloud" />
+                                        <input value={translate(lang, 'page_globalnext', "express-engine-jsx")} aria-expanded="false" className="button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCloud" aria-controls="collapseCloud" />
                                     </div>
                                 </div>
                             </div>
@@ -268,35 +268,35 @@ function IMAPSSLOptions() {
                     <div className="accordion-item">
                         <h2 className="accordion-header" id="cloudHeading">
                             <button className="accordion-button collapsed" title="yes i hate the word cloud" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCloud" aria-expanded="false" aria-controls="collapseCloud">
-                                {translate(lang, 'page_configstep4')}
+                                {translate(lang, 'page_configstep4', "express-engine-jsx")}
                             </button>
                         </h2>
                         <div id="collapseCloud" className="accordion-collapse collapse" aria-labelledby="cloudHeading" data-bs-parent="#configAccordion">
                             <div className="accordion-body">
                                 <div className="row">
                                     <div className="col">
-                                        <label htmlFor='googleclientid' className="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_googleclientid')}</label>
+                                        <label htmlFor='googleclientid' className="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_googleclientid', "express-engine-jsx")}</label>
                                         <input type='text' className="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='googleclientid' name='googleclientid' value={googleclientid} />
                                     </div>
                                     <div className="col">
-                                        <label htmlFor='googleclientsecret' className="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_googleclientsecret')}</label>
+                                        <label htmlFor='googleclientsecret' className="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_googleclientsecret', "express-engine-jsx")}</label>
                                         <input type='password' className="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='googleclientsecret' name='googleclientsecret' />
                                     </div>
                                 </div>
                                 <div className="row">
                                     <div className="col">
-                                        <label htmlFor='msclientid' className="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_msclientid')}</label>
+                                        <label htmlFor='msclientid' className="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_msclientid', "express-engine-jsx")}</label>
                                         <input type='text' className="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='msclientid' name='msclientid' value={msclientid} />
                                     </div>
                                     <div className="col">
-                                        <label htmlFor='msclientsecret' className="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_msclientsecret')}</label>
+                                        <label htmlFor='msclientsecret' className="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_msclientsecret', "express-engine-jsx")}</label>
                                         <input type='password' className="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='msclientsecret' name='msclientsecret' />
                                     </div>
                                 </div>
                                 <div className="row mt-3 justify-content-sm-end">
-                                    <a target="_blank" href="https://wiki.btsbot.439bananas.com/wiki/Installing#Cloud_services_configuration">{translate(lang, 'page_globalneedhelp')}</a>
+                                    <a target="_blank" href="https://wiki.btsbot.439bananas.com/wiki/Installing#Cloud_services_configuration">{translate(lang, 'page_globalneedhelp', "express-engine-jsx")}</a>
                                     <div className="col">
-                                        <input value={translate(lang, 'page_globalnext')} aria-expanded="false" className="button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEmail" aria-controls="collapseEmail" />
+                                        <input value={translate(lang, 'page_globalnext', "express-engine-jsx")} aria-expanded="false" className="button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEmail" aria-controls="collapseEmail" />
                                     </div>
                                 </div>
                             </div>
@@ -305,40 +305,40 @@ function IMAPSSLOptions() {
                     <div className="accordion-item">
                         <h2 className="accordion-header" id="emailHeading">
                             <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEmail" aria-expanded="false" aria-controls="collapseEmail">
-                                {translate(lang, 'page_configstep5')}
+                                {translate(lang, 'page_configstep5', "express-engine-jsx")}
                             </button>
                         </h2>
                         <div id="collapseEmail" className="accordion-collapse collapse" aria-labelledby="emailHeading" data-bs-parent="#configAccordion">
                             <div className="accordion-body">
                                 <div className="row">
                                     <div className="col">
-                                        <label htmlFor='smtpserver' className="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_smtpserver')}</label>
+                                        <label htmlFor='smtpserver' className="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_smtpserver', "express-engine-jsx")}</label>
                                         <input type='text' className="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='smtpserver' name='smtpserver' value={smtpserver} />
                                     </div>
                                     <div className="col">
-                                        <label htmlFor='smtpport' className="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_smtpport')}</label>
+                                        <label htmlFor='smtpport' className="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_smtpport', "express-engine-jsx")}</label>
                                         <input type='number' className="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='smtpport' name='smtpport' min="1" max="65535" value={smtpport} />
                                     </div>
                                 </div>
                                 <div className="row">
                                     <div className="col">
-                                        <label htmlFor='smtpssl' className="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_smtpssl')}</label>
+                                        <label htmlFor='smtpssl' className="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_smtpssl', "express-engine-jsx")}</label>
                                         <select className="form-select input-cIJ7To" name="smtpssl" id="smtpssl">
                                             <SMTPSSLOptions />
                                         </select>
                                     </div>
                                     <div className="col">
-                                        <label htmlFor='imapserver' className="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_imapserver')}</label>
+                                        <label htmlFor='imapserver' className="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_imapserver', "express-engine-jsx")}</label>
                                         <input type='text' className="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='imapserver' name='imapserver' value={imapserver} />
                                     </div>
                                 </div>
                                 <div className="row">
                                     <div className="col">
-                                        <label htmlFor='imapport' className="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_imapport')}</label>
+                                        <label htmlFor='imapport' className="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_imapport', "express-engine-jsx")}</label>
                                         <input type='number' className="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='imapport' name='imapport' min="1" max="65535" value={imapport} />
                                     </div>
                                     <div className="col">
-                                        <label htmlFor='imapssl' className="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_imapssl')}</label>
+                                        <label htmlFor='imapssl' className="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_imapssl', "express-engine-jsx")}</label>
                                         <select className="form-select input-cIJ7To" name="imapssl" id="imapssl">
                                             <IMAPSSLOptions />
                                         </select>
@@ -346,24 +346,24 @@ function IMAPSSLOptions() {
                                 </div>
                                 <div className="row">
                                     <div className="col">
-                                        <label htmlFor='emailaddress' className="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_configemailaddress')}</label>
+                                        <label htmlFor='emailaddress' className="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_configemailaddress', "express-engine-jsx")}</label>
                                         <input type='text' className="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='emailaddress' name='emailaddress' value={emailaddress} />
                                     </div>
                                     <div className="col">
-                                        <label htmlFor='emailusername' className="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_configemailusername')}</label>
+                                        <label htmlFor='emailusername' className="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_configemailusername', "express-engine-jsx")}</label>
                                         <input type='text' className="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='emailusername' name='emailusername' value={emailusername} />
                                     </div>
                                 </div>
                                 <div className="row">
                                     <div className="col">
-                                        <label htmlFor='emailpassword' className="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_configemailpassword')}</label>
+                                        <label htmlFor='emailpassword' className="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_configemailpassword', "express-engine-jsx")}</label>
                                         <input type='password' className="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='emailpassword' name='emailpassword' />
                                     </div>
                                 </div>
                                 <div className="row mt-3 justify-content-sm-end">
-                                    <a target="_blank" href="https://wiki.btsbot.439bananas.com/wiki/Installing#Email_configuration">{translate(lang, 'page_globalneedhelp')}</a>
+                                    <a target="_blank" href="https://wiki.btsbot.439bananas.com/wiki/Installing#Email_configuration">{translate(lang, 'page_globalneedhelp', "express-engine-jsx")}</a>
                                     <div className="col">
-                                        <input type='submit' className='submit button' value={translate(lang, "page_globalsubmit")} id="SubmitConfButton" />
+                                        <input type='submit' className='submit button' value={translate(lang, "page_globalsubmit", "express-engine-jsx")} id="SubmitConfButton" />
                                     </div>
                                 </div>
                             </div>
