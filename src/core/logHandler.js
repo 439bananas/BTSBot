@@ -13,22 +13,32 @@
 const colours = require('colors')
 const fs = require('fs')
 const path = require('path')
+let translateMode
 
 function info(message) { // Log depending on function called
     getlang(true).then(lang => {
-        console.info(`${colours.cyan(`${new Date()}`)} - ${`${translate(lang, 'loghandler_info')}:`.green} ${message}`)
+        if (path.basename(process.argv[1]) == "index.js") {
+            translateMode = "express-engine-jsx"
+        } else translateMode = undefined
+        console.info(`${colours.cyan(`${new Date()}`)} - ${`${translate(lang, 'loghandler_info', translateMode)}:`.green} ${message}`)
     })
 }
 
 function warn(message) {
     getlang(true).then(lang => {
-        console.warn(`${colours.cyan(`${new Date()}`)} - ${`${translate(lang, 'loghandler_warn')}:`.yellow} ${message}`)
+        if (path.basename(process.argv[1]) == "index.js") {
+            translateMode = "express-engine-jsx"
+        } else translateMode = undefined
+        console.warn(`${colours.cyan(`${new Date()}`)} - ${`${translate(lang, 'loghandler_warn', translateMode)}:`.yellow} ${message}`)
     })
 }
 
 function error(message) {
     getlang(true).then(lang => {
-        console.error(`${colours.cyan(`${new Date()}`)} - ${`${translate(lang, 'loghandler_error')}:`.red} ${message}`)
+        if (path.basename(process.argv[1]) == "index.js") {
+            translateMode = "express-engine-jsx"
+        } else translateMode = undefined
+        console.error(`${colours.cyan(`${new Date()}`)} - ${`${translate(lang, 'loghandler_error', translateMode)}:`.red} ${message}`)
     })
 }
 
@@ -38,19 +48,28 @@ function err(message) { // Quick alias for error because I'm an idiot
 
 function temp(message) {  // This is used for assertions and logging information to ensure a function works as intended. Each assertion should NOT end up in final releases
     getlang(true).then(lang => {
-        console.log (`${colours.cyan(`${new Date()}`)} - ${`${translate(lang, 'loghandler_temp')}:`.brightMagenta} ${message}`)
+        if (path.basename(process.argv[1]) == "index.js") {
+            translateMode = "express-engine-jsx"
+        } else translateMode = undefined
+        console.log(`${colours.cyan(`${new Date()}`)} - ${`${translate(lang, 'loghandler_temp', translateMode)}:`.brightMagenta} ${message}`)
     })
 }
 
 function tempinfo(message) { // Tells the user information they may need to know (ie x warning is safe to ignore), where the logging will be removed after the problem is fixed
     getlang(true).then(lang => {
-        console.log(`${colours.cyan(`${new Date()}`)} - ${`${translate(lang, 'loghandler_tempinfo')}:`.magenta} ${message}`)
+        if (path.basename(process.argv[1]) == "index.js") {
+            translateMode = "express-engine-jsx"
+        } else translateMode = undefined
+        console.log(`${colours.cyan(`${new Date()}`)} - ${`${translate(lang, 'loghandler_tempinfo', translateMode)}:`.magenta} ${message}`)
     })
 }
 
 function fatal(message) {
     getlang(true).then(lang => { // Log and exit
-        console.error(`${colours.cyan(`${new Date()}`)} - ${`${translate(lang, 'loghandler_fatal')}:`.bgRed} ${message}`)
+        if (path.basename(process.argv[1]) == "index.js") {
+            translateMode = "express-engine-jsx"
+        } else translateMode = undefined
+        console.error(`${colours.cyan(`${new Date()}`)} - ${`${translate(lang, 'loghandler_fatal', translateMode)}:`.bgRed} ${message}`)
         process.exit(1)
     })
 }
@@ -58,12 +77,12 @@ function fatal(message) {
 function initLog() {
     return new Promise(function (resolve, reject) {
         getlang(true).then(lang => {
-            info(translate(lang, "log_loghandlercheckingforlogdir"))
+            info(translate(lang, "log_loghandlercheckingforlogdir", "express-engine-jsx"))
             if (!fs.existsSync('./logs')) { // Check for directory named "logs" in the root, if it doesn't exist, create it
-                info(translate(lang, 'log_nologdir'))
+                info(translate(lang, 'log_nologdir', "express-engine-jsx"))
                 fs.mkdirSync('logs')
             }
-            info(translate(lang, "log_loghandlercreatinglogfile"))
+            info(translate(lang, "log_loghandlercreatinglogfile", "express-engine-jsx"))
             var iteration = 1 // Start at 1 and if the file exists, continue until incrementing until a file doesn't exist
             if (new Date().getDate().toString().length == 1) { // Uniform all the dates so if the length of the date or the month is 1 prepend with a 0
                 var date = (0).toString() + (new Date().getDate()).toString()
@@ -96,7 +115,7 @@ function initLog() {
                     var filename = filename + " //" // Add // to make it look pretty
                     fs.writeFile('./logs/' + logFile, '/////////////////////////////////////////////////////////////\n//                                                         //\n//                         BTS Bot                         //\n//                                                         //\n' + filename + '\n//                                                         //\n//                                                         //\n//                                                         //\n//                                                         //\n//                                                         //\n/////////////////////////////////////////////////////////////\n', function (err) {
                         if (err) throw err; // ^^ Create the log file with the content including the file name
-                        info(translate(lang, 'log_filesaved') + path.join(__dirname, '..', '..', 'logs', logFile))
+                        info(translate(lang, 'log_filesaved', "express-engine-jsx") + path.join(__dirname, '..', '..', 'logs', logFile))
                     })
                 }
             }

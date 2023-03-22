@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@azure/msal-node": "^1.10.0",
+    "@azure/msal-node": "^1.16.0",
     "colors": "^1.4.0",
     "cookie-parser": "^1.4.6",
     "discord.js": "^13.3.1",
@@ -26,10 +26,10 @@
   "version": "3.0.0",
   "iteration": "ad",
   "mode": "stable",
-  "description": "The third iteration of the utility bot used in Bot Testing Server",
+  "description": "A utility and moderation Discord bot that focuses around the end user",
   "main": "src/core/index.js",
   "scripts": {
-    "build:server": "esbuild src/core/createElements.js --bundle --outfile=build/server.js --platform=node \"--external:./configs/*.json\" \"--external:./i18n/*.json\" \"--external:express-engine-jsx\"",
+    "build:server": "esbuild src/core/createElements.js --bundle --outfile=build/out.js --platform=node \"--external:./configs/*.json\" \"--external:./i18n/*.json\" \"--external:express-engine-jsx\"",
     "build": "npm run build:server",
     "start": "node src/core/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -46,6 +46,7 @@
   },
   "homepage": "https://btsbot.439bananas.com",
   "devDependencies": {
+    "esbuild": "^0.17.12",
     "typescript": "^4.9.5"
   }
 }

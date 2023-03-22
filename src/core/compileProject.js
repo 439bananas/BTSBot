@@ -2,7 +2,7 @@
 //                                                         //
 //                         BTS Bot                         //
 //                                                         //
-//                     File: index.js                      //
+//                 File: compileProject.js                 //
 //                                                         //
 //               Author: Thomas (439bananas)               //
 //                                                         //
@@ -10,15 +10,16 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-// NOTES: You should never call restart() within this file; the script stops while the server and bot continue to run
+const getlang = require('./getLanguageJSON');
+const { exec } = require('child_process');
 
-global.uniconf = require('../configs/uniconf.json')
-global.log = require('./logHandler');
-global.translate = require('./getLanguageString')
-global.getlang = require('./getLanguageJSON')
-
-getlang(true).then(lang => { // Get language and then get translation string
-    log.info(`${translate(lang, 'log_startingbtsbot', "express-engine-jsx")}${uniconf.projname}...`)
+log.initLog().then(file => { // Create logs directory if it doesn't exist and create and get this session's log file
+    logFile = file
 })
 
-require('./compileProject') // This is where the real magic happens
+getlang(true).then(lang => {
+    log.info(translate(lang, "log_buildingproject", "express-engine-jsx")) // Build the script
+    exec('npm run build', (error, stdout, stderr) => {
+        require('./init') // Require init so that we can use restart() and events etc
+    })
+})

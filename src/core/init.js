@@ -13,16 +13,15 @@
 const forever = require('forever-monitor')
 const fs = require('fs')
 const strip = require('strip-color');
+let logFile
 
-const child = new (forever.Monitor)('./src/core/createElements.js', { // Define calling createElements
+const child = new (forever.Monitor)('./build/out.js', { // Define calling createElements
     max: 0, // Unlimited times the script should run
     silent: false, // Log every output to the console
     args: [] // No args
 })
 
-log.initLog().then(file => { // Create logs directory if it doesn't exist and create and get this session's log file
-    var logFile = file
-})
+child.start() // Run the script itself
 
 child.on('exit:code', function (code) { // When createElements exits, grab the code
     if (code == 1) { // If hard crash, exit
@@ -38,7 +37,7 @@ child.on('stdout', function (data) { // Log any output to log file
         if (err) {
             log.error(err);
             getlang(true).then(lang => {
-                log.warn(translate(lang, 'log_errorsavinglog'))
+                log.warn(translate(lang, 'log_errorsavinglog', "express-engine-jsx"))
             })
         }
     });
@@ -49,10 +48,8 @@ child.on('stderr', function (data) {
         if (err) {
             log.error(err);
             getlang(true).then(lang => {
-                log.warn(translate(lang, 'log_errorsavinglog'))
+                log.warn(translate(lang, 'log_errorsavinglog', "express-engine-jsx"))
             })
         }
     });
 });
-
-child.start() // Run the script itself
