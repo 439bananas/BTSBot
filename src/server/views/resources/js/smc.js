@@ -26,6 +26,7 @@ async function submitconfig() {
     $('#tokeninvaliderror').css('display', 'none');
     $('#badclientsecreterror').css('display', 'none');
     $('#cannotconnecttodiscorderror').css('display', 'none');
+    $('#missingargserror').css('display', 'none');
     $.ajax({ // I'm sure many people will rip my guts out for this but for now I'm using JQuery - in the future I may consider switching to fetch() but for now I just want it to work
         url: '/api/submit-config/',
         type: 'post',
@@ -80,11 +81,14 @@ async function submitconfig() {
             case "INCORRECT_CREDENTIALS":
                 $('#incorrectcredentialserror').css('display', 'block');
                 break;
+            case "MISSING_ARGS":
+                $('#missingargserror').css('display', 'block');
+                break;
             case "CONF_OK":
                 $('#confokerror').css('display', 'block');
                 break;
             case "TOKEN_INVALID":
-                $('#tbreak;okeninvaliderror').css('display', 'block');
+                $('#tokeninvaliderror').css('display', 'block');
                 break;
             case "UNKNOWN_DISCORD_ERROR":
                 $('#unknowndiscorderror').css('display', 'block');

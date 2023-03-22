@@ -48,7 +48,7 @@ router.post('/', async (req, res, next) => {
                     response: "CONF_OK"
                 })
             }).catch(err => {
-                if (fs.existsSync(path.join(__dirname, '..', '..', 'configs', 'confinterim.json'))) { // Check for conf interim, if all good then throw this error in API
+                if (fs.existsSync(path.join(__dirname, '..', 'configs', 'confinterim.json'))) { // Check for conf interim, if all good then throw this error in API
                     checkConf('confinterim').then(result => {
                         if (badclientsecret === true) {
                             createConf(req, res).then(response => { // Creating conf is slow, we don't want to restart before we've created it so let's wrap it in a promise
@@ -56,7 +56,7 @@ router.post('/', async (req, res, next) => {
                                 res.json({
                                     response: "VERIFY_CLIENT_SECRET"
                                 })
-                                const conf = require('./configs/confinterim.json')
+                                const conf = require('../../../configs/confinterim.json')
                                 log.info(translate(conf.language, 'log_mysqlconffilesaved') + path.join(__dirname, '..', '..', 'configs', 'confinterim.json'))
                                 log.info(translate(conf.language, 'log_changestakeefect_part1') + uniconf.projname + translate(conf.language, 'log_changestakeefect_part2'))
                                 restart()
@@ -73,7 +73,7 @@ router.post('/', async (req, res, next) => {
                             res.json({
                                 response: "VERIFY_CLIENT_SECRET"
                             })
-                            const conf = require('./configs/confinterim.json')
+                            const conf = require('../../../configs/confinterim.json')
                             log.info(translate(conf.language, 'log_mysqlconffilesaved') + path.join(__dirname, '..', '..', 'configs', 'confinterim.json'))
                             log.info(translate(conf.language, 'log_changestakeefect_part1') + uniconf.projname + translate(conf.language, 'log_changestakeefect_part2'))
                             restart()
@@ -85,7 +85,7 @@ router.post('/', async (req, res, next) => {
                         res.json({
                             response: "VERIFY_CLIENT_SECRET"
                         })
-                        const conf = require('./configs/confinterim.json')
+                        const conf = require('../../../configs/confinterim.json')
                         log.info(translate(conf.language, 'log_mysqlconffilesaved') + path.join(__dirname, '..', '..', 'configs', 'confinterim.json'))
                         log.info(translate(conf.language, 'log_changestakeefect_part1') + uniconf.projname + translate(conf.language, 'log_changestakeefect_part2'))
                         restart()

@@ -112,6 +112,9 @@ function IMAPSSLOptions() {
         <div className="alert-box danger text-wrap" id="confokerror">
             {"CONF_OK: " + translate(lang, 'page_wrongendpoint', "express-engine-jsx")}<br />{translate(lang, 'page_wrongendpointdiagpart1', "express-engine-jsx")} <a href="/">{translate(lang, 'page_wrongendpointdiagpart2', "express-engine-jsx")}</a>{"."}
         </div>
+        <div className="alert-box danger text-wrap" id="missingargserror">
+            {"MISSING_ARGS: " + translate(lang, 'page_missingargs', "express-engine-jsx")}<br />{translate(lang, 'page_missingargsdiag', "express-engine-jsx")}
+        </div>
         <BadClientSecretError />
         <div className="alert-box danger text-wrap" id="tokeninvaliderror">
             {"TOKEN_INVALID: " + translate(lang, 'page_tokeninvalid', "express-engine-jsx")}<br />{translate(lang, 'page_tokeninvaliddiag', "express-engine-jsx")}

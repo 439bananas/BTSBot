@@ -42,8 +42,8 @@
     <Content Include=".vscode\launch.json" />
     <Content Include="BTS Bot.code-workspace" />
     <Content Include="build\server.js" />
-    <Content Include="configs\conf.json" />
     <Content Include="configs\config.json" />
+    <Content Include="configs\confinterim.json" />
     <Content Include="i18n\contexts.json" />
     <Content Include="i18n\en-gb.json" />
     <Content Include="i18n\fr-fr.json" />
@@ -1025,6 +1025,7 @@
     <Content Include="src\server\views\resources\css\bootstrap.css" />
     <Content Include="src\server\views\resources\css\bootstrap.css.map" />
     <Content Include="src\server\views\resources\css\main.css" />
+    <Content Include="src\server\views\resources\css\twemoji-amazing.css" />
     <Content Include="src\server\views\resources\emojis\1f004.svg" />
     <Content Include="src\server\views\resources\emojis\1f0cf.svg" />
     <Content Include="src\server\views\resources\emojis\1f170.svg" />

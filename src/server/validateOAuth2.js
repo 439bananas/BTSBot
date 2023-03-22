@@ -31,7 +31,7 @@ function googleOAuth2(req, res, conf) { // Cope with Google's OAuth2 in a more c
                     res.redirect(url)
                 })
             } else if (req.query.error) { // If there is an error, show the conf page
-                showconf(req, res, conf.language, conf.language, conf.hostname, conf.dbusername, conf.database, conf.tableprefix, conf.pstatus, conf.ostatus, conf.guildid, conf.moderatorsroleid, conf.googleclientid, conf.msclientid, conf.smtpserver, conf.smtpport, conf.smtpssl, conf.imapssl, conf.imapssl, conf.imapserver, conf.imapport, conf.emailaddress, conf.emailusername, true)
+                showconf(req, res, conf.language, conf.language, conf.hostname, conf.dbusername, conf.database, conf.tableprefix, conf.redishostname, conf.redisusername, conf.redisdatabase, conf.pstatus, conf.ostatus, conf.guildid, conf.moderatorsroleid, conf.googleclientid, conf.msclientid, conf.smtpserver, conf.smtpport, conf.smtpssl, conf.imapssl, conf.imapserver, conf.imapport, conf.emailaddress, conf.emailusername, true)
             } else { // If there is a code and no error:
                 getgoogletoken(conf.googleclientid, conf.googleclientsecret, ['https://www.googleapis.com/auth/userinfo.profile'], getaddress(req) + "/config", req.query.code).then(token => { // Get the Google bearer token with set settings, scopes and code
                     res.cookie('googlebearertoken', token, { maxAge: 3600000, httpOnly: true }); // Store as cookie
@@ -134,7 +134,7 @@ function validateOAuth2(req, res, conf) { // Let's validate our OAuth2 with rath
                     res.redirect('https://discord.com/api/oauth2/authorize?client_id=' + id + '&redirect_uri=' + encodeURIComponent(getaddress(req) + "/config") + '&response_type=code&scope=identify%20email&prompt=none')
                 }).catch(err => { // If there's an error, handle it, we don't want any obnoxious crashes now
                     if (err == "TOKEN_INVALID") { // This is likely if it's been changed between one restart to another, therefore show our configuration page
-                        showconf(req, res, conf.language, conf.language, conf.hostname, conf.dbusername, conf.database, conf.tableprefix, conf.pstatus, conf.ostatus, conf.guildid, conf.moderatorsroleid, conf.googleclientid, conf.msclientid, conf.smtpserver, conf.smtpport, conf.smtpssl, conf.imapssl, conf.imapserver, conf.imapport, conf.emailaddress, conf.emailusername, false)
+                        showconf(req, res, conf.language, conf.language, conf.hostname, conf.dbusername, conf.database, conf.tableprefix, conf.redishostname, conf.redisusername, conf.redisdatabase, conf.pstatus, conf.ostatus, conf.guildid, conf.moderatorsroleid, conf.googleclientid, conf.msclientid, conf.smtpserver, conf.smtpport, conf.smtpssl, conf.imapssl, conf.imapserver, conf.imapport, conf.emailaddress, conf.emailusername, false)
                     } else if (err == "CANNOT_CONNECT_TO_DISCORD") { // Can we not connect to Discord? Oh. We can't do anything about that so show a wall
                         showwall(res, lang, uniconf.projname + translate(lang, 'page_wallcannotconnecttodiscord'), translate(lang, 'page_wallcannotconnecttoservicediagpart1') + uniconf.projname + translate(lang, 'page_wallcannotconnecttodiscorddiagpart2'))
                     } else { // Potentially some other error could have come up, it could be anything so let's play it safe and not let the end user do anything
@@ -150,16 +150,20 @@ function validateOAuth2(req, res, conf) { // Let's validate our OAuth2 with rath
                 }).catch(err => { // If we can't, then do the following:
                     switch (err) {
                         case "BAD_CODE": // If we have a bad code, redirect to OAuth2 to regenerate another one, should be simple enough
+                            log.temp("BAD CODE")
                             getid(conf.token).then(id => {
                                 res.redirect('https://discord.com/api/oauth2/authorize?client_id=' + id + '&redirect_uri=' + encodeURIComponent(getaddress(req) + "/config") + '&response_type=code&scope=identify%20email&prompt=none')
                             })
                             break;
                         case "BAD_DISCORD_CLIENT_SECRET": // Bad client secrets could be due to misconfuguration or some other error
-                            showconf(req, res, conf.language, conf.language, conf.hostname, conf.dbusername, conf.database, conf.tableprefix, conf.pstatus, conf.ostatus, conf.guildid, conf.moderatorsroleid, conf.googleclientid, conf.msclientid, conf.smtpserver, conf.smtpport, conf.smtpssl, conf.imapssl, conf.imapserver, conf.imapport, conf.emailaddress, conf.emailusername, true)
+                            showconf(req, res, conf.language, conf.language, conf.hostname, conf.dbusername, conf.database, conf.tableprefix, conf.redishostname, conf.redisusername, conf.redisdatabase, conf.pstatus, conf.ostatus, conf.guildid, conf.moderatorsroleid, conf.googleclientid, conf.msclientid, conf.smtpserver, conf.smtpport, conf.smtpssl, conf.imapssl, conf.imapserver, conf.imapport, conf.emailaddress, conf.emailusername, true)
+                            log.temp("validateOauth2.js:160")
+                            log.temp("BAD CLIENT SECRET")
                             global.badclientsecret = true
                             break;
                         case "TOKEN_INVALID": // Same with the bad token
-                            showconf(req, res, conf.language, conf.language, conf.hostname, conf.dbusername, conf.database, conf.tableprefix, conf.pstatus, conf.ostatus, conf.guildid, conf.moderatorsroleid, conf.googleclientid, conf.msclientid, conf.smtpserver, conf.smtpport, conf.smtpssl, conf.imapssl, conf.imapserver, conf.imapport, conf.emailaddress, conf.emailusername, false)
+                            log.temp("validateOauth2.js:165")
+                            showconf(req, res, conf.language, conf.language, conf.hostname, conf.dbusername, conf.database, conf.tableprefix, conf.redishostname, conf.redisusername, conf.redisdatabase, conf.pstatus, conf.ostatus, conf.guildid, conf.moderatorsroleid, conf.googleclientid, conf.msclientid, conf.smtpserver, conf.smtpport, conf.smtpssl, conf.imapssl, conf.imapserver, conf.imapport, conf.emailaddress, conf.emailusername, false)
                             break;
                         default:
                             showwall(res, conf.language, translate(lang, "page_confunknownerror"), translate(lang, "page_wallunknownerrordiag"))
@@ -185,7 +189,7 @@ function validateOAuth2(req, res, conf) { // Let's validate our OAuth2 with rath
                         }).catch(err => { // If bad client secret or code, show that error
                             switch (err) {
                                 case "BAD_CLIENT_SECRET_OR_CODE":
-                                    showconf(req, res, conf.language, conf.language, conf.hostname, conf.dbusername, conf.database, conf.tableprefix, conf.pstatus, conf.ostatus, conf.guildid, conf.moderatorsroleid, conf.googleclientid, conf.msclientid, conf.smtpserver, conf.smtpport, conf.smtpssl, conf.imapssl, conf.imapserver, conf.imapport, conf.emailaddress, conf.emailusername, true)
+                                    showconf(req, res, conf.language, conf.language, conf.hostname, conf.dbusername, conf.database, conf.tableprefix, conf.redishostname, conf.redisusername, conf.redisdatabase, conf.pstatus, conf.ostatus, conf.guildid, conf.moderatorsroleid, conf.googleclientid, conf.msclientid, conf.smtpserver, conf.smtpport, conf.smtpssl, conf.imapssl, conf.imapserver, conf.imapport, conf.emailaddress, conf.emailusername, true)
                                     global.badclientsecret = false
                                     break; // ^^ Unfortunately, there is no way to differentiate between the two errors in MSAL so best thing to do is redisplay the configuration page
                                 default:
@@ -255,7 +259,7 @@ function validateOAuth2(req, res, conf) { // Let's validate our OAuth2 with rath
                                             res.redirect('https://discord.com/api/oauth2/authorize?client_id=' + id + '&redirect_uri=' + encodeURIComponent(getaddress(req) + "/config") + '&response_type=code&scope=identify%20email&prompt=none')
                                             break;
                                         case "BAD_DISCORD_CLIENT_SECRET": // If we have a bad client secret, show the conf again
-                                            showconf(req, res, conf.language, conf.language, conf.hostname, conf.dbusername, conf.database, conf.tableprefix, conf.pstatus, conf.ostatus, conf.guildid, conf.moderatorsroleid, conf.googleclientid, conf.msclientid, conf.smtpserver, conf.smtpport, conf.smtpssl, conf.imapssl, conf.imapserver, conf.imapport, conf.emailaddress, conf.emailusername, true)
+                                            showconf(req, res, conf.language, conf.language, conf.hostname, conf.dbusername, conf.database, conf.tableprefix, conf.redishostname, conf.redisusername, conf.redisdatabase, conf.pstatus, conf.ostatus, conf.guildid, conf.moderatorsroleid, conf.googleclientid, conf.msclientid, conf.smtpserver, conf.smtpport, conf.smtpssl, conf.imapssl, conf.imapserver, conf.imapport, conf.emailaddress, conf.emailusername, true)
                                             global.badclientsecret = false
                                             break;
                                         default: // If it's anything else, assume the worst and prevent the user from going further
@@ -289,7 +293,7 @@ function validateOAuth2(req, res, conf) { // Let's validate our OAuth2 with rath
                             }
                             break;
                         case "CANNOT_CONNECT_TO_DISCORD": // Can't do anything here if Discord is down
-                        showwall(res, lang, uniconf.projname + translate(lang, 'page_wallcannotconnecttodiscord'), translate(lang, 'page_wallcannotconnecttoservicediagpart1') + uniconf.projname + translate(lang, 'page_wallcannotconnecttodiscorddiagpart2'))
+                            showwall(res, lang, uniconf.projname + translate(lang, 'page_wallcannotconnecttodiscord'), translate(lang, 'page_wallcannotconnecttoservicediagpart1') + uniconf.projname + translate(lang, 'page_wallcannotconnecttodiscorddiagpart2'))
                             break;
                         default:
                             showwall(res, conf.language, translate(lang, "page_confunknownerror"), translate(lang, "page_wallunknownerrordiag"))
@@ -305,7 +309,7 @@ function validateOAuth2(req, res, conf) { // Let's validate our OAuth2 with rath
                         showwall(res, conf.language, translate(lang, "page_confunknownerror"), translate(lang, "page_wallunknownerrordiag"))
                         log.error(err)
                     }
-                })  
+                })
             })
         }
     })

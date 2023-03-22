@@ -24,7 +24,7 @@ function getlang(noext, userid) { // Gets the configured language (noext is an a
                 conf = require('../../configs/conf.json')
                 if (conf.language !== undefined) {
                     if (fs.existsSync(path.join(__dirname, '..', 'src', 'i18n', conf.language + '.json'))) { // Check if the language in conf.json exists as a json fine
-                        const lang = require('../../i18n/' + conf.language + '.json')
+                        const lang = require(__dirname + '/../src/i18n/' + conf.language + '.json')
                         if (lang.name !== undefined) { // Check if the language name exists
                             resolve(conf.language + ext) // If all are true, send back the language JSON file name
                         } else {
@@ -40,7 +40,7 @@ function getlang(noext, userid) { // Gets the configured language (noext is an a
                 conf = require('../../configs/confinterim.json')
                 if (conf.language !== undefined) {
                     if (fs.existsSync(path.join(__dirname, '..', 'src', 'i18n', conf.language + '.json'))) {
-                        const lang = require('../../i18n/' + conf.language + '.json')
+                        const lang = require(__dirname + '/../src/i18n/' + conf.language + '.json')
                         if (lang.name !== undefined) {
                             resolve(conf.language + ext)
                         } else {

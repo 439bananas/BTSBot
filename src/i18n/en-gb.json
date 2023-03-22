@@ -257,5 +257,7 @@
   "page_globalhelpdesk": "Helpdesk",
   "page_noguildstolist": "Servers where you have the \"Manage Server\" permission will show here.",
   "log_cannotconnecttodiscordwarn": " cannot currently connect to Discord.",
-  "page_configcompleteheader": "Congratulations!"
+  "page_configcompleteheader": "Congratulations!",
+  "page_missingargs": "One of the MySQL hostname, username, password or database are missing.",
+  "page_missingargsdiag": "Review the form for missing values."
 }

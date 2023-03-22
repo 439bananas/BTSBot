@@ -219,6 +219,10 @@ button {
     display: none;
 }
 
+#missingargserror {
+    display: none;
+}
+
 .label-fppI2a {
     padding-top: 20px;
     display: block;
