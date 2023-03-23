@@ -36,7 +36,7 @@ function getlang(noext, userid) { // Gets the configured language (noext is an a
                 } else {
                     resolve(uniconf.defaultlanguage + ext) // If language is undefined, return default. This should be the only configuration file that has the language
                 }
-            } else if (fs.existsSync(path.join(__dirname, '..', '..', 'configs', 'confinterim.json'))) { // Ditto but check if the MySQL configuration (limbo) has the setting
+            } else if (fs.existsSync(path.join(__dirname, '..', 'configs', 'confinterim.json'))) { // Ditto but check if the MySQL configuration (limbo) has the setting
                 conf = require('../../configs/confinterim.json')
                 if (conf.language !== undefined) {
                     if (fs.existsSync(path.join(__dirname, '..', 'src', 'i18n', conf.language + '.json'))) {

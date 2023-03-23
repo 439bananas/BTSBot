@@ -49,6 +49,7 @@ router.post('/', async (req, res, next) => {
                 })
             }).catch(err => {
                 if (fs.existsSync(path.join(__dirname, '..', 'configs', 'confinterim.json'))) { // Check for conf interim, if all good then throw this error in API
+                    // SEE IF WE CRASH IF CONFIGS DIR DOES NOT EXIST
                     checkConf('confinterim').then(result => {
                         if (badclientsecret === true) {
                             createConf(req, res).then(response => { // Creating conf is slow, we don't want to restart before we've created it so let's wrap it in a promise
@@ -80,6 +81,10 @@ router.post('/', async (req, res, next) => {
                         })
                     })
                 } else {
+                    if (!fs.existsSync(path.join(__dirname, '..', 'configs'))) {
+                        log.info(translate(req.fields.language), "log_creatingconfdirectory")
+                        fs.mkdirSync(path.join(__dirname, '..', 'configs'))
+                    }
                     createConf(req, res).then(response => {
                         res.status(200)
                         res.json({

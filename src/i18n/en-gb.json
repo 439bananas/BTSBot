@@ -260,5 +260,6 @@
   "page_configcompleteheader": "Congratulations!",
   "page_missingargs": "One of the MySQL hostname, username, password or database are missing.",
   "page_missingargsdiag": "Review the form for missing values.",
-  "log_buildingproject": "Creating a production-optimised build..."
+  "log_buildingproject": "Creating a production-optimised build...",
+  "log_creatingconfdirectory": "Configuration directory doesn't exist; Creating!"
 }

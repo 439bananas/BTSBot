@@ -20,6 +20,8 @@ log.initLog().then(file => { // Create logs directory if it doesn't exist and cr
 getlang(true).then(lang => {
     log.info(translate(lang, "log_buildingproject", "express-engine-jsx")) // Build the script
     exec('npm run build', (error, stdout, stderr) => {
-        require('./init') // Require init so that we can use restart() and events etc
+        if (error) {
+            log.fatal(error)
+        } else require('./init') // Require init so that we can use restart() and events etc
     })
 })
