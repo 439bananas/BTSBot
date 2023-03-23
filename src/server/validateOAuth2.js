@@ -128,7 +128,7 @@ function validateOAuth2(req, res, conf) { // Let's validate our OAuth2 with rath
             }
         })
 
-        if (!req.cookies.discordbearertoken) {  // Is there any Discord bearer token in our cookies?
+        if (!req.cookies.discordbearertoken) { // Is there any Discord bearer token in our cookies?
             if (!req.query.code) { // If there isn't check to see if there's a code in our query, if there isn't that either then redirect to our OAuth2 page
                 getid(conf.token).then(id => {
                     res.redirect('https://discord.com/api/oauth2/authorize?client_id=' + id + '&redirect_uri=' + encodeURIComponent(getaddress(req) + "/config") + '&response_type=code&scope=identify%20email&prompt=none')
@@ -142,7 +142,7 @@ function validateOAuth2(req, res, conf) { // Let's validate our OAuth2 with rath
                         log.error(err)
                     }
                 })
-            } else { // If tnere is a code in our query, let's do the following:
+            } else { // If there is a code in our query, let's do the following:
                 getDiscordToken(conf.token, conf.discordclientsecret, getaddress(req) + "/config", req.query.code).then(token => { // Get our bearer token
                     res.cookie("discordbearertoken", token.bearertoken, { maxAge: 604800000, httpOnly: true }) // If we can get it, store it in our cookies for a week and refresh the page
                     res.cookie('discordrefreshtoken', token.refreshtoken, { httpOnly: true })

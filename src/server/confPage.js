@@ -24,7 +24,6 @@ let settings = uniconf.settings
 let conf
 
 router.get('/', async (req, res, next) => { // /config endpoint
-    res.clearCookie('discordbearertoken')
     global.badclientsecret = false
     getUserLang(req).then(lang => { // ANB for the sake that no options depending on if user signed in or not
         checkConf().then(response => { // Check conf before continuing

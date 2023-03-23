@@ -42,6 +42,7 @@
     <Content Include=".vscode\launch.json" />
     <Content Include="BTS Bot.code-workspace" />
     <Content Include="build\out.js" />
+    <Content Include="configs\conf.json" />
     <Content Include="configs\config.json" />
     <Content Include="configs\confinterim.json" />
     <Content Include="i18n\contexts.json" />

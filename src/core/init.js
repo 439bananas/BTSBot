@@ -15,6 +15,10 @@ const fs = require('fs')
 const strip = require('strip-color');
 let logFile
 
+log.initLog().then(file => { // Create logs directory if it doesn't exist and create and get this session's log file
+    logFile = file
+})
+
 const child = new (forever.Monitor)('./build/out.js', { // Define calling createElements
     max: 0, // Unlimited times the script should run
     silent: false, // Log every output to the console
