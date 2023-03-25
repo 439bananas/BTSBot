@@ -81,7 +81,11 @@ router.get('/smc.js', (req, res) => { // Submit MySQL frontend script from now o
     res.sendFile(path.resolve('./src/server/views/resources/js/smc.js'));
 });
 
-router.get('/buttons.js', (req, res) => { // Bootstrap
+router.get('/bundle.js', (req, res) => { // Bundler
+    res.sendFile(path.resolve('./build/bundle.js'));
+});
+
+router.get('/buttons.js', (req, res) => { // Enable buttons
     res.sendFile(path.resolve('./src/server/views/resources/js/buttons.js'));
 });
 

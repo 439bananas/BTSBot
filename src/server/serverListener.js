@@ -24,6 +24,7 @@ const logoutRoutes = require('./logout')
 const serversRoutes = require('./serversPage')
 const confpage = require('./confPage')
 const resourcesRoutes = require('./resources')
+const interfaceRoutes = require('./interface')
 const pkg = require('../../package.json')
 const cookieParser = require('cookie-parser')
 const show404 = require('./display404')
@@ -104,7 +105,6 @@ app.get('/*', async function (req, res, next) { // Block Internet Explorer
                                 showwall(res, lang, uniconf.projname + translate(lang, "page_missingdbperms"), translate(lang, "page_missingdbpermsdiagpart1") + conf.database + translate(lang, "page_missingdbpermsdiagpart2") + '\'' + conf.dbusername + '\'@\'' + conf.hostname + '\'.')
                             } else if (!(err.code == "ER_TABLEACCESS_DENIED_ERROR" || err.code == "ER_DBACCESS_DENIED_ERROR")) {
                                 log.error(err)
-                                log.temp("serverListener.js:102")
                                 showwall(res, conf.language, translate(lang, "page_confunknownerror"), translate(lang, "page_wallunknownerrordiag"))
                             } else next()
                         }
@@ -116,7 +116,6 @@ app.get('/*', async function (req, res, next) { // Block Internet Explorer
                             if ((err.code == "ER_TABLEACCESS_DENIED_ERROR" || err.code == "ER_DBACCESS_DENIED_ERROR")) {
                                 showwall(res, lang, uniconf.projname + translate(lang, "page_missingdbperms"), translate(lang, "page_missingdbpermsdiagpart1") + conf.database + translate(lang, "page_missingdbpermsdiagpart2") + '\'' + conf.dbusername + '\'@\'' + conf.hostname + '\'.')
                             } else if (!(err.code == "ER_TABLEACCESS_DENIED_ERROR" || err.code == "ER_DBACCESS_DENIED_ERROR")) {
-                                log.temp("serverListener.js:114")
                                 log.error(err)
                                 showwall(res, conf.language, translate(lang, "page_confunknownerror"), translate(lang, "page_wallunknownerrordiag"))
                             } else next()
@@ -126,19 +125,15 @@ app.get('/*', async function (req, res, next) { // Block Internet Explorer
                     if ((err.code == "ER_TABLEACCESS_DENIED_ERROR" || err.code == "ER_DBACCESS_DENIED_ERROR")) {
                         showwall(res, lang, uniconf.projname + translate(lang, "page_missingdbperms"), translate(lang, "page_missingdbpermsdiagpart1") + conf.database + translate(lang, "page_missingdbpermsdiagpart2") + '\'' + conf.dbusername + '\'@\'' + conf.hostname + '\'.')
                     } else if (!(err.code == "ER_TABLEACCESS_DENIED_ERROR" || err.code == "ER_DBACCESS_DENIED_ERROR")) {
-                        log.temp("serverListener.js:124")
-                        log.tempinfo(err.code)
                         log.error(err)
                         showwall(res, conf.language, translate(lang, "page_confunknownerror"), translate(lang, "page_wallunknownerrordiag"))
                     } else {
-                        log.temp("serverListener.js:124")
                         log.error(err)
                         showwall(res, conf.language, translate(lang, "page_confunknownerror"), translate(lang, "page_wallunknownerrordiag"))
                     }
                 }
             } catch (err) {
                 try {
-                    log.temp("serverListener.js:126")
                     let token = await refreshBearerToken(req.cookies.discordrefreshtoken) // If we can't get the user's info, refresh their bearer token and reload the page
                     res.cookie("discordbearertoken", token.bearertoken, { maxAge: 604800000, httpOnly: true }) // Store bearer token and refresh token
                     res.cookie('discordrefreshtoken', token.refreshtoken, { httpOnly: true })
@@ -153,14 +148,13 @@ app.get('/*', async function (req, res, next) { // Block Internet Explorer
                             break;
                         default:
                             showwall(res, conf.language, translate(lang, "page_confunknownerror"), translate(lang, "page_wallunknownerrordiag")) // Show wall if other error
-                            log.temp("serverListener.js:146")
                             log.error(err)
                             break;
                     }
                 }
             }
         } else if ((typeof (redisConnection) === 'undefined' || typeof (MySQLConnection) === 'undefined') && urls[1].toLowerCase() != "resources" && confExists === true && !excludedApis.includes(urls[2])) { // Database can be accessed after downtime during initialisation of project
-            global.conf = require('./configs/conf.json')
+            global.conf = require('../../configs/conf.json')
             require('../database/databaseManager')
             next()
         } else {
@@ -181,12 +175,6 @@ app.all('/*', async function (req, res, next) {
 });
 
 app.use(favicon(path.join(__dirname, '..', 'src', 'server', 'views', 'resources', 'img', faviconfilename)))
-app.use('/', function (req, res, next) {
-    req.confExists = confExists
-    req.confErr = confErr
-    req.user = user
-    next();
-}, frontpage) // If root directory is contacted, we'll check if conf.json exists before serving
 app.use('/config', confpage) // Fun fact, I forgot to call this file, and wondered why I was getting 404s on /config
 app.use('/resources', resourcesRoutes) // Yeah let's get these resources
 app.use('/api', routes) // All API endpoints then begin with "/api"
@@ -197,6 +185,21 @@ app.use('/login', function (req, res, next) {
     next();
 }, loginRoutes) // Login
 app.use('/logout', logoutRoutes) // And logging out
+// WE JUST USE APP.GET * HERE
+app.use('*', function (req, res, next) {
+    req.confExists = confExists
+    req.confErr = confErr
+    req.user = user
+    /*if (confErr && req.url == "/") {
+        return frontpage
+    } else */next();
+}, interfaceRoutes)
+/*app.use('/', function (req, res, next) {
+    req.confExists = confExists
+    req.confErr = confErr
+    req.user = user
+    next();
+}, frontpage) // If root directory is contacted, we'll check if conf.json exists before serving
 app.use('/servers', function (req, res, next) {
     req.confExists = confExists
     req.confErr = confErr
@@ -212,6 +215,6 @@ app.use(function (req, res, next) {
             show404(req, res, lang, false)
         })
     })
-});
+});*/
 
 module.exports = app;

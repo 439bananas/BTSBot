@@ -2,7 +2,7 @@
 //                                                         //
 //                         BTS Bot                         //
 //                                                         //
-//              File: prerelease-warning.jsx               //
+//                  File: react-client.js                  //
 //                                                         //
 //               Author: Thomas (439bananas)               //
 //                                                         //
@@ -10,17 +10,14 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-const translate = require('./getLanguageString');
+const ReactDOM = require("react-dom/client");
+const { BrowserRouter } = require("react-router-dom");
+const App = require("../../ReactApp");
 const React = require('react');
 
-function PrereleaseWarning(props) {
-    return (
-        <div class="prerelease-warning">
-            <strong>
-                {translate(props.language, 'page_globalprereleasewarningpart1') + uniconf.projname + translate(props.language, 'page_globalprereleasewarningpart2')}
-            </strong>
-        </div>
-    )
-}
-
-module.exports = PrereleaseWarning;
+ReactDOM.hydrateRoot(
+    <BrowserRouter>
+        <App />
+    </BrowserRouter>,
+    document.documentElement
+);

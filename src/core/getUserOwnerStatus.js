@@ -10,8 +10,6 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-const checkconf = require('./checkConfExists')
-
 async function isOwner(userId) { // If specified user is owner, return true, else or if error, return false
     try {
         if (!conf) throw "NO_CONF";
