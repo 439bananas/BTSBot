@@ -13,6 +13,7 @@
 const React = require("react");
 const { Routes, Route } = require("react-router-dom");
 const Header = require('./components/header');
+const Error404 = require('./404');
 const Head = require('./components/head');
 const Noconfintro = require('./no-conf-intro')
 /*(import About from './About'
@@ -35,19 +36,17 @@ function App(props) {
     );*/
     if (!props.confExists) {
         return (
-            <html>
+            <html lang={props.language.preferred}>
                 <head>
-                    <Head />
+                    <Head language={props.language} />
                 </head>
                 <body>
-                    <Header DiscordUser={props.DiscordUser} />
-                    <p>
-                        {JSON.stringify(props)}
-                    </p>
-                    <script src="/resources/bundle.js" />
+                    <Header DiscordUser={props.DiscordUser} language={props.language} />
                     <Routes>
-                        <Route path="/" element={<Noconfintro />} />
+                        <Route path="/" element={<Noconfintro language={props.language} />} />
+                        <Route path="*" element={<Error404 language={props.language} />} />
                     </Routes>
+                    <script src="/resources/bundle.js" />
                 </body>
             </html>
         )
@@ -55,12 +54,8 @@ function App(props) {
         return (
             <html>
                 <head>
-
                 </head>
                 <body>
-                    <p>
-                        {JSON.stringify(props)}
-                    </p>
                     <script src="/resources/bundle.js" />
                 </body>
             </html>)

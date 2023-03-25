@@ -28,7 +28,6 @@ async function fetchDiscordUser(bearertoken) {
             throw "CANNOT_CONNECT_TO_DISCORD"
         } else {
             log.error(err)
-            log.temp("getDiscordUserInfo.js:31")
             throw "UNKNOWN_ERROR"
         }
     }

@@ -39,7 +39,7 @@ function translate(languagecode, string, reactEngine) { // This function allows 
     } else if (typeof (conf) !== "undefined" && typeof (conf.language) !== "undefined") { /// If language does not exist, if there is a config language defined, use that if possible, else default to default language
         language = require(basePath + '/i18n/' + conf.language + '.json')
         if (language[string] !== undefined) {
-            language[string]
+            return language[string]
         } else if (defaultlanguage[string] !== undefined) {
             return defaultlanguage[string]
         } else return null

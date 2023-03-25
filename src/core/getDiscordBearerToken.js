@@ -16,14 +16,6 @@ const getid = require('./getApplicationId')
 function getDiscordToken(token, clientsecret, redirecturi, code) {
     return new Promise(function promise(resolve, reject) {
         getid(token).then(id => {
-            log.temp(new URLSearchParams({
-                client_id: id,
-                client_secret: clientsecret, // I was an idiot and forgot the underscore then wondered for ages why it wasn't working
-                grant_type: 'authorization_code',
-                code: code,
-                redirect_uri: redirecturi
-            }).toString())
-            log.temp(id)
             fetch("https://discord.com/api/v10/oauth2/token", { // Get the token
                 method: 'POST',
                 body: new URLSearchParams({
@@ -40,7 +32,6 @@ function getDiscordToken(token, clientsecret, redirecturi, code) {
                 .then(response => {
                         log.tempinfo(response.error)
                     if (response.error && response.error == "invalid_client") { // If any kinds of errors, reject with x error
-                        log.temp("BAD CLIENT SECRET!!!!")
                         reject("BAD_DISCORD_CLIENT_SECRET")
                     } else if (response.error == "invalid_grant") {
                         reject("BAD_CODE")

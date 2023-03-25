@@ -996,9 +996,6 @@
     <Content Include="src\server\views\404.jsx">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="src\server\views\components\conf-layout.jsx">
-      <SubType>Code</SubType>
-    </Content>
     <Content Include="src\server\views\components\footer.jsx">
       <SubType>Code</SubType>
     </Content>
@@ -1007,9 +1004,6 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="src\server\views\components\header.jsx">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="src\server\views\components\layout.jsx">
       <SubType>Code</SubType>
     </Content>
     <Content Include="src\server\views\components\prerelease-warning.jsx">
