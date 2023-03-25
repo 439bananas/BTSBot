@@ -43,7 +43,7 @@ function App(props) {
                 <body>
                     <Header DiscordUser={props.DiscordUser} language={props.language} />
                     <Routes>
-                        <Route path="/" element={<Noconfintro language={props.language} />} />
+                        <Route path="/" element={<Noconfintro language={props.language} confErr={props.confErr} />} />
                         <Route path="*" element={<Error404 language={props.language} />} />
                     </Routes>
                     <script src="/resources/bundle.js" />

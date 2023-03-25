@@ -42,11 +42,11 @@ function ErrorDiag(props) {
 function ErrorMessage(props) {
     switch (props.err) {
         case false:
-            return (<p>{translate(props.language, 'page_noconfintropart1')} <code>conf.json</code> {translate(props.language, 'page_noconfintropart2') + path.join(__dirname, '..', '..', '..', 'configs') + translate(props.language, 'page_noconfintropart3') + uniconf.projname + translate(props.language, 'page_noconfintropart4')}<br /><ErrorDiag err={props.err} language={props.language} /></p>)
+            return (<p>{translate(props.language, 'page_noconfintropart1')} <code>conf.json</code> {translate(props.language, 'page_noconfintropart2') + path.join(__dirname, '..', 'configs') + translate(props.language, 'page_noconfintropart3') + uniconf.projname + translate(props.language, 'page_noconfintropart4')}<br /><ErrorDiag err={props.err} language={props.language} /></p>)
         case "MISSING_FIELDS":
-            return (<p>{translate(props.language, 'page_noconfintromissingfieldspart1')} <code>conf.json</code> {translate(props.language, 'page_noconfintromissingfieldspart2') + path.join(__dirname, '..', '..', '..', 'configs') + translate(props.language, 'page_noconfintromissingfieldspart3') + uniconf.projname + translate(props.language, 'page_noconfintromissingfieldspart4')}<br /><ErrorDiag err={props.err} language={props.language} /></p>)
+            return (<p>{translate(props.language, 'page_noconfintromissingfieldspart1')} <code>conf.json</code> {translate(props.language, 'page_noconfintromissingfieldspart2') + path.join(__dirname, '..','configs') + translate(props.language, 'page_noconfintromissingfieldspart3') + uniconf.projname + translate(props.language, 'page_noconfintromissingfieldspart4')}<br /><ErrorDiag err={props.err} language={props.language} /></p>)
         case "TOKEN_INVALID":
-            return (<p>{translate(props.language, 'page_noconfintrobadtokenpart1')} <code>conf.json</code> {translate(props.language, 'page_noconfintrobadtokenpart2') + path.join(__dirname, '..', '..', '..', 'configs') + translate(props.language, 'page_noconfintrobadtokenpart3') + uniconf.projname + translate(props.language, 'page_noconfintrobadtokenpart4')}<br /><ErrorDiag err={props.err} language={props.language} /></p>)
+            return (<p>{translate(props.language, 'page_noconfintrobadtokenpart1')} <code>conf.json</code> {translate(props.language, 'page_noconfintrobadtokenpart2') + path.join(__dirname, '..', 'configs') + translate(props.language, 'page_noconfintrobadtokenpart3') + uniconf.projname + translate(props.language, 'page_noconfintrobadtokenpart4')}<br /><ErrorDiag err={props.err} language={props.language} /></p>)
         case "CONNECTION_REFUSED":
             return (<p>{uniconf.projname + translate(props.language, 'page_noconfintroconnectionrefused')}<br /><ErrorDiag err={props.err} language={props.language} /></p>)
         case "INCORRECT_CREDENTIALS":
@@ -61,10 +61,12 @@ function ErrorMessage(props) {
             return (<p>{translate(props.language, 'page_redisbaddatabasepart1') + translate(props.language, 'page_redisbaddatabasepart2')} <code>redis.conf</code> {translate(props.language, 'page_redisbaddatabasepart3')}<br /><ErrorDiag err={props.err} language={props.language} /></p>)
         default:
             log.error(props.err)
+            console.log(props)
             return (<p>{translate(props.language, 'page_noconfintrounknowndiscorderror1') + uniconf.projname + translate(props.language, 'page_noconfintrounknowndiscorderror2')}<br /><ErrorDiag err={props.err} language={props.language} /></p>)
     };
 };
 function Noconfintro(props) {
+    console.log(props)
     return (
         <div>
             <title>{uniconf.projname + " - " + translate(props.language, 'page_configpagetitle')}</title>

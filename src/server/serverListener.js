@@ -175,7 +175,7 @@ app.all('/*', async function (req, res, next) {
 });
 
 app.use(favicon(path.join(__dirname, '..', 'src', 'server', 'views', 'resources', 'img', faviconfilename)))
-app.use('/config', confpage) // Fun fact, I forgot to call this file, and wondered why I was getting 404s on /config
+/*app.use('/config', confpage) // Fun fact, I forgot to call this file, and wondered why I was getting 404s on /config*/
 app.use('/resources', resourcesRoutes) // Yeah let's get these resources
 app.use('/api', routes) // All API endpoints then begin with "/api"
 app.use('/login', function (req, res, next) {

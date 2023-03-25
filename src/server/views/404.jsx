@@ -24,6 +24,7 @@ function Error404(props) {
     return (
         <span>
             <div className="container" style={{ paddingTop: 1 + "rem" }}>
+                <title>{uniconf.projname + " - " + translate(props.language, 'page_404pagetitle')}</title>
                 <center>
                     <h2>{translate(props.language, 'page_404errortitle')}</h2>
                     <div style={{ padding: 1 + "rem" }} >
