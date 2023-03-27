@@ -11,7 +11,7 @@
 /////////////////////////////////////////////////////////////
 
 const React = require("react");
-const { Routes, Route } = require("react-router-dom");
+const { Routes, Route, Outlet } = require("react-router");
 const Header = require('./components/header');
 const Error404 = require('./404');
 const Head = require('./components/head');
@@ -43,7 +43,8 @@ function App(props) {
                 <body>
                     <Header DiscordUser={props.DiscordUser} language={props.language} />
                     <Routes>
-                        <Route path="/" element={<Noconfintro language={props.language} confErr={props.confErr} />} />
+                        <Route path="/" exact element={<Noconfintro language={props.language} confErr={props.confErr} />} errorElement={<Error404 language={props.language} />} />
+                        <Route path="/config" />
                         <Route path="*" element={<Error404 language={props.language} />} />
                     </Routes>
                     <script src="/resources/bundle.js" />

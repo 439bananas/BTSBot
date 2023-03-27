@@ -76,6 +76,10 @@
     [ "backupId", "bigint", "ppk" ],
     [ "payload", "json" ]
   ],
+  "GuildBackupInfo": [
+    [ "guildId", "bigint", "pk" ],
+    [ "nextRun", "bigint" ]
+  ],
   "ScammyLink": [
     [ "link", "text" ]
   ],
@@ -151,6 +155,6 @@
     [ "guildId", "bigint", "ppk" ]
   ],
   "SelfBlacklistedStarMessage": [
-    ["starMessage", "bigint", "pk"]
+    [ "starMessage", "bigint", "pk" ]
   ]
 }
