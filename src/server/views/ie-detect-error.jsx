@@ -11,7 +11,7 @@
 /////////////////////////////////////////////////////////////
 
 const Head = require('./components/head');
-const translate = require('../../core/getLanguageString');
+const translate = require('./components/getLanguageString');
 
 <html>
     <head>

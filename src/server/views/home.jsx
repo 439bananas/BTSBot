@@ -11,7 +11,7 @@
 /////////////////////////////////////////////////////////////
 
 const ConfLayout = require('./components/conf-layout');
-const translate = require('../../core/getLanguageString');
+const translate = require('./components/getLanguageString');
 
 <ConfLayout>
     <div className="global-intro-section">

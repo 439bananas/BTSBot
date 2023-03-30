@@ -11,7 +11,7 @@
 /////////////////////////////////////////////////////////////
 
 const Layout = require('./components/layout');
-const translate = require('../../core/getLanguageString');
+const translate = require('./components/getLanguageString');
 
 <Layout>
     <div class="container">
