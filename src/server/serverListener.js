@@ -33,7 +33,7 @@ const refreshBearerToken = require('../core/refreshDiscordBearerToken')
 const showwall = require('./displayWall')
 const getUserLang = require('../core/getUserLang')
 let faviconfilename
-let excludedApis = ["version", "uniconf", "submit-config", "language"]
+let excludedApis = ["version", "uniconf", "submit-config", "language", "ready"]
 let confExists
 let confErr
 let user

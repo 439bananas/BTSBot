@@ -967,6 +967,7 @@
     <Content Include="src\i18n\fr-fr.json" />
     <Content Include="src\i18n\test.json" />
     <Content Include="src\server\api\getLanguages.js" />
+    <Content Include="src\server\api\ready.js" />
     <Content Include="src\server\views\About.jsx" />
     <Content Include="src\server\alwaysAvailablePages.js" />
     <Content Include="src\server\api\uniconf.js">
