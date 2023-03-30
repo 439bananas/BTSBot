@@ -15,16 +15,16 @@ const router = express.Router();
 const ReactDOMServer = require("react-dom/server");
 const { StaticRouter } = require("react-router-dom/server");
 const App = require("./views/ReactApp");
-const path = require('path');
 const React = require('react');
 const getUserLang = require('../core/getUserLang');
 const getlang = require('../core/getLanguageJSON');
 const isMod = require('../core/getUserModStatus');
+const getLangFile = require('./views/components/getLanguageJSON');
 
 router.get("*", async (req, res) => {
     let html = ReactDOMServer.renderToString(
         <StaticRouter location={req.url}>
-            <App confExists={req.confExists} confErr={req.confErr} language={{ preferred: await getUserLang(req), fallback: await getlang() }} DiscordUser={req.user} userIsMod={await isMod(req.user.id)} />
+            <App confExists={req.confExists} confErr={req.confErr} language={{ preferred: getLangFile(await getUserLang(req)), fallback: getLangFile(await getlang()) }} DiscordUser={req.user} userIsMod={await isMod(req.user.id)} />
         </StaticRouter>
     );
     res.send("<!DOCTYPE html>" + html);

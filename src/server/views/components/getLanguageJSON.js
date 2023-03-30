@@ -2,7 +2,7 @@
 //                                                         //
 //                         BTS Bot                         //
 //                                                         //
-//                     File: routes.js                     //
+//                File: getLanguageJSON.js                 //
 //                                                         //
 //               Author: Thomas (439bananas)               //
 //                                                         //
@@ -10,17 +10,18 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-const express = require('express')
-const router = express.Router()
+const fs = require('fs');
+const path = require('path');
+let langfile
 
-const submitConfigRoutes = require('./api/submitConfig')
-const versionRoutes = require('./api/version')
-const uniconfRoutes = require('./api/uniconf')
-const getLangRoutes = require('./api/getLanguages')
+function getLangFile(languageCode) { // This function gets the contents of the supplied language code, and all of its phrases
+    log.temp(path.join(__dirname, '..', 'src', 'i18n', languageCode + '.json'));
+    if (fs.existsSync(path.join(__dirname, '..', 'src', 'i18n', languageCode + '.json'))) {
+        langfile = require('../src/i18n/' + languageCode + '.json')
+        return langfile
+    } else {
+        return {}
+    }
+}
 
-router.use('/submit-config', submitConfigRoutes)
-router.use('/version', versionRoutes)
-router.use('/uniconf', uniconfRoutes)
-router.use('/language', getLangRoutes)
-
-module.exports = router;
+module.exports = getLangFile;

@@ -2,7 +2,7 @@
 //                                                         //
 //                         BTS Bot                         //
 //                                                         //
-//                     File: routes.js                     //
+//                  File: getLanguages.js                  //
 //                                                         //
 //               Author: Thomas (439bananas)               //
 //                                                         //
@@ -10,17 +10,18 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-const express = require('express')
-const router = express.Router()
+const express = require('express');
+const getlang = require('../../core/getLanguageJSON');
+const getUserLang = require('../../core/getUserLang');
+const getLangFile = require('../views/components/getLanguageJSON');
+const router = express.Router();
 
-const submitConfigRoutes = require('./api/submitConfig')
-const versionRoutes = require('./api/version')
-const uniconfRoutes = require('./api/uniconf')
-const getLangRoutes = require('./api/getLanguages')
+router.get('/preferred', async (req, res, next) => {
+    res.json(getLangFile(await getUserLang(req)))
+});
 
-router.use('/submit-config', submitConfigRoutes)
-router.use('/version', versionRoutes)
-router.use('/uniconf', uniconfRoutes)
-router.use('/language', getLangRoutes)
+router.get('/fallback', async (req, res, next) => {
+    res.json(getLangFile(await getlang()))
+});
 
 module.exports = router;

@@ -11,7 +11,6 @@
 /////////////////////////////////////////////////////////////
 
 const checkConf = require('../core/checkConfExists')
-const engine = require('express-engine-jsx');
 const express = require('express')
 const title = require('express-title')
 const app = express()
@@ -34,14 +33,10 @@ const refreshBearerToken = require('../core/refreshDiscordBearerToken')
 const showwall = require('./displayWall')
 const getUserLang = require('../core/getUserLang')
 let faviconfilename
-let excludedApis = ["version", "uniconf", "submit-config"]
+let excludedApis = ["version", "uniconf", "submit-config", "language"]
 let confExists
 let confErr
 let user
-
-app.set('views', path.join(__dirname, '..', 'src', 'server', 'views'))
-app.set('view engine', 'jsx'); // We're using React as the templating engine
-app.engine('jsx', engine);
 
 switch (pkg.mode) {
     case 'alpha':
@@ -190,9 +185,7 @@ app.use('*', function (req, res, next) {
     req.confExists = confExists
     req.confErr = confErr
     req.user = user
-    /*if (confErr && req.url == "/") {
-        return frontpage
-    } else */next();
+    next();
 }, interfaceRoutes)
 /*app.use('/', function (req, res, next) {
     req.confExists = confExists
