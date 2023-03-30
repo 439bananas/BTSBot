@@ -18,8 +18,20 @@ let language
 // the prop would instead consist of the language files for preferred and fallback, rather than just the preferred and fallback language codes
 // we could make a getLanguageJSON.jsx which, when we enter preferred and fallback language, will return the respective language files, if those files exist
 // this then would be done on the server side, rather than the client side, meaning that the react application would actually work this time!
-function translate(languagecode, string) { // This function allows the caller to get a translated string
-    let defaultlanguage = require('../src/i18n/' + uniconf.defaultlanguage + '.json')
+function translate(language, string) { // This function allows the caller to get a translated string
+    if (typeof (language.preferred[string]) !== undefined) {
+        return (language.preferred[string])
+    }
+    // also require in default language
+    // if the type of the string arg in language.preferred !== undefined:
+    //      return language.preferred[string]
+    // elseif type of string arg in language.fallback !== undefined:
+    //      return language.fallback[string]
+    // elseif type of string arg in defaultlanguage !== undefined:
+    //      return defaultlanguage[string]
+    // else return null
+
+    /*let defaultlanguage = require('../src/i18n/' + uniconf.defaultlanguage + '.json')
     if (fs.existsSync(path.join(__dirname, '..', 'src', 'i18n', languagecode.preferred + '.json'))) { // If the specified language file exists, check if the string requested exists
         language = require('../src/i18n/' + languagecode.preferred + '.json')
     } else {
@@ -36,7 +48,7 @@ function translate(languagecode, string) { // This function allows the caller to
         } else return null
     } else if (defaultlanguage[string] !== undefined) { // If the string doesn't exist but the string in the default language exists, return that
         return defaultlanguage[string]
-    } else return null; // Else, null
+    } else return null; // Else, null*/
 }
 
 module.exports = translate;

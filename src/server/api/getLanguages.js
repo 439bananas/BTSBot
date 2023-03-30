@@ -24,4 +24,9 @@ router.get('/fallback', async (req, res, next) => {
     res.json(getLangFile(await getlang()))
 });
 
+router.get('/default', (req, res, next) => {
+    console.log(getLangFile(uniconf.defaultlanguage))
+    res.json(getLangFile(uniconf.defaultlanguage))
+})
+
 module.exports = router;

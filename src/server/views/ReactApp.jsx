@@ -36,7 +36,7 @@ function App(props) {
             <body>
                 <Routes>
                     <Route path="/about" element={<About language={props.language} />} />
-                    <Route path="/" element={<Home language={props.language} />} />
+                    <Route index element={<Home language={props.language} />} />
                 </Routes>
                 <script src="resources/bundle.js" />
             </body>
