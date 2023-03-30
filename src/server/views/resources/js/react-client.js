@@ -33,13 +33,29 @@ async function getDefaultLang() {
     return response
 }
 
+async function checkConfExists() {
+    let rawResonse = await fetch('/api/ready');
+    let response = await rawResonse.json();
+    return response
+}
+
 async function hydrateDOM() { // Hydrating the script means that the client can pick up the other side and continue with the SPA without a problem
-    ReactDOM.hydrate(
-        <BrowserRouter>
-            <App language={{ preferred: await getUserLang(), fallback: await getlang(), default: await getDefaultLang() }} />
-        </BrowserRouter>,
-        document.documentElement
-    );
+    let ready = await checkConfExists()
+    if (ready.confExists) { // Does conf exist? Hydrate te React application according to whether it does
+        ReactDOM.hydrate(
+            <BrowserRouter>
+                <App language={{ preferred: await getUserLang(), fallback: await getlang(), default: await getDefaultLang() }} confExists={ready.confExists} />
+            </BrowserRouter>,
+            document.documentElement
+        );
+    } else {
+        ReactDOM.hydrate(
+            <BrowserRouter>
+                <App language={{ preferred: await getUserLang(), fallback: await getlang(), default: await getDefaultLang() }} confExists={ready.confExists} confErr={ready.confErr} />
+            </BrowserRouter>,
+            document.documentElement
+        );
+    }
 }
 
 hydrateDOM()

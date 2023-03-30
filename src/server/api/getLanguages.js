@@ -25,7 +25,6 @@ router.get('/fallback', async (req, res, next) => {
 });
 
 router.get('/default', (req, res, next) => {
-    console.log(getLangFile(uniconf.defaultlanguage))
     res.json(getLangFile(uniconf.defaultlanguage))
 })
 

@@ -12,10 +12,10 @@
 
 const React = require("react");
 const { Routes, Route } = require("react-router-dom");
-//const Header = require('./components/header');
-//const Error404 = require('./404');
-//const Head = require('./components/head');
-//const Noconfintro = require('./no-conf-intro');
+const Header = require('./components/header');
+const Error404 = require('./404');
+const Head = require('./components/head');
+const Noconfintro = require('./no-conf-intro');
 import About from './About'
 import Home from './FP'
 
@@ -28,7 +28,7 @@ function App(props) {
     // i think the best way to get the user's lang is to continue to pass it as a prop
     // but in the browserRouter, fetch it and pass as prop in browser router, while in staticRouter, just pass as a prop using relevant function
     // there's more funky stuff i've done before so i'm lucky it's not the worst i've done
-    return (
+    /*return (
         <html>
             <head>
                 <title>Server Rendered App</title>
@@ -41,8 +41,8 @@ function App(props) {
                 <script src="resources/bundle.js" />
             </body>
         </html>
-    );
-    /*if (!props.confExists) {
+    );*/
+    if (!props.confExists) {
         return (
             <html lang={props.language.preferred}>
                 <head>
@@ -68,7 +68,7 @@ function App(props) {
                     <script src="/resources/bundle.js" />
                 </body>
             </html>)
-    }*/
+    }
 }
 
 module.exports = App;
