@@ -31,7 +31,7 @@
   "main": "src/core/index.js",
   "scripts": {
     "build:server": "esbuild src/core/createElements.js --bundle --outfile=build/out.js --platform=node \"--external:./configs/*.json\" \"--external:./i18n/*.json\" \"--external:express-engine-jsx\"",
-    "build:client": "esbuild src/server/views/resources/js/react-client.js --bundle --outfile=build/bundle.js --loader:.js=jsx --external:fs --external:path",
+    "build:client": "esbuild src/server/views/resources/js/react-client.js --bundle --outfile=build/bundle.js --loader:.js=jsx",
     "build": "npm run build:server && npm run build:client",
     "start": "node src/core/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
