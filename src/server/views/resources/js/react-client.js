@@ -6,7 +6,7 @@
 //                                                         //
 //               Author: Thomas (439bananas)               //
 //                                                         //
-// Copyright 439bananas 2022 under the Apache 2.0 license. //
+// Copyright 439bananas 2023 under the Apache 2.0 license. //
 //                                                         //
 /////////////////////////////////////////////////////////////
 
@@ -14,6 +14,7 @@ const ReactDOM = require("react-dom");
 const { BrowserRouter } = require("react-router-dom");
 const App = require("../../ReactApp");
 const React = require('react');
+const Head = require("../../components/head");
 
 async function getUserLang() { // Functions for getting the user language, fallback language (if the string in their preferred language does not exist), and default language
     let rawResonse = await fetch('/api/language/preferred');
@@ -28,13 +29,25 @@ async function getlang() {
 }
 
 async function getDefaultLang() {
-    let rawResonse = await fetch('/api/language/default');
-    let response = await rawResonse.json();
+    let rawResponse = await fetch('/api/language/default');
+    let response = await rawResponse.json()
     return response
 }
 
 async function checkConfExists() {
     let rawResonse = await fetch('/api/ready');
+    let response = await rawResonse.json();
+    return response
+}
+
+async function getConfPath() {
+    let rawResonse = await fetch('/api/conf-path');
+    let response = await rawResonse.json();
+    return response
+}
+
+async function getUniconf() {
+    let rawResonse = await fetch('/api/uniconf');
     let response = await rawResonse.json();
     return response
 }
@@ -51,11 +64,12 @@ async function hydrateDOM() { // Hydrating the script means that the client can 
     } else {
         ReactDOM.hydrate(
             <BrowserRouter>
-                <App language={{ preferred: await getUserLang(), fallback: await getlang(), default: await getDefaultLang() }} confExists={ready.confExists} confErr={ready.confErr} />
+                <Head language={{ preferred: await getUserLang(), fallback: await getlang(), default: await getDefaultLang() }} uniconf={await getUniconf()} />
+                <App language={{ preferred: await getUserLang(), fallback: await getlang(), default: await getDefaultLang() }} confExists={ready.confExists} confErr={ready.confErr} confPath={await getConfPath()} uniconf={getUniconf()} DiscordUser={{}} />
             </BrowserRouter>,
             document.documentElement
         );
-    }
+}
 }
 
 hydrateDOM()

@@ -6,7 +6,7 @@
 //                                                         //
 //               Author: Thomas (439bananas)               //
 //                                                         //
-// Copyright 439bananas 2022 under the Apache 2.0 license. //
+// Copyright 439bananas 2023 under the Apache 2.0 license. //
 //                                                         //
 /////////////////////////////////////////////////////////////
 
@@ -23,7 +23,7 @@ function Head(props) {
             <script type="module" src="/resources/buttons.js" />
             <link rel='stylesheet' href='/resources/twemoji-amazing.css' />
             <meta charSet="UTF-8" />
-            <meta name="title" content={uniconf.projname} />
+            <meta name="title" content={props.uniconf.projname} />
             <meta name="description" content={translate(props.language, 'page_globaldesc', 'express-engine-jsx')} />
             <meta name="keywords" content="bot, discord, test, testing, server, bots, discord bots, BTS, BTS Bot" />
             <meta name="author" content="439bananas" />
@@ -31,10 +31,10 @@ function Head(props) {
             <meta name="robots" content="index, follow" />
             <meta name="charset" content="UTF-8" />
             <meta name="viewport" content="width=device-width, initial-scale=1" />
-            <meta name="image" content={"https://" + uniconf.metadomain + "/resources/logo.png"} />
-            <meta property="twitter:url" content={"https://" + uniconf.metadomain} />
-            <meta property="twitter:title" content={uniconf.projname} />
-            <meta property="twitter:image" content={"https://" + uniconf.metadomain + "/resources/logo.png"} />
+            <meta name="image" content={"https://" + props.uniconf.metadomain + "/resources/logo.png"} />
+            <meta property="twitter:url" content={"https://" + props.uniconf.metadomain} />
+            <meta property="twitter:title" content={props.uniconf.projname} />
+            <meta property="twitter:image" content={"https://" + props.uniconf.metadomain + "/resources/logo.png"} />
             <meta property="twitter:description" content={translate(props.language, 'page_globaldesc', 'express-engine-jsx')} />
             <meta property="theme-color" content="#f0600f" />
         </head>

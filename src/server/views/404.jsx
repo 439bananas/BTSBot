@@ -6,7 +6,7 @@
 //                                                         //
 //               Author: Thomas (439bananas)               //
 //                                                         //
-// Copyright 439bananas 2022 under the Apache 2.0 license. //
+// Copyright 439bananas 2023 under the Apache 2.0 license. //
 //                                                         //
 /////////////////////////////////////////////////////////////
 
@@ -17,7 +17,7 @@ const React = require('react');
 function FooterIfConfPresent(props) {
     if (props.confExists) {
         return <Footer />
-    }
+    } else return null
 };
 
 function Error404(props) {

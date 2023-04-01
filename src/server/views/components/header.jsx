@@ -6,14 +6,14 @@
 //                                                         //
 //               Author: Thomas (439bananas)               //
 //                                                         //
-// Copyright 439bananas 2022 under the Apache 2.0 license. //
+// Copyright 439bananas 2023 under the Apache 2.0 license. //
 //                                                         //
 /////////////////////////////////////////////////////////////
 
 const translate = require('./getLanguageString')
 const React = require('react');
 const PrereleaseWarning = require('./prerelease-warning');
-const isMod = require('../../../core/getUserModStatus');
+const pkg = require('../../../../package.json');
 let modDropdownOptions
 let signinbutton
 let prereleasewarning
@@ -39,7 +39,7 @@ function Header(props) {
 
     if (!props.confExists) { // Determine what's shown in the area of the sign-in button
         // If no conf, show a link to the official dashboard
-        signinbutton = <button type="button" id="dashboard-button" className="button-1x2ahC button-38aScr lookFilled-1Gx00P colorGreen-29iAKY sizeSmall-2cSMqn grow-q77ONN" onClick={"window.location.href = " + uniconf.metadomain}>
+        signinbutton = <button type="button" id="dashboard-button" className="button-1x2ahC button-38aScr lookFilled-1Gx00P colorGreen-29iAKY sizeSmall-2cSMqn grow-q77ONN">
             <div className="contents-18-Yxp">{translate(props.language, "page_noconfdashboard", 'express-engine-jsx')}</div>
         </button>
     } else if (typeof (props.DiscordUser.id) == "undefined") { // If user not signed in, show the "sign in" button
@@ -78,10 +78,10 @@ function Header(props) {
                     <div className="collapse navbar-collapse" id="navbar">
                         <ul className="navbar-nav">
                             <li className="nav-item">
-                                <a href={"https://wiki." + uniconf.metadomain} className="nav-link">{translate(props.language, 'page_globaldocumentation', 'express-engine-jsx')}</a>
+                                <a href={"https://wiki." + props.uniconf.metadomain} className="nav-link">{translate(props.language, 'page_globaldocumentation', 'express-engine-jsx')}</a>
                             </li>
                             <li className="nav-item">
-                                <a href={uniconf.discord} className="nav-link">{translate(props.language, 'page_globaldiscord', 'express-engine-jsx')}</a>
+                                <a href={props.uniconf.discord} className="nav-link">{translate(props.language, 'page_globaldiscord', 'express-engine-jsx')}</a>
                             </li>
                             <li className="nav-item">
                                 <a href="https://github.com/439bananas/BTSBot" className="nav-link">{translate(props.language, "page_globalgithub", 'express-engine-jsx')}</a>

@@ -6,7 +6,7 @@
 //                                                         //
 //               Author: Thomas (439bananas)               //
 //                                                         //
-// Copyright 439bananas 2022 under the Apache 2.0 license. //
+// Copyright 439bananas 2023 under the Apache 2.0 license. //
 //                                                         //
 /////////////////////////////////////////////////////////////
 
@@ -15,7 +15,6 @@ const getDiscordUser = require('./getDiscordUserInfo')
 async function getUserLang(user) {
     if (typeof (user) == "object") { // If object, treat as if it was req
         if (!user.cookies.discordbearertoken) { // If no bearer token, use the user's locale
-            log.temp("locale: " + user.locale.toString())
             return user.locale.toString();
         } else {
             try {
@@ -27,7 +26,6 @@ async function getUserLang(user) {
                     return query[0][0].language // If it is in the database, return their configured language
                 }
             } catch (err) {
-                log.temp(user.locale.toString())
                 return user.locale.toString(); // If any failures like bad bearer token, return the user's locale
             }
         }

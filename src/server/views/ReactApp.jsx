@@ -6,7 +6,7 @@
 //                                                         //
 //               Author: Thomas (439bananas)               //
 //                                                         //
-// Copyright 439bananas 2022 under the Apache 2.0 license. //
+// Copyright 439bananas 2023 under the Apache 2.0 license. //
 //                                                         //
 /////////////////////////////////////////////////////////////
 
@@ -44,20 +44,15 @@ function App(props) {
     );*/
     if (!props.confExists) {
         return (
-            <html lang={props.language.preferred}>
-                <head>
-                    <Head language={props.language} />
-                </head>
                 <body>
-                    <Header DiscordUser={props.DiscordUser} language={props.language} />
+                    <Header DiscordUser={props.DiscordUser} language={props.language} uniconf={props.uniconf} />
                     <Routes>
-                        <Route path="/" element={<Noconfintro language={props.language} confErr={props.confErr} />} errorElement={<Error404 language={props.language} />} />
+                        <Route path="/" element={<Noconfintro language={props.language} confErr={props.confErr} errorElement={<Error404 language={props.language} />} confPath={props.confPath} uniconf={props.uniconf} DiscordUser={{}} />} />
                         <Route path="config" element={<Error404 language={props.language} />} />
                         <Route path="*" element={<Error404 language={props.language} />} />
                     </Routes>
                     <script src="/resources/bundle.js" />
                 </body>
-            </html>
         )
     } else {
         return (

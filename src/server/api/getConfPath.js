@@ -2,7 +2,7 @@
 //                                                         //
 //                         BTS Bot                         //
 //                                                         //
-//                 File: strip-comments.js                 //
+//                  File: getConfPath.js                   //
 //                                                         //
 //               Author: Thomas (439bananas)               //
 //                                                         //
@@ -10,15 +10,12 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-const strip = require('strip-comments');
-const fs = require('fs');
+const path = require('path');
+const express = require('express');
+const router = express.Router();
 
-console.log("Stripping comments...")
+router.get('/', async (req, res, next) => {
+    res.status(200).json(path.join(__dirname, '..', 'configs'))
+})
 
-fs.readFile('../src/server/views/resources/css/twemoji-amazing.css', 'utf8', function(err, data) { // Read the file then remove the comments
-    if (err) throw err;
-    fs.writeFile('../src/server/views/resources/css/twemoji-amazing.css', strip(data), function (err) {
-        if (err) return console.log(err);
-    });
-});
-
+module.exports = router;

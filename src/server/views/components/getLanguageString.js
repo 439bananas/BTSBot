@@ -2,11 +2,11 @@
 //                                                         //
 //                         BTS Bot                         //
 //                                                         //
-//               File: getLanguageString.jsx               //
+//               File: getLanguageString.js                //
 //                                                         //
 //               Author: Thomas (439bananas)               //
 //                                                         //
-// Copyright 439bananas 2022 under the Apache 2.0 license. //
+// Copyright 439bananas 2023 under the Apache 2.0 license. //
 //                                                         //
 /////////////////////////////////////////////////////////////
 
@@ -18,7 +18,7 @@ function translate(language, string) { // This function allows the caller to get
         return (language.fallback[string])
     } else if (typeof (language.default[string]) !== undefined) { // If that doesn't exist, does the string exist in the default language?
         return (language.default[string])
-    }
+    } else return null  
 }
 
 module.exports = translate;

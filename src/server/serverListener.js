@@ -6,7 +6,7 @@
 //                                                         //
 //               Author: Thomas (439bananas)               //
 //                                                         //
-// Copyright 439bananas 2022 under the Apache 2.0 license. //
+// Copyright 439bananas 2023 under the Apache 2.0 license. //
 //                                                         //
 /////////////////////////////////////////////////////////////
 
@@ -33,7 +33,7 @@ const refreshBearerToken = require('../core/refreshDiscordBearerToken')
 const showwall = require('./displayWall')
 const getUserLang = require('../core/getUserLang')
 let faviconfilename
-let excludedApis = ["version", "uniconf", "submit-config", "language", "ready"]
+let excludedApis = ["version", "uniconf", "submit-config", "language", "ready", "conf-path"]
 let confExists
 let confErr
 let user
@@ -61,12 +61,14 @@ app.use(createLocaleMiddleware())
 app.use(title()); // Set tab title
 app.set('title', uniconf.projname);
 
+// OH SUGAR I NEED TO ADD BACK THE RENDERER
+
 app.get('/*', async function (req, res, next) { // Block Internet Explorer
     global.requestsToDiscord = 0
     user = {}
     try {
         url = req.url.split('/')
-        if (url[1] != "resources" && (url[1] != "api" && (url[2] != "uniconf" || url[2] != "version"))) {
+        if (url[1] != "resources" && (url[1] != "api" && (url[2] != "uniconf" || url[2] != "version")) || url[2] == "ready") {
             confExists = await checkConf()
         } else confExists = true
     } catch (err) {
@@ -172,7 +174,12 @@ app.all('/*', async function (req, res, next) {
 app.use(favicon(path.join(__dirname, '..', 'src', 'server', 'views', 'resources', 'img', faviconfilename)))
 /*app.use('/config', confpage) // Fun fact, I forgot to call this file, and wondered why I was getting 404s on /config*/
 app.use('/resources', resourcesRoutes) // Yeah let's get these resources
-app.use('/api', routes) // All API endpoints then begin with "/api"
+app.use('/api', function (req, res, next) {
+    req.confExists = confExists
+    req.confErr = confErr
+    req.user = user
+    next();
+}, routes) // All API endpoints then begin with "/api"
 app.use('/login', function (req, res, next) {
     req.confExists = confExists
     req.confErr = confErr

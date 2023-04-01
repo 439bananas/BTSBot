@@ -6,14 +6,13 @@
 //                                                         //
 //               Author: Thomas (439bananas)               //
 //                                                         //
-// Copyright 439bananas 2022 under the Apache 2.0 license. //
+// Copyright 439bananas 2023 under the Apache 2.0 license. //
 //                                                         //
 /////////////////////////////////////////////////////////////
 
 const colours = require('colors')
 const fs = require('fs')
 const path = require('path')
-let translateMode
 
 function info(message) { // Log depending on function called
     getlang(true).then(lang => {
