@@ -43,6 +43,7 @@ async function checkConfExists() {
 async function getConfPath() {
     let rawResonse = await fetch('/api/conf-path');
     let response = await rawResonse.json();
+    console.log(response)
     return response
 }
 

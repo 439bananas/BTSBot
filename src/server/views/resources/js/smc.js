@@ -35,6 +35,8 @@ async function submitconfig() {
         console.info('Server response from /api/submit-config: ' + response.response) // Sadly without replacing sendfile with render in resources.js, we can't i14e these strings
         document.getElementById('userEnteredMySQLHostname').innerHTML = response.hostname
         document.getElementById('userEnteredRedisHostname').innerHTML = response.redishostname
+        document.getElementById('userEnteredMySQLUsername').innerHTML = response.dbusername
+        document.getElementById('userEnteredMySQLDatabase').innerHTML = response.database
         switch (response.response) { // Show errors based on the response
             case "VERIFY_CLIENT_SECRET": // Reloading will mean that the user gets the second step of config
                 location.reload()

@@ -1,6 +1,6 @@
 {
   "name": "English (United Kingdom)",
-  "log_mysqlconffilesaved": "Configuration interim file saved to ",
+  "log_mysqlconffilesaved": "Interim configuration file saved to ",
   "log_conffilesaved": "Configuration file saved to ",
   "log_changestakeefect_part1": "For the configuration changes to properly take effect, ",
   "log_changestakeefect_part2": " will need to restart",

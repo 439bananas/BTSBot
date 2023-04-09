@@ -71,7 +71,9 @@ function createConf(req, res) { // Create interim conf so OAuth2 can be validate
                     res.json({
                         response: err,
                         hostname: req.fields.hostname,
-                        redishostname: req.fields.redishostname
+                        redishostname: req.fields.redishostname,
+                        database: req.fields.database,
+                        dbusername: req.fields.dbusername
                     })
                 }
             })
@@ -80,7 +82,9 @@ function createConf(req, res) { // Create interim conf so OAuth2 can be validate
             res.json({
                 response: err,
                 hostname: req.fields.hostname,
-                redishostname: req.fields.redishostname
+                redishostname: req.fields.redishostname,
+                database: req.fields.database,
+                dbusername: req.fields.dbusername
             })
         })
     })
