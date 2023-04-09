@@ -26,7 +26,7 @@ function getConfig() {
 
     useEffect(() => {
         async function fetchConfInfo() {
-            if (uniconf) {
+            if (typeof(uniconf) !== "undefined") {
                 setConfInfo("uniconf exists")
             } else {
                 setConfInfo("uniconf does not exist")
