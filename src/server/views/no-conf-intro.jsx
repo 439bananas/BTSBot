@@ -16,12 +16,6 @@ const log = require('./components/logHandler')
 const { useState, useEffect } = require('react')
 
 function getConfig() {
-    if (typeof(uniconf) != "undefined") {
-        return "uniconf exists"
-    } else {
-        return "uniconf does not exist"
-    }
-
     const [confInfo, setConfInfo] = useState([])
 
     useEffect(() => {
