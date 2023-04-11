@@ -15,9 +15,13 @@ const router = express.Router();
 
 router.get('/', async (req, res, next) => {
     if (req.confExists) {
-        log.temp(true)
+        res.json({})
     } else {
-        log.temp(false)
+        if (req.confErr == "ACCESS_DENIED") {
+            res.json({ database: conf.database, dbusername: conf.dbusername, hostname: conf.hostname })
+        } else {
+            res.json({})
+        }
     }
 })
 

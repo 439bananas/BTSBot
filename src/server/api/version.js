@@ -14,7 +14,7 @@ const pkg = require('../../../package.json')
 const express = require('express');
 const router = express.Router()
 
-router.get('/', async (req, res, next) => {
+router.get('/', async (req, res, next) => { // Just the version :))
     res.status(200).json({
         version: pkg.version,
         iteration: pkg.iteration

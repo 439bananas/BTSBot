@@ -14,8 +14,8 @@ const express = require('express');
 const router = express.Router()
 let returnedJSON
 
-router.get('/', async (req, res, next) => {
-    if (req.confExists) {
+router.get('/', async (req, res, next) => { // Fun fact: The project that this was based on, FLMS, originally had this file, but it was scrapped in BTS Bot since it was not deemed necessary. I guess it's back now
+    if (req.confExists) { // Does the config exist? If yes, return true. Else, return the error and false.
         returnedJSON = { confExists: req.confExists }
     } else {
         returnedJSON = { confExists: req.confExists, confErr: req.confErr }
