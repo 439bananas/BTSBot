@@ -99,7 +99,7 @@ function Noconfintro(props) {
                 </div>
             </div>
             <div className="container" style={{ paddingTop: 1.25 + "em" }}>
-                <ErrorMessage err={props.confErr} language={props.language} uniconf={props.uniconf} />
+                <ErrorMessage err={props.confErr} language={props.language} uniconf={props.uniconf} confPath={props.confPath} />
                 <input type='submit' id="NextButton" className='button' value={translate(props.language, 'page_globalnext')} title={translate(props.language, 'page_globalnext')} />
             </div>
             <p>{JSON.stringify(getConfig().confExists)}</p>
