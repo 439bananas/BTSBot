@@ -20,11 +20,6 @@ function getConfig() {
 
     useEffect(() => {
         async function fetchConfInfo() {
-            /*if (typeof(uniconf) !== "undefined") {
-                setConfInfo("uniconf exists")
-            } else {
-                setConfInfo("uniconf does not exist")
-            }*/
             let rawResponse = await fetch("/api/conf")
             let response = await rawResponse.json()
             setConfInfo(response)
@@ -34,15 +29,6 @@ function getConfig() {
     }, [])
 
     return confInfo
-    // i have reason to believe that we call an api endpoint that grabs the instance's config
-    // but that may not always be the case, sometimes this may be called via staticrouter
-    // in which case it's best if we check if something like uniconf exists, if it does not then try and jerry rig something together
-
-    // here's what we can do within the api:
-    // does the conf exist? no? what's the error?
-    // if the error is "ACCESS_DENIED", send back the db, username and hostname
-
-    // if uniconf exists, then do what the api does right back at ya
 }
 
 function ErrorDiag(props) {
@@ -60,7 +46,7 @@ function ErrorDiag(props) {
             case "INCORRECT_CREDENTIALS":
                 errorDiag = translate(props.language, 'page_noconfintrodiag')
             case "ACCESS_DENIED":
-                errorDiag = <span>{translate(props.language, 'page_noconfintroaccessdenieddiagpart1') + fetchedConfig.database + ".*" + translate(props.language, 'page_noconfintroaccessdenieddiagpart2') + "\"" + fetchedConfig.dbusername + "\"" + "@" + "\"" + fetchedConfig.hostname + "\""}</span>
+                errorDiag = <span>{translate(props.language, 'page_noconfintroaccessdenieddiagpart1') + JSON.stringify(getConfig().database) + ".*" + translate(props.language, 'page_noconfintroaccessdenieddiagpart2') + "\"" + JSON.stringify(getConfig().dbusername) + "\"" + "@" + "\"" + JSON.stringify(getConfig().hostname) + "\""}</span>
             case "REDIS_CONNECTION_REFUSED":
                 errorDiag = translate(props.language, 'page_noconfintroconnectionrefuseddiagpart1') + translate(props.language, 'page_globalnext') + translate(props.language, 'page_noconfintroconnectionrefuseddiagpart2')
             case "WRONGPASS":
