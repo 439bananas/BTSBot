@@ -38,6 +38,10 @@ let confExists
 let confErr
 let user
 
+app.set('views', path.join(__dirname, 'views'))
+app.set('view engine', 'jsx'); // We're using React as the templating engine, at least when the client is Internet Explorer or if a catastrophic error has happened
+app.engine('jsx', engine);
+
 switch (pkg.mode) {
     case 'alpha':
         faviconfilename = 'faviconalpha.ico'
@@ -60,8 +64,6 @@ app.use(cookieParser()) // Deal with cookies
 app.use(createLocaleMiddleware())
 app.use(title()); // Set tab title
 app.set('title', uniconf.projname);
-
-// OH SUGAR I NEED TO ADD BACK THE RENDERER
 
 app.get('/*', async function (req, res, next) { // Block Internet Explorer
     global.requestsToDiscord = 0
