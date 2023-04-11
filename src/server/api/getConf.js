@@ -18,7 +18,7 @@ router.get('/', async (req, res, next) => {
         res.json({})
     } else {
         if (req.confErr == "ACCESS_DENIED") {
-            res.json({ database: conf.database, dbusername: conf.dbusername, hostname: conf.hostname })
+            res.json({ database: conf.database, dbusername: conf.dbusername, hostname: conf.hostname }) // Return the configuration so that the noconfintro shows the database, hostname and dbusername
         } else {
             res.json({})
         }
