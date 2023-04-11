@@ -60,7 +60,7 @@ function ErrorDiag(props) {
             case "INCORRECT_CREDENTIALS":
                 errorDiag = translate(props.language, 'page_noconfintrodiag')
             case "ACCESS_DENIED":
-                errorDiag = <span>{translate(props.language, 'page_noconfintroaccessdenieddiagpart1') + /*fetchedConfig.database +*/ ".*" + translate(props.language, 'page_noconfintroaccessdenieddiagpart2') + "\"" + /*fetchedConfig.dbusername +*/ "\"" + "@" + "\"" + /*fetchedConfig.hostname +*/ "\""}</span>
+                errorDiag = <span>{translate(props.language, 'page_noconfintroaccessdenieddiagpart1') + fetchedConfig.database + ".*" + translate(props.language, 'page_noconfintroaccessdenieddiagpart2') + "\"" + fetchedConfig.dbusername + "\"" + "@" + "\"" + fetchedConfig.hostname + "\""}</span>
             case "REDIS_CONNECTION_REFUSED":
                 errorDiag = translate(props.language, 'page_noconfintroconnectionrefuseddiagpart1') + translate(props.language, 'page_globalnext') + translate(props.language, 'page_noconfintroconnectionrefuseddiagpart2')
             case "WRONGPASS":
