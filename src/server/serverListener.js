@@ -12,6 +12,7 @@
 
 const checkConf = require('../core/checkConfExists')
 const express = require('express')
+const engine = require('express-engine-jsx');
 const title = require('express-title')
 const app = express()
 const favicon = require('serve-favicon')
@@ -79,7 +80,7 @@ app.get('/*', async function (req, res, next) { // Block Internet Explorer
     }
     let lang = await getUserLang(req)
     let urls = req.url.split('/') // Split our URLs where there is a / and add to array
-    if ((req.get('user-agent').includes("MSIE") || req.get('user-agent').includes("Trident")) && urls[1].toLowerCase() != "resources") { // IE has two user agents; MSIE and Trident. Trident is only used in IE 11. Also check if we are not accessing resources (so we can load CSS)
+    if ((req.headers['user-agent'].includes("MSIE") || req.headers['user-agent'].includes("Trident")) && urls[1].toLowerCase() != "resources") { // IE has two user agents; MSIE and Trident. Trident is only used in IE 11. Also check if we are not accessing resources (so we can load CSS)
         res.locals.uniconf = uniconf
         res.locals.title = " "
         res.locals.lang = lang
