@@ -19,6 +19,7 @@ const uniconfRoutes = require('./api/uniconf')
 const getLangRoutes = require('./api/getLanguages')
 const readyRoutes = require('./api/ready');
 const confPathRoutes = require('./api/getConfPath');
+const confRoutes = require('./api/getConf');
 
 router.use('/submit-config', submitConfigRoutes)
 router.use('/version', versionRoutes)
@@ -26,5 +27,6 @@ router.use('/uniconf', uniconfRoutes)
 router.use('/language', getLangRoutes)
 router.use('/ready', readyRoutes)
 router.use('/conf-path', confPathRoutes)
+router.use('/conf', confRoutes)
 
 module.exports = router;
