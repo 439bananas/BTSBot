@@ -33,7 +33,7 @@ const refreshBearerToken = require('../core/refreshDiscordBearerToken')
 const showwall = require('./displayWall')
 const getUserLang = require('../core/getUserLang')
 let faviconfilename
-let excludedApis = ["version", "uniconf", "submit-config", "language", "ready", "conf-path"]
+let excludedApis = ["version", "uniconf", "ready"]
 let confExists
 let confErr
 let user
@@ -68,7 +68,7 @@ app.get('/*', async function (req, res, next) { // Block Internet Explorer
     user = {}
     try {
         url = req.url.split('/')
-        if (url[1] != "resources" && (url[1] != "api" && (url[2] != "uniconf" || url[2] != "version")) || url[2] == "ready") {
+        if (url[1] != "resources" && !(url[1] == "api" && (url[2] == "uniconf" || url[2] == "version")) || (url[1] == "api" && url[2] == "ready")) {
             confExists = await checkConf()
         } else confExists = true
     } catch (err) {
@@ -187,7 +187,6 @@ app.use('/login', function (req, res, next) {
     next();
 }, loginRoutes) // Login
 app.use('/logout', logoutRoutes) // And logging out
-// WE JUST USE APP.GET * HERE
 app.use('*', function (req, res, next) {
     req.confExists = confExists
     req.confErr = confErr

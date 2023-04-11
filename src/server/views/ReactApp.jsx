@@ -20,14 +20,6 @@ import About from './About'
 import Home from './FP'
 
 function App(props) {
-    // fetch the user's language AND the prefered language
-    // one small problem
-    // to fetch the user's language, this needs to be run in browserRouter
-    // but staticRouter gets sent by server side so the server is making the request to itself for the user lang, which then dependson the language of nodejs/the host machine of the dashboard
-    // not the user!!!
-    // i think the best way to get the user's lang is to continue to pass it as a prop
-    // but in the browserRouter, fetch it and pass as prop in browser router, while in staticRouter, just pass as a prop using relevant function
-    // there's more funky stuff i've done before so i'm lucky it's not the worst i've done
     /*return (
         <html>
             <head>

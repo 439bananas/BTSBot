@@ -20,11 +20,14 @@ function getConfig() {
 
     useEffect(() => {
         async function fetchConfInfo() {
-            if (typeof(uniconf) !== "undefined") {
+            /*if (typeof(uniconf) !== "undefined") {
                 setConfInfo("uniconf exists")
             } else {
                 setConfInfo("uniconf does not exist")
-            }
+            }*/
+            let rawResponse = await fetch("/api/conf")
+            let response = await rawResponse.json()
+            setConfInfo(response)
         }
 
         fetchConfInfo()
@@ -113,7 +116,7 @@ function Noconfintro(props) {
                 <ErrorMessage err={props.confErr} language={props.language} uniconf={props.uniconf} />
                 <input type='submit' id="NextButton" className='button' value={translate(props.language, 'page_globalnext')} title={translate(props.language, 'page_globalnext')} />
             </div>
-            <p>{getConfig()}</p>
+            <p>{JSON.stringify(getConfig().confExists)}</p>
         </div>
     )
 }
