@@ -80,12 +80,15 @@ app.get('/*', async function (req, res, next) { // Block Internet Explorer
     }
     let lang = await getUserLang(req)
     let urls = req.url.split('/') // Split our URLs where there is a / and add to array
-    if ((req.headers['user-agent'].includes("MSIE") || req.headers['user-agent'].includes("Trident")) && urls[1].toLowerCase() != "resources") { // IE has two user agents; MSIE and Trident. Trident is only used in IE 11. Also check if we are not accessing resources (so we can load CSS)
+    if ((req.get('user-agent') && (req.get('user-agent').includes("MSIE") || req.get('user-agent').includes("Trident"))) && urls[1].toLowerCase() != "resources") { // IE has two user agents; MSIE and Trident. Trident is only used in IE 11. Also check if we are not accessing resources (so we can load CSS)
         res.locals.uniconf = uniconf
         res.locals.title = " "
         res.locals.lang = lang
         res.render('ie-detect-error') // Display error
-    } else { // If there are MySQL and Redis connections, try querying the database for the user
+    } if (!req.get('user-agent')) {
+        res.status(400).json({"error": "NO_BOTS"})
+    }
+    else { // If there are MySQL and Redis connections, try querying the database for the user
         if (typeof (redisConnection) != "undefined" && typeof (MySQLConnection) != "undefined" && req.cookies.discordbearertoken && urls[1].toLowerCase() != "resources") {
             try {
                 user = await getDiscordUser(req.cookies.discordbearertoken)
