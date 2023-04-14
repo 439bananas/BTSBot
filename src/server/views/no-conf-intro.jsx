@@ -39,24 +39,35 @@ function ErrorDiag(props) {
         switch (props.err) {
             case "MISSING_FIELDS":
                 errorDiag = translate(props.language, 'page_noconfintrodiag')
+                break
             case "TOKEN_INVALID":
                 errorDiag = translate(props.language, 'page_noconfintrobadtokendiagpart1') + translate(props.language, 'page_globalnext') + translate(props.language, 'page_noconfintrobadtokendiagpart2')
+                break
             case "CONNECTION_REFUSED":
                 errorDiag = translate(props.language, 'page_noconfintroconnectionrefuseddiagpart1') + translate(props.language, 'page_globalnext') + translate(props.language, 'page_noconfintroconnectionrefuseddiagpart2')
+                break
             case "INCORRECT_CREDENTIALS":
                 errorDiag = translate(props.language, 'page_noconfintrodiag')
+                break
             case "ACCESS_DENIED":
                 errorDiag = <span>{translate(props.language, 'page_noconfintroaccessdenieddiagpart1') + JSON.stringify(getConfig().database) + ".*" + translate(props.language, 'page_noconfintroaccessdenieddiagpart2') + "\"" + JSON.stringify(getConfig().dbusername) + "\"" + "@" + "\"" + JSON.stringify(getConfig().hostname) + "\""}</span>
+                break
             case "REDIS_CONNECTION_REFUSED":
                 errorDiag = translate(props.language, 'page_noconfintroconnectionrefuseddiagpart1') + translate(props.language, 'page_globalnext') + translate(props.language, 'page_noconfintroconnectionrefuseddiagpart2')
+                break
             case "WRONGPASS":
                 errorDiag = translate(props.language, 'page_noconfintrodiag')
+                break
             case "BAD_DATABASE":
                 errorDiag = <span>{translate(props.language, "page_redisbaddatabasediagpart1") + translate(props.language, 'page_globalnext') + translate(props.language, 'page_redisbaddatabasediagpart2')} <code>conf.json</code> {translate(props.language, "page_redisbaddatabasediagpart3")} <code>redis.conf</code></span>
+                break
             default:
                 errorDiag = <span>{translate(props.language, "page_confunknownerrordiag")} <a href={props.uniconf.discord}> {translate(props.language, 'global_discorderver')} </a> {translate(props.language, 'page_serverlostconnectiondiagpart3')}</span>
+                break
         }
     }
+    console.log(errorDiag)
+    console.log(props.err)
     return errorDiag
 };
 

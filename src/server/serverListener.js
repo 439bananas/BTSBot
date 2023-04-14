@@ -39,7 +39,7 @@ let confExists
 let confErr
 let user
 
-app.set('views', path.join(__dirname, 'views'))
+app.set('views', path.join(__dirname, '..', 'src', 'server', 'views'))
 app.set('view engine', 'jsx'); // We're using React as the templating engine, at least when the client is Internet Explorer or if a catastrophic error has happened
 app.engine('jsx', engine);
 
@@ -66,6 +66,17 @@ app.use(createLocaleMiddleware())
 app.use(title()); // Set tab title
 app.set('title', uniconf.projname);
 
+app.all('/*', async function (req, res, next) { // Log incoming requests
+    getlang().then(lang => {
+        if (req.headers['x-forwarded-host']) {
+            log.info(req.method + translate(lang, 'log_incominghttprequestpart1') + req.headers['x-forwarded-for'] + translate(lang, 'log_incominghttprequestpart2') + req.headers['x-forwarded-host'] + translate(lang, 'log_incominghttprequestpart3') + req.url + translate(lang, 'log_incominghttprequestrp'))
+        } else {
+            log.info(req.method + translate(lang, 'log_incominghttprequestpart1') + req.socket.remoteAddress + translate(lang, 'log_incominghttprequestpart2') + req.headers.host + translate(lang, 'log_incominghttprequestpart3') + req.url)
+        }
+        next()
+    })
+});
+
 app.get('/*', async function (req, res, next) { // Block Internet Explorer
     global.requestsToDiscord = 0
     user = {}
@@ -85,10 +96,9 @@ app.get('/*', async function (req, res, next) { // Block Internet Explorer
         res.locals.title = " "
         res.locals.lang = lang
         res.render('ie-detect-error') // Display error
-    } if (!req.get('user-agent')) {
-        res.status(400).json({"error": "NO_BOTS"})
-    }
-    else { // If there are MySQL and Redis connections, try querying the database for the user
+    } else if (!req.get('user-agent')) {
+        res.status(400).json({ "error": "NO_BOTS" })
+    } else { // If there are MySQL and Redis connections, try querying the database for the user
         if (typeof (redisConnection) != "undefined" && typeof (MySQLConnection) != "undefined" && req.cookies.discordbearertoken && urls[1].toLowerCase() != "resources") {
             try {
                 user = await getDiscordUser(req.cookies.discordbearertoken)
@@ -165,17 +175,6 @@ app.get('/*', async function (req, res, next) { // Block Internet Explorer
         }
     }
 })
-
-app.all('/*', async function (req, res, next) {
-    getlang().then(lang => {
-        if (req.headers['x-forwarded-host']) {
-            log.info(req.method + translate(lang, 'log_incominghttprequestpart1') + req.headers['x-forwarded-for'] + translate(lang, 'log_incominghttprequestpart2') + req.headers['x-forwarded-host'] + translate(lang, 'log_incominghttprequestpart3') + req.url + translate(lang, 'log_incominghttprequestrp'))
-        } else {
-            log.info(req.method + translate(lang, 'log_incominghttprequestpart1') + req.socket.remoteAddress + translate(lang, 'log_incominghttprequestpart2') + req.headers.host + translate(lang, 'log_incominghttprequestpart3') + req.url)
-        }
-        next()
-    })
-});
 
 app.use(favicon(path.join(__dirname, '..', 'src', 'server', 'views', 'resources', 'img', faviconfilename)))
 /*app.use('/config', confpage) // Fun fact, I forgot to call this file, and wondered why I was getting 404s on /config*/
