@@ -24,17 +24,17 @@ function Error404(props) {
     return (
         <span>
             <div className="container" style={{ paddingTop: 1 + "rem" }}>
-                <title>{uniconf.projname + " - " + translate(props.language, 'page_404pagetitle')}</title>
+                <title>{props.uniconf.projname + " - " + translate(props.language, 'page_404pagetitle')}</title>
                 <center>
                     <h2>{translate(props.language, 'page_404errortitle')}</h2>
                     <div style={{ padding: 1 + "rem" }} >
                         <img src="/resources/btsthonk.png" className="img-fluid" />
                     </div>
-                    <p>
-                        <div style={{ fontSize: 1.25 + "rem" }}>
+                    <div style={{ fontSize: 1.25 + "rem" }}>
+                        <p>
                             {translate(props.language, 'page_404errordescription')}
-                        </div>
-                    </p>
+                        </p>
+                    </div>
                     <b style={{ fontSize: 1.5 + "rem" }}>404</b>
                 </center>
             </div>
