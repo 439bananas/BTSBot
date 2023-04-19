@@ -975,6 +975,7 @@
     <Content Include="src\server\api\uniconf.js">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="src\server\views\components\convertQueryStringToJSON.js" />
     <Content Include="src\server\views\components\getLanguageJSON.js" />
     <Content Include="src\server\views\components\getLanguageString.js" />
     <Content Include="src\server\views\components\logHandler.js" />

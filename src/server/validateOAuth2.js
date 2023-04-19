@@ -157,12 +157,9 @@ function validateOAuth2(req, res, conf) { // Let's validate our OAuth2 with rath
                             break;
                         case "BAD_DISCORD_CLIENT_SECRET": // Bad client secrets could be due to misconfuguration or some other error
                             showconf(req, res, conf.language, conf.language, conf.hostname, conf.dbusername, conf.database, conf.tableprefix, conf.redishostname, conf.redisusername, conf.redisdatabase, conf.pstatus, conf.ostatus, conf.guildid, conf.moderatorsroleid, conf.googleclientid, conf.msclientid, conf.smtpserver, conf.smtpport, conf.smtpssl, conf.imapssl, conf.imapserver, conf.imapport, conf.emailaddress, conf.emailusername, true)
-                            log.temp("validateOauth2.js:160")
-                            log.temp("BAD CLIENT SECRET")
                             global.badclientsecret = true
                             break;
                         case "TOKEN_INVALID": // Same with the bad token
-                            log.temp("validateOauth2.js:165")
                             showconf(req, res, conf.language, conf.language, conf.hostname, conf.dbusername, conf.database, conf.tableprefix, conf.redishostname, conf.redisusername, conf.redisdatabase, conf.pstatus, conf.ostatus, conf.guildid, conf.moderatorsroleid, conf.googleclientid, conf.msclientid, conf.smtpserver, conf.smtpport, conf.smtpssl, conf.imapssl, conf.imapserver, conf.imapport, conf.emailaddress, conf.emailusername, false)
                             break;
                         default:

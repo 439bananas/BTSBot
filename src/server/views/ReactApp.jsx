@@ -14,7 +14,7 @@ const React = require("react");
 const { Routes, Route } = require("react-router-dom");
 const Header = require('./components/header');
 const Error404 = require('./404');
-const Head = require('./components/head');
+import { useParams } from 'react-router-dom';
 const Noconfintro = require('./no-conf-intro');
 import About from './About'
 import Home from './FP'
@@ -35,13 +35,14 @@ function App(props) {
         </html>
     );*/
     if (!props.confExists) {
+        const params = useParams();
         return (
             <body>
                 <Header DiscordUser={props.DiscordUser} language={props.language} uniconf={props.uniconf} />
                 <Routes>
                     <Route path="/">
                         <Route index element={<Noconfintro language={props.language} confErr={props.confErr} confPath={props.confPath} uniconf={props.uniconf} DiscordUser={{}} />} />
-                        <Route path="config" element={<Error404 language={props.language} confErr={props.confErr} uniconf={props.uniconf} />} />
+                        <Route path="config" element={JSON.stringify(params)} />
                         <Route path="*" element={<Error404 language={props.language} confErr={props.confErr} uniconf={props.uniconf} />} />
                     </Route>
                 </Routes>

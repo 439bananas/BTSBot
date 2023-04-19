@@ -13,6 +13,18 @@
 const Layout = require('./components/layout');
 const translate = require('./components/getLanguageString');
 
+// small problem for config
+// how on earth are we supposed to deal with oauth2 at this point??
+// call an api which checks if oauth2 validation is required
+// how the api works:
+// it should be similar to validateOAuth2.js ngl
+// 
+// back to this file:
+// if response is "OAUTH_OK" then show the user the "config complete" page. THE API ENDPOINT SHOULD AUTOMATICALLY RESTART THE APPLICATION
+// if it's "OAUTH_REDIRECT" then redirect to the specified url
+// if it's "OAUTH_FAIL" then show a failure
+// if "NO_CONF" then just show the page without any failures
+
 function Languages() {
     let languageList = []
     langs.sort(function (a, b) {

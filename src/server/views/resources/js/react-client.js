@@ -15,6 +15,7 @@ const { BrowserRouter } = require("react-router-dom");
 const App = require("../../ReactApp");
 const React = require('react');
 const Head = require("../../components/head");
+const query2JSON = require("../../components/convertQueryStringToJSON");
 
 async function getUserLang() { // Functions for getting the user language, fallback language (if the string in their preferred language does not exist), and default language
     let rawResonse = await fetch('/api/language/preferred');
@@ -63,6 +64,7 @@ async function hydrateDOM() { // Hydrating the script means that the client can 
             document.documentElement
         );
     } else {
+        console.log(query2JSON(window.location.search))
         ReactDOM.hydrate(
             <BrowserRouter>
                 <Head language={{ preferred: await getUserLang(), fallback: await getlang(), default: await getDefaultLang() }} uniconf={await getUniconf()} />
