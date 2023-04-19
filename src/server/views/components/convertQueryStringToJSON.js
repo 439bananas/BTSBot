@@ -13,7 +13,7 @@
 function query2JSON(string) { // Does what it says on the tin.
     let parsedData = new URLSearchParams(string)
     let json = {}
-    parsedData.forEach((key, value) => {
+    parsedData.forEach((value, key) => {
         json[key] = value
     })
     return json
