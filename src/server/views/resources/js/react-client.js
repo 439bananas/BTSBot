@@ -64,11 +64,10 @@ async function hydrateDOM() { // Hydrating the script means that the client can 
             document.documentElement
         );
     } else {
-        console.log(query2JSON(window.location.search))
         ReactDOM.hydrate(
             <BrowserRouter>
                 <Head language={{ preferred: await getUserLang(), fallback: await getlang(), default: await getDefaultLang() }} uniconf={await getUniconf()} />
-                <App language={{ preferred: await getUserLang(), fallback: await getlang(), default: await getDefaultLang() }} confExists={ready.confExists} confErr={ready.confErr} confPath={await getConfPath()} uniconf={await getUniconf()} DiscordUser={{}} />
+                <App language={{ preferred: await getUserLang(), fallback: await getlang(), default: await getDefaultLang() }} confExists={ready.confExists} confErr={ready.confErr} confPath={await getConfPath()} uniconf={await getUniconf()} DiscordUser={{}} queryString={query2JSON(window.location.search)} />
             </BrowserRouter>,
             document.documentElement
         );
