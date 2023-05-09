@@ -67,7 +67,7 @@ function googleOAuth2(req, res, conf) { // Cope with Google's OAuth2 in a more c
                 restart()
             })
             showconfigcomplete(res, lang)
-        } else if (req.cookies.googlebearertoken) { // If there is a cookie but the conf has not been renamed yet for whatever reason... that's weird...
+        } else { // If there is a cookie but the conf has not been renamed yet for whatever reason... that's weird...
             fetch('https://www.googleapis.com/oauth2/v2/userinfo', { // Fetch userinfo, a granted scope
                 method: 'GET',
                 headers: {
@@ -234,7 +234,9 @@ function validateOAuth2(req, res, conf) { // Let's validate our OAuth2 with rath
                                 googleOAuth2(req, res, conf)
                             } else { // If something weird, assume the worst and display the wall
                                 showwall(res, conf.language, translate(lang, "page_confunknownerror"), translate(lang, "page_wallunknownerrordiag"))
-                                log.error(err)
+                                log.error("************************************************")
+                                console.log(response)
+                                log.error("************************************************")
                             }
                         })
                         .catch(err => showwall(res, lang, uniconf.projname + translate(lang, 'page_wallcannotconnecttodiscord'), translate(lang, 'page_wallcannotconnecttoservicediagpart1') + uniconf.projname + translate(lang, 'page_wallcannotconnecttomicrosoftdiagpart2'))) // And if there is an error then we probably can't connect to Microsoft.

@@ -39,6 +39,8 @@ function requireValidDiscordUserResp(discordUserResp) {
     }
     else if (!(discordUserResp.email && discordUserResp.discriminator)) { // We do at least need the identify and email scopes...
         throw "WRONG_SCOPES"
+    } else {
+        return "OK"
     }
 }
 
@@ -51,10 +53,10 @@ async function getDiscordUser(bearertoken) { // Get the user's info from their b
             } catch (err) {
                 log.temp(err.name)
                 log.temp(err.code)
-                log.temp("getDiscordUserInfo.js:55")
+                log.temp("getDiscordUserInfo.js:57")
                 throw err;
             }
-            await requireValidDiscordUserResp(user) // Throw errors if anything bad happens
+            let responseOk = await requireValidDiscordUserResp(user) // Throw errors if anything bad happens
             if (user.email && user.discriminator) { // If we have the email and discriminator, we should be good
                 redisConnection.json.set('DiscordBearerToken:' + bearertoken, '$', user) // Cache our response
                 redisConnection.expire('DiscordBearerToken:' + bearertoken, 86400) // This should expire in a day if anything
@@ -66,7 +68,9 @@ async function getDiscordUser(bearertoken) { // Get the user's info from their b
                 log.temp(user.name)
                 throw "UNKNOWN_ERROR"
             }
-            return user;
+            if (responseOk == "OK") {
+                return user;
+            }
         } else {
             return cachedInfo;
         }
@@ -76,6 +80,7 @@ async function getDiscordUser(bearertoken) { // Get the user's info from their b
                 throw err;
                 break;
             case "BAD_ACCESS_TOKEN":
+                log.temp("line 83")
                 throw err;
                 break;
             case "WRONG_SCOPES":

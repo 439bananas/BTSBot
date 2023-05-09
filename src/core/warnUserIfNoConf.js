@@ -14,13 +14,6 @@ const checkConf = require('./checkConfExists')
 
 getlang().then(async lang => {
     log.info(translate(lang, 'log_checkforconf'))
-    try {
-        let result = await checkConf()
-        log.temp("test")
-        log.tempinfo(result)
-    } catch (err) {
-        void err
-    }
     checkConf().then(result => {
         log.tempinfo(result)
         global.conf = require('../../configs/conf.json')

@@ -27,7 +27,15 @@ async function getGuildPresence(guildId) {
     }
 }
 
-
+/**
+ * Gets whether a bot is in the guild
+ * @param {bigint|string} guildId - The guild ID
+ * @param {boolean} [bypassCache=false] - Whether to bypass Redis, useful if the information NEEDS to be up to date
+ * @returns {boolean} Will return true or false, depending on whether the bot is in the specified guild
+ * @example
+ * 
+ * let inGuild = await botInGuild(361233849847644160)
+*/
 async function botInGuild(guildId, bypassCache) { // If bot in specified guild, return true, else or if error, return false
     if (bypassCache) { // Let's bypass cache, especially if the number of guilds we need to check the bot is in is one or a small number
         try { // Sadly the fastest we can make it is if we don't check conf (which isn't necessary anyway), and even that can be slow when the guild presences are uncached

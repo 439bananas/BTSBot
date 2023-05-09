@@ -13,9 +13,7 @@
 // IF NOT THE CORRECT SCOPES REDIRECT TO OAUTH2 PAGE
 
 const express = require('express')
-const checkConf = require('../core/checkConfExists')
 const router = express.Router()
-const getDiscordUser = require('../core/getDiscordUserInfo')
 const refreshBearerToken = require('../core/refreshDiscordBearerToken')
 const getaddress = require('../core/getReqAddress')
 const getid = require('../core/getApplicationId')
@@ -25,7 +23,6 @@ const getUserLang = require('../core/getUserLang')
 const getDiscordScopes = require('../core/getDiscordScopes')
 
 router.get('/', async (req, res, next) => {
-    console.log(req.confExists)
     if (req.confExists) {
         try { // If bearer token valid, redirect to /servers
             if ((req.query.bypasscache && req.query.bypasscache == "true") || req.query.code) {
@@ -101,7 +98,7 @@ router.get('/', async (req, res, next) => {
                         case "BAD_CODE": // If invalid code, redirect to Discord's OAuth2 page
                             redirect(signinlink)
                             break;
-                        case "BAD_DISCORD_CLIENT_SECRET": // If bad client secret or some other error, show the wall
+                        case "BAD_CLIENT_SECRET": // If bad client secret or some other error, show the wall
                             showwall(res, lang, translate(lang, 'page_loginbadclientsecret'), translate(lang, 'page_loginbadclientsecretdiag'))
                             break;
                         default:

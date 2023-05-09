@@ -14,15 +14,23 @@ const colours = require('colors')
 const fs = require('fs')
 const path = require('path')
 
+/**
+ * Logs information to the console with a green "INFO"
+ * @param {string} message - The message to log
+ */
 function info(message) { // Log depending on function called
     getlang(true).then(lang => {
-        if (path.basename(process.argv[1]) == "index.js") {
+        if (path.basename(process.argv[1]) == "index.js") { // Tell translate() where the i18n file is depending on if we're in the server or not
             translateMode = "express-engine-jsx"
         } else translateMode = undefined
         console.info(`${colours.cyan(`${new Date()}`)} - ${`${translate(lang, 'loghandler_info', translateMode)}:`.green} ${message}`)
     })
 }
 
+/**
+ * Sends a warning to the console with a yellow "WARN"
+ * @param {string} message - The message to warn with
+ */
 function warn(message) {
     getlang(true).then(lang => {
         if (path.basename(process.argv[1]) == "index.js") {
@@ -32,6 +40,10 @@ function warn(message) {
     })
 }
 
+/**
+ * Sends, you guessed it, an error to the console with a red "ERROR"
+ * @param {string} message - The message to error with
+ */
 function error(message) {
     getlang(true).then(lang => {
         if (path.basename(process.argv[1]) == "index.js") {
@@ -73,7 +85,7 @@ function fatal(message) {
     })
 }
 
-function initLog() {
+function initLog() { // Create the log file
     return new Promise(function (resolve, reject) {
         getlang(true).then(lang => {
             info(translate(lang, "log_loghandlercheckingforlogdir", "express-engine-jsx"))

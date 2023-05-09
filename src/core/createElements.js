@@ -21,6 +21,7 @@ global.getlang = require('./getLanguageJSON')
 require('./warnUserIfNoConf') // Check if conf.json exists and if not, send a warning to the console
 
 require('../server/createServer') // Start the dashboard
+log.error("REMEMBER WE NEED TO MAKE SURE THAT DATABASE MANAGER STARTS BEFORE THE WEB SERVER OR BOT")
 //require('../bot/createBot') // Start the bot
 
 /*process.on('unhandledRejection', (reason, p) => {

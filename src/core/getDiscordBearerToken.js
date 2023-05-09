@@ -30,9 +30,8 @@ function getDiscordToken(token, clientsecret, redirecturi, code) {
                 }
             }).then(response => response.json())
                 .then(response => {
-                        log.tempinfo(response.error)
                     if (response.error && response.error == "invalid_client") { // If any kinds of errors, reject with x error
-                        reject("BAD_DISCORD_CLIENT_SECRET")
+                        reject("BAD_CLIENT_SECRET")
                     } else if (response.error == "invalid_grant") {
                         reject("BAD_CODE")
                     }

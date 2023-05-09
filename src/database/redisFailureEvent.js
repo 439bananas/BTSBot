@@ -2,7 +2,7 @@
 //                                                         //
 //                         BTS Bot                         //
 //                                                         //
-//               File: checkLangPresence.js                //
+//                File redisFailureEvent.js                //
 //                                                         //
 //               Author: Thomas (439bananas)               //
 //                                                         //
@@ -10,8 +10,19 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-function langExists(langcode) {
-    log.temp(fs)
-}
+const getlang = require("../core/getLanguageJSON");
 
-module.exports = langExists
+redisConnection.on('error', (err) => { // If Redis gets disconnected then reconnect and send out error
+    getlang().then(lang => {
+        switch (err.message) {
+            case "Socket closed unexpectedly":
+                log.warn(translate(lang, "log_redisconnectionlost"))
+                break;
+            case "Connection timeout":
+                log.warn(translate(lang, "log_redisreconnecting"))
+                break;
+            default:
+                log.error(err)
+        }
+    })
+})

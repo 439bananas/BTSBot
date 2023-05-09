@@ -33,7 +33,7 @@ async function refreshBearerToken(refreshtoken) {
         if (response.error != undefined) { // Throw errors depending on what Discord says
             switch (response.error) {
                 case "invalid_client":
-                    throw "BAD_DISCORD_CLIENT_SECRET"
+                    throw "BAD_CLIENT_SECRET"
                     break;
                 case "invalid_grant":
                     log.temp("refreshDiscordBearerToken.js:39")

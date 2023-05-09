@@ -20,6 +20,7 @@ const getLangRoutes = require('./api/getLanguages')
 const readyRoutes = require('./api/ready');
 const confPathRoutes = require('./api/getConfPath');
 const confRoutes = require('./api/getConf');
+const getOAuth2Routes = require('./api/getOAuth2Status');
 
 router.use('/submit-config', submitConfigRoutes)
 router.use('/version', versionRoutes)
@@ -28,5 +29,6 @@ router.use('/language', getLangRoutes)
 router.use('/ready', readyRoutes)
 router.use('/conf-path', confPathRoutes)
 router.use('/conf', confRoutes)
+router.use('/oauth2-status', getOAuth2Routes)
 
 module.exports = router;

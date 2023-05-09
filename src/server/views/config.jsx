@@ -18,12 +18,22 @@ const translate = require('./components/getLanguageString');
 // call an api which checks if oauth2 validation is required
 // how the api works:
 // it should be similar to validateOAuth2.js ngl
-// 
+//
 // back to this file:
 // if response is "OAUTH_OK" then show the user the "config complete" page. THE API ENDPOINT SHOULD AUTOMATICALLY RESTART THE APPLICATION
 // if it's "OAUTH_REDIRECT" then redirect to the specified url
 // if it's "OAUTH_FAIL" then show a failure
+// if "TOKEN_FAIL" then show that error
 // if "NO_CONF" then just show the page without any failures
+// if "CONF_OK" then display a 404
+// if "REFRESH_PAGE", refresh the page
+// if "BAD_CLIENT_SECRET", show the same page but show the bad client secret error
+// if "CANNOT_CONNECT_TO_MICROSOFT", show the wall and show that error
+// if "CANNOT_CONNECT_TO_DISCORD", ditto as for microsoft (but show the discord error)
+// if "CANNOT_CONNECT_TO_GOOGLE", once again, the same thing again for google
+// else, show the wall and the error
+// if the conf does exist, get the config from the api and set these options as default
+// the api will need to be modified to get the entire config, excluding any and all passwords or tokens
 
 function Languages() {
     let languageList = []

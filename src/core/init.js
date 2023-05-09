@@ -10,8 +10,8 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-const forever = require('forever-monitor')
-const fs = require('fs')
+const forever = require('forever-monitor');
+const fs = require('fs');
 const strip = require('strip-color');
 let logFile
 

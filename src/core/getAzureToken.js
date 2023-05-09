@@ -42,6 +42,12 @@ function getazuretoken(clientid, clientsecret, scopes, redirecturi, code) { // Y
                     case "network_error": // Hopefully the only error to cause that is legitimately bad client secret, else DAMN MICROSOFT'S SOFTWARE
                         reject("BAD_CLIENT_SECRET_OR_CODE")
                         break;
+                    case "invalid_client": // Bad client secret
+                        reject("BAD_CLIENT_SECRET")
+                        break;
+                    case "invalid_grant": // Since the last time I touched this code, invalid_client and invalid_grant are two separate errors, rather than coming under network_error
+                        reject("BAD_CODE")
+                        break;
                     default:
                         log.error(JSON.stringify(error))
                         reject("UNKNOWN_ERROR")

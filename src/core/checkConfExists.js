@@ -20,6 +20,11 @@ const checkRedis = require('./checkRedis')
 const settings = require('../configs/uniconf.json').settings
 let conffile
 
+/**
+ * Checks if the configuration (or a specified configuration) exists
+ * @param {boolean} [conffilename="conf"] - The name of the file
+ * @returns {boolean|string} The error, if the configuation has an issue, or else true
+ */
 async function checkConf(conffilename) {
     if (!conffilename) { // Many of the functions that call this will not specify this argument and as such each call will **ALWAYS** look exclusively for conf.json (so this is there for backwards compatibility)
         conffile = "conf"

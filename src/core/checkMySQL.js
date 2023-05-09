@@ -55,6 +55,7 @@ function checkMySQL(hostname, username, password, database) {
             } else {
                 resolve('OK') // If blow test successful, return OK
             }
+            log.temp("checkMySQL.js:58")
             connection.destroy()
         });
     });

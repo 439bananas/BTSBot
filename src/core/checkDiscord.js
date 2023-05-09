@@ -10,6 +10,11 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
+/**
+ * Checks if the Discord token is valid
+ * @param {string} token - The Discord token for the bot user
+ * @returns
+ */
 async function checkDiscord(token) {
     try {
         let rawResponse = await fetch('https://discord.com/api/v10/oauth2/applications/@me', { // Validate the token this way, we used Discord.JS to validate the token and validating the token that way barfed all sorts of weird errors
@@ -30,7 +35,7 @@ async function checkDiscord(token) {
             throw 'UNKNOWN_DISCORD_ERROR'
         }
     } catch (err) {
-        if (err.name != "FetchError") {
+        if (err.name != "FetchError" && !(err.cause.name == "ConnectTimeoutError" || err.cause.code == "UND_ERR_CONNECT_TIMEOUT")) {
             throw err
         } else { // At some point when Discord's down (which is pretty frequent, I can't lie), we should test this! This currently only works as far as I know if the bot has no internet
             throw 'CANNOT_CONNECT_TO_DISCORD'

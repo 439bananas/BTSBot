@@ -11,6 +11,7 @@
 /////////////////////////////////////////////////////////////
 
 // Well translate() in this context cannot have path or fs evidently :(
+
 function translate(language, string) { // This function allows the caller to get a translated string
     if (typeof (language.preferred[string]) !== undefined) { // Does thee string in the preferred language exist? Sweet, return that
         return (language.preferred[string])

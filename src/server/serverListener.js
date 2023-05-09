@@ -17,7 +17,6 @@ const title = require('express-title')
 const app = express()
 const favicon = require('serve-favicon')
 const routes = require('./routes')
-//const aaPages = require('./alwaysAvailablePages')
 const frontpage = require('./frontPage')
 const loginRoutes = require('./login')
 const logoutRoutes = require('./logout')
@@ -153,7 +152,7 @@ app.get('/*', async function (req, res, next) { // Block Internet Explorer
                     res.redirect(req.originalUrl)
                 } catch (err) { // If we can't do that, err
                     switch (err) {
-                        case "BAD_DISCORD_CLIENT_SECRET": // Show wall if bad client secret
+                        case "BAD_CLIENT_SECRET": // Show wall if bad client secret
                             showwall(res, lang, translate(lang, 'page_loginbadclientsecret'), translate(lang, 'page_loginbadclientsecretdiag'))
                             break;
                         case "BAD_REFRESH_TOKEN": // Don't worry if bad refresh token

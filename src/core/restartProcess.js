@@ -18,6 +18,9 @@ const Discord = require('discord.js')
     //server.close()
 }*/
 
+/**
+ * Restarts the process
+ */
 function restart() {
     getlang(true).then(lang => {
         log.info(translate(lang, 'log_restarting'))
