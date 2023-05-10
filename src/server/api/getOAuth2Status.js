@@ -10,8 +10,6 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-// this is a right mammoth task
-
 const getaddress = require('../../core/getReqAddress')
 const getgoogletoken = require('../../core/getGoogleToken')
 const fs = require('fs')
