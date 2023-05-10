@@ -11,7 +11,6 @@
 /////////////////////////////////////////////////////////////
 
 const checkConf = require('../../core/checkConfExists')
-const show404 = require('../display404')
 const fs = require('fs')
 const express = require('express');
 const router = express.Router()
@@ -99,18 +98,5 @@ router.post('/', async (req, res, next) => {
         }
     }
 })
-
-router.get('/', async (req, res, next) => { // This should totally not be GET'd
-    checkConf().catch(err => {
-        getUserLang(req)
-            .then(langcode => {
-                if (err) {  // If error in conf, don't show things like login etc that couldn't possibly exist
-                    show404(req, res, langcode, false)
-                } else {
-                    show404(req, res, langcode, true)
-                }
-            })
-    })
-});
 
 module.exports = router;
