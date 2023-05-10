@@ -52,7 +52,6 @@ async function checkRedis(hostname, username, password, database) {
             } else if (err.toString().includes("DB index is out of range")) {
                 throw "BAD_DATABASE";
             } else {
-                log.temp("checkRedis.js:55")
                 log.error(err)
                 throw "UNKNOWN_ERROR"
             }

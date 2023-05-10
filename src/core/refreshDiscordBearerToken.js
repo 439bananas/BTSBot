@@ -36,7 +36,6 @@ async function refreshBearerToken(refreshtoken) {
                     throw "BAD_CLIENT_SECRET"
                     break;
                 case "invalid_grant":
-                    log.temp("refreshDiscordBearerToken.js:39")
                     throw "BAD_REFRESH_TOKEN"
                     break;
                 default:

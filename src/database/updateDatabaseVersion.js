@@ -45,3 +45,5 @@ async function updateDb() {
 
 require('./updateDatabase')
 setTimeout(function () { updateDb() }, 5000)
+
+log.error("updateDatabaseVersion.js:49 - The server hasn't yet started; the database manager requires a small overhaul!")

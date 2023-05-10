@@ -51,9 +51,6 @@ async function getDiscordUser(bearertoken) { // Get the user's info from their b
             try {
                 user = await fetchDiscordUser(bearertoken) // Fetch our user
             } catch (err) {
-                log.temp(err.name)
-                log.temp(err.code)
-                log.temp("getDiscordUserInfo.js:57")
                 throw err;
             }
             let responseOk = await requireValidDiscordUserResp(user) // Throw errors if anything bad happens
@@ -63,9 +60,6 @@ async function getDiscordUser(bearertoken) { // Get the user's info from their b
                 // We were previously using a method where we had a cache object and put things in that but we figured on different platforms it would cause stability/performance/resources problems and could potentially hang devices like Raspberry Pi so we switched to Redis
             } else { // If something weird, we possibly have an error, v10 shouldn't from this point in have any breaking changes (they should be issued in v11 or so)
                 log.error(user.message)
-                log.temp("getDiscordUserInfo.js:65")
-                log.temp(user.code)
-                log.temp(user.name)
                 throw "UNKNOWN_ERROR"
             }
             if (responseOk == "OK") {
@@ -80,7 +74,6 @@ async function getDiscordUser(bearertoken) { // Get the user's info from their b
                 throw err;
                 break;
             case "BAD_ACCESS_TOKEN":
-                log.temp("line 83")
                 throw err;
                 break;
             case "WRONG_SCOPES":
@@ -88,9 +81,6 @@ async function getDiscordUser(bearertoken) { // Get the user's info from their b
                 break;
             default:
                 log.error(err)
-                log.temp("getDiscordUserInfo.js:88")
-                log.temp(err.code)
-                log.temp(err.name)
                 throw "UNKNOWN_ERROR"
         }
     }
