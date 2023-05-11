@@ -20,6 +20,7 @@ const getazuretoken = require('../../core/getAzureToken')
 const { createClient } = require('redis')
 const express = require('express');
 const checkConf = require('../../core/checkConfExists')
+const getlang = require('../../core/getLanguageJSON')
 const router = express.Router();
 let conf
 
@@ -42,9 +43,15 @@ async function attemptRedisConnectionCreation() {
                 url: url
             })
 
-            redisConnection.connect()
+            await redisConnection.connect()
+            await redisConnection.set('RedisConnected', "true") // Set a test value
+            
+            let redisConnectionWorks = await redisConnection.get('RedisConnected') // Get it so that the function is only completed when it *knows* Redis works
+
+            return redisConnectionWorks // ? We wait for Redis connection to be established
         }
     } catch (err) {
+        console.log(err)
         void err
     }
 }
@@ -319,15 +326,21 @@ router.get('/', async (req, res, next) => { // Let's validate our OAuth2 with ra
             }
         }
     }
+
     if (typeof (redisConnection) == "undefined") { // If no Redis connection, such as when the machine is on (or has been when the solution has been run) college wifi and cannot connect to servers outside of HTTP and HTTPS then attempt to connect to Redis
+        let lang = await getlang()
         attemptRedisConnectionCreation().then(r => {
             if (typeof (redisConnection) != "undefined") {
                 require('../../database/redisFailureEvent') // Deal with failures etc
             }
-            validateOAuth2()
+
+            if (r) { // Use r directly
+                log.info(translate(lang, "log_testresponsefromredis") + r) // -sigh-
+                validateOAuth2()
+            }
         });
     } else {
-        validateOAuth2()
+        validateOAuth2() // If there is a Redis connection, just validate OAuth2 at this point
     }
 })
 

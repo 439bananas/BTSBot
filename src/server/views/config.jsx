@@ -13,6 +13,7 @@
 const { useState, useEffect } = require('react');
 const React = require('react')
 const translate = require('./components/getLanguageString');
+const ConfigComplete = require('./config-complete');
 // small problem for config
 // how on earth are we supposed to deal with oauth2 at this point??
 // call an api which checks if oauth2 validation is required
@@ -56,14 +57,24 @@ function Config(props) {
 
     if (oauthStatus.message) {
         switch (oauthStatus.message) {
-            case "OAUTH_OK":
-                // config complete
-                returnedValue = null
+            case "OAUTH_OK": // If OAuth is complete, show the "config complete" page
+                returnedValue = <ConfigComplete language={props.language} uniconf={props.uniconf} />
                 break;
             case "OAUTH_REDIRECT":
                 returnedValue = null
                 window.location.replace(oauthStatus.url);
                 break;
+            case "REFRESH_PAGE":
+                returnedValue = null
+                // redirect to /config
+                break;
+            default:
+                returnedValue = null
+                // show wall and message
+                break;
+        }
+    } else {
+        switch (oauthStatus.error) {
             case "OAUTH_FAIL":
                 returnedValue = null
                 // oauth has failed
@@ -76,15 +87,31 @@ function Config(props) {
                 returnedValue = null
                 // show normal conf
                 break;
+            case "CONF_OK":
+                returnedValue = null
+                // show 404 error
+                break;
+            case "BAD_CLIENT_SECRET":
+                returnedValue = null
+                // show bad client secret error
+                break;
+            case "CANNOT_CONNECT_TO_MICROSOFT":
+                returnedValue = null
+                // show wall with cannot connect to ms
+                break;
+            case "CANNOT_CONNECT_TO_DISCORD":
+                returnedValue = null
+                // show wall with cannot connect to discord
+                break;
+            case "CANNOT_CONNECT_TO_GOOGLE":
+                returnedValue = null
+                // show wall with cannot connect to google
+                break;
             default:
+                // show wall plus the respective error
                 returnedValue = null
                 break;
         }
-    } else {
-        returnedValue = null
-        //        switch (oauthStatus.error) {
-        //
-        //        }
     }
     //return(JSON.stringify(getOauthStatus()))
 

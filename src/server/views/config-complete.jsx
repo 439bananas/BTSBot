@@ -10,17 +10,21 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-const Layout = require('./components/layout');
 const translate = require('./components/getLanguageString');
+const React = require('react');
 
-<Layout>
-    <div class="container">
-        <h1>{translate(lang, 'page_configcompleteheader', "express-engine-jsx")}</h1>
-        <p>
-            {translate(lang, 'page_confsuccessfulpart1', "express-engine-jsx") + uniconf.projname + translate(lang, 'page_confsuccessfulpart2', "express-engine-jsx")}
-            <br />
-            {translate(lang, 'page_confsuccessfuldiag', "express-engine-jsx")}
-        </p>
-        <input type='submit' class='button' value={translate(lang, 'page_globalnext', "express-engine-jsx")} title={translate(lang, 'page_globalnext', "express-engine-jsx")} id="ConfigCompleteNextButton" />
-    </div>
-</Layout>
+function ConfigComplete(props) {
+    return (
+        <div className="container">
+            <h1>{translate(props.language, 'page_configcompleteheader')}</h1>
+            <p>
+                {translate(props.language, 'page_confsuccessfulpart1') + props.uniconf.projname + translate(props.language, 'page_confsuccessfulpart2')}
+                <br />
+                {translate(props.language, 'page_confsuccessfuldiag')}
+            </p>
+            <input type='submit' className='button' value={translate(props.language, 'page_globalnext')} title={translate(props.language, 'page_globalnext')} id="ConfigCompleteNextButton" />
+        </div>
+    )
+}
+
+module.exports = ConfigComplete;
