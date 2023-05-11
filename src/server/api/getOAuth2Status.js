@@ -51,7 +51,6 @@ async function attemptRedisConnectionCreation() {
             return redisConnectionWorks // ? We wait for Redis connection to be established
         }
     } catch (err) {
-        console.log(err)
         void err
     }
 }
@@ -118,7 +117,7 @@ async function googleOauth2(req, res, conf) { // Cope with Google's OAuth2 in a 
             } else { // Else, restart OAuth2 verification
                 res.clearCookie("googlebearertoken")
                 oAuthUrl = await getgoogletoken(conf.googleclientid, conf.googleclientsecret, ['https://www.googleapis.com/auth/userinfo.profile'], getaddress(req) + "/config")
-                res.stasjson({ message: "OAUTH_REDIRECT", url: oAuthUrl })
+                res.status(200).json({ message: "OAUTH_REDIRECT", url: oAuthUrl })
             }
         } catch (err) {
             res.status(400).json({ error: "CANNOT_CONNECT_TO_GOOGLE" }) // And if there is an error then we probably can't connect to Google.

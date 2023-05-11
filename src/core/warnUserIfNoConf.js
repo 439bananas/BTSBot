@@ -64,6 +64,5 @@ getlang().then(async lang => {
                 log.warn(translate(lang, 'log_unknownerror') + uniconf.discord)
                 break;
         }
-        if (typeof(conf) != "undefined") console.log(conf)
     })
 })

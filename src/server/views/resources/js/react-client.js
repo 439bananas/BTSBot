@@ -44,7 +44,6 @@ async function checkConfExists() {
 async function getConfPath() {
     let rawResonse = await fetch('/api/conf-path');
     let response = await rawResonse.json();
-    console.log(response)
     return response
 }
 
@@ -56,7 +55,6 @@ async function getUniconf() {
 
 async function hydrateDOM() { // Hydrating the script means that the client can pick up the other side and continue with the SPA without a problem
     let ready = await checkConfExists()
-    console.log(ready)
     if (ready.confExists) { // Does conf exist? Hydrate te React application according to whether it does
         ReactDOM.hydrate(
             <BrowserRouter>

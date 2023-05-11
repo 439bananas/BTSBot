@@ -45,7 +45,7 @@ function getOauthStatus(query) {
         }
 
         fetchOauthStatus()
-    }, [])
+    })
 
     return oauthStatus
 }
@@ -62,11 +62,11 @@ function Config(props) {
                 break;
             case "OAUTH_REDIRECT":
                 returnedValue = null
-                window.location.replace(oauthStatus.url);
+                window.location.replace(oauthStatus.url); // Redirect to suggested URL
                 break;
             case "REFRESH_PAGE":
                 returnedValue = null
-                // redirect to /config
+                window.location.reload; // Reload page if told to refresh
                 break;
             default:
                 returnedValue = null

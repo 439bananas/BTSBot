@@ -26,7 +26,7 @@ function getConfig() {
         }
 
         fetchConfInfo()
-    }, [])
+    })
 
     return confInfo
 }
@@ -66,8 +66,6 @@ function ErrorDiag(props) {
                 break
         }
     }
-    console.log(errorDiag)
-    console.log(props.err)
     return errorDiag
 };
 
