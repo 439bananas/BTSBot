@@ -10,8 +10,6 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-const getGuilds = require("./getUserGuilds")
-
 async function getUserPermissions(guild) {
     let permissions = [] // Permissions should be definitely an array
     let permissionsint // Initialise permissions integer

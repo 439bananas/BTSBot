@@ -34,8 +34,6 @@ const showwall = require('./displayWall')
 const getUserLang = require('../core/getUserLang')
 let faviconfilename
 let excludedApis = ["version", "uniconf", "ready"]
-let confExists
-let confErr
 let user
 
 app.set('views', path.join(__dirname, '..', 'src', 'server', 'views'))
@@ -76,127 +74,135 @@ app.all('/*', async function (req, res, next) { // Log incoming requests
     })
 });
 
-app.get('/*', async function (req, res, next) { // Block Internet Explorer
-    global.requestsToDiscord = 0
-    user = {}
-    try {
-        url = req.url.split('/')
-        if (url[1] != "resources" && !(url[1] == "api" && (url[2] == "uniconf" || url[2] == "version")) || (url[1] == "api" && url[2] == "ready")) {
-            confExists = await checkConf()
-        } else confExists = true
-    } catch (err) {
-        confErr = err
-        confExists = false
-    }
-    let lang = await getUserLang(req)
-    let urls = req.url.split('/') // Split our URLs where there is a / and add to array
-    if ((req.get('user-agent') && (req.get('user-agent').includes("MSIE") || req.get('user-agent').includes("Trident"))) && urls[1].toLowerCase() != "resources") { // IE has two user agents; MSIE and Trident. Trident is only used in IE 11. Also check if we are not accessing resources (so we can load CSS)
-        res.locals.uniconf = uniconf
-        res.locals.title = " "
-        res.locals.lang = lang
-        res.render('ie-detect-error') // Display error
-    } else if (!req.get('user-agent')) {
-        res.status(400).json({ "error": "NO_BOTS" })
-    } else { // If there are MySQL and Redis connections, try querying the database for the user
-        if (typeof (redisConnection) != "undefined" && typeof (MySQLConnection) != "undefined" && req.cookies.discordbearertoken && urls[1].toLowerCase() != "resources") {
-            try {
-                user = await getDiscordUser(req.cookies.discordbearertoken)
+app.all('/*', async function (req, res, next) { // Block Internet Explorer
+    async function validateConf() {
+        let confExists
+        let confErr
+        user = {}
+        try {
+            url = req.url.split('/')
+            if ((url[1] != "resources" && !(url[1] == "api" && (url[2] == "uniconf" || url[2] == "version"))) || (url[1] == "api" && url[2] == "ready")) {
+                confExists = await checkConf()
+            } else confExists = true
+        } catch (err) {
+            confErr = err
+            confExists = false
+        }
+        let lang = await getUserLang(req)
+        let urls = req.url.split('/') // Split our URLs where there is a / and add to array
+        if ((req.get('user-agent') && (req.get('user-agent').includes("MSIE") || req.get('user-agent').includes("Trident"))) && urls[1].toLowerCase() != "resources") { // IE has two user agents; MSIE and Trident. Trident is only used in IE 11. Also check if we are not accessing resources (so we can load CSS)
+            res.locals.uniconf = uniconf
+            res.locals.title = " "
+            res.locals.lang = lang
+            res.render('ie-detect-error') // Display error
+        } else if (!req.get('user-agent')) {
+            res.status(400).json({ "error": "NO_BOTS" })
+        } else { // If there are MySQL and Redis connections, try querying the database for the user
+            if (typeof (redisConnection) != "undefined" && typeof (MySQLConnection) != "undefined" && req.cookies.discordbearertoken && urls[1].toLowerCase() != "resources") {
                 try {
-                    let userRow = await MySQLConnection.query('SELECT * FROM user WHERE id=?', [user.id]) // If there is no user entry, add it to the database
-                    if (!userRow[0][0]) {
-                        let theme = 0
-                        if (req.cookies.theme == "light") {
-                            theme = 1
+                    user = await getDiscordUser(req.cookies.discordbearertoken)
+                    try {
+                        let userRow = await MySQLConnection.query('SELECT * FROM user WHERE id=?', [user.id]) // If there is no user entry, add it to the database
+                        if (!userRow[0][0]) {
+                            let theme = 0
+                            if (req.cookies.theme == "light") {
+                                theme = 1
+                            }
+                            try {
+                                let response = MySQLConnection.query('INSERT INTO user (id, email, language, theme, stringsTranslated) VALUES (?, ?, ?, ?, 0)', [user.id, user.email, user.locale, theme])
+                                void response
+                                next()
+                            } catch (err) { // If there is an error, display a wall
+                                if ((err.code == "ER_TABLEACCESS_DENIED_ERROR" || err.code == "ER_DBACCESS_DENIED_ERROR")) {
+                                    showwall(res, lang, uniconf.projname + translate(lang, "page_missingdbperms"), translate(lang, "page_missingdbpermsdiagpart1") + conf.database + translate(lang, "page_missingdbpermsdiagpart2") + '\'' + conf.dbusername + '\'@\'' + conf.hostname + '\'.')
+                                } else if (!(err.code == "ER_TABLEACCESS_DENIED_ERROR" || err.code == "ER_DBACCESS_DENIED_ERROR")) {
+                                    log.error(err)
+                                    showwall(res, conf.language, translate(lang, "page_confunknownerror"), translate(lang, "page_wallunknownerrordiag"))
+                                } else next()
+                            }
+                        } else if (userRow[0] != user.email) { // If email is outdated, update in database
+                            try {
+                                let response = await MySQLConnection.query('UPDATE user SET email=? WHERE id=?', [user.email, user.id])
+                                next()
+                            } catch (err) { // error -> display wall
+                                if ((err.code == "ER_TABLEACCESS_DENIED_ERROR" || err.code == "ER_DBACCESS_DENIED_ERROR")) {
+                                    showwall(res, lang, uniconf.projname + translate(lang, "page_missingdbperms"), translate(lang, "page_missingdbpermsdiagpart1") + conf.database + translate(lang, "page_missingdbpermsdiagpart2") + '\'' + conf.dbusername + '\'@\'' + conf.hostname + '\'.')
+                                } else if (!(err.code == "ER_TABLEACCESS_DENIED_ERROR" || err.code == "ER_DBACCESS_DENIED_ERROR")) {
+                                    log.error(err)
+                                    showwall(res, conf.language, translate(lang, "page_confunknownerror"), translate(lang, "page_wallunknownerrordiag"))
+                                } else next()
+                            }
                         }
-                        try {
-                            let response = MySQLConnection.query('INSERT INTO user (id, email, language, theme, stringsTranslated) VALUES (?, ?, ?, ?, 0)', [user.id, user.email, user.locale, theme])
-                            void response
-                            next()
-                        } catch (err) { // If there is an error, display a wall
-                            if ((err.code == "ER_TABLEACCESS_DENIED_ERROR" || err.code == "ER_DBACCESS_DENIED_ERROR")) {
-                                showwall(res, lang, uniconf.projname + translate(lang, "page_missingdbperms"), translate(lang, "page_missingdbpermsdiagpart1") + conf.database + translate(lang, "page_missingdbpermsdiagpart2") + '\'' + conf.dbusername + '\'@\'' + conf.hostname + '\'.')
-                            } else if (!(err.code == "ER_TABLEACCESS_DENIED_ERROR" || err.code == "ER_DBACCESS_DENIED_ERROR")) {
-                                log.error(err)
-                                showwall(res, conf.language, translate(lang, "page_confunknownerror"), translate(lang, "page_wallunknownerrordiag"))
-                            } else next()
-                        }
-                    } else if (userRow[0] != user.email) { // If email is outdated, update in database
-                        try {
-                            let response = await MySQLConnection.query('UPDATE user SET email=? WHERE id=?', [user.email, user.id])
-                            next()
-                        } catch (err) { // error -> display wall
-                            if ((err.code == "ER_TABLEACCESS_DENIED_ERROR" || err.code == "ER_DBACCESS_DENIED_ERROR")) {
-                                showwall(res, lang, uniconf.projname + translate(lang, "page_missingdbperms"), translate(lang, "page_missingdbpermsdiagpart1") + conf.database + translate(lang, "page_missingdbpermsdiagpart2") + '\'' + conf.dbusername + '\'@\'' + conf.hostname + '\'.')
-                            } else if (!(err.code == "ER_TABLEACCESS_DENIED_ERROR" || err.code == "ER_DBACCESS_DENIED_ERROR")) {
-                                log.error(err)
-                                showwall(res, conf.language, translate(lang, "page_confunknownerror"), translate(lang, "page_wallunknownerrordiag"))
-                            } else next()
+                    } catch (err) {
+                        if ((err.code == "ER_TABLEACCESS_DENIED_ERROR" || err.code == "ER_DBACCESS_DENIED_ERROR")) {
+                            showwall(res, lang, uniconf.projname + translate(lang, "page_missingdbperms"), translate(lang, "page_missingdbpermsdiagpart1") + conf.database + translate(lang, "page_missingdbpermsdiagpart2") + '\'' + conf.dbusername + '\'@\'' + conf.hostname + '\'.')
+                        } else if (!(err.code == "ER_TABLEACCESS_DENIED_ERROR" || err.code == "ER_DBACCESS_DENIED_ERROR")) {
+                            log.error(err)
+                            showwall(res, conf.language, translate(lang, "page_confunknownerror"), translate(lang, "page_wallunknownerrordiag"))
+                        } else {
+                            log.error(err)
+                            showwall(res, conf.language, translate(lang, "page_confunknownerror"), translate(lang, "page_wallunknownerrordiag"))
                         }
                     }
                 } catch (err) {
-                    if ((err.code == "ER_TABLEACCESS_DENIED_ERROR" || err.code == "ER_DBACCESS_DENIED_ERROR")) {
-                        showwall(res, lang, uniconf.projname + translate(lang, "page_missingdbperms"), translate(lang, "page_missingdbpermsdiagpart1") + conf.database + translate(lang, "page_missingdbpermsdiagpart2") + '\'' + conf.dbusername + '\'@\'' + conf.hostname + '\'.')
-                    } else if (!(err.code == "ER_TABLEACCESS_DENIED_ERROR" || err.code == "ER_DBACCESS_DENIED_ERROR")) {
-                        log.error(err)
-                        showwall(res, conf.language, translate(lang, "page_confunknownerror"), translate(lang, "page_wallunknownerrordiag"))
-                    } else {
-                        log.error(err)
-                        showwall(res, conf.language, translate(lang, "page_confunknownerror"), translate(lang, "page_wallunknownerrordiag"))
+                    try {
+                        let token = await refreshBearerToken(req.cookies.discordrefreshtoken) // If we can't get the user's info, refresh their bearer token and reload the page
+                        res.cookie("discordbearertoken", token.bearertoken, { maxAge: 604800000, httpOnly: true }) // Store bearer token and refresh token
+                        res.cookie('discordrefreshtoken', token.refreshtoken, { httpOnly: true })
+                        res.redirect(req.originalUrl)
+                    } catch (err) { // If we can't do that, err
+                        switch (err) {
+                            case "BAD_CLIENT_SECRET": // Show wall if bad client secret
+                                showwall(res, lang, translate(lang, 'page_loginbadclientsecret'), translate(lang, 'page_loginbadclientsecretdiag'))
+                                break;
+                            case "BAD_REFRESH_TOKEN": // Don't worry if bad refresh token
+                                next()
+                                break;
+                            default:
+                                showwall(res, conf.language, translate(lang, "page_confunknownerror"), translate(lang, "page_wallunknownerrordiag")) // Show wall if other error
+                                log.error(err)
+                                break;
+                        }
                     }
                 }
-            } catch (err) {
-                try {
-                    let token = await refreshBearerToken(req.cookies.discordrefreshtoken) // If we can't get the user's info, refresh their bearer token and reload the page
-                    res.cookie("discordbearertoken", token.bearertoken, { maxAge: 604800000, httpOnly: true }) // Store bearer token and refresh token
-                    res.cookie('discordrefreshtoken', token.refreshtoken, { httpOnly: true })
-                    res.redirect(req.originalUrl)
-                } catch (err) { // If we can't do that, err
-                    switch (err) {
-                        case "BAD_CLIENT_SECRET": // Show wall if bad client secret
-                            showwall(res, lang, translate(lang, 'page_loginbadclientsecret'), translate(lang, 'page_loginbadclientsecretdiag'))
-                            break;
-                        case "BAD_REFRESH_TOKEN": // Don't worry if bad refresh token
-                            next()
-                            break;
-                        default:
-                            showwall(res, conf.language, translate(lang, "page_confunknownerror"), translate(lang, "page_wallunknownerrordiag")) // Show wall if other error
-                            log.error(err)
-                            break;
-                    }
-                }
+            } else if ((typeof (redisConnection) === 'undefined' || typeof (MySQLConnection) === 'undefined') && urls[1].toLowerCase() != "resources" && confExists === true && !excludedApis.includes(urls[2])) { // Database can be accessed after downtime during initialisation of project
+                global.conf = require('../../configs/conf.json')
+                require('../database/databaseManager')
+                next()
+            } else {
+                next()
             }
-        } else if ((typeof (redisConnection) === 'undefined' || typeof (MySQLConnection) === 'undefined') && urls[1].toLowerCase() != "resources" && confExists === true && !excludedApis.includes(urls[2])) { // Database can be accessed after downtime during initialisation of project
-            global.conf = require('../../configs/conf.json')
-            require('../database/databaseManager')
-            next()
-        } else {
-            next()
         }
+        return {confExists: confExists, confErr: confErr}
     }
+
+    validateConf().then(re => {
+        app.use(favicon(path.join(__dirname, '..', 'src', 'server', 'views', 'resources', 'img', faviconfilename)))
+        app.use('/resources', resourcesRoutes) // Yeah let's get these resources
+        app.use('/api', function (req, res, next) {
+            req.confExists = re.confExists
+            req.confErr = re.confErr
+            req.user = user
+            next();
+        }, routes) // All API endpoints then begin with "/api"
+        app.use('/login', function (req, res, next) {
+            req.confExists = re.confExists
+            req.confErr = re.confErr
+            req.user = user
+            next();
+        }, loginRoutes) // Login
+        app.use('/logout', logoutRoutes) // And logging out
+        app.use('*', function (req, res, next) {
+            req.confExists = re.confExists
+            req.confErr = re.confErr
+            req.user = user
+            next();
+        }, interfaceRoutes)
+    })
 })
 
-app.use(favicon(path.join(__dirname, '..', 'src', 'server', 'views', 'resources', 'img', faviconfilename)))
-/*app.use('/config', confpage) // Fun fact, I forgot to call this file, and wondered why I was getting 404s on /config*/
-app.use('/resources', resourcesRoutes) // Yeah let's get these resources
-app.use('/api', function (req, res, next) {
-    req.confExists = confExists
-    req.confErr = confErr
-    req.user = user
-    next();
-}, routes) // All API endpoints then begin with "/api"
-app.use('/login', function (req, res, next) {
-    req.confExists = confExists
-    req.confErr = confErr
-    req.user = user
-    next();
-}, loginRoutes) // Login
-app.use('/logout', logoutRoutes) // And logging out
-app.use('*', function (req, res, next) {
-    req.confExists = confExists
-    req.confErr = confErr
-    req.user = user
-    next();
-}, interfaceRoutes)
+fetch("http://127.0.0.1:" + uniconf.port) // This is very janky but it ensures that there isn't any kind of "Cannot GET /" error when getting the server for the first time. If there is a fix for this, please let me know!!
+
 /*app.use('/', function (req, res, next) {
     req.confExists = confExists
     req.confErr = confErr

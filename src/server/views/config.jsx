@@ -10,23 +10,19 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-const Layout = require('./components/layout');
+const { useState, useEffect } = require('react');
+const React = require('react')
 const translate = require('./components/getLanguageString');
-
 // small problem for config
 // how on earth are we supposed to deal with oauth2 at this point??
 // call an api which checks if oauth2 validation is required
-// how the api works:
-// it should be similar to validateOAuth2.js ngl
-//
-// back to this file:
 // if response is "OAUTH_OK" then show the user the "config complete" page. THE API ENDPOINT SHOULD AUTOMATICALLY RESTART THE APPLICATION
 // if it's "OAUTH_REDIRECT" then redirect to the specified url
 // if it's "OAUTH_FAIL" then show a failure
 // if "TOKEN_FAIL" then show that error
 // if "NO_CONF" then just show the page without any failures
 // if "CONF_OK" then display a 404
-// if "REFRESH_PAGE", refresh the page
+// if "REFRESH_PAGE", redirect to /config without the code
 // if "BAD_CLIENT_SECRET", show the same page but show the bad client secret error
 // if "CANNOT_CONNECT_TO_MICROSOFT", show the wall and show that error
 // if "CANNOT_CONNECT_TO_DISCORD", ditto as for microsoft (but show the discord error)
@@ -35,7 +31,71 @@ const translate = require('./components/getLanguageString');
 // if the conf does exist, get the config from the api and set these options as default
 // the api will need to be modified to get the entire config, excluding any and all passwords or tokens
 
-function Languages() {
+function getOauthStatus(query) {
+    const [oauthStatus, setOauthStatus] = useState([])
+    const queryString = new URLSearchParams(query).toString()
+
+    useEffect(() => {
+
+        async function fetchOauthStatus() {
+            let rawResponse = await fetch("/api/oauth2-status?" + queryString)
+            let response = await rawResponse.json()
+            setOauthStatus(response)
+        }
+
+        fetchOauthStatus()
+    }, [])
+
+    return oauthStatus
+}
+
+function Config(props) {
+    let returnedValue
+
+    let oauthStatus = getOauthStatus(props.queryString)
+
+    if (oauthStatus.message) {
+        switch (oauthStatus.message) {
+            case "OAUTH_OK":
+                // config complete
+                returnedValue = null
+                break;
+            case "OAUTH_REDIRECT":
+                returnedValue = null
+                window.location.replace(oauthStatus.url);
+                break;
+            case "OAUTH_FAIL":
+                returnedValue = null
+                // oauth has failed
+                break;
+            case "TOKEN_FAIL":
+                returnedValue = null
+                // show token failure
+                break;
+            case "NO_CONF":
+                returnedValue = null
+                // show normal conf
+                break;
+            default:
+                returnedValue = null
+                break;
+        }
+    } else {
+        returnedValue = null
+        //        switch (oauthStatus.error) {
+        //
+        //        }
+    }
+    //return(JSON.stringify(getOauthStatus()))
+
+    return returnedValue
+}
+
+module.exports = Config;
+
+//JSON.stringify(props.queryString)
+/*
+function Languages(langs) {
     let languageList = []
     langs.sort(function (a, b) {
         if (a[1] < b[1]) { return -1; }
@@ -266,136 +326,137 @@ function IMAPSSLOptions() {
                                     <div className="col">
                                         <label htmlFor='ostatus' className="required label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_status', "express-engine-jsx")}</label>
                                         <select className="form-select input-cIJ7To" name="ostatus" id="ostatus">
-                                            {/*Unfortunately, I would have styled the dropdown but apparently that's not possible? If it is, please submit a pull request right away.*/}
-                                            <OnlineStatusOptions />
-                                        </select>
-                                    </div>
-                                </div>
-                                <div className="row">
-                                    <div className="col">
-                                        <label htmlFor='guildid' className="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_supportguildid', "express-engine-jsx")}</label>
-                                        <input type='number' className="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='guildid' name='guildid' value={guildid} />
-                                    </div>
-                                    <div className="col">
-                                        <label htmlFor='moderatorsroleid' className="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_moderatorsroleid', "express-engine-jsx")}</label>
-                                        <input type='number' className="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='moderatorsroleid' name='moderatorsroleid' value={moderatorsroleid} />
-                                    </div>
-                                </div>
-                                <div className="row mt-3 justify-content-sm-end">
-                                    <a target="_blank" href="https://wiki.btsbot.439bananas.com/wiki/Installing#Discord_configuration">{translate(lang, 'page_globalneedhelp', "express-engine-jsx")}</a>
-                                    <div className="col">
-                                        <input value={translate(lang, 'page_globalnext', "express-engine-jsx")} aria-expanded="false" className="button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCloud" aria-controls="collapseCloud" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="accordion-item">
-                        <h2 className="accordion-header" id="cloudHeading">
-                            <button className="accordion-button collapsed" title="yes i hate the word cloud" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCloud" aria-expanded="false" aria-controls="collapseCloud">
-                                {translate(lang, 'page_configstep4', "express-engine-jsx")}
-                            </button>
-                        </h2>
-                        <div id="collapseCloud" className="accordion-collapse collapse" aria-labelledby="cloudHeading" data-bs-parent="#configAccordion">
-                            <div className="accordion-body">
-                                <div className="row">
-                                    <div className="col">
-                                        <label htmlFor='googleclientid' className="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_googleclientid', "express-engine-jsx")}</label>
-                                        <input type='text' className="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='googleclientid' name='googleclientid' value={googleclientid} />
-                                    </div>
-                                    <div className="col">
-                                        <label htmlFor='googleclientsecret' className="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_googleclientsecret', "express-engine-jsx")}</label>
-                                        <input type='password' className="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='googleclientsecret' name='googleclientsecret' />
-                                    </div>
-                                </div>
-                                <div className="row">
-                                    <div className="col">
-                                        <label htmlFor='msclientid' className="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_msclientid', "express-engine-jsx")}</label>
-                                        <input type='text' className="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='msclientid' name='msclientid' value={msclientid} />
-                                    </div>
-                                    <div className="col">
-                                        <label htmlFor='msclientsecret' className="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_msclientsecret', "express-engine-jsx")}</label>
-                                        <input type='password' className="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='msclientsecret' name='msclientsecret' />
-                                    </div>
-                                </div>
-                                <div className="row mt-3 justify-content-sm-end">
-                                    <a target="_blank" href="https://wiki.btsbot.439bananas.com/wiki/Installing#Cloud_services_configuration">{translate(lang, 'page_globalneedhelp', "express-engine-jsx")}</a>
-                                    <div className="col">
-                                        <input value={translate(lang, 'page_globalnext', "express-engine-jsx")} aria-expanded="false" className="button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEmail" aria-controls="collapseEmail" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="accordion-item">
-                        <h2 className="accordion-header" id="emailHeading">
-                            <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEmail" aria-expanded="false" aria-controls="collapseEmail">
-                                {translate(lang, 'page_configstep5', "express-engine-jsx")}
-                            </button>
-                        </h2>
-                        <div id="collapseEmail" className="accordion-collapse collapse" aria-labelledby="emailHeading" data-bs-parent="#configAccordion">
-                            <div className="accordion-body">
-                                <div className="row">
-                                    <div className="col">
-                                        <label htmlFor='smtpserver' className="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_smtpserver', "express-engine-jsx")}</label>
-                                        <input type='text' className="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='smtpserver' name='smtpserver' value={smtpserver} />
-                                    </div>
-                                    <div className="col">
-                                        <label htmlFor='smtpport' className="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_smtpport', "express-engine-jsx")}</label>
-                                        <input type='number' className="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='smtpport' name='smtpport' min="1" max="65535" value={smtpport} />
-                                    </div>
-                                </div>
-                                <div className="row">
-                                    <div className="col">
-                                        <label htmlFor='smtpssl' className="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_smtpssl', "express-engine-jsx")}</label>
-                                        <select className="form-select input-cIJ7To" name="smtpssl" id="smtpssl">
-                                            <SMTPSSLOptions />
-                                        </select>
-                                    </div>
-                                    <div className="col">
-                                        <label htmlFor='imapserver' className="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_imapserver', "express-engine-jsx")}</label>
-                                        <input type='text' className="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='imapserver' name='imapserver' value={imapserver} />
-                                    </div>
-                                </div>
-                                <div className="row">
-                                    <div className="col">
-                                        <label htmlFor='imapport' className="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_imapport', "express-engine-jsx")}</label>
-                                        <input type='number' className="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='imapport' name='imapport' min="1" max="65535" value={imapport} />
-                                    </div>
-                                    <div className="col">
-                                        <label htmlFor='imapssl' className="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_imapssl', "express-engine-jsx")}</label>
-                                        <select className="form-select input-cIJ7To" name="imapssl" id="imapssl">
-                                            <IMAPSSLOptions />
-                                        </select>
-                                    </div>
-                                </div>
-                                <div className="row">
-                                    <div className="col">
-                                        <label htmlFor='emailaddress' className="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_configemailaddress', "express-engine-jsx")}</label>
-                                        <input type='text' className="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='emailaddress' name='emailaddress' value={emailaddress} />
-                                    </div>
-                                    <div className="col">
-                                        <label htmlFor='emailusername' className="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_configemailusername', "express-engine-jsx")}</label>
-                                        <input type='text' className="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='emailusername' name='emailusername' value={emailusername} />
-                                    </div>
-                                </div>
-                                <div className="row">
-                                    <div className="col">
-                                        <label htmlFor='emailpassword' className="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_configemailpassword', "express-engine-jsx")}</label>
-                                        <input type='password' className="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='emailpassword' name='emailpassword' />
-                                    </div>
-                                </div>
-                                <div className="row mt-3 justify-content-sm-end">
-                                    <a target="_blank" href="https://wiki.btsbot.439bananas.com/wiki/Installing#Email_configuration">{translate(lang, 'page_globalneedhelp', "express-engine-jsx")}</a>
-                                    <div className="col">
-                                        <input type='submit' className='submit button' value={translate(lang, "page_globalsubmit", "express-engine-jsx")} id="SubmitConfButton" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </form>
-    </div>
+                                            {/*Unfortunately, I would have styled the dropdown but apparently that's not possible? If it is, please submit a pull request right away.*//*}
+<OnlineStatusOptions />
+</select>
+</div>
+</div>
+<div className="row">
+<div className="col">
+<label htmlFor='guildid' className="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_supportguildid', "express-engine-jsx")}</label>
+<input type='number' className="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='guildid' name='guildid' value={guildid} />
+</div>
+<div className="col">
+<label htmlFor='moderatorsroleid' className="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_moderatorsroleid', "express-engine-jsx")}</label>
+<input type='number' className="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='moderatorsroleid' name='moderatorsroleid' value={moderatorsroleid} />
+</div>
+</div>
+<div className="row mt-3 justify-content-sm-end">
+<a target="_blank" href="https://wiki.btsbot.439bananas.com/wiki/Installing#Discord_configuration">{translate(lang, 'page_globalneedhelp', "express-engine-jsx")}</a>
+<div className="col">
+<input value={translate(lang, 'page_globalnext', "express-engine-jsx")} aria-expanded="false" className="button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCloud" aria-controls="collapseCloud" />
+</div>
+</div>
+</div>
+</div>
+</div>
+<div className="accordion-item">
+<h2 className="accordion-header" id="cloudHeading">
+<button className="accordion-button collapsed" title="yes i hate the word cloud" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCloud" aria-expanded="false" aria-controls="collapseCloud">
+{translate(lang, 'page_configstep4', "express-engine-jsx")}
+</button>
+</h2>
+<div id="collapseCloud" className="accordion-collapse collapse" aria-labelledby="cloudHeading" data-bs-parent="#configAccordion">
+<div className="accordion-body">
+<div className="row">
+<div className="col">
+<label htmlFor='googleclientid' className="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_googleclientid', "express-engine-jsx")}</label>
+<input type='text' className="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='googleclientid' name='googleclientid' value={googleclientid} />
+</div>
+<div className="col">
+<label htmlFor='googleclientsecret' className="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_googleclientsecret', "express-engine-jsx")}</label>
+<input type='password' className="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='googleclientsecret' name='googleclientsecret' />
+</div>
+</div>
+<div className="row">
+<div className="col">
+<label htmlFor='msclientid' className="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_msclientid', "express-engine-jsx")}</label>
+<input type='text' className="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='msclientid' name='msclientid' value={msclientid} />
+</div>
+<div className="col">
+<label htmlFor='msclientsecret' className="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_msclientsecret', "express-engine-jsx")}</label>
+<input type='password' className="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='msclientsecret' name='msclientsecret' />
+</div>
+</div>
+<div className="row mt-3 justify-content-sm-end">
+<a target="_blank" href="https://wiki.btsbot.439bananas.com/wiki/Installing#Cloud_services_configuration">{translate(lang, 'page_globalneedhelp', "express-engine-jsx")}</a>
+<div className="col">
+<input value={translate(lang, 'page_globalnext', "express-engine-jsx")} aria-expanded="false" className="button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEmail" aria-controls="collapseEmail" />
+</div>
+</div>
+</div>
+</div>
+</div>
+<div className="accordion-item">
+<h2 className="accordion-header" id="emailHeading">
+<button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEmail" aria-expanded="false" aria-controls="collapseEmail">
+{translate(lang, 'page_configstep5', "express-engine-jsx")}
+</button>
+</h2>
+<div id="collapseEmail" className="accordion-collapse collapse" aria-labelledby="emailHeading" data-bs-parent="#configAccordion">
+<div className="accordion-body">
+<div className="row">
+<div className="col">
+<label htmlFor='smtpserver' className="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_smtpserver', "express-engine-jsx")}</label>
+<input type='text' className="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='smtpserver' name='smtpserver' value={smtpserver} />
+</div>
+<div className="col">
+<label htmlFor='smtpport' className="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_smtpport', "express-engine-jsx")}</label>
+<input type='number' className="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='smtpport' name='smtpport' min="1" max="65535" value={smtpport} />
+</div>
+</div>
+<div className="row">
+<div className="col">
+<label htmlFor='smtpssl' className="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_smtpssl', "express-engine-jsx")}</label>
+<select className="form-select input-cIJ7To" name="smtpssl" id="smtpssl">
+<SMTPSSLOptions />
+</select>
+</div>
+<div className="col">
+<label htmlFor='imapserver' className="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_imapserver', "express-engine-jsx")}</label>
+<input type='text' className="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='imapserver' name='imapserver' value={imapserver} />
+</div>
+</div>
+<div className="row">
+<div className="col">
+<label htmlFor='imapport' className="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_imapport', "express-engine-jsx")}</label>
+<input type='number' className="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='imapport' name='imapport' min="1" max="65535" value={imapport} />
+</div>
+<div className="col">
+<label htmlFor='imapssl' className="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_imapssl', "express-engine-jsx")}</label>
+<select className="form-select input-cIJ7To" name="imapssl" id="imapssl">
+<IMAPSSLOptions />
+</select>
+</div>
+</div>
+<div className="row">
+<div className="col">
+<label htmlFor='emailaddress' className="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_configemailaddress', "express-engine-jsx")}</label>
+<input type='text' className="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='emailaddress' name='emailaddress' value={emailaddress} />
+</div>
+<div className="col">
+<label htmlFor='emailusername' className="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_configemailusername', "express-engine-jsx")}</label>
+<input type='text' className="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='emailusername' name='emailusername' value={emailusername} />
+</div>
+</div>
+<div className="row">
+<div className="col">
+<label htmlFor='emailpassword' className="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(lang, 'page_configemailpassword', "express-engine-jsx")}</label>
+<input type='password' className="inputDefault-_djjkz input-cIJ7To size16-1__VVI" id='emailpassword' name='emailpassword' />
+</div>
+</div>
+<div className="row mt-3 justify-content-sm-end">
+<a target="_blank" href="https://wiki.btsbot.439bananas.com/wiki/Installing#Email_configuration">{translate(lang, 'page_globalneedhelp', "express-engine-jsx")}</a>
+<div className="col">
+<input type='submit' className='submit button' value={translate(lang, "page_globalsubmit", "express-engine-jsx")} id="SubmitConfButton" />
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</form>
+</div>
 </Layout>
+*/
