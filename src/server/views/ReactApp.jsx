@@ -35,6 +35,7 @@ function App(props) {
         </html>
     );*/
     if (!props.confExists) {
+        console.log("test")
         return (
             <body>
                 <Header DiscordUser={props.DiscordUser} language={props.language} uniconf={props.uniconf} />

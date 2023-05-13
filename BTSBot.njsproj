@@ -122,6 +122,7 @@
     <Content Include="src\server\views\components\getLanguageJSON.js" />
     <Content Include="src\server\views\components\getLanguageString.js" />
     <Content Include="src\server\views\components\logHandler.js" />
+    <Content Include="src\server\views\error-page-spa.jsx" />
     <Content Include="src\server\views\FP.jsx" />
     <Content Include="src\server\interface.jsx" />
     <Content Include="src\server\login.js" />

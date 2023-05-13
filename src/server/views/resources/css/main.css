@@ -442,3 +442,15 @@ a.guild-link {
         transform: rotate(360deg);
     }
 }
+
+pre {
+    background-color: #2f3136;
+    border-radius: 4px;
+    padding: 1em;
+    font-size: 0.75rem;
+    line-height: 1rem;
+    margin-top: 6px;
+    white-space: pre-wrap;
+    background-clip: border-box;
+    border-color: whitesmoke;
+}

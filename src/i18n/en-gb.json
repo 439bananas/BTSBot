@@ -62,6 +62,7 @@
   "page_wrongendpointdiagpart2": "the root of the server",
   "page_confunknownerror": "An unknown error has occurred.",
   "page_confunknownerrordiag": "Refer to the server and browser console for more details. If necessary, you can join our ",
+  "page_confunknownerrordiagspa": "Refer to the server console, the browser console and below for more details.",
   "page_defaultlanguagelabel": "Default language",
   "page_dbhostlabel": "Database host",
   "page_dbusernamelabel": "Username",
@@ -262,5 +263,6 @@
   "page_missingargsdiag": "Review the form for missing values.",
   "log_buildingproject": "Creating a production-optimised build...",
   "log_creatingconfdirectory": "Configuration directory doesn't exist; Creating!",
-  "log_testresponsefromredis": "Test response from Redis server: "
+  "log_testresponsefromredis": "Test response from Redis server: ",
+  "page_unknownerrorintro": "Here's the response from the API endpoint that led to this error:"
 }

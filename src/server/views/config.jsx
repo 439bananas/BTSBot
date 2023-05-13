@@ -14,6 +14,7 @@ const { useState, useEffect } = require('react');
 const React = require('react')
 const translate = require('./components/getLanguageString');
 const ConfigComplete = require('./config-complete');
+const ErrorPage = require('./error-page-spa');
 // small problem for config
 // how on earth are we supposed to deal with oauth2 at this point??
 // call an api which checks if oauth2 validation is required
@@ -37,7 +38,6 @@ function getOauthStatus(query) {
     const queryString = new URLSearchParams(query).toString()
 
     useEffect(() => {
-
         async function fetchOauthStatus() {
             let rawResponse = await fetch("/api/oauth2-status?" + queryString)
             let response = await rawResponse.json()
@@ -45,12 +45,15 @@ function getOauthStatus(query) {
         }
 
         fetchOauthStatus()
-    })
+    }, [])
+
+    console.log(oauthStatus)
 
     return oauthStatus
 }
 
 function Config(props) {
+    console.log("config is rendering")
     let returnedValue
 
     let oauthStatus = getOauthStatus(props.queryString)
@@ -61,23 +64,20 @@ function Config(props) {
                 returnedValue = <ConfigComplete language={props.language} uniconf={props.uniconf} />
                 break;
             case "OAUTH_REDIRECT":
-                returnedValue = null
                 window.location.replace(oauthStatus.url); // Redirect to suggested URL
                 break;
             case "REFRESH_PAGE":
-                returnedValue = null
-                window.location.reload; // Reload page if told to refresh
+                window.location.replace('/config'); // Reload page if told to refresh
                 break;
             default:
-                returnedValue = null
-                // show wall and message
+                returnedValue = <ErrorPage error={translate(props.language, "page_confunknownerror")} diag={translate(props.language, "page_confunknownerrordiagspa")} errorInfo={oauthStatus} language={props.language} />
                 break;
         }
     } else {
         switch (oauthStatus.error) {
             case "OAUTH_FAIL":
                 returnedValue = null
-                // oauth has failed
+                // oauth has failed, show bad client secret error
                 break;
             case "TOKEN_FAIL":
                 returnedValue = null
@@ -90,10 +90,6 @@ function Config(props) {
             case "CONF_OK":
                 returnedValue = null
                 // show 404 error
-                break;
-            case "BAD_CLIENT_SECRET":
-                returnedValue = null
-                // show bad client secret error
                 break;
             case "CANNOT_CONNECT_TO_MICROSOFT":
                 returnedValue = null
@@ -114,6 +110,8 @@ function Config(props) {
         }
     }
     //return(JSON.stringify(getOauthStatus()))
+
+    if (!returnedValue) returnedValue = null;
 
     return returnedValue
 }
