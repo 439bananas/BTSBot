@@ -2,7 +2,7 @@
 //                                                         //
 //                         BTS Bot                         //
 //                                                         //
-//                     File: ready.js                      //
+//                   File: getCookies.js                   //
 //                                                         //
 //               Author: Thomas (439bananas)               //
 //                                                         //
@@ -11,16 +11,10 @@
 /////////////////////////////////////////////////////////////
 
 const express = require('express');
-const router = express.Router()
-let returnedJSON
+const router = express.Router();
 
-router.get('/', async (req, res, next) => { // Fun fact: The project that this was based on, FLMS, originally had this file, but it was scrapped in BTS Bot since it was not deemed necessary. I guess it's back now
-    if (req.confExists) { // Does the config exist? If yes, return true. Else, return the error and false.
-        returnedJSON = { confExists: req.confExists }
-    } else {
-        returnedJSON = { confExists: req.confExists, confErr: req.confErr }
-    }
-    res.status(200).json(returnedJSON)
+router.get('/', async (req, res, next) => { // This API returns the user's cookies
+    res.status(200).json(req.cookies)
 })
 
 module.exports = router;

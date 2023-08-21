@@ -35,7 +35,6 @@ function App(props) {
         </html>
     );*/
     if (!props.confExists) {
-        console.log("test")
         return (
             <body>
                 <Header DiscordUser={props.DiscordUser} language={props.language} uniconf={props.uniconf} />
@@ -43,7 +42,7 @@ function App(props) {
                     <Routes>
                         <Route path="/">
                             <Route index element={<Noconfintro language={props.language} confErr={props.confErr} confPath={props.confPath} uniconf={props.uniconf} DiscordUser={{}} />} />
-                            <Route path="config" element={<Config language={props.language} confErr={props.confErr} uniconf={props.uniconf} queryString={props.queryString} />} />
+                            <Route path="config" element={<Config language={props.language} confErr={props.confErr} uniconf={props.uniconf} queryString={props.queryString} cookies={props.cookies} />} />
                             <Route path="*" element={<Error404 language={props.language} confErr={props.confErr} uniconf={props.uniconf} />} />
                         </Route>
                     </Routes>

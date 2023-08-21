@@ -53,7 +53,7 @@ function checkMySQL(hostname, username, password, database) {
                         reject('UNKNOWN_ERROR');
                 }
             } else {
-                resolve('OK') // If blow test successful, return OK
+                resolve('OK') // If success, return OK
             }
             connection.destroy()
         });

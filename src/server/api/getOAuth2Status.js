@@ -330,6 +330,7 @@ router.get('/', async (req, res, next) => { // Let's validate our OAuth2 with ra
         let lang = await getlang()
 
         attemptRedisConnectionCreation().then(r => {
+            console.log(r)
             if (typeof (redisConnection) != "undefined") {
                 require('../../database/redisFailureEvent') // Deal with failures etc
             }
@@ -337,6 +338,8 @@ router.get('/', async (req, res, next) => { // Let's validate our OAuth2 with ra
             if (r) { // Use r directly
                 log.info(translate(lang, "log_testresponsefromredis") + r) // -sigh-
                 validateOAuth2()
+            } else {
+                res.status(400).json({ error: "NO_CONF" })
             }
         });
     } else {

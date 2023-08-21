@@ -29,6 +29,12 @@ async function getlang() {
     return response
 }
 
+async function getCookies() {
+    let rawResonse = await fetch('/api/cookies');
+    let response = await rawResonse.json();
+    return response
+}
+
 async function getDefaultLang() {
     let rawResponse = await fetch('/api/language/default');
     let response = await rawResponse.json()
@@ -54,19 +60,25 @@ async function getUniconf() {
 }
 
 async function hydrateDOM() { // Hydrating the script means that the client can pick up the other side and continue with the SPA without a problem
-    let ready = await checkConfExists()
+    let uniconf = await getUniconf()
+    document.title = uniconf.projname // Set a default page title
+    let ready = await checkConfExists() // Declaring these reduces API calls
+    let defaultLang = await getDefaultLang()
+    let userLang = await getUserLang()
+    let fallbackLang = await getlang()
+ 
     if (ready.confExists) { // Does conf exist? Hydrate te React application according to whether it does
         ReactDOM.hydrate(
             <BrowserRouter>
-                <App language={{ preferred: await getUserLang(), fallback: await getlang(), default: await getDefaultLang() }} confExists={ready.confExists} />
+                <App language={{ preferred: await getUserLang(), fallback: await getlang(), default: await getDefaultLang() }} confExists={ready.confExists} cookies={await getCookies()} />
             </BrowserRouter>,
             document.documentElement
         );
     } else {
         ReactDOM.hydrate(
             <BrowserRouter>
-                <Head language={{ preferred: await getUserLang(), fallback: await getlang(), default: await getDefaultLang() }} uniconf={await getUniconf()} />
-                <App language={{ preferred: await getUserLang(), fallback: await getlang(), default: await getDefaultLang() }} confExists={ready.confExists} confErr={ready.confErr} confPath={await getConfPath()} uniconf={await getUniconf()} DiscordUser={{}} queryString={query2JSON(window.location.search)} />
+                <Head language={{ preferred: userLang, fallback: fallbackLang, default: defaultLang }} uniconf={uniconf} />
+                <App language={{ preferred: userLang, fallback: fallbackLang, default: defaultLang }} confExists={ready.confExists} confErr={ready.confErr} confPath={await getConfPath()} uniconf={uniconf} DiscordUser={{}} queryString={query2JSON(window.location.search)} cookies={await getCookies()} />
             </BrowserRouter>,
             document.documentElement
         );

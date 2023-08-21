@@ -11,18 +11,18 @@ body {
     line-height: 1.5;
 }
 
-h1, h2, h3 {
+h1, h2, h3, h4, h5 {
     font-family: ab;
     color: white;
 }
 
 a {
-    width:auto 
+    width: auto
 }
 
-a:hover {
-    text-decoration: underline;
-}
+    a:hover {
+        text-decoration: underline;
+    }
 
 input[type=submit] {
     color: white;
@@ -95,7 +95,7 @@ input[type=button] {
 
 .lookFilled-1Gx00P.colorGreen-29iAKY {
     color: #fff;
-    background-color: hsl(139,calc(var(--saturation-factor, 1)*47.3%),43.9%);
+    background-color: #f0600f;
 }
 
 .grow-q77ONN, .sizeIcon-1-kvKI {
@@ -138,7 +138,7 @@ button {
 }
 
 .lookFilled-1Gx00P.colorGreen-29iAKY:hover {
-    background-color: hsl(139,calc(var(--saturation-factor, 1)*47.1%),33.3%);
+    background-color: #d05010
 }
 
 .alert-box.danger {
@@ -360,8 +360,8 @@ input[type=number] {
 }
 
 .prerelease-warning {
-    background-color:#ff00ff;
-    color:#ffffff;
+    background-color: #ff00ff;
+    color: #ffffff;
     padding: calc(0.5ex + 0.5em);
     text-align: center;
     font-size: calc(1ex + 0.75em);
@@ -376,9 +376,9 @@ main {
     transition: filter 0.15s ease-in-out;
 }
 
-.guild-bot-not-in:hover {
-    filter: grayscale(0%);
-}
+    .guild-bot-not-in:hover {
+        filter: grayscale(0%);
+    }
 
 .guild-icon {
     width: 100px;
@@ -453,4 +453,51 @@ pre {
     white-space: pre-wrap;
     background-clip: border-box;
     border-color: whitesmoke;
+}
+
+@media only screen and (min-width: 768px) {
+    .config-signin-card {
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: space-between;
+    }
+}
+
+#config-createpassword-card {
+    width: calc(8% + 5ch + 6em + 9em);
+    min-height: calc(1ch + 9em + 5vw);
+    max-width: 100vw;
+    margin-top: calc(20vh + 3ch);
+}
+
+#confpassreqsnotmeterr {
+    display: none;
+}
+
+#configpasssexistserror {
+    display: none;
+}
+
+#confpassconfokerr {
+    display: none;
+}
+
+#confpassmissfieldserr {
+    display: none;
+}
+
+#confpassnomatcherr {
+    display: none;
+}
+
+#confpassunknownerr {
+    display: none;
+}
+
+#confpassnopassconfigurederr {
+    display: none;
+}
+
+#confpassauthfailederr {
+    display: none;
 }

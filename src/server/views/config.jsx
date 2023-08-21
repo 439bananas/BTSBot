@@ -15,6 +15,8 @@ const React = require('react')
 const translate = require('./components/getLanguageString');
 const ConfigComplete = require('./config-complete');
 const ErrorPage = require('./error-page-spa');
+const CreateConfigPassword = require('./create-configuration-password');
+const RequestConfigPassword = require('./enter-configuration-password');
 // small problem for config
 // how on earth are we supposed to deal with oauth2 at this point??
 // call an api which checks if oauth2 validation is required
@@ -33,7 +35,7 @@ const ErrorPage = require('./error-page-spa');
 // if the conf does exist, get the config from the api and set these options as default
 // the api will need to be modified to get the entire config, excluding any and all passwords or tokens
 
-function getOauthStatus(query) {
+function getOauthStatus(query) { // See if OAuth is ok, and if not, return any errors
     const [oauthStatus, setOauthStatus] = useState([])
     const queryString = new URLSearchParams(query).toString()
 
@@ -47,16 +49,43 @@ function getOauthStatus(query) {
         fetchOauthStatus()
     }, [])
 
-    console.log(oauthStatus)
-
     return oauthStatus
 }
 
+function checkConfigPasswordPresence() { // Is there a configuration password configured yet?
+    const [configPasswordPresence, setConfigPasswordPresence] = useState([])
+
+    useEffect(() => {
+        async function configPasswordExists() {
+            let rawResponse = await fetch("/api/config-password") // See if there is a password. If not, let's create one!
+            let response = await rawResponse.json()
+            setConfigPasswordPresence(response)
+        }
+
+        configPasswordExists()
+    }, [])
+
+    return configPasswordPresence
+}
+
+function CheckAuth(props) { // Check if there is yet an authentication token and if it is ok
+    let { token, error } = props;
+    let configPassword = checkConfigPasswordPresence()
+
+    if (configPassword.passwordExists === false) { // If no password, show a "create password" form
+        return <CreateConfigPassword language={props.language} uniconf={props.uniconf} />
+    } else if (!token) { // Else if no token, show a form requesting a password
+        return <RequestConfigPassword language={props.language} uniconf={props.uniconf} />
+    } else { // Continue to configuration
+        return "config"
+    }
+}
+
 function Config(props) {
-    console.log("config is rendering")
     let returnedValue
 
     let oauthStatus = getOauthStatus(props.queryString)
+    let configPassword = checkConfigPasswordPresence() // I hate having this here but it prevents errors, so...
 
     if (oauthStatus.message) {
         switch (oauthStatus.message) {
@@ -74,10 +103,27 @@ function Config(props) {
                 break;
         }
     } else {
+        if (oauthStatus.error == "OAUTH_FAIL" || oauthStatus.error == "NO_CONF") {
+            returnedValue = <CheckAuth token={props.cookies.configtoken} error={oauthStatus.error} configPassword={configPassword} language={props.language} uniconf={props.uniconf} />
+        }
+        // if conf ok, show 404
+        // cannot connect to x? show wall with that error
+        // else show error on wall
+
+        /*
         switch (oauthStatus.error) {
             case "OAUTH_FAIL":
                 returnedValue = null
+                // new api endpoint
+                // this might serve a similar purpose to confPage.js???
+                // default-conf-settings
+                // if conf ok then return CONF_OK
+                // else see what the error is
+                // if the error is MISSING_FIELDS then call a function that determines what settings are missing, etc
+                // if the error is false then call that same function after checking interim conf to see if the conf exists
+                // else, return unknown error
                 // oauth has failed, show bad client secret error
+                // hold up because we also need to deal with authorisation???
                 break;
             case "TOKEN_FAIL":
                 returnedValue = null
@@ -107,7 +153,7 @@ function Config(props) {
                 // show wall plus the respective error
                 returnedValue = null
                 break;
-        }
+        }*/
     }
     //return(JSON.stringify(getOauthStatus()))
 

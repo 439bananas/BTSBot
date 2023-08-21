@@ -264,5 +264,16 @@
   "log_buildingproject": "Creating a production-optimised build...",
   "log_creatingconfdirectory": "Configuration directory doesn't exist; Creating!",
   "log_testresponsefromredis": "Test response from Redis server: ",
-  "page_unknownerrorintro": "Here's the response from the API endpoint that led to this error:"
+  "page_unknownerrorintro": "Here's the response from the API endpoint that led to this error:",
+  "page_configauthenticationtitle": "Authentication",
+  "page_configpassword": "Config password",
+  "page_configreenterpassword": "Re-enter password",
+  "page_configpasswordrequirementsnotmet": "Password requirements not met. See the linked wiki page for a list of requirements.",
+  "page_configpasswordexists": "The configuration password already exists. Refresh the page or delete the password hash in /configs/passwordhash.json",
+  "page_configpasswordconfok": "The configuration already exists and has no errors.",
+  "page_configpasswordmissingfields": "There are fields missing from the request. Refresh the page or open this page in InPrivate mode.",
+  "page_configpasswordsnonmatching": "Passwords don't match",
+  "page_configpasswordsunknownerror": "An unknown error happened. See the server and browser consoles to see what happened.",
+  "page_configpasswordnopassconfigured": "No configuration password has been configured. Refresh the page to configure one.",
+  "page_configpasswordauthfailed": "Incorrect password"
 }

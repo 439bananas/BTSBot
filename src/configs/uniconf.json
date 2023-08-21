@@ -7,6 +7,9 @@
   "defaultlanguage": "en-gb",
   "perms": "1495625362655",
   "defaultemail": "btsbot@439bananas.com",
+  "defaulthashingrounds": 32,
+  "countvisiblesettings": 22,
+  "hashmemorycost": 14,
   "settings": [
     [ "language", "en-gb" ],
     [ "hostname", "127.0.0.1" ],

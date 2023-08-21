@@ -109,7 +109,9 @@ function Noconfintro(props) {
             </div>
             <div className="container" style={{ paddingTop: 1.25 + "em" }}>
                 <ErrorMessage err={props.confErr} language={props.language} uniconf={props.uniconf} confPath={props.confPath} />
-                <input type='submit' id="NextButton" className='button' value={translate(props.language, 'page_globalnext')} title={translate(props.language, 'page_globalnext')} />
+                <button type="button" id="NextButton" className="button-1x2ahC button-38aScr lookFilled-1Gx00P colorGreen-29iAKY sizeSmall-2cSMqn grow-q77ONN">
+                    <div className="contents-18-Yxp">{translate(props.language, "page_globalnext")}</div>
+                </button>
             </div>
         </div>
     )
