@@ -21,7 +21,12 @@ router.get('/', async (req, res, next) => { // Get the configuration to show to 
     if (!fs.existsSync(path.join(__dirname, '..', 'configs', 'logintokens.json')) || !req.cookies.configtoken) { // If no login tokens, then obviously configuration token is not valid
         res.json({ error: "TOKEN_INVALID" })
     } else {
-        let { tokens } = require('../../../configs/logintokens.json') // Else, require the login tokens
+        let tokensFile = (fs.readFileSync(path.join(__dirname, '..', 'configs', 'logintokens.json'), "utf8", function (err) { // Read, don't require, so that login tokens are updated live
+            if (err) {
+                throw err;
+            }
+        }))
+        let { tokens } = JSON.parse(tokensFile)
         if (tokens.includes(crypto.createHash('sha256').update(req.cookies.configtoken).digest('hex'))) { // If the configuration token is in the tokens, return true, else false
             let settings = {} // Set the baseline settngs
             let confinterim

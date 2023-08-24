@@ -61,7 +61,6 @@ async function getUniconf() {
 
 async function hydrateDOM() { // Hydrating the script means that the client can pick up the other side and continue with the SPA without a problem
     let uniconf = await getUniconf()
-    document.title = uniconf.projname // Set a default page title
     let ready = await checkConfExists() // Declaring these reduces API calls
     let defaultLang = await getDefaultLang()
     let userLang = await getUserLang()

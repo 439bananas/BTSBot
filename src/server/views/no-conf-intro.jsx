@@ -99,9 +99,11 @@ function ErrorMessage(props) {
     return error
 };
 function Noconfintro(props) {
+    if (typeof (document) != "undefined") {
+        document.title = props.uniconf.projname + " - " + translate(props.language, 'page_configpagetitle')
+    }
     return (
         <div>
-            <title>{props.uniconf.projname + " - " + translate(props.language, 'page_configpagetitle')}</title>
             <div className="global-intro-section">
                 <div className="container">
                     <h1>{translate(props.language, 'page_noconfintroheader')}</h1>

@@ -112,6 +112,7 @@
     <Content Include="src\i18n\fr-fr.json" />
     <Content Include="src\i18n\test.json" />
     <Content Include="src\server\api\configPassword.js" />
+    <Content Include="src\server\api\getAllLanguages.js" />
     <Content Include="src\server\api\getConf.js" />
     <Content Include="src\server\api\getConfPath.js" />
     <Content Include="src\server\api\getConfValues.js" />

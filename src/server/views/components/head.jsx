@@ -37,6 +37,7 @@ function Head(props) {
             <meta property="twitter:image" content={"https://" + props.uniconf.metadomain + "/resources/logo.png"} />
             <meta property="twitter:description" content={translate(props.language, 'page_globaldesc', 'express-engine-jsx')} />
             <meta property="theme-color" content="#f0600f" />
+            <title>{props.uniconf.projname}</title>
         </head>
     )
 }
