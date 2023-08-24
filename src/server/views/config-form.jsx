@@ -370,7 +370,6 @@ function ConfigForm(props) {
                                         <a target="_blank" href="https://wiki.btsbot.439bananas.com/wiki/Installing#Email_configuration">{translate(props.language, 'page_globalneedhelp')}</a>
                                         <div className="col">
                                             <input type='submit' className='submit button' value={translate(props.language, "page_globalsubmit")} id="SubmitConfButton" />
-                                            <big>Remember to write the buttons in React!!!</big>
                                         </div>
                                     </div>
                                 </div>

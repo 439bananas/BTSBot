@@ -139,8 +139,9 @@ function Config(props) {
     } else {
         if (oauthStatus.error == "OAUTH_FAIL" || oauthStatus.error == "NO_CONF") {
             returnedValue = <CheckAuth languages={languages.languages} token={props.cookies.configtoken} error={oauthStatus.error} configPassword={configPassword} language={props.language} uniconf={props.uniconf} settings={settings} />
+        } else if (oauthStatus.error == "CONF_OK") {
+            returnedValue = <Error404 language={props.language} confErr={props.confErr} uniconf={props.uniconf} />
         }
-        // if conf ok, show 404
         // cannot connect to x? show wall with that error
         // else show error on wall
 

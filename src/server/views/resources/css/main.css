@@ -24,42 +24,54 @@ a {
         text-decoration: underline;
     }
 
-input[type=submit] {
-    color: white;
-    background-color: #f0600f;
-    border: none;
-    padding: 1ex;
-    border-radius: 5px;
-    width: auto;
-}
-
-    input[type=submit]:hover {
-        color: #f0600f;
-        background-color: rgba(0, 0, 0, 0);
-        border: 0.2ex solid #f0600f;
-        padding: 0.8ex;
-    }
-
 .submit {
     display: block;
     margin-inline-start: auto;
 }
 
-input[type=button] {
-    color: white;
+input[type=button], input[type=submit] {
+    cursor: pointer;
     background-color: #f0600f;
-    border: none;
-    padding: 1ex;
-    border-radius: 5px;
-    display: block;
+    color: #fff;
     margin-inline-start: auto;
+    -webkit-appearance: button;
+    height: 32px;
+    min-width: 60px;
+    min-height: 32px;
+    width: auto;
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    border: none;
+    border-radius: 3px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 18px;
+    padding: 2px 16px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    text-transform: none;
+    text-rendering: auto;
+    letter-spacing: normal;
+    word-spacing: normal;
+    text-indent: 0px;
+    text-shadow: none;
+    text-align: center;
+    font-family: Arial;
 }
 
-    input[type=button]:hover {
-        color: #f0600f;
-        background-color: rgba(0, 0, 0, 0);
-        border: 0.2ex solid #f0600f;
-        padding: 0.8ex;
+    input[type=button]:hover, input[type=submit]:hover {
+        background-color: #d05010;
     }
 
 .button-1x2ahC {
