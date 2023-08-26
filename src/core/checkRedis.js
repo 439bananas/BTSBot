@@ -41,13 +41,14 @@ async function checkRedis(hostname, username, password, database) {
 
         try {
             await client.connect() // If all good, return "OK"
+            await client.set("redisWorks", 1)
             await client.disconnect() // And disconnect
             return "OK"
         }
         catch (err) { // If we have an error, see what the error is and throw based on that
-            if (err.code == "ENOTFOUND" || err.toString().includes("Connection timeout") || err.toString().includes("ECONNREFUSED")) {
+            if (err.code == "ENOTFOUND" || err.toString().includes("EHOSTUNREACH") || err.toString().includes("Connection timeout") || err.toString().includes("ECONNREFUSED")) {
                 throw "REDIS_CONNECTION_REFUSED";
-            } else if (err.toString().includes("WRONGPASS")) {
+            } else if (err.toString().includes("WRONGPASS") || err.toString().includes("NOAUTH")) {
                 throw "WRONGPASS";
             } else if (err.toString().includes("DB index is out of range")) {
                 throw "BAD_DATABASE";

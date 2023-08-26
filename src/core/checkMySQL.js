@@ -17,10 +17,10 @@ function checkMySQL(hostname, username, password, database) {
     // nope that was a very lengthy comment; also i think that comment was in thomas language!
     if(!connection) { // See first comment
         connection = mysql.createConnection({
-            host: hostname,
-            user: username,
-            password: password,
-            database: database
+            host: hostname.toString(),
+            user: username.toString(),
+            password: password.toString(),
+            database: database.toString()
         });
         connection.on('error', function(err) { // If there's an error, log and handle it, don't crash
             log.error(err);

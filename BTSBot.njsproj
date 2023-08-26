@@ -42,7 +42,7 @@
     <Content Include=".vscode\launch.json" />
     <Content Include="BTS Bot.code-workspace" />
     <Content Include="build\bundle.js" />
-    <Content Include="build\out.js" />
+    <Content Include="build\server.js" />
     <Content Include="configs\conf.json" />
     <Content Include="configs\configpasswordhash.json" />
     <Content Include="configs\confinterim.json" />
@@ -100,6 +100,7 @@
     <Content Include="src\core\logHandler.js" />
     <Content Include="src\core\refreshDiscordBearerToken.js" />
     <Content Include="src\core\restartProcess.js" />
+    <Content Include="src\core\validateConfigToken.js" />
     <Content Include="src\core\warnUserIfNoConf.js" />
     <Content Include="src\database\databaseManager.js" />
     <Content Include="src\database\mySQLGlobaliser.js" />
@@ -211,7 +212,6 @@
     <Content Include="src\server\views\resources\img\voicedemo.png" />
     <Content Include="src\server\views\resources\js\buttons.js" />
     <Content Include="src\server\views\resources\js\react-client.js" />
-    <Content Include="src\server\views\resources\js\smc.js" />
     <Content Include="src\server\views\servers.jsx">
       <SubType>Code</SubType>
     </Content>

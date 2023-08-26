@@ -35,10 +35,10 @@ async function checkDiscord(token) {
             throw 'UNKNOWN_DISCORD_ERROR'
         }
     } catch (err) {
-        if (err.name != "FetchError" && !(err.cause.name == "ConnectTimeoutError" || err.cause.code == "UND_ERR_CONNECT_TIMEOUT")) {
-            throw err
-        } else { // At some point when Discord's down (which is pretty frequent, I can't lie), we should test this! This currently only works as far as I know if the bot has no internet
+        if (err.name == "FetchError" || (err.cause && (err.cause.name == "ConnectTimeoutError" || err.cause.code == "UND_ERR_CONNECT_TIMEOUT"))) {
             throw 'CANNOT_CONNECT_TO_DISCORD'
+        } else { // At some point when Discord's down (which is pretty frequent, I can't lie), we should test this! This currently only works as far as I know if the bot has no internet
+            throw err
         }
     }
 }

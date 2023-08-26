@@ -19,7 +19,7 @@ log.initLog().then(file => { // Create logs directory if it doesn't exist and cr
     logFile = file
 })
 
-const child = new (forever.Monitor)('./build/out.js', { // Define calling createElements
+const child = new (forever.Monitor)('./build/server.js', { // Define calling createElements
     max: 0, // Unlimited times the script should run
     silent: false, // Log every output to the console
     args: [] // No args

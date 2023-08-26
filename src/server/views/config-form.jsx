@@ -44,6 +44,114 @@ function BadClientSecretError(props) { // Sow bad client secret error if bad cli
     }
 };
 
+async function submitConfigForm() {
+    window.event.preventDefault();
+    let captureConfigSubmitFormData = document.getElementById("configform") // Get contents of the form
+    let configSubmitForm = new FormData(captureConfigSubmitFormData) // Turn it into form data
+
+    document.getElementById("cannotcontactservererror").style.display = "none"; // Hide all pre-existing errors
+    document.getElementById("accessdeniederror").style.display = "none";
+    document.getElementById("incorrectcredentialserror").style.display = "none";
+    document.getElementById("redisconnectionrefusederror").style.display = "none";
+    document.getElementById("wrongpasserror").style.display = "none";
+    document.getElementById("baddatabaseerror").style.display = "none";
+    document.getElementById("invalidurlerror").style.display = "none";
+    document.getElementById("confokerror").style.display = "none";
+    document.getElementById("missingargserror").style.display = "none";
+    if (document.getElementById("badclientsecreterror") != null && typeof (document.getElementById("badclientsecreterror")) != "undefined") { // Forgot that it can be null
+        document.getElementById("badclientsecreterror").style.display = "none";
+    }
+    document.getElementById("cannotconnecttodiscorderror").style.display = "none";
+    document.getElementById("tokeninvaliderror").style.display = "none";
+    document.getElementById("unknowndiscorderror").style.display = "none";
+    document.getElementById("unknownerror").style.display = "none";
+    document.getElementById("connectionrefusederror").style.display = "none";
+
+    try {
+        let rawResponse = await fetch('/api/submit-config', { method: "POST", body: configSubmitForm }) // Submit to API for processing
+        let response = await rawResponse.json()
+
+        if (response.response) {
+            switch (response.response) {
+                case "VERIFY_CLIENT_SECRET": // Reloading will mean that the user gets the second step of config
+                    location.reload()
+                    break;
+                case "WRONG_ENDPOINT": // Show errors based on the response
+                    document.getElementById("wrongendpointerror").style.display = "block";
+                    break;
+                case "CONF_OK":
+                    document.getElementById("confokerror").style.display = "block"
+                    break;
+                case "INCORRECT_CREDENTIALS":
+                    document.getElementById("incorrectcredentialserror").style.display = "block"
+                    break;
+                case "ACCESS_DENIED":
+                    document.getElementById("userEnteredUsername").textContent = '\'' + response.dbusername + '\'@\'' + response.hostname + '\''
+                    document.getElementById("userEnteredDatabase").textContent = response.database + '.*'
+                    document.getElementById("accessdeniederror").style.display = "block"
+                    break;
+                case "CONNECTION_REFUSED":
+                    document.getElementById("connectionrefusederror").style.display = "block"
+                    document.getElementById("userEnteredMySQLHostname").textContent = response.hostname
+                    break;
+                case "REDIS_CONNECTION_REFUSED":
+                    document.getElementById("redisconnectionrefusederror").style.display = "block"
+                    document.getElementById("userEnteredRedisHostname").textContent = response.redishostname
+                    break;
+                case "WRONGPASS":
+                    document.getElementById("wrongpasserror").style.display = "block"
+                    break;
+                case "BAD_DATABASE":
+                    document.getElementById("baddatabaseerror").style.display = "block"
+                    break;
+                case "INVALID_URL":
+                    document.getElementById("invalidurlerror").style.display = "block"
+                    break;
+                case "WRONG_ENDPOINT":
+                    document.getElementById("wrongendpointerror").style.display = "block";
+                    break;
+                case "ACCESS_DENIED":
+                    document.getElementById("accessdeniederror").style.display = "block";
+                    break;
+                case "NO_MYSQL_CONF":
+                    document.getElementById("nomysqlconferror").style.display = "block";
+                    break;
+                case "CANNOT_CONNECT_TO_DISCORD":
+                    document.getElementById("cannotconnecttodiscorderror").style.display = "block";
+                    break;
+                case "INCORRECT_CREDENTIALS":
+                    document.getElementById("incorrectcredentialserror").style.display = "block";
+                    break;
+                case "MISSING_ARGS":
+                    document.getElementById("missingargserror").style.display = "block";
+                    break;
+                case "CONF_OK":
+                    document.getElementById("confokerror").style.display = "block";
+                    break;
+                case "TOKEN_INVALID":
+                    document.getElementById("tokeninvaliderror").style.display = "block";
+                    break;
+                case "UNKNOWN_DISCORD_ERROR":
+                    document.getElementById("unknowndiscorderror").style.display = "block";
+                    break;
+                case "INVALID_CONFIG_TOKEN": // Since the token is invalid, reload to display the enter password form
+                    location.reload()
+                    break;
+                default:
+                    document.getElementById("unknownerror").style.display = "block";
+                    console.log(response)
+                    break;
+            }
+        } else {
+            console.log(response) // If no valid response, log it to the console
+            document.getElementById("unknownerror").style.display = "none";
+        }
+    } catch (err) {
+        void err
+        document.getElementById("cannotcontactservererror").style.display = "block";
+    }
+}
+
 function ConfigForm(props) {
     if (typeof (document) != "undefined") {
         document.title = props.uniconf.projname + " - " + translate(props.language, 'page_configpagetitle')
@@ -88,7 +196,7 @@ function ConfigForm(props) {
                 {"SERVER_CONNECTION_REFUSED: " + translate(props.language, 'page_serverlostconnectionpart1') + uniconf.projname + translate(props.language, 'page_serverlostconnectionpart2')}<br />{translate(props.language, 'page_serverlostconnectiondiagpart1') + uniconf.projname + translate(props.language, 'page_serverlostconnectiondiagpart2')}<a href={uniconf.discord}>{translate(props.language, 'global_discorderver')}</a>{translate(props.language, 'page_serverlostconnectiondiagpart3')}
             </div>
             <div className="alert-box danger text-wrap" id="accessdeniederror">
-                {"ACCESS_DENIED: " + uniconf.projname + translate(props.language, 'page_accessdenied')}<br />{translate(props.language, 'page_accessdenieddiag')}
+                {"ACCESS_DENIED: " + uniconf.projname + translate(props.language, 'page_accessdenied')}<br />{translate(props.language, 'page_accessdenieddiagpart1')}<em id='userEnteredDatabase'></em>{translate(props.language, 'page_accessdenieddiagpart2')}<em id='userEnteredUsername'></em>?
             </div>
             <div className="alert-box danger text-wrap" id="connectionrefusederror">
                 {"CONNECTION_REFUSED: " + uniconf.projname + translate(props.language, 'page_dbconnectionrefused')}<em id='userEnteredMySQLHostname'></em>.<br />{translate(props.language, 'page_dbconnectionrefuseddiag')}
@@ -369,7 +477,7 @@ function ConfigForm(props) {
                                     <div className="row mt-3 justify-content-sm-end">
                                         <a target="_blank" href="https://wiki.btsbot.439bananas.com/wiki/Installing#Email_configuration">{translate(props.language, 'page_globalneedhelp')}</a>
                                         <div className="col">
-                                            <input type='submit' className='submit button' value={translate(props.language, "page_globalsubmit")} id="SubmitConfButton" />
+                                            <input type='submit' className='submit button' value={translate(props.language, "page_globalsubmit")} id="SubmitConfButton" onClick={submitConfigForm} />
                                         </div>
                                     </div>
                                 </div>

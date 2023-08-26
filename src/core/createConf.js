@@ -20,19 +20,19 @@ const getOwner = require('./getOwnerID')
 let confSettings
 let owner
 
-function createConf(req, res) { // Create interim conf so OAuth2 can be validated
+function createConf(req, res, fields) { // Create interim conf so OAuth2 can be validated
     return new Promise(function (resolve, reject) {
-        checkMySQL(req.fields.hostname, req.fields.dbusername, req.fields.dbpassword, req.fields.database).then(result => { // Check the given MySQL info
-            checkRedis(req.fields.redishostname, req.fields.redisusername, req.fields.redispassword, req.fields.redisdatabase).then(result => {
-                checkDiscord(req.fields.token).then(discordresult => { // Do the same with the token
+        checkMySQL(fields.hostname, fields.dbusername, fields.dbpassword, fields.database).then(result => { // Check the given MySQL info
+            checkRedis(fields.redishostname, fields.redisusername, fields.redispassword, fields.redisdatabase).then(result => {
+                checkDiscord(fields.token).then(discordresult => { // Do the same with the token
                     confSettings = "" // Assume there are no settings to start off with
                     for (i in uniconf.settings) { // Loop through the settings dictated by uniconf and append the respective line
                         if (uniconf.settings[i][0] != "ownerid" && uniconf.settings[i][0] != "smtpssl" && uniconf.settings[i][0] != "imapssl") {
-                            confSettings += "   \"" + uniconf.settings[i][0] + "\": \"" + req.fields[uniconf.settings[i][0]] + "\",\n"
+                            confSettings += "   \"" + uniconf.settings[i][0] + "\": \"" + fields[uniconf.settings[i][0]] + "\",\n"
                         } else if (uniconf.settings[i][0] == "smtpssl" || uniconf.settings[i][0] == "imapssl") {
-                            confSettings += "   \"" + uniconf.settings[i][0] + "\": " + req.fields[uniconf.settings[i][0]] + ",\n"
+                            confSettings += "   \"" + uniconf.settings[i][0] + "\": " + fields[uniconf.settings[i][0]] + ",\n"
                         } else {
-                            getOwner(req.fields.token).then(result => { // Get owner
+                            getOwner(fields.token).then(result => { // Get owner
                                 if (Array.isArray(result)) {
                                     owner = []
                                     for (i in result) {
@@ -70,10 +70,10 @@ function createConf(req, res) { // Create interim conf so OAuth2 can be validate
                     res.status(200);
                     res.json({
                         response: err,
-                        hostname: req.fields.hostname,
-                        redishostname: req.fields.redishostname,
-                        database: req.fields.database,
-                        dbusername: req.fields.dbusername
+                        hostname: fields.hostname,
+                        redishostname: fields.redishostname,
+                        database: fields.database,
+                        dbusername: fields.dbusername
                     })
                 }
             })
@@ -81,10 +81,10 @@ function createConf(req, res) { // Create interim conf so OAuth2 can be validate
             res.status(200);
             res.json({
                 response: err,
-                hostname: req.fields.hostname,
-                redishostname: req.fields.redishostname,
-                database: req.fields.database,
-                dbusername: req.fields.dbusername
+                hostname: fields.hostname,
+                redishostname: fields.redishostname,
+                database: fields.database,
+                dbusername: fields.dbusername
             })
         })
     })

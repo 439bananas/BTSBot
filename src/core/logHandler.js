@@ -45,11 +45,14 @@ function warn(message) {
  * @param {string} message - The message to error with
  */
 function error(message) {
+    const e = new Error();
+    const regex = /\((.*):(\d+):(\d+)\)$/
+    const match = regex.exec(e.stack.split("\n")[2]);
     getlang(true).then(lang => {
         if (path.basename(process.argv[1]) == "index.js") {
             translateMode = "express-engine-jsx"
         } else translateMode = undefined
-        console.error(`${colours.cyan(`${new Date()}`)} - ${`${translate(lang, 'loghandler_error', translateMode)}:`.red} ${message}`)
+        console.error(`${colours.cyan(`${new Date()}`)} - ${`${translate(lang, 'loghandler_error', translateMode)}:`.red} ${message} at ${__filename}:${match[2]}:${match[3]}`)
     })
 }
 

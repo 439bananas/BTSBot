@@ -77,10 +77,6 @@ router.get('/twemoji-amazing.css', (req, res) => { // Allows for emojis
     res.sendFile(path.resolve('./src/server/views/resources/css/twemoji-amazing.css'));
 });
 
-router.get('/smc.js', (req, res) => { // Submit MySQL frontend script from now on is auto-generated
-    res.sendFile(path.resolve('./src/server/views/resources/js/smc.js'));
-});
-
 router.get('/bundle.js', (req, res) => { // Bundler
     res.sendFile(path.resolve('./build/bundle.js'));
 });

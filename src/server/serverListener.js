@@ -13,7 +13,6 @@
 const checkConf = require('../core/checkConfExists')
 const express = require('express')
 const engine = require('express-engine-jsx');
-const title = require('express-title')
 const app = express()
 const favicon = require('serve-favicon')
 const routes = require('./routes')
@@ -60,8 +59,6 @@ switch (pkg.mode) {
 
 app.use(cookieParser()) // Deal with cookies
 app.use(createLocaleMiddleware())
-app.use(title()); // Set tab title
-app.set('title', uniconf.projname);
 
 app.all('/*', async function (req, res, next) { // Log incoming requests
     getlang().then(lang => {
