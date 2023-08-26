@@ -112,10 +112,12 @@
   "page_walltokeninvaliddiag": "To continue, you will need to paste a working token into ",
   "page_wallunknownerrordiag": "Please see the console for further details.",
   "page_wallcannotconnecttodiscord": " cannot connect to Discord.",
-  "page_wallcannotconnecttoservicediagpart1": "To proceed, ensure that ",
+  "page_wallcannotconnecttodiscorddiagpart1": "To proceed, ensure that ",
+  "page_wallcannotconnecttosgooglediagpart1": "To proceed, ensure that ",
+  "page_wallcannotconnecttomicrosoftdiagpart1": "To proceed, ensure that ",
   "page_wallcannotconnecttodiscorddiagpart2": " can contact the internet and refresh this page. If Discord is down, you'll need to wait until it is available again.",
   "page_wallcannotconnecttogoogle": " cannot connect to Google.",
-  "page_wallcannotconnecttogooglediagpart2": " can contact the internet and refresh this page. If Google is down, you'll need to wait until it is available again.",
+  "page_wallcannotconnecttogooglediagpart2": " can contact the internet and refresh this page. If Google's OAuth2 API is down, you'll need to wait until it is available again.",
   "page_wallcannotconnecttomicrosoft": " cannot connect to Microsoft Graph.",
   "page_wallcannotconnecttomicrosoftdiagpart2": " can contact the internet and refresh this page. If Microsoft Graph's API is down, you'll need to wait until it is available again.",
   "page_moderatorsroleid": "Moderators role ID",
@@ -276,5 +278,6 @@
   "page_configpasswordsnonmatching": "Passwords don't match",
   "page_configpasswordsunknownerror": "An unknown error happened. See the server and browser consoles to see what happened.",
   "page_configpasswordnopassconfigured": "No configuration password has been configured. Refresh the page to configure one.",
-  "page_configpasswordauthfailed": "Incorrect password"
+  "page_configpasswordauthfailed": "Incorrect password",
+  "page_configoauth2unknownerror": "An unknown error has occurred. See below (and also the respective browser and server consoles) for some insight as to what happened:"
 }
