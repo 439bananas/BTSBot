@@ -30,7 +30,6 @@ router.get('/', async (req, res, next) => {
                 throw "CACHE_BYPASSED"
             } else {
                 let user = req.user
-                console.log(user)
                 if (user && typeof (user.id) != "undefined") { // Allow for redirectto and state arguments to be supplied for the server to redirect the user back, state takes precedence over returnto
                     if (req.query.state) {
                         res.redirect("/" + req.query.state)

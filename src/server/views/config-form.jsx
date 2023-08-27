@@ -16,20 +16,22 @@ const translate = require('./components/getLanguageString');
 
 function Languages(props) { // Add languages to list of languages
     let { langs } = props
-    let languages = langs
-
     let languageList = []
-    languages.sort(function (a, b) { // Sort A-Z
-        if (a[1] < b[1]) { return -1; }
-        if (a[1] > b[1]) { return 1; }
-        return 0;
-    })
 
-    let key = 0
+    if (langs && langs.languages) {
+        let languages = langs.languages
+        languages.sort(function (a, b) { // Sort A-Z
+            if (a[1] < b[1]) { return -1; }
+            if (a[1] > b[1]) { return 1; }
+            return 0;
+        })
 
-    languages.forEach(language => { // Add each to dropdown
-        languageList.push(<option value={language[0]} key={key++} className="dropdown-option">{language[1]}</option>)
-    })
+        let key = 0
+
+        languages.forEach(language => { // Add each to dropdown
+            languageList.push(<option value={language[0]} key={key++} className="dropdown-option">{language[1]}</option>)
+        })
+    }
 
     return languageList
 };
@@ -157,7 +159,7 @@ function ConfigForm(props) {
         document.title = props.uniconf.projname + " - " + translate(props.language, 'page_configpagetitle')
     }
 
-    const { confSettings, uniconf, languages } = props
+    const { confSettings, uniconf } = props
     const [language, setLanguage] = useState(confSettings.language) // Use state and set defaults for settings
     const [hostname, setHostname] = useState(confSettings.hostname)
     const [dbusername, setDbusername] = useState(confSettings.dbusername)
@@ -250,7 +252,7 @@ function ConfigForm(props) {
                                         <div className="col">
                                             <label htmlFor='language' className="required label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(props.language, 'page_defaultlanguagelabel')}</label>
                                             <select className="size16-1__VVI form-select input-cIJ7To" name="language" id="language" value={language} onChange={e => setLanguage(e.target.value)}> {/* REMEMBER TO CREATE DEFAULTS FOR LANG*/}
-                                                <Languages langs={languages} />
+                                                <Languages langs={props.languages} />
                                             </select>
                                         </div>
                                         <div className="col">

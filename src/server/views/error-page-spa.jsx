@@ -21,7 +21,7 @@ function Error(props) {
     }
 }
 
-function ErrorPage(props) { // THIS NEEDS TO BE UPDATED WITH PROPS IN MIND AND ALSO WITH ERROR INFORMATION IN MIND
+function ErrorPage(props) {
     return (
         <div className="container">
             <div className="alert-box danger text-wrap">

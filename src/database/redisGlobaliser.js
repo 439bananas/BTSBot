@@ -24,7 +24,6 @@ if (conf.password != "") {
 url += "@" + conf.redishostname + "/" + conf.redisdatabase
 
 log.temp(url)
-console.log(conf)
 
 global.redisConnection = createClient({ // Let's create our client!
     url: url

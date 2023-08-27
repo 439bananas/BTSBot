@@ -68,12 +68,12 @@ function checkConfigPasswordPresence() { // Is there a configuration password co
     return configPasswordPresence
 }
 
-function getLanguages() { // Get all languages
-    const [languages, setLanguages] = useState([])
+function getLanguages() { // Get languages
+    const [languages, setLanguages] = useState(null)
 
     useEffect(() => {
         async function fetchLanguages() {
-            let rawResponse = await fetch("/api/languages")
+            let rawResponse = await fetch("/api/languages") // See if there is a password. If not, let's create one!
             let response = await rawResponse.json()
             setLanguages(response)
         }
@@ -85,7 +85,9 @@ function getLanguages() { // Get all languages
 }
 
 function CheckAuth(props) { // Check if there is yet an authentication token and if it is ok
-    let { token, error, settings, languages } = props;
+    const languages = getLanguages()
+
+    let { token, error, settings } = props;
     let configPassword = checkConfigPasswordPresence()
 
     if (configPassword.passwordExists === false) { // If no password, show a "create password" form
@@ -99,10 +101,8 @@ function CheckAuth(props) { // Check if there is yet an authentication token and
 
 function Config(props) {
     let returnedValue
-    let languages = getLanguages()
     let settings = getConfSettings()
     let oauthStatus = getOauthStatus(props.queryString)
-    let configPassword = checkConfigPasswordPresence() // I hate having this here but it prevents errors, so...
 
     if (oauthStatus.message) {
         switch (oauthStatus.message) {
@@ -121,17 +121,17 @@ function Config(props) {
         }
     } else {
         if (oauthStatus.error == "OAUTH_FAIL" || oauthStatus.error == "NO_CONF") { // Validate authentication if no conf or OAuth fail, else show wall (or if conf exists, show 404)
-            returnedValue = <CheckAuth languages={languages.languages} token={props.cookies.configtoken} error={oauthStatus.error} configPassword={configPassword} language={props.language} uniconf={props.uniconf} settings={settings} />
+            returnedValue = <CheckAuth token={props.cookies.configtoken} error={oauthStatus.error} language={props.language} uniconf={props.uniconf} settings={settings} />
         } else if (oauthStatus.error == "CONF_OK") {
             returnedValue = <Error404 language={props.language} confErr={props.confErr} uniconf={props.uniconf} />
         } else if (oauthStatus.error == "CANNOT_CONNECT_TO_MICROSOFT") {
-            returnedValue = <ErrorPage error={uniconf.projname + translate(props.language, 'page_wallcannotconnecttomicrosoft')} diag={translate(props.language, 'page_wallcannotconnecttomicrosoftdiagpart1') + uniconf.projname + translate(props.language, 'page_wallcannotconnecttomicrosoftdiagpart2')} />
+            returnedValue = <ErrorPage error={props.uniconf.projname + translate(props.language, 'page_wallcannotconnecttomicrosoft')} diag={translate(props.language, 'page_wallcannotconnecttomicrosoftdiagpart1') + props.uniconf.projname + translate(props.language, 'page_wallcannotconnecttomicrosoftdiagpart2')} />
         } else if (oauthStatus.error == "CANNOT_CONNECT_TO_DISCORD") {
-            returnedValue = <ErrorPage error={uniconf.projname + translate(props.language, 'page_wallcannotconnecttodiscord')} diag={translate(props.language, 'page_wallcannotconnecttodiscorddiagpart1') + uniconf.projname + translate(props.language, 'page_wallcannotconnecttodiscorddiagpart2')} />
+            returnedValue = <ErrorPage error={props.uniconf.projname + translate(props.language, 'page_wallcannotconnecttodiscord')} diag={translate(props.language, 'page_wallcannotconnecttodiscorddiagpart1') + props.uniconf.projname + translate(props.language, 'page_wallcannotconnecttodiscorddiagpart2')} />
         } else if (oauthStatus.error == "CANNOT_CONNECT_TO_GOOGLE") {
-            returnedValue = <ErrorPage error={uniconf.projname + translate(props.language, 'page_wallcannotconnecttogoogle')} diag={translate(props.language, 'page_wallcannotconnecttogooglediagpart1') + uniconf.projname + translate(props.language, 'page_wallcannotconnecttogooglediagpart2')} />
-        } else {
-            returnedValue = <ErrorPage error={uniconf.projname + translate(props.language, 'page_configoauth2unknownerror')} diag={JSON.stringify(oauthStatus)} />
+            returnedValue = <ErrorPage error={props.uniconf.projname + translate(props.language, 'page_wallcannotconnecttogoogle')} diag={translate(props.language, 'page_wallcannotconnecttogooglediagpart1') + props.uniconf.projname + translate(props.language, 'page_wallcannotconnecttogooglediagpart2')} />
+        } else if (!Array.isArray(oauthStatus)) {
+            returnedValue = <ErrorPage error={translate(props.language, 'page_confunknownerror')} diag={translate(props.language, "page_confunknownerrordiagspa")} errorInfo={oauthStatus} language={props.language} />
         }
     }
 
