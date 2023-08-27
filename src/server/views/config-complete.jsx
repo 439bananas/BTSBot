@@ -13,6 +13,10 @@
 const translate = require('./components/getLanguageString');
 const React = require('react');
 
+function redirectHome() {
+    window.location.href = '/';
+}
+
 function ConfigComplete(props) {
     return (
         <div className="container">
@@ -22,7 +26,7 @@ function ConfigComplete(props) {
                 <br />
                 {translate(props.language, 'page_confsuccessfuldiag')}
             </p>
-            <input type='submit' className='button' value={translate(props.language, 'page_globalnext')} title={translate(props.language, 'page_globalnext')} id="ConfigCompleteNextButton" />
+            <input type='button' className='button' value={translate(props.language, 'page_globalnext')} title={translate(props.language, 'page_globalnext')} id="ConfigCompleteNextButton" onClick={redirectHome} />
         </div>
     )
 }
