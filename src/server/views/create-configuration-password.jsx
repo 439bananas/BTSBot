@@ -91,13 +91,13 @@ function CreateConfigPassword(props) {
                     <div className="row">
                         <div className="col">
                             <label htmlFor="password" className="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(props.language, "page_configpassword")}</label>
-                            <input type="password" className="inputDefault-_djjkz input-cIJ7To size16-1__VVI" style={{ width: 100 + "%" }} id="password" name="password" />
+                            <input type="new-password" className="inputDefault-_djjkz input-cIJ7To size16-1__VVI" style={{ width: 100 + "%" }} id="password" name="password" />
                         </div>
                     </div>
                     <div className="row">
                         <div className="col">
                             <label htmlFor="passwordrepeat" className="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(props.language, "page_configreenterpassword")}</label>
-                            <input type="password" className="inputDefault-_djjkz input-cIJ7To size16-1__VVI" style={{ width: 100 + "%" }} id="passwordrepeat" name="passwordrepeat" />
+                            <input type="new-password" className="inputDefault-_djjkz input-cIJ7To size16-1__VVI" style={{ width: 100 + "%" }} id="passwordrepeat" name="passwordrepeat" />
                         </div>
                     </div>
                     <div className="row">
