@@ -92,11 +92,15 @@ function CheckAuth(props) { // Check if there is yet an authentication token and
 
     if (configPassword.passwordExists === false) { // If no password, show a "create password" form
         return <CreateConfigPassword language={props.language} uniconf={props.uniconf} />
-    } else if (!token) { // Else if no token, show a form requesting a password
-        return <RequestConfigPassword language={props.language} uniconf={props.uniconf} />
-    } else { // Continue to configuration
+    } else if (settings.error) { // Else if no token, show a form requesting a password
+        if (configPassword.passwordExists === true) {
+            return <RequestConfigPassword language={props.language} uniconf={props.uniconf} /> // Prevent any kind of flashing of the wrong view
+        } else {
+            return <CreateConfigPassword language={props.language} uniconf={props.uniconf} />
+        }
+    } else if (!settings.error) { // Continue to configuration
         return <ConfigForm language={props.language} uniconf={props.uniconf} confSettings={settings} error={error} languages={languages} />
-    }
+    } else return null
 }
 
 function Config(props) {

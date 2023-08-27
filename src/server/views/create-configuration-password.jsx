@@ -91,13 +91,13 @@ function CreateConfigPassword(props) {
                     <div className="row">
                         <div className="col">
                             <label htmlFor="password" className="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(props.language, "page_configpassword")}</label>
-                            <input type="new-password" className="inputDefault-_djjkz input-cIJ7To size16-1__VVI" style={{ width: 100 + "%" }} id="password" name="password" />
+                            <input type="password" autoComplete="new-password" className="inputDefault-_djjkz input-cIJ7To size16-1__VVI" style={{ width: 100 + "%" }} id="password" name="password" />
                         </div>
                     </div>
                     <div className="row">
                         <div className="col">
                             <label htmlFor="passwordrepeat" className="label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(props.language, "page_configreenterpassword")}</label>
-                            <input type="new-password" className="inputDefault-_djjkz input-cIJ7To size16-1__VVI" style={{ width: 100 + "%" }} id="passwordrepeat" name="passwordrepeat" />
+                            <input type="password" autoComplete="new-password" className="inputDefault-_djjkz input-cIJ7To size16-1__VVI" style={{ width: 100 + "%" }} id="passwordrepeat" name="passwordrepeat" />
                         </div>
                     </div>
                     <div className="row">
@@ -105,7 +105,7 @@ function CreateConfigPassword(props) {
                     </div>
                     <div className="row">
                         <div className="col" style={{ paddingTop: 20 + "px", }}>
-                            <button type="button" style={{ margin: 0 + " auto" }} onClick={submitCreatePassword} id="CreateConfigPwdSubmit" className="button-1x2ahC button-38aScr lookFilled-1Gx00P colorGreen-29iAKY sizeSmall-2cSMqn grow-q77ONN">
+                            <button type="submit" style={{ margin: 0 + " auto" }} onClick={submitCreatePassword} id="CreateConfigPwdSubmit" className="button-1x2ahC button-38aScr lookFilled-1Gx00P colorGreen-29iAKY sizeSmall-2cSMqn grow-q77ONN">
                                 <div className="contents-18-Yxp">{translate(props.language, "page_globalsubmit")}</div>
                             </button>
                         </div>
