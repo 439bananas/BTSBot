@@ -142,7 +142,6 @@
     <Content Include="src\server\serversPage.js" />
     <Content Include="src\server\api\submitConfig.js" />
     <Content Include="src\server\api\version.js" />
-    <Content Include="src\server\confPage.js" />
     <Content Include="src\server\createServer.js" />
     <Content Include="src\server\display404.js" />
     <Content Include="src\server\displayConf.js" />
