@@ -143,7 +143,6 @@
     <Content Include="src\server\api\submitConfig.js" />
     <Content Include="src\server\api\version.js" />
     <Content Include="src\server\createServer.js" />
-    <Content Include="src\server\display404.js" />
     <Content Include="src\server\displayConf.js" />
     <Content Include="src\server\displayHome.js" />
     <Content Include="src\server\displayNoConfIntro.js" />
