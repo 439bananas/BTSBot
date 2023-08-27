@@ -154,7 +154,6 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="src\server\serverListener.js" />
-    <Content Include="src\server\validateOAuth2.js" />
     <Content Include="src\server\views\404.jsx">
       <SubType>Code</SubType>
     </Content>
