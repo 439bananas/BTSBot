@@ -69,6 +69,7 @@ async function hydrateDOM() { // Hydrating the script means that the client can 
     if (ready.confExists) { // Does conf exist? Hydrate te React application according to whether it does
         ReactDOM.hydrate(
             <BrowserRouter>
+                <Head language={{ preferred: userLang, fallback: fallbackLang, default: defaultLang }} uniconf={uniconf} />
                 <App language={{ preferred: await getUserLang(), fallback: await getlang(), default: await getDefaultLang() }} confExists={ready.confExists} cookies={await getCookies()} />
             </BrowserRouter>,
             document.documentElement

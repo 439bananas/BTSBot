@@ -12,17 +12,22 @@
 
 const mysql = require('mysql2')
 
-let MySQLIntConnection = mysql.createConnection({
-    host: conf.hostname,
-    user: conf.dbusername,
-    password: conf.dbpassword,
-    database: conf.database
-});
+async function globaliseMySQL() {
+    let MySQLIntConnection = mysql.createConnection({
+        host: conf.hostname,
+        user: conf.dbusername,
+        password: conf.dbpassword,
+        database: conf.database
+    });
 
-MySQLIntConnection.on('error', function (err) { // If there's an error, log and handle it, don't crash
-    log.error(err);
-});
+    MySQLIntConnection.on('error', function (err) { // If there's an error, log and handle it, don't crash
+        log.error(err);
+    });
 
-global.MySQLConnection = MySQLIntConnection.promise()
+    global.MySQLConnection = MySQLIntConnection.promise()
 
-MySQLConnection.connect()
+    let re = await MySQLConnection.connect()
+    return re
+}
+
+module.exports = globaliseMySQL;

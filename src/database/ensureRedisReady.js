@@ -2,7 +2,7 @@
 //                                                         //
 //                         BTS Bot                         //
 //                                                         //
-//                File: databaseManager.js                 //
+//                File ensureRedisReady.js                 //
 //                                                         //
 //               Author: Thomas (439bananas)               //
 //                                                         //
@@ -10,8 +10,11 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-const addTables = require('./updateDatabase') // Ensures that the database's content etc is up to date with the current version in pkg.version
-let lang = getlang()
-log.info(translate(lang, 'log_initialisingdbm'))
+let server = 0
 
-addTables()
+redisConnection.on("ready", (ready) => { // Only when Redis is ready should we start the server
+    if (server == 0) { // Make sure that server is only started once
+        require("../server/createServer")
+        server++
+    }
+})

@@ -43,8 +43,8 @@ async function attemptRedisConnectionCreation() {
                 url: url
             })
 
-            await redisConnection.connect()
-            await redisConnection.set('RedisConnected', "true") // Set a test value
+            //await redisConnection.connect()
+            //await redisConnection.set('RedisConnected', "true") // Set a test value
             
             let redisConnectionWorks = await redisConnection.get('RedisConnected') // Get it so that the function is only completed when it *knows* Redis works
 
@@ -330,7 +330,6 @@ router.get('/', async (req, res, next) => { // Let's validate our OAuth2 with ra
         let lang = await getlang()
 
         attemptRedisConnectionCreation().then(r => {
-            console.log(r)
             if (typeof (redisConnection) != "undefined") {
                 require('../../database/redisFailureEvent') // Deal with failures etc
             }

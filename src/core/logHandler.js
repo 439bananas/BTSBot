@@ -52,7 +52,11 @@ function error(message) {
         if (path.basename(process.argv[1]) == "index.js") {
             translateMode = "express-engine-jsx"
         } else translateMode = undefined
-        console.error(`${colours.cyan(`${new Date()}`)} - ${`${translate(lang, 'loghandler_error', translateMode)}:`.red} ${message} at ${__filename}:${match[2]}:${match[3]}`)
+        if (match) {
+            console.error(`${colours.cyan(`${new Date()}`)} - ${`${translate(lang, 'loghandler_error', translateMode)}:`.red} ${message} at ${__filename}:${match[2]}:${match[3]}`)
+        } else {
+            console.error(`${colours.cyan(`${new Date()}`)} - ${`${translate(lang, 'loghandler_error', translateMode)}:`.red} ${message}`)
+        }
     })
 }
 

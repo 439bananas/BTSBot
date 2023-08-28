@@ -16,7 +16,6 @@ const isMod = require('../core/getUserModStatus')
 
 async function showhome(req, res, lang, clientid) { // EJS was so much of a pain when it forced me to pass all of the translate() strngs, I'm so glad React lets me directly call translate()
     if (typeof redisConnection === 'undefined' || typeof MySQLConnection === 'undefined') { // Database can be accessed after downtime during initialisation of project
-        require('../database/databaseManager')
     }
     if (await isMod(req.user.id)) {
         res.locals.isMod = true

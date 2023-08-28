@@ -70,12 +70,12 @@ app.all('/*', async function (req, res, next) { // Log incoming requests
 });
 
 app.all('/*', async function (req, res, next) { // Block Internet Explorer
+    let url = req.url.split('/')
     async function validateConf() {
         let confExists
         let confErr
         user = {}
         try {
-            url = req.url.split('/')
             if ((url[1] != "resources" && !(url[1] == "api" && (url[2] == "uniconf" || url[2] == "version"))) || (url[1] == "api" && url[2] == "ready")) {
                 confExists = await checkConf()
             } else confExists = true
@@ -168,32 +168,34 @@ app.all('/*', async function (req, res, next) { // Block Internet Explorer
                 next()
             }
         }
-        return {confExists: confExists, confErr: confErr}
+        return { confExists: confExists, confErr: confErr }
     }
 
-    validateConf().then(re => {
-        app.use(favicon(path.join(__dirname, '..', 'src', 'server', 'views', 'resources', 'img', faviconfilename)))
-        app.use('/resources', resourcesRoutes) // Yeah let's get these resources
-        app.use('/api', function (req, res, next) {
+    app.use('/resources', resourcesRoutes) // Yeah let's get these resources
+
+    let re = await validateConf()
+    app.use(favicon(path.join(__dirname, '..', 'src', 'server', 'views', 'resources', 'img', faviconfilename)))
+    app.use('/api', async function (req, res, next) {
+        req.confExists = re.confExists
+        req.confErr = re.confErr
+        req.user = user
+        next();
+    }, routes) // All API endpoints then begin with "/api"
+    app.use('/login', async function (req, res, next) {
+        req.confExists = re.confExists
+        req.confErr = re.confErr
+        req.user = user
+        next();
+    }, loginRoutes) // Login
+    app.use('/logout', logoutRoutes) // And logging out
+    app.use('*', async function (req, res, next) {
+        if (url[1] != "resources") {
             req.confExists = re.confExists
             req.confErr = re.confErr
             req.user = user
-            next();
-        }, routes) // All API endpoints then begin with "/api"
-        app.use('/login', function (req, res, next) {
-            req.confExists = re.confExists
-            req.confErr = re.confErr
-            req.user = user
-            next();
-        }, loginRoutes) // Login
-        app.use('/logout', logoutRoutes) // And logging out
-        app.use('*', function (req, res, next) {
-            req.confExists = re.confExists
-            req.confErr = re.confErr
-            req.user = user
-            next();
-        }, interfaceRoutes)
-    })
+        }
+        next();
+    }, interfaceRoutes)
 })
 
 fetch("http://127.0.0.1:" + uniconf.port) // This is very janky but it ensures that there isn't any kind of "Cannot GET /" error when getting the server for the first time. If there is a fix for this, please let me know!!

@@ -26,3 +26,7 @@ redisConnection.on('error', (err) => { // If Redis gets disconnected then reconn
         }
     })
 })
+
+redisConnection.on('end', (msg) => {
+    log.temp(msg)
+})
