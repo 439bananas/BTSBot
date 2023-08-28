@@ -72,12 +72,12 @@ async function hydrateDOM() { // Hydrating the script means that the client can 
     let userLang = await getUserLang()
     let fallbackLang = await getlang()
     let user = await getUser()
- 
+
     if (ready.confExists) { // Does conf exist? Hydrate te React application according to whether it does
         ReactDOM.hydrate(
             <BrowserRouter>
-                <Head language={{ preferred: userLang, fallback: fallbackLang, default: defaultLang }} uniconf={uniconf} DiscordUser={user} />
-                <App language={{ preferred: userLang, fallback: fallbackLang, default: defaultLang }} confExists={ready.confExists} DiscordUser={user} uniconf={uniconf} />
+                <Head language={{ preferred: userLang, fallback: fallbackLang, default: defaultLang }} uniconf={uniconf} />
+                <App language={{ preferred: userLang, fallback: fallbackLang, default: defaultLang }} confExists={ready.confExists} DiscordUser={user.user} uniconf={uniconf} userIsMod={user.userIsMod} />
             </BrowserRouter>,
             document.documentElement
         );

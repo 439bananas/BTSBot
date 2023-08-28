@@ -12,12 +12,14 @@
 
 const express = require('express');
 const getDiscordUser = require('../../core/getDiscordUserInfo');
+const isMod = require('../../core/getUserModStatus');
 const router = express.Router();
 
 router.get('/', async (req, res, next) => { // This API returns the project's uniconf.
     let json
+    let user = await getDiscordUser(req.cookies.discordbearertoken)
     try {
-        json = await getDiscordUser(req.cookies.discordbearertoken)
+        json = { user: user, userIsMod: await isMod(user.id) }
     } catch (err) {
         json = {}
     }

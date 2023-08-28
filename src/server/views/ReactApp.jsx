@@ -53,7 +53,7 @@ function App(props) {
     } else {
         return (
             <body>
-                <Header DiscordUser={props.DiscordUser} language={props.language} uniconf={props.uniconf} confExists={true} />
+                <Header DiscordUser={props.DiscordUser} language={props.language} uniconf={props.uniconf} confExists={true} userIsMod={props.userIsMod} />
                 <div className="loader">
 
                 </div>
