@@ -23,7 +23,7 @@ function Head(props) {
             <link rel='stylesheet' href='/resources/twemoji-amazing.css' />
             <meta charSet="UTF-8" />
             <meta name="title" content={props.uniconf.projname} />
-            <meta name="description" content={translate(props.language, 'page_globaldesc', 'express-engine-jsx')} />
+            <meta name="description" content={translate(props.language, 'page_globaldesc')} />
             <meta name="keywords" content="bot, discord, test, testing, server, bots, discord bots, BTS, BTS Bot" />
             <meta name="author" content="439bananas" />
             <meta name="email" content="btsbot@439bananas.com" />
@@ -34,7 +34,7 @@ function Head(props) {
             <meta property="twitter:url" content={"https://" + props.uniconf.metadomain} />
             <meta property="twitter:title" content={props.uniconf.projname} />
             <meta property="twitter:image" content={"https://" + props.uniconf.metadomain + "/resources/logo.png"} />
-            <meta property="twitter:description" content={translate(props.language, 'page_globaldesc', 'express-engine-jsx')} />
+            <meta property="twitter:description" content={translate(props.language, 'page_globaldesc')} />
             <meta property="theme-color" content="#f0600f" />
             <title>{props.uniconf.projname}</title>
         </head>
