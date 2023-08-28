@@ -53,6 +53,10 @@ function App(props) {
     } else {
         return (
             <body>
+                <Header DiscordUser={props.DiscordUser} language={props.language} uniconf={props.uniconf} confExists={true} />
+                <div className="loader">
+
+                </div>
                 <script src="/resources/bundle.js" />
             </body>)
     }

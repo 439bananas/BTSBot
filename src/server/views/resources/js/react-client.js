@@ -53,18 +53,31 @@ async function getUniconf() {
     return response
 }
 
+async function getUniconf() {
+    let rawResonse = await fetch('/api/uniconf');
+    let response = await rawResonse.json();
+    return response
+}
+
+async function getUser() {
+    let rawResonse = await fetch('/api/user');
+    let response = await rawResonse.json();
+    return response
+}
+
 async function hydrateDOM() { // Hydrating the script means that the client can pick up the other side and continue with the SPA without a problem
     let uniconf = await getUniconf()
     let ready = await checkConfExists() // Declaring these reduces API calls
     let defaultLang = await getDefaultLang()
     let userLang = await getUserLang()
     let fallbackLang = await getlang()
+    let user = await getUser()
  
     if (ready.confExists) { // Does conf exist? Hydrate te React application according to whether it does
         ReactDOM.hydrate(
             <BrowserRouter>
-                <Head language={{ preferred: userLang, fallback: fallbackLang, default: defaultLang }} uniconf={uniconf} />
-                <App language={{ preferred: userLang, fallback: fallbackLang, default: defaultLang }} confExists={ready.confExists} />
+                <Head language={{ preferred: userLang, fallback: fallbackLang, default: defaultLang }} uniconf={uniconf} DiscordUser={user} />
+                <App language={{ preferred: userLang, fallback: fallbackLang, default: defaultLang }} confExists={ready.confExists} DiscordUser={user} uniconf={uniconf} />
             </BrowserRouter>,
             document.documentElement
         );
