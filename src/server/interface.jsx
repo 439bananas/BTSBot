@@ -21,12 +21,13 @@ const getlang = require('../core/getLanguageJSON');
 const isMod = require('../core/getUserModStatus');
 const getLangFile = require('./views/components/getLanguageJSON');
 const Head = require('./views/components/head');
+const getContactLink = require('../core/getContactLink');
 
 router.get("*", async (req, res) => {
     let html = ReactDOMServer.renderToString( // Passing every possibly required language here means that translate() further down the line does not require await, nor does not bog down the entire SPA
         <StaticRouter location={req.originalUrl}>
             <Head language={{ preferred: getLangFile(await getUserLang(req)), fallback: getLangFile(await getlang()), default: getLangFile(uniconf.defaultlanguage) }} uniconf={uniconf} userIsMod={await isMod(req.user.id)} />
-            <App confExists={req.confExists} confErr={req.confErr} language={{ preferred: getLangFile(await getUserLang(req)), fallback: getLangFile(await getlang()), default: getLangFile(uniconf.defaultlanguage) }} DiscordUser={req.user} userIsMod={await isMod(req.user.id)} uniconf={uniconf} confPath={path.join(__dirname, '..', 'configs')} queryString={req.query} />
+            <App confExists={req.confExists} confErr={req.confErr} language={{ preferred: getLangFile(await getUserLang(req)), fallback: getLangFile(await getlang()), default: getLangFile(uniconf.defaultlanguage) }} DiscordUser={req.user} userIsMod={await isMod(req.user.id)} uniconf={uniconf} confPath={path.join(__dirname, '..', 'configs')} queryString={req.query} contactLink={await getContactLink()} />
         </StaticRouter>
     );
     res.send("<!DOCTYPE html>" + html);

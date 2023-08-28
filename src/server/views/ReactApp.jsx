@@ -15,9 +15,10 @@ const { Routes, Route } = require("react-router-dom");
 const Header = require('./components/header');
 const Error404 = require('./404');
 const Noconfintro = require('./no-conf-intro');
-import About from './About'
-import Config from './config';
-import Home from './FP'
+const Footer = require('./components/footer')
+const About = require('./About')
+const Config = require('./config');
+const Home = require('./FP')
 
 function App(props) {
     /*return (
@@ -54,9 +55,15 @@ function App(props) {
         return (
             <body>
                 <Header DiscordUser={props.DiscordUser} language={props.language} uniconf={props.uniconf} confExists={true} userIsMod={props.userIsMod} />
-                <div className="loader">
-
+                <div className="loader view">
+                    <Routes>
+                        <Route path="/">
+                            <Route index element={<big>Ten green bottles hanging on the wall</big>/*<img src="/resources/404.png" language={props.language} confErr={props.confErr} uniconf={props.uniconf} DiscordUser={{}} />*/} />
+                            <Route path="*" element={<Error404 language={props.language} confErr={props.confErr} uniconf={props.uniconf} />} />
+                        </Route>
+                    </Routes>
                 </div>
+                <Footer language={props.language} uniconf={props.uniconf} contactLink={props.contactLink} />
                 <script src="/resources/bundle.js" />
             </body>)
     }

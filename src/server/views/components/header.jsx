@@ -14,6 +14,7 @@ const translate = require('./getLanguageString')
 const React = require('react');
 const PrereleaseWarning = require('./prerelease-warning');
 const pkg = require('../../../../package.json');
+const { Link } = require('react-router-dom');
 let modDropdownOptions
 let signinbutton
 let prereleasewarning
@@ -29,9 +30,9 @@ function Header(props) {
 
     if (props.confExists && props.userIsMod) { // Check if user is classed as a mod in the configured guild and add options based on that. If no conf or user not signed in, isMod will always return false
         modDropdownOptions = <div>
-            <li><a className="dropdown-item" href="/helpdesk">{translate(props.language, "page_globalhelpdesk")}</a></li>
-            <li><a className="dropdown-item" href="/all-servers">{translate(props.language, "page_globalallservers")}</a></li>
-            <li><a className="dropdown-item" href="/user-manager">{translate(props.language, "page_globalusermanager")}</a></li>
+            <li><Link className="dropdown-item" to="/helpdesk">{translate(props.language, "page_globalhelpdesk")}</Link></li>
+            <li><Link className="dropdown-item" to="/all-servers">{translate(props.language, "page_globalallservers")}</Link></li>
+            <li><Link className="dropdown-item" to="/user-manager">{translate(props.language, "page_globalusermanager")}</Link></li>
         </div>
     } else {
         modDropdownOptions = " "
@@ -57,9 +58,9 @@ function Header(props) {
                 {usernameAssembly}
             </a>
             <ul className="dropdown-menu" aria-labelledby="userDropdown">
-                <li><a className="dropdown-item" href="/servers">{translate(props.language, "page_globalservers")}</a></li>
+                <li><Link className="dropdown-item" to="/servers">{translate(props.language, "page_globalservers")}</Link></li>
                 {modDropdownOptions}
-                <li><a className="dropdown-item" href="/settings">{translate(props.language, "page_globalaccountsettings")}</a></li>
+                <li><Link className="dropdown-item" to="/settings">{translate(props.language, "page_globalaccountsettings")}</Link></li>
                 <li><a className="dropdown-item" href="/logout">{translate(props.language, "page_globalsignout")}</a></li>
             </ul>
         </div>
@@ -75,7 +76,7 @@ function Header(props) {
         <header>
             <nav className="navbar navbar-expand-sm bg-dark navbar-dark">
                 <div className="container">
-                    <a href="/" className="navbar-brand"><img src="/resources/60px.png" className="img-fluid img-thumbnail" /></a>
+                    <Link to="/" className="navbar-brand"><img src="/resources/60px.png" className="img-fluid img-thumbnail" /></Link>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar">
                         <span className="navbar-toggler-icon"></span>
                     </button>

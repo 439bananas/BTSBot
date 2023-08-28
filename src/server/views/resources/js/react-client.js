@@ -17,21 +17,9 @@ const React = require('react');
 const Head = require("../../components/head");
 const query2JSON = require("../../components/convertQueryStringToJSON");
 
-async function getUserLang() { // Functions for getting the user language, fallback language (if the string in their preferred language does not exist), and default language
-    let rawResonse = await fetch('/api/language/preferred');
+async function getSpaInformation() { // Get any and all necessary information
+    let rawResonse = await fetch('/api/page-info');
     let response = await rawResonse.json();
-    return response
-}
-
-async function getlang() {
-    let rawResonse = await fetch('/api/language/fallback');
-    let response = await rawResonse.json();
-    return response
-}
-
-async function getDefaultLang() {
-    let rawResponse = await fetch('/api/language/default');
-    let response = await rawResponse.json()
     return response
 }
 
@@ -47,45 +35,26 @@ async function getConfPath() {
     return response
 }
 
-async function getUniconf() {
-    let rawResonse = await fetch('/api/uniconf');
-    let response = await rawResonse.json();
-    return response
-}
-
-async function getUniconf() {
-    let rawResonse = await fetch('/api/uniconf');
-    let response = await rawResonse.json();
-    return response
-}
-
-async function getUser() {
-    let rawResonse = await fetch('/api/user');
-    let response = await rawResonse.json();
-    return response
-}
-
 async function hydrateDOM() { // Hydrating the script means that the client can pick up the other side and continue with the SPA without a problem
-    let uniconf = await getUniconf()
     let ready = await checkConfExists() // Declaring these reduces API calls
-    let defaultLang = await getDefaultLang()
-    let userLang = await getUserLang()
-    let fallbackLang = await getlang()
-    let user = await getUser()
-
+    void ready
+    let spaInformation = await getSpaInformation()
+    void spaInformation
     if (ready.confExists) { // Does conf exist? Hydrate te React application according to whether it does
+        let { uniconf, lang, user, contactLink, userIsMod } = spaInformation
         ReactDOM.hydrate(
             <BrowserRouter>
-                <Head language={{ preferred: userLang, fallback: fallbackLang, default: defaultLang }} uniconf={uniconf} />
-                <App language={{ preferred: userLang, fallback: fallbackLang, default: defaultLang }} confExists={ready.confExists} DiscordUser={user.user} uniconf={uniconf} userIsMod={user.userIsMod} />
+                <Head language={lang} uniconf={uniconf} />
+                <App language={lang} confExists={ready.confExists} DiscordUser={user} uniconf={uniconf} userIsMod={userIsMod} contactLink={contactLink} />
             </BrowserRouter>,
             document.documentElement
         );
     } else {
+        let { uniconf, lang } = spaInformation
         ReactDOM.hydrate(
             <BrowserRouter>
-                <Head language={{ preferred: userLang, fallback: fallbackLang, default: defaultLang }} uniconf={uniconf} />
-                <App language={{ preferred: userLang, fallback: fallbackLang, default: defaultLang }} confExists={ready.confExists} confErr={ready.confErr} confPath={await getConfPath()} uniconf={uniconf} DiscordUser={{}} queryString={query2JSON(window.location.search)} />
+                <Head language={lang} uniconf={uniconf} />
+                <App language={lang} confExists={ready.confExists} confErr={ready.confErr} confPath={await getConfPath()} uniconf={uniconf} DiscordUser={{}} queryString={query2JSON(window.location.search)} />
             </BrowserRouter>,
             document.documentElement
         );

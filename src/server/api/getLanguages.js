@@ -28,4 +28,8 @@ router.get('/default', (req, res, next) => {
     res.json(getLangFile(uniconf.defaultlanguage)) // Failing that, default gets the language as dictated in uniconf
 })
 
+router.get('/', async (req, res, next) => {
+    res.json({ preferred: getLangFile(await getUserLang(req)), fallback: getLangFile(await getlang()), default: getLangFile(uniconf.defaultlanguage) }) // Endpoint gets all languages in one go
+})
+
 module.exports = router;

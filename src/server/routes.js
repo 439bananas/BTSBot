@@ -25,6 +25,8 @@ const configPasswordRoutes = require('./api/configPassword');
 const getConfValuesRoutes = require('./api/getConfValues');
 const getLanguagesRoutes = require('./api/getAllLanguages');
 const getUserRoutes = require('./api/getUser');
+const getContactLinkRoutes = require('./api/getContactLink');
+const gtSpaInfoRoutes = require('./api/getSpaInfo');
 
 router.use('/submit-config', submitConfigRoutes)
 router.use('/version', versionRoutes)
@@ -38,5 +40,7 @@ router.use('/config-password', configPasswordRoutes)
 router.use('/conf-values', getConfValuesRoutes)
 router.use('/languages', getLanguagesRoutes)
 router.use('/user', getUserRoutes)
+router.use('/contact-link', getContactLinkRoutes)
+router.use('/page-info', gtSpaInfoRoutes)
 
 module.exports = router;

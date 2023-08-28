@@ -2,7 +2,7 @@
 //                                                         //
 //                         BTS Bot                         //
 //                                                         //
-//                    File: getUser.js                     //
+//                 File: getContactLink.js                 //
 //                                                         //
 //               Author: Thomas (439bananas)               //
 //                                                         //
@@ -11,19 +11,11 @@
 /////////////////////////////////////////////////////////////
 
 const express = require('express');
-const getDiscordUser = require('../../core/getDiscordUserInfo');
-const isMod = require('../../core/getUserModStatus');
+const getContactLink = require('../../core/getContactLink');
 const router = express.Router();
 
-router.get('/', async (req, res, next) => { // Get the current user's information
-    let json
-    try {
-        let user = req.user
-        json = { user: user, userIsMod: await isMod(user.id) }
-    } catch (err) {
-        json = {}
-    }
-    res.status(200).json(json)
+router.get('/', async (req, res, next) => { // Get the contact link
+    res.status(200).json({ contactLink: await getContactLink() })
 })
 
 module.exports = router;

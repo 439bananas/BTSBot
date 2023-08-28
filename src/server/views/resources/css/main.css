@@ -513,3 +513,7 @@ pre {
 #confpassauthfailederr {
     display: none;
 }
+
+.view {
+    min-height: calc(86vh)
+}
