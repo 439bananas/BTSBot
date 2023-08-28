@@ -22,7 +22,6 @@ const confPathRoutes = require('./api/getConfPath');
 const confRoutes = require('./api/getConf');
 const getOAuth2Routes = require('./api/getOAuth2Status');
 const configPasswordRoutes = require('./api/configPassword');
-const cookiesRoutes = require('./api/getCookies');
 const getConfValuesRoutes = require('./api/getConfValues');
 const getLanguagesRoutes = require('./api/getAllLanguages');
 
@@ -35,7 +34,6 @@ router.use('/conf-path', confPathRoutes)
 router.use('/conf', confRoutes)
 router.use('/oauth2-status', getOAuth2Routes)
 router.use('/config-password', configPasswordRoutes)
-router.use('/cookies', cookiesRoutes)
 router.use('/conf-values', getConfValuesRoutes)
 router.use('/languages', getLanguagesRoutes)
 

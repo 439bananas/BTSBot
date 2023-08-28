@@ -87,7 +87,7 @@ function getLanguages() { // Get languages
 function CheckAuth(props) { // Check if there is yet an authentication token and if it is ok
     const languages = getLanguages()
 
-    let { token, error, settings } = props;
+    let { error, settings } = props;
     let configPassword = checkConfigPasswordPresence()
 
     if (configPassword.passwordExists === false) { // If no password, show a "create password" form
@@ -125,7 +125,7 @@ function Config(props) {
         }
     } else {
         if (oauthStatus.error == "OAUTH_FAIL" || oauthStatus.error == "NO_CONF") { // Validate authentication if no conf or OAuth fail, else show wall (or if conf exists, show 404)
-            returnedValue = <CheckAuth token={props.cookies.configtoken} error={oauthStatus.error} language={props.language} uniconf={props.uniconf} settings={settings} />
+            returnedValue = <CheckAuth error={oauthStatus.error} language={props.language} uniconf={props.uniconf} settings={settings} />
         } else if (oauthStatus.error == "CONF_OK") {
             returnedValue = <Error404 language={props.language} confErr={props.confErr} uniconf={props.uniconf} />
         } else if (oauthStatus.error == "CANNOT_CONNECT_TO_MICROSOFT") {

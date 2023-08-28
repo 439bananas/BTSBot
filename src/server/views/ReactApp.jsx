@@ -42,7 +42,7 @@ function App(props) {
                     <Routes>
                         <Route path="/">
                             <Route index element={<Noconfintro language={props.language} confErr={props.confErr} confPath={props.confPath} uniconf={props.uniconf} DiscordUser={{}} />} />
-                            <Route path="config" element={<Config language={props.language} confErr={props.confErr} uniconf={props.uniconf} queryString={props.queryString} cookies={props.cookies} />} />
+                            <Route path="config" element={<Config language={props.language} confErr={props.confErr} uniconf={props.uniconf} queryString={props.queryString} />} />
                             <Route path="*" element={<Error404 language={props.language} confErr={props.confErr} uniconf={props.uniconf} />} />
                         </Route>
                     </Routes>

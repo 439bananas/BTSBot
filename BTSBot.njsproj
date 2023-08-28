@@ -118,7 +118,6 @@
     <Content Include="src\server\api\getConf.js" />
     <Content Include="src\server\api\getConfPath.js" />
     <Content Include="src\server\api\getConfValues.js" />
-    <Content Include="src\server\api\getCookies.js" />
     <Content Include="src\server\api\getLanguages.js" />
     <Content Include="src\server\api\getOAuth2Status.js" />
     <Content Include="src\server\api\ready.js" />

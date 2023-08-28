@@ -29,12 +29,6 @@ async function getlang() {
     return response
 }
 
-async function getCookies() {
-    let rawResonse = await fetch('/api/cookies');
-    let response = await rawResonse.json();
-    return response
-}
-
 async function getDefaultLang() {
     let rawResponse = await fetch('/api/language/default');
     let response = await rawResponse.json()
@@ -70,7 +64,7 @@ async function hydrateDOM() { // Hydrating the script means that the client can 
         ReactDOM.hydrate(
             <BrowserRouter>
                 <Head language={{ preferred: userLang, fallback: fallbackLang, default: defaultLang }} uniconf={uniconf} />
-                <App language={{ preferred: await getUserLang(), fallback: await getlang(), default: await getDefaultLang() }} confExists={ready.confExists} cookies={await getCookies()} />
+                <App language={{ preferred: await getUserLang(), fallback: await getlang(), default: await getDefaultLang() }} confExists={ready.confExists} />
             </BrowserRouter>,
             document.documentElement
         );
@@ -78,7 +72,7 @@ async function hydrateDOM() { // Hydrating the script means that the client can 
         ReactDOM.hydrate(
             <BrowserRouter>
                 <Head language={{ preferred: userLang, fallback: fallbackLang, default: defaultLang }} uniconf={uniconf} />
-                <App language={{ preferred: userLang, fallback: fallbackLang, default: defaultLang }} confExists={ready.confExists} confErr={ready.confErr} confPath={await getConfPath()} uniconf={uniconf} DiscordUser={{}} queryString={query2JSON(window.location.search)} cookies={await getCookies()} />
+                <App language={{ preferred: userLang, fallback: fallbackLang, default: defaultLang }} confExists={ready.confExists} confErr={ready.confErr} confPath={await getConfPath()} uniconf={uniconf} DiscordUser={{}} queryString={query2JSON(window.location.search)} />
             </BrowserRouter>,
             document.documentElement
         );
