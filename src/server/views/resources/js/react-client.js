@@ -64,7 +64,7 @@ async function hydrateDOM() { // Hydrating the script means that the client can 
         ReactDOM.hydrate(
             <BrowserRouter>
                 <Head language={{ preferred: userLang, fallback: fallbackLang, default: defaultLang }} uniconf={uniconf} />
-                <App language={{ preferred: await getUserLang(), fallback: await getlang(), default: await getDefaultLang() }} confExists={ready.confExists} />
+                <App language={{ preferred: userLang, fallback: fallbackLang, default: defaultLang }} confExists={ready.confExists} />
             </BrowserRouter>,
             document.documentElement
         );
