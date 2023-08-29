@@ -16,7 +16,6 @@ const engine = require('express-engine-jsx');
 const app = express()
 const favicon = require('serve-favicon')
 const routes = require('./routes')
-const frontpage = require('./frontPage')
 const loginRoutes = require('./login')
 const logoutRoutes = require('./logout')
 const serversRoutes = require('./serversPage')

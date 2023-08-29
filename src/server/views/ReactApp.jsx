@@ -19,8 +19,6 @@ const Footer = require('./components/footer')
 const About = require('./About')
 const Config = require('./config');
 const Home = require('./home');
-const FeatureCard = require("./components/featureCard");
-const translate = require("./components/getLanguageString");
 
 function App(props) {
     /*return (

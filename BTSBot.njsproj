@@ -147,10 +147,7 @@
     <Content Include="src\server\api\submitConfig.js" />
     <Content Include="src\server\api\version.js" />
     <Content Include="src\server\createServer.js" />
-    <Content Include="src\server\displayHome.js" />
-    <Content Include="src\server\displayNoConfIntro.js" />
     <Content Include="src\server\displayWall.js" />
-    <Content Include="src\server\frontPage.js" />
     <Content Include="src\core\getDiscordBearerToken.js" />
     <Content Include="src\server\routes.js">
       <SubType>Code</SubType>
