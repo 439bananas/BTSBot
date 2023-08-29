@@ -93,8 +93,8 @@ router.get('/appealdemo.png', (req, res) => { // Demo image for front page
     res.sendFile(path.resolve('./src/server/views/resources/img/appealdemo.png'));
 });
 
-router.get('/invitedemo.png', (req, res) => { // Demo image for front page
-    res.sendFile(path.resolve('./src/server/views/resources/img/invitedemo.png'));
+router.get('/modmaildemo.png', (req, res) => { // Demo image for front page
+    res.sendFile(path.resolve('./src/server/views/resources/img/modmaildemo.png'));
 });
 
 router.get('/restoredemo.png', (req, res) => { // Demo image for front page

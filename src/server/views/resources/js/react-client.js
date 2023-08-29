@@ -41,11 +41,11 @@ async function hydrateDOM() { // Hydrating the script means that the client can 
     let spaInformation = await getSpaInformation()
     void spaInformation
     if (ready.confExists) { // Does conf exist? Hydrate te React application according to whether it does
-        let { uniconf, lang, user, contactLink, userIsMod } = spaInformation
+        let { uniconf, lang, user, contactLink, userIsMod, address, clientid } = spaInformation
         ReactDOM.hydrate(
             <BrowserRouter>
                 <Head language={lang} uniconf={uniconf} />
-                <App language={lang} confExists={ready.confExists} DiscordUser={user} uniconf={uniconf} userIsMod={userIsMod} contactLink={contactLink} />
+                <App addToServerLink={{ address: address, clientid: clientid }} language={lang} confExists={ready.confExists} DiscordUser={user} uniconf={uniconf} userIsMod={userIsMod} contactLink={contactLink} />
             </BrowserRouter>,
             document.documentElement
         );

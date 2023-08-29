@@ -11,8 +11,12 @@
 /////////////////////////////////////////////////////////////
 
 const Layout = require('./components/layout');
+const Head = require('./components/head');
+const Header = require('./components/header');
 
-<Layout>
+<div>
+    <Head language={lang} uniconf={uniconf} />
+    <Header language={lang} DiscordUser={DiscordUser} uniconf={uniconf} />
     <div className="container">
         <div className="alert-box danger text-wrap">
             {error}
@@ -20,4 +24,4 @@ const Layout = require('./components/layout');
             {diag}
         </div>
     </div>
-</Layout>
+</div>

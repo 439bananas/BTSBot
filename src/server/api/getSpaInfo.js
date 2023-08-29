@@ -11,8 +11,10 @@
 /////////////////////////////////////////////////////////////
 
 const express = require('express');
+const getid = require('../../core/getApplicationId');
 const getContactLink = require('../../core/getContactLink');
 const getlang = require('../../core/getLanguageJSON');
+const getaddress = require('../../core/getReqAddress');
 const getUserLang = require('../../core/getUserLang');
 const isMod = require('../../core/getUserModStatus');
 const getLangFile = require('../views/components/getLanguageJSON');
@@ -29,7 +31,9 @@ router.get('/', async (req, res, next) => { // Get all information required by t
             },
             user: req.user,
             userIsMod: await isMod(req.user.id),
-            contactLink: await getContactLink()
+            contactLink: await getContactLink(),
+            address: getaddress(req),
+            clientid: await getid(conf.token)
         })
     } else {
         res.status(200).json({

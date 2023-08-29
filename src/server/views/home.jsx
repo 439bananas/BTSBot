@@ -10,128 +10,57 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-const ConfLayout = require('./components/conf-layout');
+const React = require('react')
+const FeatureCard = require('./components/featureCard');
 const translate = require('./components/getLanguageString');
 
-<ConfLayout>
-    <div className="global-intro-section">
-        <div className="container">
-            <h1>{translate(lang, 'page_hometitle')}</h1>
-            <p style={{ paddingTop: "calc(0.5rem + 0.5vw)" }}>
-                {translate(lang, 'page_homeintropart1') + uniconf.projname + ". " + uniconf.projname + translate(lang, 'page_homeintropart2')}
-            </p>
-            <p>
-                {translate(lang, 'page_homeintropart3')}
-            </p>
+function Home(props) {
+    let oauth2link = "https://discord.com/oauth2/authorize?client_id=" + props.addToServerLink.clientid + "&permissions=" + props.uniconf.perms + "&redirect_uri=" + encodeURIComponent(props.addToServerLink.address + "/login") + "&response_type=code&scope=guilds%20email%20identify%20bot%20applications.commands"
+    return (<div>
+        <div className="global-intro-section">
+            <div className="container">
+                <h1>{translate(props.language, 'page_hometitle')}</h1>
+                <p style={{ paddingTop: "calc(0.5rem + 0.5vw)" }}>
+                    {translate(props.language, 'page_homeintropart1') + props.uniconf.projname + ". " + props.uniconf.projname + translate(props.language, 'page_homeintropart2')}
+                </p>
+                <p>
+                    {translate(props.language, 'page_homeintropart3')}
+                </p>
+            </div>
+        </div>
+        <div className="home-feature-section">
+            <div className="container">
+                <h2 style={{ paddingTop: 0.25 + "em" }}>{translate(props.language, 'page_featuresheading')}</h2>
+                <div className="row g-4 features">
+                    <FeatureCard title={translate(props.language, 'page_feature1title')} id="modmail" emoji="speech-balloon">
+                        {translate(props.language, 'page_feature1text')}
+                    </FeatureCard>
+                    <FeatureCard title={translate(props.language, 'page_feature2title')} id="modmail" emoji="floppy-disk">
+                        {translate(props.language, 'page_feature2text')}
+                    </FeatureCard>
+                    <FeatureCard title={translate(props.language, 'page_feature3title')} id="modmail" emoji="hammer">
+                        {translate(props.language, 'page_feature3text')}
+                    </FeatureCard>
+                </div>
+                <div className="row g-4 features">
+                    <FeatureCard title={translate(props.language, 'page_feature4title')} id="modmail" emoji="memo">
+                        {translate(props.language, 'page_feature4text')}
+                    </FeatureCard>
+                    <FeatureCard title={translate(props.language, 'page_feature5title')} id="modmail" emoji="office-building">
+                        {translate(props.language, 'page_feature5text')}
+                    </FeatureCard>
+                    <FeatureCard title={translate(props.language, 'page_feature6title')} id="modmail" emoji="telephone">
+                        {translate(props.language, 'page_feature6text')}
+                    </FeatureCard>
+                </div>
+                <p style={{ textAlign: "center" }}>
+                    {translate(props.language, 'page_homeoutropart1')}
+                    <br /><a href={/*OAUTH2 LINK NEEDS TO BE MADE AGAIN*/oauth2link}>{translate(props.language, 'page_homeoutropart2') + props.uniconf.projname + translate(props.language, 'page_homeoutropart3')}</a>{translate(props.language, 'page_homeoutropart4')}
+                </p>
+            </div>
         </div>
     </div>
-    <div className="home-feature-section">
-        <div className="container">
-            <h2 style={{ paddingTop: 0.25 + "em" }}>{translate(lang, 'page_featuresheading')}</h2>
-            <div className="row g-4 features">
-                <div className="col feature">
-                    <h3 className="feature-title">{translate(lang, 'page_feature1title')}</h3>
-                    <a href="#" data-bs-toggle="modal" data-bs-target="#inviteImage"><i className="twa twa-inbox-tray home-emoji"></i></a>
-                    <div className="modal fade" id="inviteImage" tabindex="-1" aria-labelledby="inviteImageLabel" aria-hidden="true">
-                        <div className="modal-dialog modal-dialog-centered">
-                            <div className="modal-content">
-                                <div className="modal-body">
-                                    <img src="/resources/invitedemo.png" className="img-fluid mw-100" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <p>
-                        {translate(lang, 'page_feature1text')}
-                    </p>
-                </div>
-                <div className="col feature">
-                    <h3 className="feature-title">{translate(lang, 'page_feature2title')}</h3>
-                    <a href="#" data-bs-toggle="modal" data-bs-target="#restoreImage"><i className="twa twa-floppy-disk home-emoji"></i></a>
-                    <div className="modal fade" id="restoreImage" tabindex="-1" aria-labelledby="restoreImageLabel" aria-hidden="true">
-                        <div className="modal-dialog modal-dialog-centered">
-                            <div className="modal-content">
-                                <div className="modal-body">
-                                    <img src="/resources/restoredemo.png" className="img-fluid mw-100" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <p>
-                        {translate(lang, 'page_feature2text')}
-                    </p>
-                </div>
-                <div className="col feature">
-                    <h3 className="feature-title">{translate(lang, 'page_feature3title')}</h3>
-                    <a href="#" data-bs-toggle="modal" data-bs-target="#scamImage"><i className="twa twa-hammer home-emoji"></i></a>
-                    <div className="modal fade" id="scamImage" tabindex="-1" aria-labelledby="scamImageLabel" aria-hidden="true">
-                        <div className="modal-dialog modal-dialog-centered">
-                            <div className="modal-content">
-                                <div className="modal-body">
-                                    <img src="/resources/scamdemo.png" className="img-fluid mw-100" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <p>
-                        {translate(lang, 'page_feature3text')}
-                    </p>
-                </div>
-            </div>
-            <div className="row g-4 features">
-                <div className="col feature">
-                    <h3 className="feature-title">{translate(lang, 'page_feature4title')}</h3>
-                    <a href="#" data-bs-toggle="modal" data-bs-target="#appealImage"><i className="twa twa-memo home-emoji"></i></a>
-                    <div className="modal fade" id="appealImage" tabindex="-1" aria-labelledby="appealImageLabel" aria-hidden="true">
-                        <div className="modal-dialog modal-dialog-centered">
-                            <div className="modal-content">
-                                <div className="modal-body">
-                                    <img src="/resources/appealdemo.png" className="img-fluid mw-100" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <p>
-                        {translate(lang, 'page_feature4text')}
-                    </p>
-                </div>
-                <div className="col feature">
-                    <h3 className="feature-title">{translate(lang, 'page_feature5title')}</h3>
-                    <a href="#" data-bs-toggle="modal" data-bs-target="#verifyImage"><i className="twa twa-office-building home-emoji"></i></a>
-                    <div className="modal fade" id="verifyImage" tabindex="-1" aria-labelledby="verifyImageLabel" aria-hidden="true">
-                        <div className="modal-dialog modal-dialog-centered">
-                            <div className="modal-content">
-                                <div className="modal-body">
-                                    <img src="/resources/verifydemo.png" className="img-fluid mw-100" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <p>
-                        {translate(lang, 'page_feature5text')}
-                    </p>
-                </div>
-                <div className="col feature">
-                    <h3 className="feature-title">{translate(lang, 'page_feature6title')}</h3>
-                    <a href="#" data-bs-toggle="modal" data-bs-target="#voiceImage"><i className="twa twa-telephone home-emoji"></i></a>
-                    <div className="modal fade" id="voiceImage" tabindex="-1" aria-labelledby="voiceImageLabel" aria-hidden="true">
-                        <div className="modal-dialog modal-dialog-centered">
-                            <div className="modal-content">
-                                <div className="modal-body">
-                                    <img src="/resources/voicedemo.png" className="img-fluid mw-100" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <p>
-                        {translate(lang, 'page_feature6text')}
-                    </p>
-                </div>
-            </div>
-            <p style={{ textAlign: "center" }}>
-                {translate(lang, 'page_homeoutropart1')}
-                <br />{translate(lang, 'page_homeoutropart2')}<a href={oauth2link}>{translate(lang, 'page_homeoutropart3') + uniconf.projname + translate(lang, 'page_homeoutropart4')}</a>{translate(lang, 'page_homeoutropart5')}
-            </p>
-        </div>
-    </div>
-</ConfLayout>
+    )
+}
+
+module.exports = Home

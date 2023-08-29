@@ -77,23 +77,32 @@ function ErrorMessage(props) {
         switch (props.err) {
             case "MISSING_FIELDS":
                 error = <p>{translate(props.language, 'page_noconfintromissingfieldspart1')} <code>conf.json</code> {translate(props.language, 'page_noconfintromissingfieldspart2') + props.confPath + translate(props.language, 'page_noconfintromissingfieldspart3') + props.uniconf.projname + translate(props.language, 'page_noconfintromissingfieldspart4')}<br /><ErrorDiag err={props.err} language={props.language} /></p>
+                break
             case "TOKEN_INVALID":
                 error = <p>{translate(props.language, 'page_noconfintrobadtokenpart1')} <code>conf.json</code> {translate(props.language, 'page_noconfintrobadtokenpart2') + props.confPath + translate(props.language, 'page_noconfintrobadtokenpart3') + props.uniconf.projname + translate(props.language, 'page_noconfintrobadtokenpart4')}<br /><ErrorDiag err={props.err} language={props.language} /></p>
+                break
             case "CONNECTION_REFUSED":
                 error = <p>{props.uniconf.projname + translate(props.language, 'page_noconfintroconnectionrefused')}<br /><ErrorDiag err={props.err} language={props.language} /></p>
+                break
             case "INCORRECT_CREDENTIALS":
                 error = <p>{props.uniconf.projname + translate(props.language, 'page_noconfintroincorrectcredentials')}<br /><ErrorDiag err={props.err} language={props.language} /></p>
+                break
             case "ACCESS_DENIED":
                 error = <p>{props.uniconf.projname + translate(props.language, 'page_noconfintroaccessdenied')}<br /><ErrorDiag err={props.err} language={props.language} /></p>
+                break
             case "REDIS_CONNECTION_REFUSED":
                 error = <p>{props.uniconf.projname + translate(props.language, 'page_noconfintroredisconnectionrefused')}<br /><ErrorDiag err={props.err} language={props.language} /></p>
+                break
             case "WRONGPASS":
                 error = <p>{props.uniconf.projname + translate(props.language, 'page_noconfintroincorrectcredentials')}<br /><ErrorDiag err={props.err} language={props.language} /></p>
+                break
             case "BAD_DATABASE":
                 error = <p>{translate(props.language, 'page_redisbaddatabasepart1') + translate(props.language, 'page_redisbaddatabasepart2')} <code>redis.conf</code> {translate(props.language, 'page_redisbaddatabasepart3')}<br /><ErrorDiag err={props.err} language={props.language} /></p>
+                break
             default:
                 log.error(props.err, props.language)
                 error = <p>{translate(props.language, 'page_noconfintrounknowndiscorderror1') + props.uniconf.projname + translate(props.language, 'page_noconfintrounknowndiscorderror2')}<br /><ErrorDiag err={props.err} language={props.language} uniconf={props.uniconf} /></p>
+                break
         };
     }
     return error

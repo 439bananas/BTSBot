@@ -18,7 +18,9 @@ const Noconfintro = require('./no-conf-intro');
 const Footer = require('./components/footer')
 const About = require('./About')
 const Config = require('./config');
-const Home = require('./FP')
+const Home = require('./home');
+const FeatureCard = require("./components/featureCard");
+const translate = require("./components/getLanguageString");
 
 function App(props) {
     /*return (
@@ -55,13 +57,15 @@ function App(props) {
         return (
             <body>
                 <Header DiscordUser={props.DiscordUser} language={props.language} uniconf={props.uniconf} confExists={true} userIsMod={props.userIsMod} />
-                <div className="loader view">
-                    <Routes>
-                        <Route path="/">
-                            <Route index element={<big>Ten green bottles hanging on the wall</big>/*<img src="/resources/404.png" language={props.language} confErr={props.confErr} uniconf={props.uniconf} DiscordUser={{}} />*/} />
-                            <Route path="*" element={<Error404 language={props.language} confErr={props.confErr} uniconf={props.uniconf} />} />
-                        </Route>
-                    </Routes>
+                <div className="view">
+                    <div className="loader">
+                        <Routes>
+                            <Route path="/">
+                                <Route index element={<Home addToServerLink={props.addToServerLink} language={props.language} uniconf={props.uniconf} />/*<img src="/resources/404.png" language={props.language} confErr={props.confErr} uniconf={props.uniconf} DiscordUser={{}} />*/} />
+                                <Route path="*" element={<Error404 language={props.language} confErr={props.confErr} uniconf={props.uniconf} />} />
+                            </Route>
+                        </Routes>
+                    </div>
                 </div>
                 <Footer language={props.language} uniconf={props.uniconf} contactLink={props.contactLink} />
                 <script src="/resources/bundle.js" />

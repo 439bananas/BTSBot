@@ -142,7 +142,7 @@
   "ModmailSession": [
     [ "user", "bigint", "ppk" ],
     [ "guildId", "bigint", "ppk" ],
-    [ "threadId", "bigint" ],
+    [ "threadId", "bigint", "ppk" ],
     [ "lastMessagedByUser", "boolean" ]
   ],
   "BlacklistedStarboarder": [
@@ -156,37 +156,5 @@
   ],
   "SelfBlacklistedStarMessage": [
     [ "starMessage", "bigint", "pk" ]
-  ],
-  "BotConfig2": [
-    [ "property", "tinytext" ],
-    [ "value", "tinytext" ]
-  ],
-  "BotConfig3": [
-    [ "property", "tinytext" ],
-    [ "value", "tinytext" ]
-  ],
-  "BotConfig4": [
-    [ "property", "tinytext" ],
-    [ "value", "tinytext" ]
-  ],
-  "BotConfig5": [
-    [ "property", "tinytext" ],
-    [ "value", "tinytext" ]
-  ],
-  "BotConfig6": [
-    [ "property", "tinytext" ],
-    [ "value", "tinytext" ]
-  ],
-  "BotConfig7": [
-    [ "property", "tinytext" ],
-    [ "value", "tinytext" ]
-  ],
-  "BotConfig8": [
-    [ "property", "tinytext" ],
-    [ "value", "tinytext" ]
-  ],
-  "BotConfig9": [
-    [ "property", "tinytext" ],
-    [ "value", "tinytext" ]
   ]
 }
