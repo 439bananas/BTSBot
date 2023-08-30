@@ -125,7 +125,6 @@
     <Content Include="src\server\api\getUser.js" />
     <Content Include="src\server\api\ready.js" />
     <Content Include="src\server\validateConf.js" />
-    <Content Include="src\server\views\About.jsx" />
     <Content Include="src\server\api\uniconf.js">
       <SubType>Code</SubType>
     </Content>

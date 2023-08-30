@@ -16,25 +16,10 @@ const Header = require('./components/header');
 const Error404 = require('./404');
 const Noconfintro = require('./no-conf-intro');
 const Footer = require('./components/footer')
-const About = require('./About')
 const Config = require('./config');
 const Home = require('./home');
 
 function App(props) {
-    /*return (
-        <html>
-            <head>
-                <title>Server Rendered App</title>
-            </head>
-            <body>
-                <Routes>
-                    <Route path="/about" element={<About language={props.language} />} />
-                    <Route index element={<Home language={props.language} />} />
-                </Routes>
-                <script src="resources/bundle.js" />
-            </body>
-        </html>
-    );*/
     if (!props.confExists) {
         return (
             <body>
@@ -59,7 +44,7 @@ function App(props) {
                     <div className="loader">
                         <Routes>
                             <Route path="/">
-                                <Route index element={<Home addToServerLink={props.addToServerLink} language={props.language} uniconf={props.uniconf} />/*<img src="/resources/404.png" language={props.language} confErr={props.confErr} uniconf={props.uniconf} DiscordUser={{}} />*/} />
+                                <Route index element={<Home addToServerLink={props.addToServerLink} language={props.language} uniconf={props.uniconf} />} />
                                 <Route path="*" element={<Error404 language={props.language} confErr={props.confErr} uniconf={props.uniconf} />} />
                             </Route>
                         </Routes>
