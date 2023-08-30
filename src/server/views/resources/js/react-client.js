@@ -23,12 +23,6 @@ async function getSpaInformation() { // Get any and all necessary information
     return response
 }
 
-async function checkConfExists() {
-    let rawResonse = await fetch('/api/ready');
-    let response = await rawResonse.json();
-    return response
-}
-
 async function getConfPath() {
     let rawResonse = await fetch('/api/conf-path');
     let response = await rawResonse.json();
@@ -36,16 +30,14 @@ async function getConfPath() {
 }
 
 async function hydrateDOM() { // Hydrating the script means that the client can pick up the other side and continue with the SPA without a problem
-    let ready = await checkConfExists() // Declaring these reduces API calls
-    void ready
-    let spaInformation = await getSpaInformation()
+    let spaInformation = await getSpaInformation() // Declaring this reduces API calls
     void spaInformation
-    if (ready.confExists) { // Does conf exist? Hydrate te React application according to whether it does
+    if (spaInformation.re.confExists) { // Does conf exist? Hydrate te React application according to whether it does
         let { uniconf, lang, user, contactLink, userIsMod, address, clientid } = spaInformation
         ReactDOM.hydrate(
             <BrowserRouter>
                 <Head language={lang} uniconf={uniconf} />
-                <App addToServerLink={{ address: address, clientid: clientid }} language={lang} confExists={ready.confExists} DiscordUser={user} uniconf={uniconf} userIsMod={userIsMod} contactLink={contactLink} />
+                <App addToServerLink={{ address: address, clientid: clientid }} language={lang} confExists={spaInformation.re.confExists} DiscordUser={user} uniconf={uniconf} userIsMod={userIsMod} contactLink={contactLink} />
             </BrowserRouter>,
             document.documentElement
         );
@@ -54,7 +46,7 @@ async function hydrateDOM() { // Hydrating the script means that the client can 
         ReactDOM.hydrate(
             <BrowserRouter>
                 <Head language={lang} uniconf={uniconf} />
-                <App language={lang} confExists={ready.confExists} confErr={ready.confErr} confPath={await getConfPath()} uniconf={uniconf} DiscordUser={{}} queryString={query2JSON(window.location.search)} />
+                <App language={lang} confExists={spaInformation.re.confExists} confErr={spaInformation.re.confErr} confPath={await getConfPath()} uniconf={uniconf} DiscordUser={{}} queryString={query2JSON(window.location.search)} />
             </BrowserRouter>,
             document.documentElement
         );

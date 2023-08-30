@@ -26,6 +26,7 @@ router.get('/', async (req, res, next) => { // Get all information required by t
 
     if (re.confExists) {
         res.status(200).json({
+            re: re,
             uniconf: uniconf,
             lang: {
                 preferred: getLangFile(await getUserLang(req)),
@@ -40,6 +41,7 @@ router.get('/', async (req, res, next) => { // Get all information required by t
         })
     } else {
         res.status(200).json({
+            re: re,
             uniconf: uniconf,
             lang: {
                 preferred: getLangFile(await getUserLang(req)),
