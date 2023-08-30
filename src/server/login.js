@@ -21,9 +21,12 @@ const getDiscordToken = require('../core/getDiscordBearerToken')
 const showwall = require('./displayWall')
 const getUserLang = require('../core/getUserLang')
 const getDiscordScopes = require('../core/getDiscordScopes')
+const validateConf = require('./validateConf')
 
 router.get('/', async (req, res, next) => {
-    if (req.confExists) {
+    let re = await validateConf(req)
+
+    if (re.confExists) {
         try { // If bearer token valid, redirect to /servers
             if ((req.query.bypasscache && req.query.bypasscache == "true") || req.query.code) {
                 log.temp("cache bypassed")

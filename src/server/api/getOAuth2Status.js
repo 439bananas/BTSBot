@@ -21,6 +21,7 @@ const { createClient } = require('redis')
 const express = require('express');
 const checkConf = require('../../core/checkConfExists')
 const getlang = require('../../core/getLanguageJSON')
+const validateConf = require('../validateConf')
 const router = express.Router();
 let conf
 
@@ -126,11 +127,13 @@ async function googleOauth2(req, res, conf) { // Cope with Google's OAuth2 in a 
 }
 
 router.get('/', async (req, res, next) => { // Let's validate our OAuth2 with rather a lengthy function!
+    let re = await validateConf(req)
+
     async function validateOAuth2() {
         let token
         let oAuthUrl
         let id
-        if (req.confExists) { // Does the configuration already exist? If it does, do not do anything else.
+        if (re.confExists) { // Does the configuration already exist? If it does, do not do anything else.
             res.status(400)
             res.json({ error: "CONF_OK" })
         } else {

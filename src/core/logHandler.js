@@ -44,7 +44,7 @@ function warn(message) {
  * Sends, you guessed it, an error to the console with a red "ERROR"
  * @param {string} message - The message to error with
  */
-function error(message) {
+function error(message, line) {
     const e = new Error();
     const regex = /\((.*):(\d+):(\d+)\)$/
     const match = regex.exec(e.stack.split("\n")[2]);
@@ -52,7 +52,9 @@ function error(message) {
         if (path.basename(process.argv[1]) == "index.js") {
             translateMode = "express-engine-jsx"
         } else translateMode = undefined
-        if (match) {
+        if (line) {
+            console.error(`${colours.cyan(`${new Date()}`)} - ${`${translate(lang, 'loghandler_error', translateMode)}:`.red} ${message} at ${__filename}:${line[2]}:${line[3]}`)
+        } else if (match) {
             console.error(`${colours.cyan(`${new Date()}`)} - ${`${translate(lang, 'loghandler_error', translateMode)}:`.red} ${message} at ${__filename}:${match[2]}:${match[3]}`)
         } else {
             console.error(`${colours.cyan(`${new Date()}`)} - ${`${translate(lang, 'loghandler_error', translateMode)}:`.red} ${message}`)
@@ -61,7 +63,10 @@ function error(message) {
 }
 
 function err(message) { // Quick alias for error because I'm an idiot
-    error(message)
+    const e = new Error();
+    const regex = /\((.*):(\d+):(\d+)\)$/
+    const match = regex.exec(e.stack.split("\n")[2]);
+    error(message, match)
 }
 
 function temp(message) {  // This is used for assertions and logging information to ensure a function works as intended. Each assertion should NOT end up in final releases

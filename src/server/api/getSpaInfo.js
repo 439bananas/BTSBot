@@ -17,11 +17,14 @@ const getlang = require('../../core/getLanguageJSON');
 const getaddress = require('../../core/getReqAddress');
 const getUserLang = require('../../core/getUserLang');
 const isMod = require('../../core/getUserModStatus');
+const validateConf = require('../validateConf');
 const getLangFile = require('../views/components/getLanguageJSON');
 const router = express.Router();
 
 router.get('/', async (req, res, next) => { // Get all information required by the SPA
-    if (req.confExists) {
+    let re = await validateConf(req)
+
+    if (re.confExists) {
         res.status(200).json({
             uniconf: uniconf,
             lang: {

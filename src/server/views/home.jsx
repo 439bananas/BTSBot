@@ -35,27 +35,27 @@ function Home(props) {
                     <FeatureCard title={translate(props.language, 'page_feature1title')} id="modmail" emoji="speech-balloon">
                         {translate(props.language, 'page_feature1text')}
                     </FeatureCard>
-                    <FeatureCard title={translate(props.language, 'page_feature2title')} id="modmail" emoji="floppy-disk">
+                    <FeatureCard title={translate(props.language, 'page_feature2title')} id="restore" emoji="floppy-disk">
                         {translate(props.language, 'page_feature2text')}
                     </FeatureCard>
-                    <FeatureCard title={translate(props.language, 'page_feature3title')} id="modmail" emoji="hammer">
+                    <FeatureCard title={translate(props.language, 'page_feature3title')} id="scam" emoji="hammer">
                         {translate(props.language, 'page_feature3text')}
                     </FeatureCard>
                 </div>
                 <div className="row g-4 features">
-                    <FeatureCard title={translate(props.language, 'page_feature4title')} id="modmail" emoji="memo">
+                    <FeatureCard title={translate(props.language, 'page_feature4title')} id="appeal" emoji="memo">
                         {translate(props.language, 'page_feature4text')}
                     </FeatureCard>
-                    <FeatureCard title={translate(props.language, 'page_feature5title')} id="modmail" emoji="office-building">
+                    <FeatureCard title={translate(props.language, 'page_feature5title')} id="verify" emoji="office-building">
                         {translate(props.language, 'page_feature5text')}
                     </FeatureCard>
-                    <FeatureCard title={translate(props.language, 'page_feature6title')} id="modmail" emoji="telephone">
+                    <FeatureCard title={translate(props.language, 'page_feature6title')} id="voice" emoji="telephone">
                         {translate(props.language, 'page_feature6text')}
                     </FeatureCard>
                 </div>
                 <p style={{ textAlign: "center" }}>
                     {translate(props.language, 'page_homeoutropart1')}
-                    <br /><a href={/*OAUTH2 LINK NEEDS TO BE MADE AGAIN*/oauth2link}>{translate(props.language, 'page_homeoutropart2') + props.uniconf.projname + translate(props.language, 'page_homeoutropart3')}</a>{translate(props.language, 'page_homeoutropart4')}
+                    <br /><a href={oauth2link}>{translate(props.language, 'page_homeoutropart2') + props.uniconf.projname + translate(props.language, 'page_homeoutropart3')}</a>{translate(props.language, 'page_homeoutropart4')}
                 </p>
             </div>
         </div>

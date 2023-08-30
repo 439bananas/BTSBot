@@ -27,10 +27,12 @@ const createLocaleMiddleware = require('express-locale')
 const getDiscordUser = require('../core/getDiscordUserInfo')
 const refreshBearerToken = require('../core/refreshDiscordBearerToken')
 const showwall = require('./displayWall')
-const getUserLang = require('../core/getUserLang')
+const getUserLang = require('../core/getUserLang');
+const showInterface = require('./interface');
 let faviconfilename
 let excludedApis = ["version", "uniconf", "ready"]
 let user
+let count = 0
 
 app.set('views', path.join(__dirname, '..', 'src', 'server', 'views'))
 app.set('view engine', 'jsx'); // We're using React as the templating engine, at least when the client is Internet Explorer or if a catastrophic error has happened
@@ -68,20 +70,12 @@ app.all('/*', async function (req, res, next) { // Log incoming requests
     })
 });
 
-app.all('/*', async function (req, res, next) { // Block Internet Explorer
+app.all('/*', async (req, res, next) => { // Block Internet Explorer
     let url = req.url.split('/')
-    async function validateConf() {
-        let confExists
-        let confErr
+    let confExists
+    let confErr
+    async function serverHousekeeping() {
         user = {}
-        try {
-            if ((url[1] != "resources" && !(url[1] == "api" && (url[2] == "uniconf" || url[2] == "version"))) || (url[1] == "api" && url[2] == "ready")) {
-                confExists = await checkConf()
-            } else confExists = true
-        } catch (err) {
-            confErr = err
-            confExists = false
-        }
         let lang = await getUserLang(req)
         let urls = req.url.split('/') // Split our URLs where there is a / and add to array
         if ((req.get('user-agent') && (req.get('user-agent').includes("MSIE") || req.get('user-agent').includes("Trident"))) && urls[1].toLowerCase() != "resources") { // IE has two user agents; MSIE and Trident. Trident is only used in IE 11. Also check if we are not accessing resources (so we can load CSS)
@@ -122,7 +116,6 @@ app.all('/*', async function (req, res, next) { // Block Internet Explorer
                                 if ((err.code == "ER_TABLEACCESS_DENIED_ERROR" || err.code == "ER_DBACCESS_DENIED_ERROR")) {
                                     showwall(res, lang, uniconf.projname + translate(lang, "page_missingdbperms"), translate(lang, "page_missingdbpermsdiagpart1") + conf.database + translate(lang, "page_missingdbpermsdiagpart2") + '\'' + conf.dbusername + '\'@\'' + conf.hostname + '\'.')
                                 } else if (!(err.code == "ER_TABLEACCESS_DENIED_ERROR" || err.code == "ER_DBACCESS_DENIED_ERROR")) {
-                                    log.temp(err.code)
                                     log.error(err)
                                     showwall(res, conf.language, translate(lang, "page_confunknownerror"), translate(lang, "page_wallunknownerrordiag"))
                                 } else next()
@@ -160,42 +153,24 @@ app.all('/*', async function (req, res, next) { // Block Internet Explorer
                         }
                     }
                 }
-            } else if ((typeof (redisConnection) === 'undefined' || typeof (MySQLConnection) === 'undefined') && urls[1].toLowerCase() != "resources" && confExists === true && !excludedApis.includes(urls[2])) { // Database can be accessed after downtime during initialisation of project
-                global.conf = require('../../configs/conf.json')
-                require('../database/databaseManager')
-                next()
             } else {
                 next()
             }
         }
-        return { confExists: confExists, confErr: confErr }
     }
 
     app.use('/resources', resourcesRoutes) // Yeah let's get these resources
-
-    let re = await validateConf()
     app.use(favicon(path.join(__dirname, '..', 'src', 'server', 'views', 'resources', 'img', faviconfilename)))
-    app.use('/api', async function (req, res, next) {
-        req.confExists = re.confExists
-        req.confErr = re.confErr
-        req.user = user
-        next();
-    }, routes) // All API endpoints then begin with "/api"
-    app.use('/login', async function (req, res, next) {
-        req.confExists = re.confExists
-        req.confErr = re.confErr
-        req.user = user
-        next();
-    }, loginRoutes) // Login
-    app.use('/logout', logoutRoutes) // And logging out
-    app.use('*', async function (req, res, next) {
-        if (url[1] != "resources") {
-            req.confExists = re.confExists
-            req.confErr = re.confErr
-            req.user = user
-        }
-        next();
-    }, interfaceRoutes)
+
+    re = await serverHousekeeping()
+
+    if (re === undefined) {
+        app.use('/api', async (req, res, next) => { req.user = user; next() }, routes) // All API endpoints then begin with "/api"
+        app.use('/login', async (req, res, next) => { req.user = user; next() }, loginRoutes) // Login
+        app.use('/logout', logoutRoutes) // And logging out
+        app.use('*', async (req, res, next) => { req.user = user; next() }, interfaceRoutes) // React SPA
+        count++
+    }
 })
 
 fetch("http://127.0.0.1:" + uniconf.port) // This is very janky but it ensures that there isn't any kind of "Cannot GET /" error when getting the server for the first time. If there is a fix for this, please let me know!!

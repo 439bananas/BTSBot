@@ -11,13 +11,16 @@
 /////////////////////////////////////////////////////////////
 
 const express = require('express');
+const validateConf = require('../validateConf');
 const router = express.Router();
 
 router.get('/', async (req, res, next) => {
-    if (req.confExists) {
+    let re = await validateConf(req)
+
+    if (re.confExists) {
         res.json({})
     } else {
-        if (req.confErr == "ACCESS_DENIED") {
+        if (re.confErr == "ACCESS_DENIED") {
             res.json({ database: conf.database, dbusername: conf.dbusername, hostname: conf.hostname }) // Return the configuration so that the noconfintro shows the database, hostname and dbusername
         } else {
             res.json({})

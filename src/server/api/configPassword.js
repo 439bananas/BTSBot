@@ -16,6 +16,7 @@ const router = express.Router();
 const crypto = require('crypto')
 const fs = require('fs');
 const { formidable } = require('formidable');
+const validateConf = require('../validateConf');
 const symbols = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
 const capitalLetters = /[ABCDEFGHIJKLMNOPQRSTUVWXYZ]/;
 const lowercaseLetters = /[abcdefghijklmnopqrstuvwxyz]/;
@@ -37,6 +38,8 @@ router.get('/', async (req, res, next) => { // Endpoint exists to see if there i
 })
 
 router.post('/create', async (req, res, next) => { // Allows a user to set a configuration password if it does not exist
+    let re = await validateConf(req)
+
     let passwordHash = undefined
     let sha256token
     let token
@@ -51,7 +54,7 @@ router.post('/create', async (req, res, next) => { // Allows a user to set a con
     try {
         if (passwordExists) { // If there already is a valid password, throw a "PASSWORD_EXISTS" error
             res.json({ error: "PASSWORD_EXISTS" })
-        } else if (req.confExists || req.confErr == "CANNOT_CONNECT_TO_DISCORD") {
+        } else if (re.confExists || re.confErr == "CANNOT_CONNECT_TO_DISCORD") {
             res.json({ error: "CONF_OK" }) // If conf is ok, you shouldn't be able to set a new password if there isn't a password
         } else {
             form = formidable({ maxFields: Infinity }) // Prepare the form

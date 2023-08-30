@@ -25,8 +25,6 @@ function geti18n() { // This is a function so everyone can use it!
             }
             langfiles.forEach(function (json) { // For every i18n file, check if it's a JSON file
                 if (path.extname(json) == '.json') {
-                    log.temp("base name " + path.basename(json, '.json'))
-                    log.temp(json)
                     langfile = require(path.join(__dirname, '..', 'src', 'i18n', json))
                     if (langfile.name !== undefined) { // Ignore undefined language names
                         langs.push([path.basename(json, '.json'), langfile.name]) // Add to the array of languages
