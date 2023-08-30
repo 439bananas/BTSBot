@@ -14,7 +14,6 @@ const React = require('react');
 const { useEffect, useState } = require('react');
 const translate = require('./components/getLanguageString');
 const GuildLink = require('./components/guildLlink');
-let guildIconLink;
 
 function getGuilds() { // useEffect to get all guilds the user is a part of
     const [guilds, setGuilds] = useState(null)
@@ -119,7 +118,7 @@ function GetGuilds(props) { // Get all guilds that the user can manage
     return guildElements
 };
 
-function Guilds(props) {
+function Servers(props) {
     let guilds = getGuilds()
     if (!props.user.id) {
         if (typeof (window) != "undefined") {
@@ -130,4 +129,4 @@ function Guilds(props) {
     else return (<GetGuilds language={props.language} guilds={guilds} />)
 }
 
-module.exports = Guilds
+module.exports = Servers
