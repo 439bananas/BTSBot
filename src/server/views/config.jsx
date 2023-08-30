@@ -73,7 +73,7 @@ function getLanguages() { // Get languages
 
     useEffect(() => {
         async function fetchLanguages() {
-            let rawResponse = await fetch("/api/languages") // See if there is a password. If not, let's create one!
+            let rawResponse = await fetch("/api/languages") // Get all languages
             let response = await rawResponse.json()
             setLanguages(response)
         }

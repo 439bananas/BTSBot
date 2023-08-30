@@ -11,6 +11,10 @@ body {
     line-height: 1.5;
 }
 
+h2 {
+    font-size: calc(1rem + 1.25vw);
+}
+
 h1, h2, h3, h4, h5 {
     font-family: ab;
     color: white;

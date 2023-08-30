@@ -10,7 +10,6 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-const checkConf = require('../core/checkConfExists')
 const express = require('express')
 const engine = require('express-engine-jsx');
 const app = express()
@@ -28,11 +27,8 @@ const getDiscordUser = require('../core/getDiscordUserInfo')
 const refreshBearerToken = require('../core/refreshDiscordBearerToken')
 const showwall = require('./displayWall')
 const getUserLang = require('../core/getUserLang');
-const showInterface = require('./interface');
 let faviconfilename
-let excludedApis = ["version", "uniconf", "ready"]
 let user
-let count = 0
 
 app.set('views', path.join(__dirname, '..', 'src', 'server', 'views'))
 app.set('view engine', 'jsx'); // We're using React as the templating engine, at least when the client is Internet Explorer or if a catastrophic error has happened
@@ -71,9 +67,6 @@ app.all('/*', async function (req, res, next) { // Log incoming requests
 });
 
 app.all('/*', async (req, res, next) => { // Block Internet Explorer
-    let url = req.url.split('/')
-    let confExists
-    let confErr
     async function serverHousekeeping() {
         user = {}
         let lang = await getUserLang(req)
@@ -169,7 +162,6 @@ app.all('/*', async (req, res, next) => { // Block Internet Explorer
         app.use('/login', async (req, res, next) => { req.user = user; next() }, loginRoutes) // Login
         app.use('/logout', logoutRoutes) // And logging out
         app.use('*', async (req, res, next) => { req.user = user; next() }, interfaceRoutes) // React SPA
-        count++
     }
 })
 

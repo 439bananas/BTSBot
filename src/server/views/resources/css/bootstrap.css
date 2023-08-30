@@ -87,10 +87,10 @@ h1, .h1 {
   }
 }*/
 
-h2, .h2 {
+/*h2, .h2 {
     font-size: calc(1.325rem + 1.5vw);
 }
-/*@media (min-width: 1200px) {
+@media (min-width: 1200px) {
     h2, .h2 {
     font-size: 2.5rem;
   }

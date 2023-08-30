@@ -26,7 +26,8 @@ const getConfValuesRoutes = require('./api/getConfValues');
 const getLanguagesRoutes = require('./api/getAllLanguages');
 const getUserRoutes = require('./api/getUser');
 const getContactLinkRoutes = require('./api/getContactLink');
-const gtSpaInfoRoutes = require('./api/getSpaInfo');
+const getSpaInfoRoutes = require('./api/getSpaInfo');
+const getBotInGuildRoutes = require('./api/botInGuild');
 
 router.use('/submit-config', submitConfigRoutes)
 router.use('/version', versionRoutes)
@@ -41,6 +42,7 @@ router.use('/conf-values', getConfValuesRoutes)
 router.use('/languages', getLanguagesRoutes)
 router.use('/user', getUserRoutes)
 router.use('/contact-link', getContactLinkRoutes)
-router.use('/page-info', gtSpaInfoRoutes)
+router.use('/page-info', getSpaInfoRoutes)
+router.use('/guild-presence', getBotInGuildRoutes)
 
 module.exports = router;

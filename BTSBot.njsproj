@@ -113,6 +113,7 @@
     <Content Include="src\i18n\en-gb.json" />
     <Content Include="src\i18n\fr-fr.json" />
     <Content Include="src\i18n\test.json" />
+    <Content Include="src\server\api\botInGuild.js" />
     <Content Include="src\server\api\configPassword.js" />
     <Content Include="src\server\api\getAllLanguages.js" />
     <Content Include="src\server\api\getConf.js" />
@@ -132,6 +133,7 @@
     <Content Include="src\server\views\components\convertQueryStringToJSON.js" />
     <Content Include="src\server\views\components\getLanguageJSON.js" />
     <Content Include="src\server\views\components\getLanguageString.js" />
+    <Content Include="src\server\views\components\guildLlink.jsx" />
     <Content Include="src\server\views\components\logHandler.js" />
     <Content Include="src\server\views\config-form.jsx" />
     <Content Include="src\server\views\create-configuration-password.jsx" />
