@@ -10,7 +10,6 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-const Layout = require('./components/layout');
 const Head = require('./components/head');
 const Header = require('./components/header');
 

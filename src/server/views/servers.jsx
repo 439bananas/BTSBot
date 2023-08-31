@@ -14,6 +14,8 @@ const React = require('react');
 const { useEffect, useState } = require('react');
 const translate = require('./components/getLanguageString');
 const GuildLink = require('./components/guildLlink');
+const { Routes, Route } = require("react-router-dom");
+const Error404 = require('./404')
 
 function getGuilds() { // useEffect to get all guilds the user is a part of
     const [guilds, setGuilds] = useState(null)
@@ -118,7 +120,7 @@ function GetGuilds(props) { // Get all guilds that the user can manage
     return guildElements
 };
 
-function Servers(props) {
+function ServersList(props) {
     let guilds = getGuilds()
     if (!props.user.id) {
         if (typeof (window) != "undefined") {
@@ -128,5 +130,20 @@ function Servers(props) {
     } else if (guilds === null) return null // If there is not yet a response then return a loading screen
     else return (<GetGuilds language={props.language} guilds={guilds} />)
 }
+
+function Servers(props) {
+    return (
+        <Routes>
+            <Route path="/">
+                <Route index element={<ServersList language={props.language} uniconf={props.uniconf} user={props.user} />} />
+                <Route path="*" element={<Error404 language={props.language} confErr={props.confErr} uniconf={props.uniconf} />} />
+            </Route>
+        </Routes>
+    )
+}
+
+// Add a mini-router.
+//If route is index, see if guilds == null and then return null (else getguilds).
+// If route not index then go to a switcher element that either redirects user to discord oauth2 to add bot to guild or show the dashboard.returnto shall be used by login (which should be the redirect uri) so redirecting back shouldn't be a problem
 
 module.exports = Servers
