@@ -19,7 +19,8 @@
     [ "email", "text" ],
     [ "language", "tinytext" ],
     [ "theme", "tinyint" ],
-    [ "stringsTranslated", "bigint" ]
+    [ "stringsTranslated", "bigint" ],
+    [ "suspended", "boolean"]
   ],
   "Star": [
     [ "messageId", "bigint", "pk" ],
