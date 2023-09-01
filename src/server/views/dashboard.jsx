@@ -10,20 +10,20 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-import { BrowserRouter as Router, Route } from 'react-dom';
-const ConfLayout = require('./components/conf-layout');
+const React = require('React');
 
-function Test() {
-    return (<b>test</b>)
-};
+function Dashboard(props) {
+    return (
+        <div className="global-intro-section">
+            <div className="container">
+                <center>
+                    <h1>{props.guild.name}</h1>
+                    <div style={{ paddingTop: 2 + "ex" }} />
+                    <img src={props.guild.icon} className="rounded-circle" />
+                </center>
+            </div>
+        </div>
+    )
+}
 
-<Router>
-<ConfLayout>
-    <div className="global-intro-section">
-        <div className="container">
-            <center><h1>{guild.name}</h1></center>
-        </div>
-        </div>
-        <Route path='test' component={Test} />
-    </ConfLayout>
-</Router>
+module.exports = Dashboard

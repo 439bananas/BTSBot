@@ -15,6 +15,7 @@ const { useState, useEffect } = require('react')
 const { useLocation } = require('react-router-dom')
 let getUserPermissions = require('../../core/getUserPermissions') // I know I shouldn't be calling something in core but to be fair, the API doesn't call any sensitive functions
 const translate = require('./components/getLanguageString')
+const Dashboard = require('./dashboard')
 const ErrorPage = require('./error-page-spa')
 
 function getDashboard(id, all) { // useEffect to get all guilds the user is a part of
@@ -79,8 +80,7 @@ function Server(props) {
         }
     } else {
         if (guild != null) {
-            return JSON.stringify(guild.config)
-
+            return <Dashboard language={props.language} guild={guild} />
         } else return null
     }
 
