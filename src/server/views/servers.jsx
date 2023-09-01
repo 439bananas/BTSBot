@@ -15,7 +15,7 @@ const { useEffect, useState } = require('react');
 const translate = require('./components/getLanguageString');
 const GuildLink = require('./components/guildLlink');
 const { Routes, Route } = require("react-router-dom");
-const Error404 = require('./404')
+const Server = require('./server')
 
 function getGuilds() { // useEffect to get all guilds the user is a part of
     const [guilds, setGuilds] = useState(null)
@@ -120,13 +120,16 @@ function GetGuilds(props) { // Get all guilds that the user can manage
     return guildElements
 };
 
-function ServersList(props) {
+function ServersList(props) { // Show the servers list
     let guilds = getGuilds()
+    if (typeof (document) != "undefined") {
+        document.title = props.uniconf.projname + " - " + translate(props.language, "page_globalservers")
+    }
     if (!props.user.id) {
         if (typeof (window) != "undefined") {
             window.location.href = "/login?bypasscache=true"
-            return null
-        } else return null
+        }
+        return null
     } else if (guilds === null) return null // If there is not yet a response then return a loading screen
     else return (<GetGuilds language={props.language} guilds={guilds} />)
 }
@@ -136,14 +139,10 @@ function Servers(props) {
         <Routes>
             <Route path="/">
                 <Route index element={<ServersList language={props.language} uniconf={props.uniconf} user={props.user} />} />
-                <Route path="*" element={<Error404 language={props.language} confErr={props.confErr} uniconf={props.uniconf} />} />
+                <Route path="*" element={<Server user={props.user} addToServerLink={props.addToServerLink} language={props.language} uniconf={props.uniconf} />} />
             </Route>
         </Routes>
     )
 }
-
-// Add a mini-router.
-//If route is index, see if guilds == null and then return null (else getguilds).
-// If route not index then go to a switcher element that either redirects user to discord oauth2 to add bot to guild or show the dashboard.returnto shall be used by login (which should be the redirect uri) so redirecting back shouldn't be a problem
 
 module.exports = Servers

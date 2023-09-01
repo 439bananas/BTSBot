@@ -5,8 +5,7 @@
   ],
   "GuildConfig": [
     [ "id", "bigint", "pk" ],
-    [ "config", "json" ],
-    [ "owner", "bigint" ]
+    [ "config", "json" ]
   ],
   "Message": [
     [ "id", "bigint", "pk" ],

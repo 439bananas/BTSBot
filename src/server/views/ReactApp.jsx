@@ -46,7 +46,7 @@ function App(props) {
                         <Routes>
                             <Route path="/">
                                 <Route index element={<Home addToServerLink={props.addToServerLink} language={props.language} uniconf={props.uniconf} />} />
-                                <Route path="servers/*" element={<Servers language={props.language} uniconf={props.uniconf} user={props.DiscordUser} />} />
+                                <Route path="servers/*" element={<Servers addToServerLink={props.addToServerLink} language={props.language} uniconf={props.uniconf} user={props.DiscordUser} />} />
                                 <Route path="*" element={<Error404 language={props.language} confErr={props.confErr} uniconf={props.uniconf} />} />
                             </Route>
                         </Routes>

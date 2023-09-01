@@ -106,6 +106,7 @@ app.all('/*', async (req, res, next) => { // Block Internet Explorer
                         } else if (userRow[0] != user.email) { // If email is outdated, update in database
                             try {
                                 let response = await MySQLConnection.query('UPDATE user SET email=? WHERE id=?', [user.email, user.id])
+                                void response
                                 next()
                             } catch (err) { // error -> display wall
                                 if ((err.code == "ER_TABLEACCESS_DENIED_ERROR" || err.code == "ER_DBACCESS_DENIED_ERROR")) {

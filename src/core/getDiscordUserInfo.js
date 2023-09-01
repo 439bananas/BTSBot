@@ -10,6 +10,7 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
+const crypto = require('crypto')
 let response
 let user
 
@@ -46,7 +47,7 @@ function requireValidDiscordUserResp(discordUserResp) {
 
 async function getDiscordUser(bearertoken) { // Get the user's info from their bearer token
     try {
-        let cachedInfo = await redisConnection.json.get('DiscordBearerToken:' + bearertoken)
+        let cachedInfo = await redisConnection.json.get('DiscordBearerToken:' + crypto.createHash('sha256').update(bearertoken).digest('hex'))
         if (cachedInfo == null) {
             try {
                 user = await fetchDiscordUser(bearertoken) // Fetch our user
@@ -55,8 +56,8 @@ async function getDiscordUser(bearertoken) { // Get the user's info from their b
             }
             let responseOk = await requireValidDiscordUserResp(user) // Throw errors if anything bad happens
             if (user.email && user.discriminator) { // If we have the email and discriminator, we should be good
-                redisConnection.json.set('DiscordBearerToken:' + bearertoken, '$', user) // Cache our response
-                redisConnection.expire('DiscordBearerToken:' + bearertoken, 86400) // This should expire in a day if anything
+                redisConnection.json.set('DiscordBearerToken:' + crypto.createHash('sha256').update(bearertoken).digest('hex'), '$', user) // Cache our response
+                redisConnection.expire('DiscordBearerToken:' + crypto.createHash('sha256').update(bearertoken).digest('hex'), 86400) // This should expire in a day if anything
                 // We were previously using a method where we had a cache object and put things in that but we figured on different platforms it would cause stability/performance/resources problems and could potentially hang devices like Raspberry Pi so we switched to Redis
             } else { // If something weird, we possibly have an error, v10 shouldn't from this point in have any breaking changes (they should be issued in v11 or so)
                 log.error(user.message)

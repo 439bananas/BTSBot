@@ -47,10 +47,6 @@
     <Content Include="configs\configpasswordhash.json" />
     <Content Include="configs\confinterim.json" />
     <Content Include="configs\logintokens.json" />
-    <Content Include="i18n\contexts.json" />
-    <Content Include="i18n\en-gb.json" />
-    <Content Include="i18n\fr-fr.json" />
-    <Content Include="i18n\test.json" />
     <Content Include="install\emojigen.py" />
     <Content Include="install\resources-original.js" />
     <Content Include="install\strip-comments.js" />
@@ -120,6 +116,7 @@
     <Content Include="src\server\api\getConfPath.js" />
     <Content Include="src\server\api\getConfValues.js" />
     <Content Include="src\server\api\getContactLink.js" />
+    <Content Include="src\server\api\getDashboard.js" />
     <Content Include="src\server\api\getLanguages.js" />
     <Content Include="src\server\api\getOAuth2Status.js" />
     <Content Include="src\server\api\getSpaInfo.js" />
@@ -3898,6 +3895,7 @@
     <Content Include="src\server\views\resources\img\voicedemo.png" />
     <Content Include="src\server\views\resources\js\buttons.js" />
     <Content Include="src\server\views\resources\js\react-client.js" />
+    <Content Include="src\server\views\server.jsx" />
     <Content Include="src\server\views\servers.jsx">
       <SubType>Code</SubType>
     </Content>
@@ -3907,7 +3905,6 @@
     <Folder Include=".github\ISSUE_TEMPLATE\" />
     <Folder Include=".vscode\" />
     <Folder Include="build\" />
-    <Folder Include="i18n\" />
     <Folder Include="install\" />
     <Folder Include="resources\" />
     <Folder Include="src\" />

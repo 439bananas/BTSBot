@@ -2,7 +2,7 @@
 //                                                         //
 //                         BTS Bot                         //
 //                                                         //
-//                   File: geteGuild.js                    //
+//                    File: getGuild.js                    //
 //                                                         //
 //               Author: Thomas (439bananas)               //
 //                                                         //
@@ -10,11 +10,8 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-const getGuilds = require("./getUserGuilds");
-let guildJSON
-
-async function getGuild(id, guilds) {
-    //console.log(guilds)
+function getGuild(id, guilds) {
+    let guildJSON = {id: "0", permissions: 0}
     guilds.forEach(guild => {
         if (guild.id == id) guildJSON = guild;
     })
