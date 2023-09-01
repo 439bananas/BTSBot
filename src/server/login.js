@@ -29,7 +29,6 @@ router.get('/', async (req, res, next) => {
     if (re.confExists) {
         try { // If bearer token valid, redirect to /servers
             if ((req.query.bypasscache && req.query.bypasscache == "true") || req.query.code) {
-                log.temp("cache bypassed")
                 throw "CACHE_BYPASSED"
             } else {
                 let user = req.user
@@ -61,20 +60,16 @@ router.get('/', async (req, res, next) => {
                     res.cookie("discordbearertoken", token.bearertoken, { maxAge: 604800000, httpOnly: true }) // Store bearer token and refresh token
                     res.cookie('discordrefreshtoken', token.refreshtoken, { httpOnly: true })
                     if (req.query.state) {
-                        log.temp(req.query.state)
                         res.redirect("/" + req.query.state)
                     } else if (req.query.returnto) {
-                        log.temp(req.query.returnto)
                         res.redirect("/" + req.query.returnto)
                     } else {
-                        log.temp("login.js:68")
                         res.redirect("/servers")
                     }
                 } catch (err) {
                     res.redirect(signinlink)
                 }
             } else { // If there is a code, get the bearer token and check its scopes. If scopes match expected, store the tokens in the cookies and refresh the page
-                log.temp("there is a req query code supplied")
                 try {
                     token = await getDiscordToken(conf.token, conf.discordclientsecret, getaddress(req) + "/login", req.query.code)
                     let scopes = await getDiscordScopes(token.bearertoken)
@@ -82,13 +77,10 @@ router.get('/', async (req, res, next) => {
                         res.cookie("discordbearertoken", token.bearertoken, { maxAge: 604800000, httpOnly: true }) // Store bearer token and refresh token
                         res.cookie('discordrefreshtoken', token.refreshtoken, { httpOnly: true })
                         if (req.query.state) {
-                            log.temp(req.query.returnto)
                             res.redirect("/" + req.query.state)
                         } else if (req.query.returnto) {
-                            log.temp(req.query.returnto)
                             res.redirect("/" + req.query.returnto)
                         } else {
-                            log.temp("login.js:68")
                             res.redirect("/servers")
                         }
                     } else { // If not the correct scopes, redirect to Discord's OAuth2 page
@@ -105,7 +97,6 @@ router.get('/', async (req, res, next) => {
                             break;
                         default:
                             showwall(res, conf.language, translate(lang, "page_confunknownerror"), translate(lang, "page_wallunknownerrordiag"))
-                            log.temp("ERROR AT LINE 111")
                             log.error(err)
                     }
                 }
