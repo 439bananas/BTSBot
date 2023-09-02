@@ -106,10 +106,11 @@ function initLog() { // Create the log file
                 fs.mkdirSync('logs')
             }
             info(translate(lang, "log_loghandlercreatinglogfile", "express-engine-jsx"))
-            var iteration = 1 // Start at 1 and if the file exists, continue until incrementing until a file doesn't exist
+            let iteration = 1 // Start at 1 and if the file exists, continue until incrementing until a file doesn't exist
+            let date
             if (new Date().getDate().toString().length == 1) { // Uniform all the dates so if the length of the date or the month is 1 prepend with a 0
-                var date = (0).toString() + (new Date().getDate()).toString()
-            } else var date = (new Date().getDate()).toString()
+                date = (0).toString() + (new Date().getDate()).toString()
+            } else date = (new Date().getDate()).toString()
 
             if ((new Date().getMonth() + 1).toString().length == 1) {
                 var month = (0).toString() + (new Date().getMonth() + 1).toString()

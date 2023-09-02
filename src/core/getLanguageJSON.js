@@ -15,14 +15,15 @@ const path = require('path')
 let conf
 
 function getlang(noext, userid) { // Gets the configured language (noext is an argument that lets the function know whether to send the file extension too)
+    let ext
     if (noext === true || noext === undefined) {
-        var ext = ''
-    } else var ext = '.json'
+        ext = ''
+    } else ext = '.json'
 
     function getFile(resolve, reject, conf) {
         if (conf.language !== undefined) {
             if (typeof (pkg) != "undefined" && fs.existsSync(path.join(__dirname, '..', 'src', 'i18n', conf.language + '.json'))) { // Check if the language in conf.json exists as a json fine
-                let lang = require(__dirname + '/../src/i18n/' + conf.language + '.json')
+                let lang = require('../src/i18n/' + conf.language + '.json')
                 if (lang.name !== undefined) { // Check if the language name exists
                     resolve(conf.language + ext) // If all are true, send back the language JSON file name
                 } else {
@@ -47,10 +48,10 @@ function getlang(noext, userid) { // Gets the configured language (noext is an a
         if (userid == undefined) {
             if (typeof (pkg) != "undefined") { // pkg is global in server.js but not index.js (different process) so checking if it exists means that it's possible to see differentiate what process this is
                 if (fs.existsSync(path.join(__dirname, '..', 'configs', 'conf.json'))) { // conf.json is preferred, so follow the process if conf.json exists:
-                    conf = require('../configs/conf.json')
+                    conf = require('../../configs/conf.json')
                     getFile(resolve, reject, conf)
                 } else if (fs.existsSync(path.join(__dirname, '..', 'configs', 'confinterim.json'))) { // Ditto but check if the MySQL configuration (limbo) has the setting
-                    conf = require('../configs/confinterim.json')
+                    conf = require('../../configs/confinterim.json')
                     getFile(resolve, reject, conf)
                 } else {
                     resolve(uniconf.defaultlanguage + ext) // If neither configuration file exists, return default

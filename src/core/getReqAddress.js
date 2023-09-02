@@ -11,10 +11,11 @@
 /////////////////////////////////////////////////////////////
 
 function getaddress(req) {
+    let protocol
     if (req.headers['x-forwarded-proto']) {
-        var protocol = req.headers['x-forwarded-proto']
+        protocol = req.headers['x-forwarded-proto']
     } else {
-        var protocol = req.protocol
+        protocol = req.protocol
     }
 
     if (req.headers['x-forwarded-host']) {
