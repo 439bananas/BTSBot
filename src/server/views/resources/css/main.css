@@ -521,3 +521,8 @@ pre {
 .view {
     min-height: calc(86vh)
 }
+
+.dashboard-guild-icon {
+    max-width: 110px;
+    width: calc(7vw + 3vh + 3ex)
+}

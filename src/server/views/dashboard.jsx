@@ -19,7 +19,7 @@ function Dashboard(props) {
                 <center>
                     <h1>{props.guild.name}</h1>
                     <div style={{ paddingTop: 2 + "ex" }} />
-                    <img src={props.guild.icon} className="rounded-circle" />
+                    <img src={props.guild.icon} className="rounded-circle dashboard-guild-icon" />
                 </center>
             </div>
         </div>
