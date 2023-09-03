@@ -368,7 +368,8 @@ button,
 }
 
 textarea {
-    resize: vertical;
+    resize: none;
+    width: 100%
 }
 
 fieldset {

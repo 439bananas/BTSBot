@@ -57,7 +57,7 @@ router.get('/*', async (req, res, next) => { // Get all dashboard settings
                                     let newDashboardSettings = await MySQLConnection.query("INSERT INTO GuildConfig (id, config) VALUES (?, \"{}\")", [guild.id]) // If no guild, create one and return it
                                     void newDashboardSettings
                                     let newFetchedDashboardSettings = await MySQLConnection.query("SELECT * FROM GuildConfig WHERE id=?", [guild.id])
-                                    let JSONNewSettings = JSON.parse(newFetchedDashboardSettings[0][0][config])
+                                    let JSONNewSettings = JSON.parse(newFetchedDashboardSettings[0][0]["config"])
                                     redisConnection.json.set('Dashboard:' + guild.id, '$', JSONNewSettings) // Cache new dashboard settings
                                     return { name: guild.name, config: JSONNewSettings, icon: icon }
                                 }
