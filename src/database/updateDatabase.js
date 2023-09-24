@@ -23,6 +23,8 @@ async function addTables() {
 
     let re = await globaliseMySQL() // Initialise the MySQL client
 
+    log.error("updateDatabase needs implementation of foreign keys and indexed keys")
+
     if (re.protocolVersion) {
         let queriesMade = 0
         let promises = []

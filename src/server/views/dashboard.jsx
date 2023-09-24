@@ -10,7 +10,7 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-const React = require('React');
+const React = require('react');
 
 function Dashboard(props) {
     return (

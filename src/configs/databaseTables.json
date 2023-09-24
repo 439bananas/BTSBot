@@ -20,7 +20,7 @@
     [ "language", "tinytext" ],
     [ "theme", "tinyint" ],
     [ "stringsTranslated", "bigint" ],
-    [ "suspended", "boolean"]
+    [ "suspended", "boolean" ]
   ],
   "Star": [
     [ "messageId", "bigint", "pk" ],
@@ -156,5 +156,22 @@
   ],
   "SelfBlacklistedStarMessage": [
     [ "starMessage", "bigint", "pk" ]
+  ],
+  "Email": [
+    [ "messageId", "bigint", "pk" ],
+    [ "conversationId", "bigint", "fk:EmailConversation" ],
+    [ "sender", "bigint" ],
+    [ "senderEmail", "text" ],
+    [ "subject", "text", "fk:EmailConversation" ],
+    [ "content", "longtext" ],
+    ["attachments", "longblob"]
+  ],
+  "EmailConversation": [
+    [ "conversationId", "bigint", "pk" ],
+    [ "initialMessageId", "bigint" ],
+    [ "sender", "bigint" ],
+    [ "senderEmail", "text" ],
+    [ "subject", "text" ],
+    [ "open", "boolean" ]
   ]
 }

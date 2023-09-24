@@ -97,6 +97,7 @@ app.all('/*', async (req, res, next) => { // Block Internet Explorer
                                     showwall(res, lang, uniconf.projname + translate(lang, "page_missingdbperms"), translate(lang, "page_missingdbpermsdiagpart1") + conf.database + translate(lang, "page_missingdbpermsdiagpart2") + '\'' + conf.dbusername + '\'@\'' + conf.hostname + '\'.')
                                 } else if (!(err.code == "ER_TABLEACCESS_DENIED_ERROR" || err.code == "ER_DBACCESS_DENIED_ERROR")) {
                                     log.temp(err.code)
+                                    log.temp(err)
                                     log.temp(err.name)
                                     log.error(err)
                                     showwall(res, conf.language, translate(lang, "page_confunknownerror"), translate(lang, "page_wallunknownerrordiag"))
@@ -113,6 +114,7 @@ app.all('/*', async (req, res, next) => { // Block Internet Explorer
                                 } else if (!(err.code == "ER_TABLEACCESS_DENIED_ERROR" || err.code == "ER_DBACCESS_DENIED_ERROR")) {
                                     log.error(err)
                                     log.temp(err.code)
+                                    log.temp(err)
                                     log.temp(err.name)
                                     showwall(res, conf.language, translate(lang, "page_confunknownerror"), translate(lang, "page_wallunknownerrordiag"))
                                 } else next()
@@ -123,6 +125,7 @@ app.all('/*', async (req, res, next) => { // Block Internet Explorer
                             showwall(res, lang, uniconf.projname + translate(lang, "page_missingdbperms"), translate(lang, "page_missingdbpermsdiagpart1") + conf.database + translate(lang, "page_missingdbpermsdiagpart2") + '\'' + conf.dbusername + '\'@\'' + conf.hostname + '\'.')
                         } else if (!(err.code == "ER_TABLEACCESS_DENIED_ERROR" || err.code == "ER_DBACCESS_DENIED_ERROR")) {
                             log.temp(err.code)
+                            log.temp(err)
                             log.temp(err.name)
                             log.error(err)
                             showwall(res, conf.language, translate(lang, "page_confunknownerror"), translate(lang, "page_wallunknownerrordiag"))
