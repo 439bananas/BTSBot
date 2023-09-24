@@ -73,6 +73,10 @@ router.post('/create', async (req, res, next) => { // Allows a user to set a con
                     } else if (fields.password[0] != fields.passwordrepeat[0]) { // Ensure that the passwords match
                         res.json({ error: "NON_MATCHING_PASSWORDS" })
                     } else {
+                        if (!fs.existsSync(path.join(__dirname, '..', 'configs'))) {
+                            fs.mkdirSync(path.join(__dirname, '..', 'configs')))
+                        }
+
                         token = crypto.randomBytes(64).toString('base64') // Generate random characters and put them in base 64
                         sha256token = crypto.createHash('sha256').update(token).digest('hex')
                         passwordHash = await argon2.hash(fields.password[0], { memoryCost: 2 ** uniconf.hashmemorycost, timeCost: uniconf.defaulthashingrounds }) // Hash the given password (salt is given in hash)
