@@ -74,7 +74,7 @@ router.post('/create', async (req, res, next) => { // Allows a user to set a con
                         res.json({ error: "NON_MATCHING_PASSWORDS" })
                     } else {
                         if (!fs.existsSync(path.join(__dirname, '..', 'configs'))) {
-                            fs.mkdirSync(path.join(__dirname, '..', 'configs')))
+                            fs.mkdirSync(path.join(__dirname, '..', 'configs'))
                         }
 
                         token = crypto.randomBytes(64).toString('base64') // Generate random characters and put them in base 64
