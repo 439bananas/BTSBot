@@ -1,0 +1,80 @@
+title: NO A
+emoji: construction # The emoji to display on the dashboard
+description: page_dashboardcatnewitemdescription # The description of this new item
+menu1: # menu1 will appear in the database as that
+    title: page_dashboardcatnewitemmenu1 # The title for each section in the category to show as
+    col1: # Columns show in the database but should not be used - they exist purely for the front UI (and the use of the database means that it knows where settings for options should go)
+        setting1: # Anything like "setting1" will appear in the database as so
+            title: page_dashboardcatnewitemmenu1setting1
+            type: shortText
+            max: 100 # Max length of input
+            default: page_dashboardcatnewitemmenu1setting1default # Default text - this will show to the user but will be stored as a blank value in the database
+        setting2:
+            title: page_dashboardcatnewitemmenu1setting2   
+            type: longText # Default can also be optional - if it's optional then it will appear blank on the dashbboard
+            required: true # Optional - if true, then the text box cannot be empty
+        setting3:
+            title: page_dashboardcatnewitemmenu1setting3
+            type: checkbox
+            options:
+                option1:
+                    title: page_dashboardcatnewitemmenu1setting3option1
+                    default: false
+                option2:
+                    title: page_dashboardcatnewitemmenu1setting3option2
+                    default: true
+                option3:
+                    title: page_dashboardcatnewitemmenu1setting3option3
+menu2:
+    title: page_dashboardcatnewitemmenu2
+    col1:
+        setting1:
+            title: page_dashboardcatnewitemmenu2setting1
+            type: radio
+            default: option1 # Default is once again optional
+            option1:
+                title: page_dashboardcatnewitemmenu2setting1option1
+            option2:
+                title: page_dashboardcatnewitemmenu2setting1option2
+            option3:
+                title: page_dashboardcatnewitemmenu2setting1option3
+    col2:
+        setting2:
+            title: page_dashboardcatnewitemmenu2setting2
+            type: toggle
+            default: true
+        setting3:
+            title: page_dashboardcatnewitemmenu2setting3
+            type: integer
+            default: 10
+        setting4:
+            title: page_dashboardcatnewitemmenu2setting3
+            type: number
+            default: 3.141592654
+        setting5:
+            title: page_dashboardcatnewitemmenu2setting5
+            type: dropdown
+            option1:
+                title: page_dashboardcatnewitemmenu2setting5option1
+            option2:
+                title: page_dashboardcatnewitemmenu2setting5option2
+            option3:
+                title: page_dashboardcatnewitemmenu2setting5option3
+        setting6:
+            title: page_dashboardcatnewitemmenu2setting5
+            type: dropdown
+            use-options: role ## The intention is to have preset lists of options, e.g. role, channel, etc
+menu3:
+    title: page_dashboardcatnewitemmenu3
+    column-schema: # Let's say the user wanted to make multiple, say, logs, or even forms. We can allow the user to add a new column per log
+        new: page_translatedashboardnewitemmenu3newcolumn # Button text to create a new column
+        channel:
+            title: page_dashboardcatnewitemmenu3colschemaoption1
+        row-schema:
+            new: page_translatedashboardnewitemmenu3newrow # Button text to create a new row
+            setting1:
+                title: page_dashboardcatnewitemmenu3setting1
+                type: shortText
+            setting2:
+                title: page_dashboardcatnewitemmenu3setting2
+                type: shortText

@@ -29,6 +29,7 @@ const getContactLinkRoutes = require('./api/getContactLink');
 const getSpaInfoRoutes = require('./api/getSpaInfo');
 const getBotInGuildRoutes = require('./api/botInGuild');
 const getDashboardRoutes = require('./api/getDashboard');
+const getDashboardSchemaRoutes = require('./api/getDashboardSchema');
 
 router.use('/submit-config', submitConfigRoutes)
 router.use('/version', versionRoutes)
@@ -46,5 +47,6 @@ router.use('/contact-link', getContactLinkRoutes)
 router.use('/page-info', getSpaInfoRoutes)
 router.use('/guild-presence', getBotInGuildRoutes)
 router.use('/dashboard', getDashboardRoutes)
+router.use('/dashboard-schema', getDashboardSchemaRoutes)
 
 module.exports = router;

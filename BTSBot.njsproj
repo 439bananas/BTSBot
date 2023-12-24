@@ -117,11 +117,14 @@
     <Content Include="src\server\api\getConfValues.js" />
     <Content Include="src\server\api\getContactLink.js" />
     <Content Include="src\server\api\getDashboard.js" />
+    <Content Include="src\server\api\getDashboardSchema.js" />
     <Content Include="src\server\api\getLanguages.js" />
     <Content Include="src\server\api\getOAuth2Status.js" />
     <Content Include="src\server\api\getSpaInfo.js" />
     <Content Include="src\server\api\getUser.js" />
     <Content Include="src\server\api\ready.js" />
+    <Content Include="src\server\dashboard\test.yml" />
+    <Content Include="src\server\dashboard\test.yaml" />
     <Content Include="src\server\validateConf.js" />
     <Content Include="src\server\api\uniconf.js">
       <SubType>Code</SubType>
@@ -3883,11 +3886,11 @@
     <Content Include="src\server\views\resources\img\faviconad.ico" />
     <Content Include="src\server\views\resources\img\faviconalpha.ico" />
     <Content Include="src\server\views\resources\img\faviconbeta.ico" />
-    <Content Include="src\server\views\resources\img\invitedemo.png" />
     <Content Include="src\server\views\resources\img\logo.png" />
     <Content Include="src\server\views\resources\img\logoad.png" />
     <Content Include="src\server\views\resources\img\logoalpha.png" />
     <Content Include="src\server\views\resources\img\logobeta.png" />
+    <Content Include="src\server\views\resources\img\modmaildemo.png" />
     <Content Include="src\server\views\resources\img\restoredemo.png" />
     <Content Include="src\server\views\resources\img\scamdemo.png" />
     <Content Include="src\server\views\resources\img\verifydemo.png" />
@@ -3914,6 +3917,7 @@
     <Folder Include="src\i18n\" />
     <Folder Include="src\server\" />
     <Folder Include="src\server\api\" />
+    <Folder Include="src\server\dashboard\" />
     <Folder Include="src\server\views\" />
     <Folder Include="src\server\views\components\" />
     <Folder Include="src\server\views\resources\" />

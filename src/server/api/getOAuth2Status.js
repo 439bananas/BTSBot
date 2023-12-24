@@ -64,7 +64,7 @@ async function googleOauth2(req, res, conf) { // Cope with Google's OAuth2 in a 
             oAuthUrl = await getgoogletoken(conf.googleclientid, conf.googleclientsecret, ['https://www.googleapis.com/auth/userinfo.profile'], getaddress(req) + "/config") // Huh, I never knew that Google's library refuses outright to provide an OAuth2 link if the client ID or client secret are invalid
             res.status(200).json({ message: "OAUTH_REDIRECT", url: oAuthUrl })
         } else if (req.query.error) { // If there is an error, return it
-            res.status(400).json({ error: req.query.error })
+            res.status(200).json({ error: req.query.error })
         } else { // If there is a code and no error:
             try {
                 token = await getgoogletoken(conf.googleclientid, conf.googleclientsecret, ['https://www.googleapis.com/auth/userinfo.profile'], getaddress(req) + "/config", req.query.code) // Get the Google bearer token with set settings, scopes and code
@@ -77,17 +77,17 @@ async function googleOauth2(req, res, conf) { // Cope with Google's OAuth2 in a 
             } catch (err) { // If an error has happened, catch it
                 switch (err) {
                     case "BAD_GOOGLE_CLIENT_SECRET": // If bad client secret, return OAUTH_FAIL
-                        res.status(400).json({ error: "OAUTH_FAIL" })
+                        res.status(200).json({ error: "OAUTH_FAIL" })
                         break;
                     case "CANNOT_CONNECT_TO_GOOGLE": // If cannot connect to Google or some other error, return the error
-                        res.status(400).json({ error: err })
+                        res.status(200).json({ error: err })
                         break;
                     case "BAD_CODE": // If bad code, advise the caller to redirect to Google OAuth2
                         oAuthUrl = await getgoogletoken(conf.googleclientid, conf.googleclientsecret, ['https://www.googleapis.com/auth/userinfo.profile'], getaddress(req) + "/config")
                         res.status(200).json({ message: "OAUTH_REDIRECT", url: oAuthUrl })
                         break;
                     default: // Else, return the error and log it
-                        res.status(400).json({ error: err })
+                        res.status(200).json({ error: err })
                         log.error(err)
                         break;
                 }
@@ -121,7 +121,7 @@ async function googleOauth2(req, res, conf) { // Cope with Google's OAuth2 in a 
                 res.status(200).json({ message: "OAUTH_REDIRECT", url: oAuthUrl })
             }
         } catch (err) {
-            res.status(400).json({ error: "CANNOT_CONNECT_TO_GOOGLE" }) // And if there is an error then we probably can't connect to Google.
+            res.status(200).json({ error: "CANNOT_CONNECT_TO_GOOGLE" }) // And if there is an error then we probably can't connect to Google.
         }
     }
 }
@@ -134,7 +134,7 @@ router.get('/', async (req, res, next) => { // Let's validate our OAuth2 with ra
         let oAuthUrl
         let id
         if (re.confExists) { // Does the configuration already exist? If it does, do not do anything else.
-            res.status(400)
+            res.status(200)
             res.json({ error: "CONF_OK" })
         } else {
             try {
@@ -180,7 +180,7 @@ router.get('/', async (req, res, next) => { // Let's validate our OAuth2 with ra
                                 }
                             })
                         } catch (err) { // If fetch failure, then return "CANNOT_CONNECT_TO_MICROSOFT"
-                            res.status(400).json({ error: "CANNOT_CONNECT_TO_MICROSOFT" })
+                            res.status(200).json({ error: "CANNOT_CONNECT_TO_MICROSOFT" })
                         }
 
                         if (rawResponse) {
@@ -215,7 +215,7 @@ router.get('/', async (req, res, next) => { // Let's validate our OAuth2 with ra
                     "BAD_DATABASE"
                 ]
                 if (confErrs.includes(err)) {
-                    res.status(400)
+                    res.status(200)
                     res.json({ error: "NO_CONF" })
                 } else {
                     async function redirectUserToDiscordOAuth2(req, res, conf, id) { // Redirects the user to Discord's OAuth2 page
@@ -227,13 +227,13 @@ router.get('/', async (req, res, next) => { // Let's validate our OAuth2 with ra
                         } catch (err) {
                             switch (err) {
                                 case "CANNOT_CONNECT_TO_DISCORD": // Can we not connect to Discord? Oh. We can't do anything about that so expect that the React app will show a wall
-                                    res.status(400).json({ error: err })
+                                    res.status(200).json({ error: err })
                                     break;
                                 case "BAD_CODE": // If we have a bad code, redirect to OAuth2 to regenerate another one, should be simple enough
                                     res.status(200).json({ message: "OAUTH_REDIRECT", url: 'https://discord.com/api/oauth2/authorize?client_id=' + id + '&redirect_uri=' + encodeURIComponent(getaddress(req) + "/config") + '&response_type=code&scope=identify%20email&prompt=none' })
                                     break;
                                 case "BAD_CLIENT_SECRET": // Bad client secrets could be due to misconfuguration or some other error
-                                    res.status(400).json({ error: "OAUTH_FAIL" })
+                                    res.status(200).json({ error: "OAUTH_FAIL" })
                                     break;
                             }
                         }
@@ -242,7 +242,7 @@ router.get('/', async (req, res, next) => { // Let's validate our OAuth2 with ra
                         id = await getid(conf.token)
                         switch (err) {
                             case "CANNOT_CONNECT_TO_DISCORD": // Can we not connect to Discord? Oh. We can't do anything about that so expect that the React app will show a wall
-                                res.status(400).json({ error: err })
+                                res.status(200).json({ error: err })
                                 break;
                             case "BAD_CODE": // If we have a bad code, redirect to OAuth2 to regenerate another one, should be simple enough
                                 if (!req.cookies.discordbearertoken) { // Try to discover what caused "BAD_CODE"
@@ -258,10 +258,10 @@ router.get('/', async (req, res, next) => { // Let's validate our OAuth2 with ra
                                 }
                                 break;
                             case "BAD_CLIENT_SECRET": // Bad client secrets could be due to misconfuguration or some other error
-                                res.status(400).json({ error: "OAUTH_FAIL" })
+                                res.status(200).json({ error: "OAUTH_FAIL" })
                                 break;
                             case "BAD_CLIENT_SECRET_OR_CODE": // ^^ Unfortunately, there is no way to differentiate between the two errors in MSAL so best thing to do is redisplay the configuration page
-                                res.status(400).json({ error: "OAUTH_FAIL" })
+                                res.status(200).json({ error: "OAUTH_FAIL" })
                                 break;
                             case "BAD_ACCESS_TOKEN": // If BAD_ACCESS_TOKEN or WRONG_SCOPES then follow the OAuth2 flow again
                                 if (req.query.code) {
@@ -296,13 +296,13 @@ router.get('/', async (req, res, next) => { // Let's validate our OAuth2 with ra
                                 log.error("************************************************")
                                 console.log(err)
                                 log.error("************************************************")
-                                res.status(400).json({ error: err })
+                                res.status(200).json({ error: err })
                                 break;
                         }
                     } catch (err) { // If error getting ID, then complain, either at no conf, or unknown error
                         switch (err) {
                             case "TOKEN_INVALID":
-                                res.status(400)
+                                res.status(200)
                                 res.json({ error: "NO_CONF" })
                                 break;
                             case "BAD_ACCESS_TOKEN":
@@ -310,7 +310,7 @@ router.get('/', async (req, res, next) => { // Let's validate our OAuth2 with ra
                                 res.status(200).json({ message: "OAUTH_REDIRECT", url: 'https://discord.com/api/oauth2/authorize?client_id=' + id + '&redirect_uri=' + encodeURIComponent(getaddress(req) + "/config") + '&response_type=code&scope=identify%20email&prompt=none' })
                                 break;
                             case "CANNOT_CONNECT_TO_DISCORD":
-                                res.status(400).json({ error: err })
+                                res.status(200).json({ error: err })
                                 break;
                             case "WRONG_SCOPES":
                                 id = await getid(conf.token)
@@ -320,7 +320,7 @@ router.get('/', async (req, res, next) => { // Let's validate our OAuth2 with ra
                                 log.error("************************************************")
                                 console.log(err)
                                 log.error("************************************************")
-                                res.status(400).json({ error: err })
+                                res.status(200).json({ error: err })
                                 break;
                         }
                     }
@@ -341,7 +341,7 @@ router.get('/', async (req, res, next) => { // Let's validate our OAuth2 with ra
                 log.info(translate(lang, "log_testresponsefromredis") + r) // -sigh-
                 validateOAuth2()
             } else {
-                res.status(400).json({ error: "NO_CONF" })
+                res.status(200).json({ error: "NO_CONF" })
             }
         });
     } else {
