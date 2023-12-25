@@ -53,6 +53,7 @@ function App(props) {
                     </div>
                 </div>
                 <Footer language={props.language} uniconf={props.uniconf} contactLink={props.contactLink} />
+                <script type="module" src="/resources/buttons.js" />
                 <script src="/resources/bundle.js" />
             </body>)
     }
