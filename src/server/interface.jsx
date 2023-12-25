@@ -37,6 +37,7 @@ router.get("*", async (req, res) => {
         conf = require('../../configs/conf.json')
         id = await getid(conf.token)
     }
+    console.log(JSON.stringify(<Head language={{ preferred: getLangFile(await getUserLang(req)), fallback: getLangFile(await getlang()), default: getLangFile(uniconf.defaultlanguage) }} uniconf={uniconf} />))
     let html = ReactDOMServer.renderToString( // Passing every possibly required language here means that translate() further down the line does not require await, nor does not bog down the entire SPA
         <StaticRouter location={req.originalUrl}>
             <Head language={{ preferred: getLangFile(await getUserLang(req)), fallback: getLangFile(await getlang()), default: getLangFile(uniconf.defaultlanguage) }} uniconf={uniconf} />

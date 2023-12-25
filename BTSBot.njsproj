@@ -134,6 +134,7 @@
     <Content Include="src\server\views\components\getLanguageJSON.js" />
     <Content Include="src\server\views\components\getLanguageString.js" />
     <Content Include="src\server\views\components\guildLlink.jsx" />
+    <Content Include="src\server\views\components\wallHeader.jsx" />
     <Content Include="src\server\views\components\logHandler.js" />
     <Content Include="src\server\views\config-form.jsx" />
     <Content Include="src\server\views\create-configuration-password.jsx" />

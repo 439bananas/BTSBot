@@ -11,11 +11,11 @@
 /////////////////////////////////////////////////////////////
 
 const Head = require('./components/head');
-const Header = require('./components/header');
+const Header = require('./components/wallHeader');
 
 <div>
     <Head language={lang} uniconf={uniconf} />
-    <Header language={lang} DiscordUser={DiscordUser} uniconf={uniconf} />
+    <Header language={lang} DiscordUser={DiscordUser} uniconf={uniconf} pkg={pkg} />
     <div className="container">
         <div className="alert-box danger text-wrap">
             {error}

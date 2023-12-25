@@ -10,17 +10,38 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
+const { useState, useEffect } = require('react');
 const React = require('react');
 
 function Dashboard(props) {
+    function getDashboardSchema() { // useEffect to get all guilds the user is a part of
+        const [dashboardSchema, setDashboardSchema] = useState (null)
+
+        useEffect(() => {
+            async function fetchDashboardSchema() {
+                    let rawResponse = await fetch("/api/dashboard-schema") // Fetch dashboard
+                    let response = await rawResponse.json()
+                setDashboardSchema(response)
+            }
+
+            fetchDashboardSchema()
+        }, [])
+
+        return dashboardSchema
+    }
+
+    console.log(getDashboardSchema())
+
     return (
-        <div className="global-intro-section">
-            <div className="container">
-                <center>
-                    <h1>{props.guild.name}</h1>
-                    <div style={{ paddingTop: 2 + "ex" }} />
-                    <img src={props.guild.icon} className="rounded-circle dashboard-guild-icon" />
-                </center>
+        <div>
+            <div className="global-intro-section">
+                <div className="container">
+                    <center>
+                        <h1>{props.guild.name}</h1>
+                        <div style={{ paddingTop: 2 + "ex" }} />
+                        <img src={props.guild.icon} className="rounded-circle dashboard-guild-icon" />
+                    </center>
+                </div>
             </div>
         </div>
     )

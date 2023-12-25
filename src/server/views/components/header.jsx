@@ -2,7 +2,7 @@
 //                                                         //
 //                         BTS Bot                         //
 //                                                         //
-//                     File: header.jsx                    //
+//                    File: header.jsx                     //
 //                                                         //
 //               Author: Thomas (439bananas)               //
 //                                                         //

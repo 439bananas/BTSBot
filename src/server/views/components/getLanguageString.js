@@ -19,7 +19,7 @@ function translate(language, string) { // This function allows the caller to get
         return (language.fallback[string])
     } else if (typeof (language.default[string]) !== "undefined") { // If that doesn't exist, does the string exist in the default language?
         return (language.default[string])
-    } else return null  
+    } else return null
 }
 
 module.exports = translate;
