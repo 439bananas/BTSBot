@@ -18,7 +18,6 @@ function Head(props) {
         <head>
             <link rel='stylesheet' href='/resources/main.css' />
             <link href="/resources/bootstrap.css" rel="stylesheet" crossOrigin="anonymous" />
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossOrigin="anonymous"></script>
             <link rel='stylesheet' href='/resources/twemoji-amazing.css' />
             <meta charSet="UTF-8" />
             <meta name="title" content={props.uniconf.projname} />

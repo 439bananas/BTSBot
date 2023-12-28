@@ -123,17 +123,23 @@
     <Content Include="src\server\api\getSpaInfo.js" />
     <Content Include="src\server\api\getUser.js" />
     <Content Include="src\server\api\ready.js" />
-    <Content Include="src\server\dashboard\test.yml" />
+    <Content Include="src\server\dashboard\test - Copy %282%29.yaml" />
+    <Content Include="src\server\dashboard\test - Copy %283%29.yaml" />
+    <Content Include="src\server\dashboard\test - Copy %284%29.yaml" />
+    <Content Include="src\server\dashboard\test - Copy %285%29.yaml" />
+    <Content Include="src\server\dashboard\test - Copy.yaml" />
     <Content Include="src\server\dashboard\test.yaml" />
     <Content Include="src\server\validateConf.js" />
     <Content Include="src\server\api\uniconf.js">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="src\server\views\categories.jsx" />
     <Content Include="src\server\views\components\featureCard.jsx" />
     <Content Include="src\server\views\components\convertQueryStringToJSON.js" />
     <Content Include="src\server\views\components\getLanguageJSON.js" />
     <Content Include="src\server\views\components\getLanguageString.js" />
     <Content Include="src\server\views\components\guildLlink.jsx" />
+    <Content Include="src\server\views\components\headExpReaEng.jsx" />
     <Content Include="src\server\views\components\wallHeader.jsx" />
     <Content Include="src\server\views\components\logHandler.js" />
     <Content Include="src\server\views\config-form.jsx" />

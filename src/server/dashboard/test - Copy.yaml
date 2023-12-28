@@ -1,6 +1,6 @@
-title: NO A
+title: page_dashboardtestcat # This is the title of the dashboard category. All strings will be keys in the language file, not direct strings shown to the user
 emoji: construction # The emoji to display on the dashboard
-description: page_dashboardcatnewitemdescription # The description of this new item
+description: page_dashboardtestcatlongerdescription # The description of this new item
 menu1: # menu1 will appear in the database as that
     title: page_dashboardcatnewitemmenu1 # The title for each section in the category to show as
     col1: # Columns show in the database but should not be used - they exist purely for the front UI (and the use of the database means that it knows where settings for options should go)

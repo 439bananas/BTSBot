@@ -80,7 +80,7 @@ function Server(props) {
         }
     } else {
         if (guild != null) {
-            return <Dashboard language={props.language} guild={guild} />
+            return <Dashboard language={props.language} guild={guild} language={props.language} />
         } else return null
     }
 

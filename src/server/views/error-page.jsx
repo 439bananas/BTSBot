@@ -10,7 +10,7 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-const Head = require('./components/head');
+const Head = require('./components/headExpReaEng');
 const Header = require('./components/wallHeader');
 
 <div>

@@ -21,8 +21,8 @@ const edf = excludedDashboardFiles
 router.get('/', async (req, res, next) => {
     let listing = await fs.readdirSync(path.join(__dirname, '..', 'src', 'server', 'dashboard')) // Get the directory listing
     let cats = []
-    for (configName of listing) { // For each file, check if they're YAML or YML, then read those files and send the metadata back to the user
-        if ((configName.split('.')[1].toLowerCase() == "yml" || configName.split('.')[1].toLowerCase() == "yaml") && !edf.includes(configName.split('.')[1].toLowerCase())) {
+    for (configName of listing) { // For each file, read the file and send the metadata back to the user
+        if (configName.split('.')[1].toLowerCase() == "yaml" && !edf.includes(configName.split('.')[1].toLowerCase())) {
             let config = read.sync(path.join(__dirname, '..', 'src', 'server', 'dashboard', configName))
             cats.push({
                 name: configName.split('.')[0],
@@ -39,16 +39,10 @@ router.get('/', async (req, res, next) => {
 })
 
 router.get('/*', (req, res, next) => {
-    let type
-    if (req.query.type == "yml") { // Add compatibility for YML
-        type = "yml"
-    } else {
-        type = "yaml"
-    }
-    if (fs.existsSync(path.join(__dirname, '..', 'src', 'server', 'dashboard', req.url.split('/')[1].split('?')[0] + '.' + type)) && !edf.includes(req.url.split('/')[1].split('?')[0].toLowerCase())) { // If you want YML, you must explicitly mention that, else defaults to YAML
-        let config = read.sync(path.join(__dirname, '..', 'src', 'server', 'dashboard', req.url.split('/')[1].split('?')[0] + '.' + type)) // Long and janky
+    if (fs.existsSync(path.join(__dirname, '..', 'src', 'server', 'dashboard', req.url.split('/')[1].split('?')[0] + '.yaml')) && !edf.includes(req.url.split('/')[1].split('?')[0].toLowerCase())) { // If you want YML, you must explicitly mention that, else defaults to YAML
+        let config = read.sync(path.join(__dirname, '..', 'src', 'server', 'dashboard', req.url.split('/')[1].split('?')[0] + '.yaml')) // Long and janky
         res.json(config)
-    } else {
+    } else  {
         res.status(404)
         res.end()
     }

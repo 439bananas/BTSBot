@@ -279,5 +279,9 @@
   "page_configpasswordsunknownerror": "An unknown error happened. See the server and browser consoles to see what happened.",
   "page_configpasswordnopassconfigured": "No configuration password has been configured. Refresh the page to configure one.",
   "page_configpasswordauthfailed": "Incorrect password",
-  "page_configoauth2unknownerror": "An unknown error has occurred. See below (and also the respective browser and server consoles) for some insight as to what happened:"
+  "page_configoauth2unknownerror": "An unknown error has occurred. See below (and also the respective browser and server consoles) for some insight as to what happened:",
+  "page_dashboardtestcat": "Lorem ipsum",
+  "page_dashboardtestcatdescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+  "page_dashboardtestcatlongerdescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque mattis gravida commodo. Curabitur dapibus eu orci vel euismod. Cras facilisis ultricies leo non vestibulum. Nullam odio elit, lobortis quis dolor quis, imperdiet molestie enim.",
+  "page_dashboardtestcatlong": "Lorem ipsum dolor sit amet"
 }

@@ -526,3 +526,9 @@ pre {
     max-width: 110px;
     width: calc(7vw + 3vh + 3ex)
 }
+
+.dashboard-category {
+    min-width: calc(var(--bs-gutter-x) + 155px);
+    display: flex;
+    margin: 1em 0;
+}
