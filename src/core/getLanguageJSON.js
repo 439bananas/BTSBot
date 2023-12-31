@@ -69,7 +69,7 @@ function getlang(noext, userid) { // Gets the configured language (noext is an a
             }
 
         } else { // If user ID is present then grab from database
-            let query = MySQLConnection.query('SELECT language FROM user WHERE id=?', userid) // Attempt to query the database
+            let query = MySQLConnection.query('SELECT language FROM User WHERE id=?', userid) // Attempt to query the database
             if (query[0] == undefined) { // If not in the database, return configured lang
                 resolve(getlang()) // This is probably janky but better than writing the entire thing again
             } else {

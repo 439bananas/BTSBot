@@ -1,4 +1,7 @@
 {
+  "Dummy": [
+    [ "test", "tinytext" ]
+  ],
   "BotConfig": [
     [ "property", "tinytext" ],
     [ "value", "tinytext" ]
@@ -164,7 +167,7 @@
     [ "senderEmail", "text" ],
     [ "subject", "text", "fk:EmailConversation" ],
     [ "content", "longtext" ],
-    ["attachments", "longblob"]
+    [ "attachments", "longblob" ]
   ],
   "EmailConversation": [
     [ "conversationId", "bigint", "pk" ],

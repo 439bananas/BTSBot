@@ -97,7 +97,7 @@ async function addTables() {
                             constraint = ""
                         }
 
-                        let query = "CREATE TABLE " + tableName + "(" + columns + constraint + ");"
+                        let query = "CREATE TABLE IF NOT EXISTS " + tableName + "(" + columns + constraint + ");"
                         queriesMade++
                         try {
                             let newTableSuccess = await MySQLConnection.query(query) // Create the table
@@ -106,7 +106,7 @@ async function addTables() {
                                 log.warn(translate(lang, "log_newtablecreated") + tableName)
                                 if (tableName.toLowerCase() == "botconfig") {
                                     queriesMade++
-                                    let newRecordSuccess = await MySQLConnection.query('INSERT INTO botConfig(property, value) VALUES ("dbVersion", ?), ("lastCheckedGuildCount", 0), ("lastCheckedInstanceCount",0), ("lastCheckedTime", 0)', [pkg.version])
+                                    let newRecordSuccess = await MySQLConnection.query('INSERT INTO BotConfig(property, value) VALUES ("dbVersion", ?), ("lastCheckedGuildCount", 0), ("lastCheckedInstanceCount",0), ("lastCheckedTime", 0)', [pkg.version])
                                     promises.push(newRecordSuccess) // ^^ Add properties to botConfig table
                                 }
                             }

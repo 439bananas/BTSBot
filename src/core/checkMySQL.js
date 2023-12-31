@@ -12,7 +12,13 @@
 
 const mysql = require('mysql2');
 
-function checkMySQL(hostname, username, password, database) {
+function checkMySQL(hostname, username, password, database, port) {
+    let newPort
+    if (!port) {
+        newPort = 3306
+    } else {
+        newPort = port
+    }
     let connection; // I was told this needed to be declared prior to the function to prevent overloading with event listeners but instead the variable should be cleared to allow multiple connections on this variable to be declared to be able to ping the server multiple times without a restart
     // nope that was a very lengthy comment; also i think that comment was in thomas language!
     if(!connection) { // See first comment
@@ -20,7 +26,8 @@ function checkMySQL(hostname, username, password, database) {
             host: hostname.toString(),
             user: username.toString(),
             password: password.toString(),
-            database: database.toString()
+            database: database.toString(),
+            port: newPort
         });
         connection.on('error', function(err) { // If there's an error, log and handle it, don't crash
             log.error(err);

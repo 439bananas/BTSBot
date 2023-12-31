@@ -19,7 +19,7 @@ async function getUserLang(user) {
         } else {
             try {
                 let userInfo = await getDiscordUser(user.cookies.discordbearertoken) // Get the user in question if there is a bearer token
-                let query = await MySQLConnection.query('SELECT language FROM user WHERE id=?', userInfo.id) // Attempt to get user's language from the database
+                let query = await MySQLConnection.query('SELECT language FROM User WHERE id=?', userInfo.id) // Attempt to get user's language from the database
                 if (query[0] == undefined) { // If not in database, return user's locale
                     return userInfo.locale.toString()
                 } else {

@@ -39,7 +39,7 @@ async function checkConf(conffilename) {
         }
 
         try {
-            let MySQLResult = await checkMySQL(conf.hostname, conf.dbusername, conf.dbpassword, conf.database) // If all is good, proceed to Discord
+            let MySQLResult = await checkMySQL(conf.hostname, conf.dbusername, conf.dbpassword, conf.database, conf.port) // If all is good, proceed to Discord
             if (MySQLResult == 'OK') {
                 let RedisResult = await checkRedis(conf.redishostname, conf.redisusername, conf.redispassword, conf.redisdatabase)
                 void RedisResult

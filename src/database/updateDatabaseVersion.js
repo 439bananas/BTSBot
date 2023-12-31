@@ -17,28 +17,33 @@ lang = getlang()
 
 async function updateDb() {
     try {
-        let dbVersionResponse = await MySQLConnection.query('SELECT * FROM botconfig WHERE property="dbVersion";') // Get database version
-        let dbVersion = dbVersionResponse[0][0].value.split('.')
+        let dbVersionResponse = await MySQLConnection.query('SELECT * FROM BotConfig WHERE property="dbVersion";') // Get database version
+        if (dbVersionResponse[0][0]) {
+            let dbVersion = dbVersionResponse[0][0].value.split('.')
 
-        if (dbVersion[0] > version[0] || (dbVersion[0] >= version[0] && dbVersion[1] > version[1]) || (dbVersion[0] >= version[0] && dbVersion[1] >= version[1] && dbVersion[2] > version[2])) {
-            log.fatal(translate(lang, "log_dbversiongreaterthanpkgpart1") + uniconf.projname + translate(lang, "log_dbversiongreaterthanpkgpart2")) // Fatal if DB version > bot version
-        } else if (version[0] == dbVersion[0] && version[1] == dbVersion[1] && version[2] == dbVersion[2]) {
+            if (dbVersion[0] > version[0] || (dbVersion[0] >= version[0] && dbVersion[1] > version[1]) || (dbVersion[0] >= version[0] && dbVersion[1] >= version[1] && dbVersion[2] > version[2])) {
+                log.fatal(translate(lang, "log_dbversiongreaterthanpkgpart1") + uniconf.projname + translate(lang, "log_dbversiongreaterthanpkgpart2")) // Fatal if DB version > bot version
+            } else if (version[0] == dbVersion[0] && version[1] == dbVersion[1] && version[2] == dbVersion[2]) {
+                globaliseRedis()
+                require('./ensureRedisReady')
+            } else {
+                log.warn(translate(lang, "log_upgradingdbprecaution")) // Update the database
+                setTimeout(function () {
+                    log.warn(translate(lang, "log_upgradingdb"))
+                    switch (dbVersionResponse[0][0].value) {
+                        /*
+                        This is pretty TBD here.
+                        It's gonna be complicated when more and more updates require complex database changes
+                        The idea is to have a switch-case statement, the bot will perform the necessary SQL commands to update the database
+                        If an update needs a database change, each case will have a code update so that each database version will be upgraded to current
+                        */
+                    }
+                }, 60000)
+                // CALL REDIS GLOBALISER AND SERVER AFTER EACH CASE
+            }
+        } else {
             globaliseRedis()
             require('./ensureRedisReady')
-        } else {
-            log.warn(translate(lang, "log_upgradingdbprecaution")) // Update the database
-            setTimeout(function () {
-                log.warn(translate(lang, "log_upgradingdb"))
-                switch (dbVersionResponse[0][0].value) {
-                    /*
-                    This is pretty TBD here.
-                    It's gonna be complicated when more and more updates require complex database changes
-                    The idea is to have a switch-case statement, the bot will perform the necessary SQL commands to update the database
-                    If an update needs a database change, each case will have a code update so that each database version will be upgraded to current
-                    */
-                }
-            }, 60000)
-            // CALL REDIS GLOBALISER AND SERVER AFTER EACH CASE
         }
     } catch (err) {
         log.error("************************************************")

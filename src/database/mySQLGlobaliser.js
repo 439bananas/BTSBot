@@ -13,11 +13,18 @@
 const mysql = require('mysql2')
 
 async function globaliseMySQL() {
+    let newPort
+    if (!conf.port) {
+        newPort = 3306
+    } else {
+        newPort = conf.port
+    }
     let MySQLIntConnection = mysql.createConnection({
         host: conf.hostname,
         user: conf.dbusername,
         password: conf.dbpassword,
-        database: conf.database
+        database: conf.database,
+        port: newPort
     });
 
     MySQLIntConnection.on('error', function (err) { // If there's an error, log and handle it, don't crash

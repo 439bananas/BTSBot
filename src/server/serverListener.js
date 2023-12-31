@@ -82,14 +82,14 @@ app.all('/*', async (req, res, next) => { // Block Internet Explorer
                 try {
                     user = await getDiscordUser(req.cookies.discordbearertoken)
                     try {
-                        let userRow = await MySQLConnection.query('SELECT * FROM user WHERE id=?', [user.id]) // If there is no user entry, add it to the database
+                        let userRow = await MySQLConnection.query('SELECT * FROM User WHERE id=?', [user.id]) // If there is no user entry, add it to the database
                         if (!userRow[0][0]) {
                             let theme = 0
                             if (req.cookies.theme == "light") {
                                 theme = 1
                             }
                             try {
-                                let response = MySQLConnection.query('INSERT INTO user (id, email, language, theme, stringsTranslated) VALUES (?, ?, ?, ?, 0)', [user.id, user.email, user.locale, theme])
+                                let response = MySQLConnection.query('INSERT INTO User (id, email, language, theme, stringsTranslated) VALUES (?, ?, ?, ?, 0)', [user.id, user.email, user.locale, theme])
                                 void response
                                 next()
                             } catch (err) { // If there is an error, display a wall
@@ -105,7 +105,7 @@ app.all('/*', async (req, res, next) => { // Block Internet Explorer
                             }
                         } else if (userRow[0] != user.email) { // If email is outdated, update in database
                             try {
-                                let response = await MySQLConnection.query('UPDATE user SET email=? WHERE id=?', [user.email, user.id])
+                                let response = await MySQLConnection.query('UPDATE User SET email=? WHERE id=?', [user.email, user.id])
                                 void response
                                 next()
                             } catch (err) { // error -> display wall
