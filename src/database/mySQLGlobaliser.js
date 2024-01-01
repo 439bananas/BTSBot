@@ -19,7 +19,7 @@ async function globaliseMySQL() {
     } else {
         newPort = conf.port
     }
-    let MySQLIntConnection = mysql.createConnection({
+    let MySQLIntConnection = mysql.createPool({
         host: conf.hostname,
         user: conf.dbusername,
         password: conf.dbpassword,
@@ -37,7 +37,7 @@ async function globaliseMySQL() {
         console.log(msg)
     })
 
-    let re = await MySQLConnection.connect()
+    let re = {protocolVersion: "b"}//await MySQLConnection.connect()
     return re
 }
 
