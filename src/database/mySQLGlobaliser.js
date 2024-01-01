@@ -33,7 +33,7 @@ async function globaliseMySQL() {
 
     global.MySQLConnection = MySQLIntConnection.promise()
 
-    MySQLIntConnection('end', function (msg) {
+    MySQLIntConnection.on('end', function (msg) {
         console.log(msg)
     })
 
