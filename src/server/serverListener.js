@@ -128,6 +128,8 @@ app.all('/*', async (req, res, next) => { // Block Internet Explorer
                             log.temp(err)
                             log.temp(err.name)
                             log.error(err)
+                            log.temp("line 131: " + (err == "Error: Can't add new command when connection is in closed state"))
+                            console.log(err)
                             showwall(res, conf.language, translate(lang, "page_confunknownerror"), translate(lang, "page_wallunknownerrordiag"))
                         } else {
                             log.error(err)
