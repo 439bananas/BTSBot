@@ -33,6 +33,10 @@ async function globaliseMySQL() {
 
     global.MySQLConnection = MySQLIntConnection.promise()
 
+    MySQLIntConnection('end', function (msg) {
+        console.log(msg)
+    })
+
     let re = await MySQLConnection.connect()
     return re
 }

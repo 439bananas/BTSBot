@@ -125,7 +125,7 @@ app.all('/*', async (req, res, next) => { // Block Internet Explorer
                             showwall(res, lang, uniconf.projname + translate(lang, "page_missingdbperms"), translate(lang, "page_missingdbpermsdiagpart1") + conf.database + translate(lang, "page_missingdbpermsdiagpart2") + '\'' + conf.dbusername + '\'@\'' + conf.hostname + '\'.')
                         } else if (err == "Error: Can't add new command when connection is in closed state") {
                             try {
-                                MySQLConnection.reconnect()
+                                MySQLConnection.connect()
                             } catch (err) {
                                 console.log(err)
                             }
