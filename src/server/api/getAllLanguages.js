@@ -6,7 +6,7 @@
 //                                                         //
 //               Author: Thomas (439bananas)               //
 //                                                         //
-// Copyright 439bananas 2023 under the Apache 2.0 license. //
+// Copyright 439bananas 2024 under the Apache 2.0 license. //
 //                                                         //
 /////////////////////////////////////////////////////////////
 
