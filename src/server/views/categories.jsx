@@ -20,31 +20,24 @@ function Categories(props) {
     if (props.cats != null) {
         let key = 0
         for (cat of props.cats.items) {
-            cards.push(<div className="col-sm-3 dashboard-category" key={key++}>
-                <div className="card">
-                    <div className="card-body">
-                        <center>
-                            <h3 className="card-title">{translate(props.language, cat.title)}</h3>
-                            <div style={{margin: 2 + "vh"}}></div>
-                            <i className={"twa twa-" + cat.emoji} style={{ fontSize: "calc(2vh + 3em)" }}></i>
-                        </center>
-                        <div style={{margin: 2 + "vh"}}></div>
-                        <p className="card-text">
-                            <center>
-                                {translate(props.language, cat.description)}
-                            </center>
-                        </p>
+            cards.push(
+                <div className="category-card" key={key++}>
+                    <div style={{margin: 1.25 + "ex", overflowWrap: "anywhere", display: "flex", alignItems: "center"}}>
+                        <h3>{translate(props.language, cat.title)}</h3>
                     </div>
-                </div>
-            </div>)
+                    <div>
+                    <center>
+                        <i className={"twa twa-" + cat.emoji} style={{ fontSize: "calc(6ex + 2em)" }}></i>
+                        </center>
+                    </div>
+                </div>)
         }
     }
-    
-    console.log("abc")
+
     return (
         <div className="container">
             <div style={{ paddingTop: 1 + "em" }}></div>
-            <div className="row">
+            <div className="grid">
                 {cards}
             </div>
         </div>
