@@ -538,6 +538,7 @@ pre {
     grid-template-columns: 1fr 1fr 1fr;
     grid-auto-rows: 1fr 1fr 1fr;
     grid-gap: 20px;
+    grid-row-gap: 20px;
     padding: 10px;
 }
 
@@ -574,6 +575,14 @@ pre {
     .grid {
         grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     }
+}
+
+.cat-link {
+    height: min-content;
+}
+
+.cat-link:hover {
+    text-decoration: none;
 }
 
 /*# sourceMappingURL=style.css.map */

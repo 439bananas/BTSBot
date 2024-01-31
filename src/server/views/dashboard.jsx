@@ -20,6 +20,7 @@ function Dashboard(props) {
         const [dashboardSchema, setDashboardSchema] = useState(null)
 
         useEffect(() => {
+            console.log("call")
             async function fetchDashboardSchema() {
                 let rawResponse = await fetch("/api/dashboard-schema") // Fetch dashboard
                 let response = await rawResponse.json()
@@ -31,14 +32,25 @@ function Dashboard(props) {
 
         return dashboardSchema
     }
+
     const location = useLocation()
     let url = location.pathname.split('/')
+    let schema = getDashboardSchema()
     let returnedElement
 
-    let schema = getDashboardSchema()
-
-    if (!url[3]) {
-        returnedElement = <Categories cats={schema} language={props.language} />
+    if (schema != null) {
+        if (!url[3]) {
+            returnedElement = <Categories cats={schema.itemDescriptions} language={props.language} id={url[2]} />
+        } else {
+            console.log()
+            console.log(url[3])
+            console.log(schema.items[decodeURIComponent(url[3])])
+            if (schema.items[decodeURIComponent(url[3])]) { // Decode the URI so that we actually recognise it
+                returnedElement = JSON.stringify(schema.items[decodeURIComponent(url[3])])
+            } else {
+                returnedElement = "404"
+            }
+        }
     }
 
     return (

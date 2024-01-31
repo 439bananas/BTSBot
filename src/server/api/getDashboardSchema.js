@@ -21,6 +21,7 @@ const edf = excludedDashboardFiles
 router.get('/', async (req, res, next) => {
     let listing = await fs.readdirSync(path.join(__dirname, '..', 'src', 'server', 'dashboard')) // Get the directory listing
     let cats = []
+    let menus = {}
     for (configName of listing) { // For each file, read the file and send the metadata back to the user
         if (configName.split('.')[1].toLowerCase() == "yaml" && !edf.includes(configName.split('.')[1].toLowerCase())) {
             let config = read.sync(path.join(__dirname, '..', 'src', 'server', 'dashboard', configName))
@@ -30,22 +31,14 @@ router.get('/', async (req, res, next) => {
                 emoji: config.emoji,
                 description: config.description
             })
+            menus[configName.split('.')[0]] = { schema: config } // Send menus along, since React otherwise throws fits
         }
     }
 
     res.json({
-        items: cats
+        itemDescriptions: cats,
+        items: menus
     })
-})
-
-router.get('/*', (req, res, next) => {
-    if (fs.existsSync(path.join(__dirname, '..', 'src', 'server', 'dashboard', req.url.split('/')[1].split('?')[0] + '.yaml')) && !edf.includes(req.url.split('/')[1].split('?')[0].toLowerCase())) { // If you want YML, you must explicitly mention that, else defaults to YAML
-        let config = read.sync(path.join(__dirname, '..', 'src', 'server', 'dashboard', req.url.split('/')[1].split('?')[0] + '.yaml')) // Long and janky
-        res.json(config)
-    } else  {
-        res.status(404)
-        res.end()
-    }
 })
 
 module.exports = router;

@@ -11,17 +11,16 @@
 /////////////////////////////////////////////////////////////
 
 const React = require('react');
+const { Link } = require('react-router-dom');
 const translate = require('./components/getLanguageString');
 
 function Categories(props) {
     let cards = []
-    console.log(props.cats)
-
     if (props.cats != null) {
         let key = 0
-        for (cat of props.cats.items) {
-            cards.push(
-                <div className="category-card" key={key++}>
+        for (cat of props.cats) { // Meow
+            cards.push( // Create a new card for each listed category
+                <Link to={props.id + "/" + cat.name} key={key++} className={"cat-link category-card"}>
                     <div style={{margin: 1.25 + "ex", overflowWrap: "anywhere", display: "flex", alignItems: "center"}}>
                         <h3>{translate(props.language, cat.title)}</h3>
                     </div>
@@ -30,11 +29,11 @@ function Categories(props) {
                         <i className={"twa twa-" + cat.emoji} style={{ fontSize: "calc(6ex + 2em)" }}></i>
                         </center>
                     </div>
-                </div>)
+                </Link>)
         }
     }
 
-    return (
+    return ( // Return the lot
         <div className="container">
             <div style={{ paddingTop: 1 + "em" }}></div>
             <div className="grid">

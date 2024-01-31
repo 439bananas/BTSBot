@@ -144,6 +144,7 @@
     <Content Include="src\server\views\components\logHandler.js" />
     <Content Include="src\server\views\config-form.jsx" />
     <Content Include="src\server\views\create-configuration-password.jsx" />
+    <Content Include="src\server\views\dashboard-category.jsx" />
     <Content Include="src\server\views\enter-configuration-password.jsx" />
     <Content Include="src\server\views\error-page-spa.jsx" />
     <Content Include="src\server\interface.jsx" />
