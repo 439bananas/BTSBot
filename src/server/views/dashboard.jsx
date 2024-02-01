@@ -14,6 +14,7 @@ const { useState, useEffect } = require('react');
 const React = require('react');
 const { Routes, Route, useLocation, Link } = require('react-router-dom');
 const Categories = require('./categories');
+const DashboardCategory = require('./dashboard-category');
 
 function Dashboard(props) {
     function getDashboardSchema() { // useEffect to get all guilds the user is a part of
@@ -26,7 +27,7 @@ function Dashboard(props) {
                 let response = await rawResponse.json()
                 setDashboardSchema(response)
             }
-
+             
             fetchDashboardSchema()
         }, [])
 
@@ -40,15 +41,12 @@ function Dashboard(props) {
 
     if (schema != null) {
         if (!url[3]) {
-            returnedElement = <Categories cats={schema.itemDescriptions} language={props.language} id={url[2]} />
+            returnedElement = <Categories cats={schema.itemDescriptions} language={props.language} id={url[2]} /> // Display list of categories if only in the top level server dashboard
         } else {
-            console.log()
-            console.log(url[3])
-            console.log(schema.items[decodeURIComponent(url[3])])
             if (schema.items[decodeURIComponent(url[3])]) { // Decode the URI so that we actually recognise it
-                returnedElement = JSON.stringify(schema.items[decodeURIComponent(url[3])])
+                returnedElement = <DashboardCategory schema={schema} url={url} lang={props.language} />
             } else {
-                returnedElement = "404"
+                window.location.href = "/servers/" + url[2] // If not recognised category, redirect up
             }
         }
     }

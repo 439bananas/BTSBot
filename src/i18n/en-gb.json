@@ -283,5 +283,8 @@
   "page_dashboardtestcat": "Lorem ipsum",
   "page_dashboardtestcatdescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
   "page_dashboardtestcatlongerdescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque mattis gravida commodo. Curabitur dapibus eu orci vel euismod. Cras facilisis ultricies leo non vestibulum. Nullam odio elit, lobortis quis dolor quis, imperdiet molestie enim.",
-  "page_dashboardtestcatlong": "Lorem ipsum dolor sit amet"
+  "page_dashboardtestcatlong": "Lorem ipsum dolor sit amet",
+  "page_dashboardcatnewitemmenu2": "Test title menu 2",
+  "page_dashboardcatnewitemmenu1": "Test title for menu 1",
+  "page_dashboardcatnewitemmenu3": "Test title menu 3"
 }

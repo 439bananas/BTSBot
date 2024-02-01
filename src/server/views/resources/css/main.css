@@ -585,4 +585,33 @@ pre {
     text-decoration: none;
 }
 
+#dashboard-menu-list {
+    width: 100%;
+    background-color: #2b2d31;
+    height: max-content;
+}
+
+.dashboard-menu-link {
+    padding: 6px;
+    color: rgba(255, 255, 255, 0.75);
+    background-color: #2b2d31;
+    width: max-content;
+    display: inline-block;
+    font-size: calc(1vh + 9px);
+}
+
+    .dashboard-menu-link:hover {
+        text-decoration: none;
+        color: rgba(255, 255, 255, 0.75);
+        background-color: #202225;
+    }
+
 /*# sourceMappingURL=style.css.map */
+
+@media screen and (max-width: 576px) {
+    #dashboard-menu-list {
+        overflow: scroll;
+        max-width: 100vw;
+        white-space: nowrap;
+    }
+}
