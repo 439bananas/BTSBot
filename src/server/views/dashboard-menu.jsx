@@ -50,6 +50,7 @@ function DashboardMenu(props) {
                 // for each member of the config, generate a column with such contents
                 // create a key, and pass it along, so that we know which state to update when it comes so
                 let key = 0
+                let columns = []
 
                 function createColumn() { // Create a new column
                     let newColumnSettings = {}
