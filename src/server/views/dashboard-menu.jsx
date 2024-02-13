@@ -27,8 +27,6 @@ function DashboardMenu(props) {
         props.setStates.setDisabledMenu({})
     }
 
-    console.log(props)
-
     let config = props.settings.config
 
     let [state, setState] = useState(JSON.parse(JSON.stringify(config))) // Doing it this way means that we don't have problems with pointers!!!
@@ -44,12 +42,10 @@ function DashboardMenu(props) {
     }
 
     if (state[decodeURIComponent(props.url[3])]) {
+        let columns = []
+        let key = 0
         if (state[decodeURIComponent(props.url[3])][props.menu]) {
-            console.log(state[decodeURIComponent(props.url[3])][props.menu])
             if (props.schema["column-schema"]) {
-                let key = 0
-                let columns = []
-
                 function createColumn() { // Create a new column
                     let newColumnSettings = {}
                     for (property of Object.keys(props.schema["column-schema"])) { // Set each each setting in the row to null
@@ -77,7 +73,7 @@ function DashboardMenu(props) {
                     killMenu()
                 }
 
-                for (column of state[decodeURIComponent(props.url[3])][props.menu]) { // Add another column for each entry within te database
+                for (column of state[decodeURIComponent(props.url[3])][props.menu]) { // Add another column for each entry within the database
                     columns.push(<GenerateColumnContents key={++key} config={column} schema={props.schema["column-schema"]} />)
                 }
 
@@ -94,29 +90,28 @@ function DashboardMenu(props) {
                     {translate(lang, "page_columnbeforerow")}
                 </div>
             } else {
-                // for each column in schema, generate a column with such contents
+                for (column of Object.values(props.schema)) { // Add another column for each entry within the database
+                    if (column != "title") {
+                        columns.push(<GenerateColumnContents key={++key} config={config[props.menu]} schema={column} />)
+                    }
+                }
+                return <div>
+                    {columns}
+                </div>
             }
 
         } else {
-            newStateG[decodeURIComponent(props.url[3])][props.menu] = {}
+            if (props.schema["column-schema"]) { // Either add an array or an object depending on whether there's schema or just entries in the YAML
+                newStateG[decodeURIComponent(props.url[3])][props.menu] = []
+            } else {
+                newStateG[decodeURIComponent(props.url[3])][props.menu] = {}
+            }
             setState(newStateG)
         }
     } else {
         newStateG[decodeURIComponent(props.url[3])] = {}
         setState(newStateG)
     }
-
-    /*   if (props.schema["column-schema"]) {
-           if (state[decodeURIComponent(props.url[3])]) {
-               console.log(state[decodeURIComponent(props.url[3])])
-           } else {
-               newStateG[decodeURIComponent(props.url[3])] = {}
-           }
-       }
-   
-   /*    for (col of Object.keys(props.schema)) {
-           console.log(col)
-       }*/
 
     return <div><button onClick={killMenu}>Clicky</button><button onClick={enableMenu}>Clicky</button></div>
 }
