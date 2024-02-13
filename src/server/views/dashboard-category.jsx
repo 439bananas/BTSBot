@@ -10,19 +10,32 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
+const { useState } = require('react')
 const React = require('react')
 const { Link, useLocation } = require('react-router-dom')
 const translate = require('./components/getLanguageString')
+const DashboardMenu = require('./dashboard-menu')
 
 function DashboardCategory(props) {
     let { schema, lang } = props
     const location = useLocation()
     let url = location.pathname.split('/')
     let dashSchema = schema.items[decodeURIComponent(url[3])].schema
-    let menuHeader = []
+    let key = 0
     let currentlySelected
     let style = {}
-    let key = 0
+
+    const [disabledMenu, setDisabledMenu] = useState({});
+    const [disabledSelectedMenu, setDisabledSelectedMenu] = useState({ borderBottomStyle: "solid", borderColor: "#f0600f", padding: 6 + "px " + 6 + "px " + 3 + "px " + 6 + "px" });
+
+    let menuHeader = [<Link
+        className="dashboard-menu-link"
+        id={dashSchema.defaultMenu}
+        style={disabledMenu}
+        to={url[2]}
+        key={key++}>
+        {translate(lang, "page_dashboardbackbutton")}
+    </Link>]
 
     if (url[4] && Object.keys(dashSchema).includes(url[4]) && typeof (dashSchema[url[4]]) == "object") { // The amount of swearing I have to do at CSS is unbelievable here
         if (dashSchema[url[4]]["title"]) {
@@ -36,8 +49,8 @@ function DashboardCategory(props) {
                 currentlySelected = dashSchema.defaultMenu
             }
             if (currentlySelected == dashSchema.defaultMenu) { // This exists as a separate clause, since the user could explicitly be setting the default as "currently selected"
-                style = { borderBottomStyle: "solid", borderColor: "#f0600f", padding: 6 + "px " + 6 + "px " + 3 + "px " + 6 + "px" }
-            }
+                style = disabledSelectedMenu
+            } else style = disabledMenu
             menuHeader.push(
                 <Link
                     className="dashboard-menu-link"
@@ -53,11 +66,12 @@ function DashboardCategory(props) {
 
     for (menuKey of Object.keys(dashSchema)) { // Add the rest of the menus, as long as each one is an object
         if (menuKey != dashSchema.defaultMenu && typeof (dashSchema[menuKey]) == "object") {
-            console.log(menuKey)
-            console.log(dashSchema[menuKey])
+            if (!currentlySelected) {
+                currentlySelected = menuKey
+            }
             if (currentlySelected == menuKey) {
-                style = { borderBottomStyle: "solid", borderColor: "#f0600f", padding: 6 + "px " + 6 + "px "+  3 + "px " + 6 + "px" } // Add the bottom border if currently selected
-            } else style = {}
+                style = disabledSelectedMenu // Add the bottom border if currently selected
+            } else style = disabledMenu
             menuHeader.push(
                 <Link
                     className="dashboard-menu-link"
@@ -71,10 +85,17 @@ function DashboardCategory(props) {
         }
     }
 
+    console.log(dashSchema[currentlySelected])
+
     return (
-        <div id="dashboard-menu-list">
+        <div>
+            <div id="dashboard-menu-list">
+                <div className="container">
+                    {menuHeader}
+                </div>
+            </div>
             <div className="container">
-                {menuHeader}
+                <DashboardMenu lang={lang} setStates={{ setDisabledMenu: setDisabledMenu, setDisabledSelectedMenu: setDisabledSelectedMenu }} schema={dashSchema[currentlySelected]} settings={props.guild} menu={currentlySelected} url={url} />
             </div>
         </div>
     )

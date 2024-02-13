@@ -46,23 +46,18 @@ router.get('/*', async (req, res, next) => { // Get all dashboard settings
                         if (!inGuild) {
                             return { error: "BOT_NOT_IN_GUILD" } // Send error if the bot is not in the guild
                         } else {
-                            let cachedDashboardSettings = await redisConnection.json.get('Dashboard:' + guild.id) // Get what's stored in Redis if there is anything stored there
-                            if (cachedDashboardSettings === null) {
-                                let dashboardSettings = await MySQLConnection.query("SELECT * FROM GuildConfig WHERE id=?", [guild.id]) // If all good but there is no entry in Redis, try and get the guild from the database
-                                if (dashboardSettings[0][0]) { // If there is a guild, return it and store in Redis
-                                    let JSONSettings = JSON.parse(dashboardSettings[0][0]["config"])
-                                    redisConnection.json.set('Dashboard:' + guild.id, '$', JSONSettings) // Cache dashboard settings
-                                    return { name: guild.name, config: JSONSettings, icon: icon }
-                                } else {
-                                    let newDashboardSettings = await MySQLConnection.query("INSERT INTO GuildConfig (id, config) VALUES (?, \"{}\")", [guild.id]) // If no guild, create one and return it
-                                    void newDashboardSettings
-                                    let newFetchedDashboardSettings = await MySQLConnection.query("SELECT * FROM GuildConfig WHERE id=?", [guild.id])
-                                    let JSONNewSettings = JSON.parse(newFetchedDashboardSettings[0][0]["config"])
-                                    redisConnection.json.set('Dashboard:' + guild.id, '$', JSONNewSettings) // Cache new dashboard settings
-                                    return { name: guild.name, config: JSONNewSettings, icon: icon }
-                                }
+                            let dashboardSettings = await MySQLConnection.query("SELECT * FROM GuildConfig WHERE id=?", [guild.id]) // If all good but there is no entry in Redis, try and get the guild from the database
+                            if (dashboardSettings[0][0]) { // If there is a guild, return it and store in Redis
+                                let JSONSettings = JSON.parse(dashboardSettings[0][0]["config"])
+                                redisConnection.json.set('Dashboard:' + guild.id, '$', JSONSettings) // Cache dashboard settings
+                                return { name: guild.name, config: JSONSettings, icon: icon }
                             } else {
-                                return { name: guild.name, config: cachedDashboardSettings, icon: icon }
+                                let newDashboardSettings = await MySQLConnection.query("INSERT INTO GuildConfig (id, config) VALUES (?, \"{}\")", [guild.id]) // If no guild, create one and return it
+                                void newDashboardSettings
+                                let newFetchedDashboardSettings = await MySQLConnection.query("SELECT * FROM GuildConfig WHERE id=?", [guild.id])
+                                let JSONNewSettings = JSON.parse(newFetchedDashboardSettings[0][0]["config"])
+                                redisConnection.json.set('Dashboard:' + guild.id, '$', JSONNewSettings) // Cache new dashboard settings
+                                return { name: guild.name, config: JSONNewSettings, icon: icon }
                             }
                         }
                     }

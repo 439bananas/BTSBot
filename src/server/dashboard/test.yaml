@@ -63,14 +63,14 @@ menu2:
                 title: page_dashboardcatnewitemmenu2setting5option3
         setting6:
             title: page_dashboardcatnewitemmenu2setting5
-            type: dropdown
-            use-options: role ## The intention is to have preset lists of options, e.g. role, channel, etc
+            type: role # The intention is to have preset lists of options, e.g. role, channel, etc
 menu3:
     title: page_dashboardcatnewitemmenu3
     column-schema: # Let's say the user wanted to make multiple, say, logs, or even forms. We can allow the user to add a new column per log
         new: page_translatedashboardnewitemmenu3newcolumn # Button text to create a new column
         channel:
             title: page_dashboardcatnewitemmenu3colschemaoption1
+            type: channel
         row-schema:
             new: page_translatedashboardnewitemmenu3newrow # Button text to create a new row
             setting1:

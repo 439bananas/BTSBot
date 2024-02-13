@@ -21,7 +21,6 @@ function Dashboard(props) {
         const [dashboardSchema, setDashboardSchema] = useState(null)
 
         useEffect(() => {
-            console.log("call")
             async function fetchDashboardSchema() {
                 let rawResponse = await fetch("/api/dashboard-schema") // Fetch dashboard
                 let response = await rawResponse.json()
@@ -44,7 +43,7 @@ function Dashboard(props) {
             returnedElement = <Categories cats={schema.itemDescriptions} language={props.language} id={url[2]} /> // Display list of categories if only in the top level server dashboard
         } else {
             if (schema.items[decodeURIComponent(url[3])]) { // Decode the URI so that we actually recognise it
-                returnedElement = <DashboardCategory schema={schema} url={url} lang={props.language} />
+                returnedElement = <DashboardCategory schema={schema} url={url} lang={props.language} guild={props.guild} />
             } else {
                 window.location.href = "/servers/" + url[2] // If not recognised category, redirect up
             }
