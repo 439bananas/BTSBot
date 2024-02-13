@@ -14,10 +14,8 @@ const { useState, createElement } = require('react')
 const React = require('react')
 const translate = require('./components/getLanguageString')
 
-// EDITING STATE NEEDS TO KILL LINKS UPSTREAM
-
 function DashboardMenu(props) {
-    let {lang} = props
+    let { lang } = props
 
     function killMenu() { // Prevent the menu list from being interacted with
         props.setStates.setDisabledSelectedMenu({ borderBottomStyle: "solid", borderColor: "#f0600f", padding: 6 + "px " + 6 + "px " + 3 + "px " + 6 + "px", pointerEvents: "none", color: "#888" })
@@ -39,61 +37,47 @@ function DashboardMenu(props) {
     function GenerateColumnContents(props) {
         let { schema, config } = props
         console.log(props)
+        // remember that we also have to deal with row-schema
+        // we also need to update state whenever a change is made
+        // defaults also need to be countered in here...
         return "c"
     }
 
     if (state[decodeURIComponent(props.url[3])]) {
         if (state[decodeURIComponent(props.url[3])][props.menu]) {
             console.log(state[decodeURIComponent(props.url[3])][props.menu])
-            //console.log(props.schema)
             if (props.schema["column-schema"]) {
-                // for each member of the config, generate a column with such contents
-                // create a key, and pass it along, so that we know which state to update when it comes so
                 let key = 0
                 let columns = []
 
                 function createColumn() { // Create a new column
                     let newColumnSettings = {}
-                    for (property of Object.keys(props.schema["column-schema"])) { // Set each each setting in the row to its default (or false if toggle)
+                    for (property of Object.keys(props.schema["column-schema"])) { // Set each each setting in the row to null
                         if (property != "new" && property != "row-schema") {
-                            if (props.schema["column-schema"][property]["default"]) {
-                                newColumnSettings[property] = props.schema["column-schema"][property]["default"]
-                            } else {
-                                if (props.schema["column-schema"][property]["type"] != "toggle") {
-                                    newColumnSettings[property] = null
-                                } else {
-                                    newColumnSettings[property] = false
-                                }
-                            }
+                            newColumnSettings[property] = null
                         }
                     }
 
                     if (props.schema["column-schema"]["row-schema"]) {
-/*                        // we also need to add on a default/state member for things like "channel id"
-                        console.log(props.schema["column-schema"]["row-schema"])
-                        for (key of Object.keys(props.schema["column-schema"]["row-schema"])) {
-                            if (key != "new") {
-                                console.log(key)
-                                console.log(props.schema["column-schema"]["row-schema"][key])
-                                if (props.schema["column-schema"]["row-schema"][key]["default"]) {
+                        let rows = []
+                        let initialRow = {}
 
-                                } else {
-
-                                }
+                        for (property of Object.keys(props.schema["column-schema"]["row-schema"])) { // For each property, set it as null (which would show default)
+                            if (property != "new") {
+                                initialRow[property] = null
                             }
-                        }*/
-                    } else {
+                        }
 
+                        rows.push(initialRow) // Push this initial row to the list of rows
+                        newColumnSettings["rows"] = rows // Add this array to the rows key within the object
                     }
-                    console.log(props.schema["column-schema"])
-                    newStateG[decodeURIComponent(props.url[3])][props.menu].push("a")
+
+                    newStateG[decodeURIComponent(props.url[3])][props.menu].push(newColumnSettings) // Adding the new column settings and then setting state will force a rerender
                     setState(JSON.parse(JSON.stringify(newStateG)))
-                    console.log(newStateG[decodeURIComponent(props.url[3])][props.menu])
                     killMenu()
                 }
 
-                // add a button which creates another one of these elements, and adds the whole thing to state
-                for (column of state[decodeURIComponent(props.url[3])][props.menu]) {
+                for (column of state[decodeURIComponent(props.url[3])][props.menu]) { // Add another column for each entry within te database
                     columns.push(<GenerateColumnContents key={++key} config={column} schema={props.schema["column-schema"]} />)
                 }
 
@@ -122,17 +106,17 @@ function DashboardMenu(props) {
         setState(newStateG)
     }
 
- /*   if (props.schema["column-schema"]) {
-        if (state[decodeURIComponent(props.url[3])]) {
-            console.log(state[decodeURIComponent(props.url[3])])
-        } else {
-            newStateG[decodeURIComponent(props.url[3])] = {}
-        }
-    }
-
-/*    for (col of Object.keys(props.schema)) {
-        console.log(col)
-    }*/
+    /*   if (props.schema["column-schema"]) {
+           if (state[decodeURIComponent(props.url[3])]) {
+               console.log(state[decodeURIComponent(props.url[3])])
+           } else {
+               newStateG[decodeURIComponent(props.url[3])] = {}
+           }
+       }
+   
+   /*    for (col of Object.keys(props.schema)) {
+           console.log(col)
+       }*/
 
     return <div><button onClick={killMenu}>Clicky</button><button onClick={enableMenu}>Clicky</button></div>
 }

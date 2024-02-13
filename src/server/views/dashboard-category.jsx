@@ -85,12 +85,10 @@ function DashboardCategory(props) {
         }
     }
 
-    console.log(dashSchema[currentlySelected])
-
     return (
         <div>
             <div id="dashboard-menu-list">
-                <div className="container">
+                <div className="container" style={{marginBottom: 5 + "px"}}>
                     {menuHeader}
                 </div>
             </div>
