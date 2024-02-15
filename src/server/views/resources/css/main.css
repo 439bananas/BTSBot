@@ -559,6 +559,20 @@ pre {
     max-width: 100%
 }
 
+.column-card {
+    padding-left: 10px;
+    grid-row: auto/span 2;
+    display: grid;
+    grid-template-rows: subgrid;
+    grid-gap: 0;
+    background-color: #2f3136;
+    background-clip: border-box;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    border-radius: 0.25rem;
+    width: 100%;
+    max-width: 100%
+}
+
 @media screen and (max-width: 600px) {
     .grid {
         grid-template-columns: 1fr;

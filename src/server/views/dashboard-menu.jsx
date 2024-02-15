@@ -13,6 +13,7 @@
 const { useState, createElement } = require('react')
 const React = require('react')
 const translate = require('./components/getLanguageString')
+const Label = require('./components/label')
 
 function DashboardMenu(props) {
     let { lang } = props
@@ -33,12 +34,68 @@ function DashboardMenu(props) {
     let newStateG = JSON.parse(JSON.stringify(state))
 
     function GenerateColumnContents(props) {
-        let { schema, config } = props
+        let { schema, config, key2 } = props
+        let GCCKey = 0
+        let rows = [null]
+        let newRow
+
         console.log(props)
+        console.log(state)
+        console.log(key2)
+        console.log(schema)
+
+        function updateStates(newValue, stateToSet, columnMode, columnKey, rowMode, rowKey) {
+
+        }
+
+        for (option of Object.keys(schema)) {
+            if (option != "new" && option != "row-schema") {
+                console.log(option)
+                console.log(schema[option])
+                let newOption
+                switch (schema[option]["type"]) {
+
+                }
+                let entry = <div key={++GCCKey}>
+                    <Label for={option} required={schema[option]["required"]}>{translate(lang, schema[option]["title"])}</Label>
+                </div>
+                rows.push(entry)
+            }
+        }
+
+        // create config entries here, if row schema, then append more
+
+        if (schema["row-schema"]) {
+            function createRow() {
+                // break apart schema
+                // similar to createColumn? not sure
+                // push it along
+                // oh yeah and also update state
+            }
+
+            console.log("yeet")
+            console.log(schema)
+            // WE NEED TO CREATE ROW
+            rows[0] = (<button type="button" key={0} onClick={createRow} style={{marginTop: 5 + "px"}} className="button-1x2ahC button-38aScr lookFilled-1Gx00P colorGreen-29iAKY sizeSmall-2cSMqn grow-q77ONN">
+                <div className="contents-18-Yxp">{translate(lang, schema["row-schema"].new)}</div>
+            </button>)
+
+        } else {
+            console.log("dab")
+        }
+
+        return <div className={"cat-link column-card"}>
+            {rows}
+        </div>
+
+        // remember that column-schema exists, we might have to deal with that too...
         // remember that we also have to deal with row-schema
         // we also need to update state whenever a change is made
+        // hold on we also need to amend css? what the-
         // defaults also need to be countered in here...
-        return "c"
+        return <div className={"cat-link column-card"}>
+            c
+        </div>
     }
 
     if (state[decodeURIComponent(props.url[3])]) {
@@ -74,7 +131,7 @@ function DashboardMenu(props) {
                 }
 
                 for (column of state[decodeURIComponent(props.url[3])][props.menu]) { // Add another column for each entry within the database
-                    columns.push(<GenerateColumnContents key={++key} config={column} schema={props.schema["column-schema"]} />)
+                    columns.push(<GenerateColumnContents key={key} config={column} schema={props.schema["column-schema"]} key2={key++} />)
                 }
 
                 return (
@@ -82,7 +139,9 @@ function DashboardMenu(props) {
                         <button type="button" onClick={createColumn} className="button-1x2ahC button-38aScr lookFilled-1Gx00P colorGreen-29iAKY sizeSmall-2cSMqn grow-q77ONN">
                             <div className="contents-18-Yxp">{translate(lang, props.schema["column-schema"].new)}</div>
                         </button>
-                        {columns}
+                        <div className="grid">
+                            {columns}
+                        </div>
                     </div>
                 )
             } else if (props.schema["row-schema"]) {
@@ -90,12 +149,12 @@ function DashboardMenu(props) {
                     {translate(lang, "page_columnbeforerow")}
                 </div>
             } else {
-                for (column of Object.values(props.schema)) { // Add another column for each entry within the database
+                for (column of Object.keys(props.schema)) { // Add another column for each entry within the database
                     if (column != "title") {
-                        columns.push(<GenerateColumnContents key={++key} config={config[props.menu]} schema={column} />)
+                        columns.push(<GenerateColumnContents key={key++} config={state[decodeURIComponent(props.url[3])][props.menu]} schema={props.schema[column]} />)
                     }
                 }
-                return <div>
+                return <div className="grid" style={{gridRowGap: 0}}>
                     {columns}
                 </div>
             }
@@ -112,8 +171,6 @@ function DashboardMenu(props) {
         newStateG[decodeURIComponent(props.url[3])] = {}
         setState(newStateG)
     }
-
-    return <div><button onClick={killMenu}>Clicky</button><button onClick={enableMenu}>Clicky</button></div>
 }
 
 module.exports = DashboardMenu

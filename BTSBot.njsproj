@@ -140,6 +140,7 @@
     <Content Include="src\server\views\components\getLanguageString.js" />
     <Content Include="src\server\views\components\guildLlink.jsx" />
     <Content Include="src\server\views\components\headExpReaEng.jsx" />
+    <Content Include="src\server\views\components\label.jsx" />
     <Content Include="src\server\views\components\wallHeader.jsx" />
     <Content Include="src\server\views\components\logHandler.js" />
     <Content Include="src\server\views\config-form.jsx" />

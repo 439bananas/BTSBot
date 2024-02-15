@@ -49,7 +49,7 @@ menu2:
             type: integer
             default: 10
         setting4:
-            title: page_dashboardcatnewitemmenu2setting3
+            title: page_dashboardcatnewitemmenu2setting4
             type: number
             default: 3.141592654
         setting5:
@@ -62,7 +62,7 @@ menu2:
             option3:
                 title: page_dashboardcatnewitemmenu2setting5option3
         setting6:
-            title: page_dashboardcatnewitemmenu2setting5
+            title: page_dashboardcatnewitemmenu2setting6
             type: role # The intention is to have preset lists of options, e.g. role, channel, etc
 menu3:
     title: page_dashboardcatnewitemmenu3
