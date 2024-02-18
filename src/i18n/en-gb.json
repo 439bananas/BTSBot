@@ -287,6 +287,7 @@
   "page_dashboardcatnewitemmenu2": "Test title menu 2",
   "page_dashboardcatnewitemmenu1": "Test title for menu 1",
   "page_dashboardcatnewitemmenu3": "Test title menu 3",
+  "page_dashboardcatnewitemmenu4": "Test title menu 4",
   "page_dashboardbackbutton": "← Back",
   "page_columnbeforerow": "Error: You must only wrap row-schema within column-schema in the YAML file for this dashboard category, you cannot place row-schema as the top level within the menu. If you are an end user, please contact the owner of this dashboard. If you are the owner of this dashboard, please rectify the issue and restart the dashboard.",
   "page_translatedashboardnewitemmenu3newcolumn": "New column",
@@ -299,5 +300,16 @@
   "page_dashboardcatnewitemmenu2setting3": "Setting 3",
   "page_dashboardcatnewitemmenu2setting4": "Setting 4",
   "page_dashboardcatnewitemmenu2setting5": "Setting 5",
-  "page_dashboardcatnewitemmenu2setting6": "Setting 6"
+  "page_dashboardcatnewitemmenu2setting6": "Setting 6",
+  "page_dashboardcatnewitemmenu2setting7": "Setting 7",
+  "page_dashboardcatnewitemmenu3setting1": "Setting 1",
+  "page_dashboardcatnewitemmenu3setting2": "Setting 2",
+  "page_dashboardcatnewitemmenu1setting3option1": "Option 1",
+  "page_dashboardcatnewitemmenu1setting3option2": "Option 2",
+  "page_dashboardcatnewitemmenu1setting3option3": "Option 3",
+  "page_dashboardcatnewitemmenu1setting3option4": "Option 4",
+  "page_dashboardcatnewitemmenu1setting3option5": "Option 5",
+  "page_dashboardcatnewitemmenu2setting1option1": "Option 1",
+  "page_dashboardcatnewitemmenu2setting1option2": "Option 2",
+  "page_dashboardcatnewitemmenu2setting1option3": "Option 3"
 }

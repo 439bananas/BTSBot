@@ -1,6 +1,5 @@
 title: page_dashboardtestcatlong # This is the title of the dashboard category. All strings will be keys in the language file, not direct strings shown to the user
 emoji: construction # The emoji to display on the dashboard
-description: page_dashboardtestcatdescription # The description of this new item
 defaultMenu: menu2
 menu1: # menu1 will appear in the database as that
     title: page_dashboardcatnewitemmenu1 # The title for each section in the category to show as
@@ -26,34 +25,49 @@ menu1: # menu1 will appear in the database as that
                     default: true
                 option3:
                     title: page_dashboardcatnewitemmenu1setting3option3
+                option4:
+                    title: page_dashboardcatnewitemmenu1setting3option3
+                option5:
+                    title: page_dashboardcatnewitemmenu1setting3option3
 menu2:
     title: page_dashboardcatnewitemmenu2
     col1:
         setting1:
             title: page_dashboardcatnewitemmenu2setting1
             type: radio
-            default: option1 # Default is once again optional
-            option1:
-                title: page_dashboardcatnewitemmenu2setting1option1
-            option2:
-                title: page_dashboardcatnewitemmenu2setting1option2
-            option3:
-                title: page_dashboardcatnewitemmenu2setting1option3
-    col2:
+            default: option2 # Default is once again optional
+            options:
+                option1:
+                    title: page_dashboardcatnewitemmenu2setting1option1
+                option2:
+                    title: page_dashboardcatnewitemmenu2setting1option2
+                option3:
+                    title: page_dashboardcatnewitemmenu2setting1option3
         setting2:
             title: page_dashboardcatnewitemmenu2setting2
-            type: toggle
-            default: true
+            type: shortText
         setting3:
             title: page_dashboardcatnewitemmenu2setting3
-            type: integer
-            default: 10
+            type: radio
+            default: option1 # Default is once again optional
+            options:
+                option1:
+                    title: page_dashboardcatnewitemmenu2setting1option1
+                option2:
+                    title: page_dashboardcatnewitemmenu2setting1option2
+                option3:
+                    title: page_dashboardcatnewitemmenu2setting1option3
+    col2:
         setting4:
             title: page_dashboardcatnewitemmenu2setting4
-            type: number
-            default: 3.141592654
+            type: integer
+            default: 10
         setting5:
             title: page_dashboardcatnewitemmenu2setting5
+            type: number
+            default: 3.141592654
+        setting6:
+            title: page_dashboardcatnewitemmenu2setting6
             type: dropdown
             option1:
                 title: page_dashboardcatnewitemmenu2setting5option1
@@ -61,8 +75,8 @@ menu2:
                 title: page_dashboardcatnewitemmenu2setting5option2
             option3:
                 title: page_dashboardcatnewitemmenu2setting5option3
-        setting6:
-            title: page_dashboardcatnewitemmenu2setting6
+        setting7:
+            title: page_dashboardcatnewitemmenu2setting7
             type: role # The intention is to have preset lists of options, e.g. role, channel, etc
 menu3:
     title: page_dashboardcatnewitemmenu3
@@ -79,3 +93,17 @@ menu3:
             setting2:
                 title: page_dashboardcatnewitemmenu3setting2
                 type: shortText
+
+menu4:
+    title: page_dashboardcatnewitemmenu4
+    column-schema:
+        new: page_translatedashboardnewitemmenu3newcolumn
+        setting1:
+            title: page_dashboardcatnewitemmenu3setting1
+            type: shortText
+        setting2:
+            title: page_dashboardcatnewitemmenu3setting2
+            type: shortText
+        setting3:
+            title: page_dashboardcatnewitemmenu3setting2
+            type: longText

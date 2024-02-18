@@ -88,7 +88,7 @@ function DashboardCategory(props) {
     return (
         <div>
             <div id="dashboard-menu-list">
-                <div className="container" style={{marginBottom: 5 + "px"}}>
+                <div className="container">
                     {menuHeader}
                 </div>
             </div>
