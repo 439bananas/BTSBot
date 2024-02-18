@@ -20,7 +20,7 @@ async function getGuildPresence(guildId) {
         })
         let response = await rawResponse.json()
         if (response.id) {
-            return true
+            return response
         } else return false
     } catch (err) {
         return false
@@ -31,7 +31,7 @@ async function getGuildPresence(guildId) {
  * Gets whether a bot is in the guild
  * @param {bigint|string} guildId - The guild ID
  * @param {boolean} [bypassCache=false] - Whether to bypass Redis, useful if the information NEEDS to be up to date
- * @returns {boolean} Will return true or false, depending on whether the bot is in the specified guild
+ * @returns {boolean|objectS} Will return either the guild object (if cache is bypassed)/false or true/false, depending on whether the bot is in the specified guild
  * @example
  * 
  * let inGuild = await botInGuild(361233849847644160)
@@ -46,7 +46,14 @@ async function botInGuild(guildId, bypassCache) { // If bot in specified guild, 
         try {
             let botPresence = await redisConnection.get('BotInGuild:' + guildId) // Caching for large scale since accuracy, at least in this case, should only have cosmetic effects
             if (botPresence == null) {
-                let guildPresence = Number((await getGuildPresence(guildId))).toString()
+                let guild
+                if (await getGuildPresence(guildId)) {
+                    guild = true
+                } else {
+                    guild = false
+                }
+                
+                let guildPresence = Number((guild)).toString()
                 redisConnection.set(`BotInGuild:${guildId}`, guildPresence)
                 redisConnection.expire('BotInGuild:' + guildId, 7200) // This should expire in two hours
                 if (Number(guildPresence) == 1) {

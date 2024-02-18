@@ -69,6 +69,7 @@ menu2:
         setting6:
             title: page_dashboardcatnewitemmenu2setting6
             type: dropdown
+            default: option2
             option1:
                 title: page_dashboardcatnewitemmenu2setting5option1
             option2:
@@ -78,13 +79,21 @@ menu2:
         setting7:
             title: page_dashboardcatnewitemmenu2setting7
             type: role # The intention is to have preset lists of options, e.g. role, channel, etc
+            excludeManaged: false # This is enabled by default (if this is not specified)
+            permissionsRequired: # Only show roles with these permissions
+                - KICK_MEMBERS
+            requireMentionable: true # By default, this is disabled, only show roles that are mentionable by everyone
 menu3:
     title: page_dashboardcatnewitemmenu3
     column-schema: # Let's say the user wanted to make multiple, say, logs, or even forms. We can allow the user to add a new column per log
         new: page_translatedashboardnewitemmenu3newcolumn # Button text to create a new column
         channel:
             title: page_dashboardcatnewitemmenu3colschemaoption1
-            type: channel
+            type: channel # Role and channel types will ignore the default value
+            filter: # If no filter, all channels will be displayed
+                - GUILD_TEXT # If a filter is imposed, only those listed will be shown
+                - GUILD_ANNOUNCEMENT
+                - GUILD_CATEGORY # If this is the only item in the array, then only categories will be shown, else, no category will be shown
         row-schema:
             new: page_translatedashboardnewitemmenu3newrow # Button text to create a new row
             setting1:

@@ -55,3 +55,13 @@ try {
 } catch (err) {
     void err
 }
+
+setInterval(function () {
+    let customDropdown = document.getElementsByClassName("customDropdown")
+    if (customDropdown[0]) {
+        const div = document.querySelector('.base-Select-popup');
+        div.style.width = customDropdown[0].offsetWidth + "px"
+    } else {
+
+    }
+}, 500)

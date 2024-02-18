@@ -15,38 +15,11 @@ let id
 let tokencache
 
 function getid(token) {
-    return new Promise(function (resolve, reject) {
-        if (tokencache != token) { // Let's try and minimise our requests to Discord as much as possible
-            tokencache = token
-            fetch('https://discord.com/api/v10/oauth2/applications/@me', { // Fetch OAuth2 endpoint
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bot ${token}`,
-                    'Transfer-Encoding': 'chunked'
-                }
-            })
-                .then(response => response.json())
-                .then(json => {
-                    if (!json.mesage) {
-                        id = json.id
-                        resolve(json.id)
-                    }
-                    else if (json.message == "401: Unauthorized") { // Reject if token invalid or other error
-                        reject('TOKEN_INVALID')
-                    } else {
-                        reject('UNKNOWN_DISCORD_ERROR')
-                        log.error(json.message)
-                    }
-                }).catch(err => {
-                    if (err.name == "FetchError") {
-                        reject("CANNOT_CONNECT_TO_DISCORD")
-                    }
-                })
-        } else {
-            resolve(id)
-        }
-    })
+    // Why did I not realise how much simpler this could've been...
+    let idBase64 = token.split('.')[0] // Slice the token by "."
+    let id = Buffer.from(idBase64, 'base64').toString('utf8') // Convert the first part from base64 to decimal
+
+    return id // Return it
 }
 
 module.exports = getid;

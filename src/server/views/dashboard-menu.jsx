@@ -139,9 +139,9 @@ function GenerateColumnContents(props) {
                     break;
                 case "integer":
                     if (config[option] === null || config[option] === undefined) {
-                        if (translate(lang, schema[option]["default"]) === null) {
+                        if (schema[option]["default"] === null) {
                             value = ""
-                        } else value = translate(lang, schema[option]["default"])
+                        } else value = schema[option]["default"]
                     } else {
                         value = state[decodeURIComponent(props.url[3])][props.menu][props.column][option]
                     }
@@ -149,20 +149,40 @@ function GenerateColumnContents(props) {
                     break;
                 case "number":
                     if (config[option] === null || config[option] === undefined) {
-                        if (translate(lang, schema[option]["default"]) === null) {
+                        if (schema[option]["default"] === null) {
                             value = ""
-                        } else value = translate(lang, schema[option]["default"])
+                        } else lang, schema[option]["default"]
                     } else {
                         value = state[decodeURIComponent(props.url[3])][props.menu][props.column][option]
                     }
                     newOption = <input type='number' style={{ width: 100 + "%" }} className="inputDefault-_djjkz input-cIJ7To2 size16-1__VVI" name={option} value={value} onChange={e => updateStates(e.target.value, decodeURIComponent(props.url[3]), props.menu, option)} />
                     break;
                 case "dropdown":
-                    newOption = <Select defaultValue={10} id="named-select" name="demo-select">
-                        <Option value={10}>Ten</Option>
-                        <Option value={20}>Twenty</Option>
-                        <Option value={30}>Thirty</Option>
+                    // if in state, use state as default
+                    // else if in schema, use schema
+                    // else, use null
+                    console.log(schema[option])
+                    console.log(schema)
+                    if (config[option]) {
+                        value = config[option]
+                    } else if (schema[option]["default"]) {
+                        value = schema[option]["default"]
+                    } else {
+                        value = null
+                    }
+
+                    Object.keys(schema[option]).map(opt => {
+                        if (opt != "title" && opt != "type" && opt != "default") {
+                            checkSetting.push(<Option key={key++} className="dropdownValue" value={opt}>{translate(lang, schema[option][opt]["title"])}</Option>)
+                        }
+                    })
+
+                    newOption = <Select value={value} onChange={(_, e) => { updateStates(e, decodeURIComponent(props.url[3]), props.menu, option) }} className="customDropdown">
+                        {checkSetting}
                     </Select>
+                    break;
+                case "role":
+
             }
             let entry = <div key={option}>
                 <Label for={option} required={schema[option]["required"]}>{translate(lang, schema[option]["title"])}</Label>
@@ -264,6 +284,7 @@ function DashboardMenu(props) {
     }
 
     let config = props.settings.config
+    console.log(props.settings)
 
     let [state, setState] = useState(JSON.parse(JSON.stringify(config))) // Doing it this way means that we don't have problems with pointers!!!
     let newStateG = JSON.parse(JSON.stringify(state))

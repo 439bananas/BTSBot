@@ -699,10 +699,11 @@ pre {
     background-size: 16px 12px;
 }
 .base-Select-listbox {
-    padding: 10px;
-    width: max-content;
-    background-color: #202325;
+    padding: 0;
+    width: 100%;
+    background-color: #2b2d31;
     border: 1px solid #040405;
+    border-top: none;
     border-radius: 3px;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
@@ -711,4 +712,23 @@ pre {
     transition: background-color .15s ease,border .15s ease;
     text-align: left;
     cursor: pointer;
+}
+
+.dropdownValue {
+    list-style: none;
+    height: 40px;
+    padding: 10px;
+    font-weight: 600;
+}
+
+    .dropdownValue:hover {
+        background-color: #35373c;
+    }
+
+.base--selected {
+    background-color: #404249;
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="rgb(240, 96, 15)" class="bi bi-check-circle-fill" viewBox="0 0 16 16"><path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right .75rem center;
+    background-size: 16px;
 }

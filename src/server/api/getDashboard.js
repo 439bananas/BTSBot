@@ -19,9 +19,25 @@ const getUserPermissions = require('../../core/getUserPermissions');
 const botInGuild = require('../../core/checkBotInGuild');
 const router = express.Router()
 
+async function getChannels(guildId) {
+    try {
+        let rawResponse = await fetch('https://discord.com/api/v10/guilds/' + guildId + "/channels", {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bot ${conf.token}`
+            }
+        })
+        let response = await rawResponse.json()
+        return response
+    } catch (err) {
+        throw err
+    }
+}
+
 router.get('/*', async (req, res, next) => { // Get all dashboard settings
     let url = req.url.split('/')
     let re = await validateConf()
+
     async function getDash(request) {
         if (re.confExists) {
             if (!request.user.id) {
@@ -50,14 +66,14 @@ router.get('/*', async (req, res, next) => { // Get all dashboard settings
                             if (dashboardSettings[0][0]) { // If there is a guild, return it and store in Redis
                                 let JSONSettings = JSON.parse(dashboardSettings[0][0]["config"])
                                 redisConnection.json.set('Dashboard:' + guild.id, '$', JSONSettings) // Cache dashboard settings
-                                return { name: guild.name, config: JSONSettings, icon: icon }
+                                return { name: guild.name, config: JSONSettings, icon: icon, channels: await getChannels(guild.id), roles: inGuild.roles }
                             } else {
                                 let newDashboardSettings = await MySQLConnection.query("INSERT INTO GuildConfig (id, config) VALUES (?, \"{}\")", [guild.id]) // If no guild, create one and return it
                                 void newDashboardSettings
                                 let newFetchedDashboardSettings = await MySQLConnection.query("SELECT * FROM GuildConfig WHERE id=?", [guild.id])
                                 let JSONNewSettings = JSON.parse(newFetchedDashboardSettings[0][0]["config"])
                                 redisConnection.json.set('Dashboard:' + guild.id, '$', JSONNewSettings) // Cache new dashboard settings
-                                return { name: guild.name, config: JSONNewSettings, icon: icon }
+                                return { name: guild.name, config: JSONNewSettings, icon: icon, channels: await getChannels(guild.id), roles: inGuild.roles } // GET ROLES AND CHANNELS
                             }
                         }
                     }

@@ -11,7 +11,6 @@
 /////////////////////////////////////////////////////////////
 
 const express = require('express');
-const getDiscordUser = require('../../core/getDiscordUserInfo');
 const getGuilds = require('../../core/getUserGuilds');
 const isMod = require('../../core/getUserModStatus');
 const router = express.Router();
