@@ -45,7 +45,7 @@ router.get('/', async (req, res, next) => {
                 }
             }
         } catch (err) { // If not valid and no code, try refreshing the user's bearer token. If that fails, redirect to OAuth2 link
-            let clientid = await getid(conf.token)
+            let clientid = getid(conf.token)
             let signinlink
             if (req.query.state) {
                 signinlink = "https://discord.com/oauth2/authorize?client_id=" + clientid + "&redirect_uri=" + encodeURIComponent(getaddress(req) + "/login") + "&response_type=code&scope=guilds%20email%20identify&prompt=none&state=" + req.query.state

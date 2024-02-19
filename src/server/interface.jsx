@@ -35,7 +35,7 @@ router.get("*", async (req, res) => {
         id = 0
     } else {
         conf = require('../../configs/conf.json')
-        id = await getid(conf.token)
+        id = getid(conf.token)
     }
     let html = ReactDOMServer.renderToString( // Passing every possibly required language here means that translate() further down the line does not require await, nor does not bog down the entire SPA
         <StaticRouter location={req.originalUrl}>

@@ -59,8 +59,10 @@ try {
 setInterval(function () {
     let customDropdown = document.getElementsByClassName("customDropdown")
     if (customDropdown[0]) {
-        const div = document.querySelector('.base-Select-popup');
-        div.style.width = customDropdown[0].offsetWidth + "px"
+        const divs = document.querySelectorAll('.base-Select-popup');
+        divs.forEach(div => {
+            div.style.width = customDropdown[0].offsetWidth + "px"
+        })
     } else {
 
     }

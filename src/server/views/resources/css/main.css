@@ -356,7 +356,7 @@ p {
 .global-intro-section {
     padding-top: calc(1.325rem + 0.5vw);
     background-color: #2f3136;
-    padding-bottom: calc(1.325rem + 0.5vw);
+    padding-bottom: 1em
 }
 
 .home-feature-section {
@@ -539,7 +539,7 @@ pre {
 }
 
 .view {
-    min-height: calc(86vh)
+    min-height: calc(100vh)
 }
 
 .dashboard-guild-icon {
@@ -681,7 +681,8 @@ pre {
 
 .base-Select-root {
     padding: 10px;
-    height: 40px;
+    min-height: 40px;
+    height: max-content;
     width: 100%;
     background-color: #202325;
     border: 1px solid #040405;
@@ -700,7 +701,6 @@ pre {
 }
 .base-Select-listbox {
     padding: 0;
-    width: 100%;
     background-color: #2b2d31;
     border: 1px solid #040405;
     border-top: none;
@@ -712,11 +712,24 @@ pre {
     transition: background-color .15s ease,border .15s ease;
     text-align: left;
     cursor: pointer;
+    overflow-y: auto;
+    overflow-wrap: anywhere;
+    max-height: 60vh;
+    scrollbar-color: #202225 rgba(0, 0, 0, 0);
+    scrollbar-width: thin;
 }
+
+    .base-Select-listbox::-webkit-scrollbar {
+        background: #ff0000;
+        width: 15px;
+        height: 15px;
+    }
+
 
 .dropdownValue {
     list-style: none;
-    height: 40px;
+    min-height: 40px;
+    height: max-content;
     padding: 10px;
     font-weight: 600;
 }

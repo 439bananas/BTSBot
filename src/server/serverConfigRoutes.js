@@ -33,7 +33,7 @@ router.get('/*', async (req, res, next) => { // WORK ON SERVER CONFIG
                 let guild = await getGuild(url[1], await getGuilds(req.cookies.discordbearertoken))
                 if (await signedIn(req, res)) {
                     let permissions = await getUserPermissions(guild)
-                    let clientid = await getid(conf.token)
+                    let clientid = getid(conf.token)
                     if (permissions.includes("ADMINISTRATOR") || permissions.includes("MANAGE_GUILD")) { // Checking permissions should also account for whether the user is in the guild
                         let inGuild = await botInGuild(url[1], true)
                         if (!inGuild) {

@@ -144,7 +144,7 @@ router.get('/', async (req, res, next) => { // Let's validate our OAuth2 with ra
                 if (!req.cookies.discordbearertoken) { // Is there any Discord bearer token in our cookies?
                     if (!req.query.code) { // If there isn't check to see if there's a code in our query, if there isn't that either then redirect to our OAuth2 page
                         try {
-                            id = await getid(conf.token)
+                            id = getid(conf.token)
                             res.status(200).json({ message: "OAUTH_REDIRECT", url: 'https://discord.com/api/oauth2/authorize?client_id=' + id + '&redirect_uri=' + encodeURIComponent(getaddress(req) + "/config") + '&response_type=code&scope=identify%20email&prompt=none' })
                         } catch (err) { // If there's an error, handle it, we don't want any obnoxious crashes now
                             throw err; // Throw the error to the outside loop to handle
@@ -239,7 +239,7 @@ router.get('/', async (req, res, next) => { // Let's validate our OAuth2 with ra
                         }
                     }
                     try {
-                        id = await getid(conf.token)
+                        id = getid(conf.token)
                         switch (err) {
                             case "CANNOT_CONNECT_TO_DISCORD": // Can we not connect to Discord? Oh. We can't do anything about that so expect that the React app will show a wall
                                 res.status(200).json({ error: err })
@@ -306,14 +306,14 @@ router.get('/', async (req, res, next) => { // Let's validate our OAuth2 with ra
                                 res.json({ error: "NO_CONF" })
                                 break;
                             case "BAD_ACCESS_TOKEN":
-                                id = await getid(conf.token)
+                                id = getid(conf.token)
                                 res.status(200).json({ message: "OAUTH_REDIRECT", url: 'https://discord.com/api/oauth2/authorize?client_id=' + id + '&redirect_uri=' + encodeURIComponent(getaddress(req) + "/config") + '&response_type=code&scope=identify%20email&prompt=none' })
                                 break;
                             case "CANNOT_CONNECT_TO_DISCORD":
                                 res.status(200).json({ error: err })
                                 break;
                             case "WRONG_SCOPES":
-                                id = await getid(conf.token)
+                                id = getid(conf.token)
                                 res.status(200).json({ message: "OAUTH_REDIRECT", url: 'https://discord.com/api/oauth2/authorize?client_id=' + id + '&redirect_uri=' + encodeURIComponent(getaddress(req) + "/config") + '&response_type=code&scope=identify%20email&prompt=none' })
                                 break;
                             default:

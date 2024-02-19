@@ -15,7 +15,8 @@ const { Select } = require('@mui/base/Select');
 const { Option } = require('@mui/base/Option');
 const React = require('react')
 const translate = require('./components/getLanguageString')
-const Label = require('./components/label')
+const Label = require('./components/label');
+const getUserPermissions = require('../../core/getUserPermissions');
 
 // WHAT WE NEED TO DO:
 // Add all other types
@@ -23,7 +24,7 @@ const Label = require('./components/label')
 // And of course commenting our code
 
 function GenerateColumnContents(props) {
-    let { schema, config, key2, url, state, setState, newStateG, lang, killMenu, rowCount } = props
+    let { schema, config, key2, url, channels, roles, state, setState, newStateG, lang, killMenu, rowCount } = props
     let rows = [null]
     let gridRows = 0
     let newRow
@@ -158,11 +159,6 @@ function GenerateColumnContents(props) {
                     newOption = <input type='number' style={{ width: 100 + "%" }} className="inputDefault-_djjkz input-cIJ7To2 size16-1__VVI" name={option} value={value} onChange={e => updateStates(e.target.value, decodeURIComponent(props.url[3]), props.menu, option)} />
                     break;
                 case "dropdown":
-                    // if in state, use state as default
-                    // else if in schema, use schema
-                    // else, use null
-                    console.log(schema[option])
-                    console.log(schema)
                     if (config[option]) {
                         value = config[option]
                     } else if (schema[option]["default"]) {
@@ -182,7 +178,53 @@ function GenerateColumnContents(props) {
                     </Select>
                     break;
                 case "role":
+                    console.log(JSON.parse(JSON.stringify(roles)))
+                    let DCRoles = JSON.parse(JSON.stringify(roles))
+                    DCRoles.sort(function (a, b) { // Sort by position
+                        if (a.position < b.position) { return 1; }
+                        if (a.position > b.position) { return -1; }
+                        return 0;
+                    })
+                    let roleDropdown = []
+                    DCRoles.map(role => {
+                        includeRole = true
+                        if (schema[option]["excludeManaged"] !== false && role.managed === true) {
+                            includeRole = false
+                        }
+                        if (schema[option]["permissionsRequired"]) {
+                            schema[option]["permissionsRequired"].map(permission => {
+                                if (!(getUserPermissions(role).includes(permission) || getUserPermissions(role).includes("ADMINISTRATOR"))) {
+                                    includeRole = false
+                                }
+                            })
+                        }
+                        if (schema[option]["requireMentionable"] && !role.mentionable) {
+                            includeRole = false
+                        }
+                        if (schema[option]["excludeEveryone"] && role.position === 0) {
+                            includeRole = false
+                        }
+                        if (includeRole) {
+                            roleDropdown.push(role)
+                        }
+                    })
 
+                    roleDropdown.map(role => {
+                        checkSetting.push(<Option key={key++} className="dropdownValue" value={role.id}><div style={{ color: "#" + role.color.toString(16) }}>{role.name}</div></Option>)
+                    })
+
+                    if (config[option]) {
+                        value = config[option]
+                    } else {
+                        value = null
+                    }
+
+                    newOption = <Select value={value} onChange={(_, e) => { updateStates(e, decodeURIComponent(props.url[3]), props.menu, option) }} className="customDropdown">
+                        {checkSetting}
+                    </Select>
+                    break;
+                case "channel":
+                    newOption = "abc"
             }
             let entry = <div key={option}>
                 <Label for={option} required={schema[option]["required"]}>{translate(lang, schema[option]["title"])}</Label>
@@ -284,7 +326,6 @@ function DashboardMenu(props) {
     }
 
     let config = props.settings.config
-    console.log(props.settings)
 
     let [state, setState] = useState(JSON.parse(JSON.stringify(config))) // Doing it this way means that we don't have problems with pointers!!!
     let newStateG = JSON.parse(JSON.stringify(state))
@@ -326,7 +367,7 @@ function DashboardMenu(props) {
                     let column = state[decodeURIComponent(props.url[3])][props.menu][columnIndex]
                     console.log(state[decodeURIComponent(props.url[3])][props.menu])
                     console.log(columnIndex)
-                    columns.push(<GenerateColumnContents key={key} config={column} column={columnIndex} rowCount={determineRowCount(props.schema, state[decodeURIComponent(props.url[3])][props.menu])} schema={props.schema["column-schema"]} key2={key++} url={props.url} menu={props.menu} state={state} setState={setState} newStateG={newStateG} lang={lang} killMenu={killMenu} />)
+                    columns.push(<GenerateColumnContents key={key} roles={props.settings.roles} channels={props.settings.channels} config={column} column={columnIndex} rowCount={determineRowCount(props.schema, state[decodeURIComponent(props.url[3])][props.menu])} schema={props.schema["column-schema"]} key2={key++} url={props.url} menu={props.menu} state={state} setState={setState} newStateG={newStateG} lang={lang} killMenu={killMenu} />)
                 }
 
                 return (
@@ -352,7 +393,7 @@ function DashboardMenu(props) {
                             setState(JSON.parse(JSON.stringify(newStateG)))
                         }
                         passedConfig = state[decodeURIComponent(props.url[3])][props.menu][column]
-                        columns.push(<GenerateColumnContents key={key++} config={passedConfig} rowCount={determineRowCount(props.schema)} schema={props.schema[column]} url={props.url} menu={props.menu} column={column} state={state} setState={setState} newStateG={newStateG} lang={lang} killMenu={killMenu} />)
+                        columns.push(<GenerateColumnContents key={key++} roles={props.settings.roles} channels={props.settings.channels} config={passedConfig} rowCount={determineRowCount(props.schema)} schema={props.schema[column]} url={props.url} menu={props.menu} column={column} state={state} setState={setState} newStateG={newStateG} lang={lang} killMenu={killMenu} />)
                     }
                 })
                 return <div className="config-grid" style={{ gridRowGap: 0 }}>

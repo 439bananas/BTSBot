@@ -37,7 +37,7 @@ router.get('/', async (req, res, next) => { // Get all information required by t
             userIsMod: await isMod(req.user.id),
             contactLink: await getContactLink(),
             address: getaddress(req),
-            clientid: await getid(conf.token)
+            clientid: getid(conf.token)
         })
     } else {
         res.status(200).json({

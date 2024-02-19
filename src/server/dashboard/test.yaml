@@ -80,9 +80,10 @@ menu2:
             title: page_dashboardcatnewitemmenu2setting7
             type: role # The intention is to have preset lists of options, e.g. role, channel, etc
             excludeManaged: false # This is enabled by default (if this is not specified)
-            permissionsRequired: # Only show roles with these permissions
+            permissionsRequired: # Only show roles with this permission
                 - KICK_MEMBERS
             requireMentionable: true # By default, this is disabled, only show roles that are mentionable by everyone
+            excludeEveryone: true # This is disabled by default, this excludes the @everyone role
 menu3:
     title: page_dashboardcatnewitemmenu3
     column-schema: # Let's say the user wanted to make multiple, say, logs, or even forms. We can allow the user to add a new column per log
