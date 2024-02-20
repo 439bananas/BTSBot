@@ -90,7 +90,7 @@ router.get('/', async (req, res, next) => {
                     lang = await getUserLang(req)
                     switch (err) {
                         case "BAD_CODE": // If invalid code, redirect to Discord's OAuth2 page
-                            redirect(signinlink)
+                            res.redirect(signinlink)
                             break;
                         case "BAD_CLIENT_SECRET": // If bad client secret or some other error, show the wall
                             showwall(res, lang, translate(lang, 'page_loginbadclientsecret'), translate(lang, 'page_loginbadclientsecretdiag'))

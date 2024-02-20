@@ -136,6 +136,7 @@
     <Content Include="src\server\views\categories.jsx" />
     <Content Include="src\server\views\components\featureCard.jsx" />
     <Content Include="src\server\views\components\convertQueryStringToJSON.js" />
+    <Content Include="src\server\views\components\getChannelType.js" />
     <Content Include="src\server\views\components\getLanguageJSON.js" />
     <Content Include="src\server\views\components\getLanguageString.js" />
     <Content Include="src\server\views\components\guildLlink.jsx" />

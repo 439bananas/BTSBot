@@ -17,9 +17,9 @@ const React = require('react')
 const translate = require('./components/getLanguageString')
 const Label = require('./components/label');
 const getUserPermissions = require('../../core/getUserPermissions');
+const getChannelType = require('./components/getChannelType')
 
 // WHAT WE NEED TO DO:
-// Add all other types
 // Implementing custom rows etc
 // And of course commenting our code
 
@@ -29,36 +29,18 @@ function GenerateColumnContents(props) {
     let gridRows = 0
     let newRow
 
-    console.log(props)
-    console.log(state)
-    console.log(key2)
-    console.log(schema)
-
     function updateStates(newValue, category, menu, option, rowKey, checkOption) {
-        console.log(newValue)
-
         killMenu()
-        console.log(option)
 
         if (!rowKey) {
-            console.log(newStateG[category][menu])
-            console.log(props.column)
-            console.log(newStateG[category][menu][props.column])
-            console.log(newStateG[category][menu][props.column][option])
-
-
             if (checkOption) {
-                    newStateG[category][menu][props.column][option][checkOption] = newValue
+                newStateG[category][menu][props.column][option][checkOption] = newValue
             } else if (schema[option].type == "integer") {
                 newStateG[category][menu][props.column][option] = newValue.replaceAll(".", "")
             } else {
                 newStateG[category][menu][props.column][option] = newValue
             }
-            console.log("new state!!!")
-            console.log(newStateG)
             setState(JSON.parse(JSON.stringify(newStateG)))
-            console.log("efg")
-            console.log(state)
         } else {
             console.log("abcd")
         }
@@ -68,9 +50,6 @@ function GenerateColumnContents(props) {
         if (option != "new" && option != "row-schema") {
             let key = 0
             let checkSetting = []
-            console.log(option)
-            console.log(schema[option])
-            console.log(config)
             gridRows++
             let newOption = null
             let value
@@ -178,7 +157,6 @@ function GenerateColumnContents(props) {
                     </Select>
                     break;
                 case "role":
-                    console.log(JSON.parse(JSON.stringify(roles)))
                     let DCRoles = JSON.parse(JSON.stringify(roles))
                     DCRoles.sort(function (a, b) { // Sort by position
                         if (a.position < b.position) { return 1; }
@@ -224,7 +202,125 @@ function GenerateColumnContents(props) {
                     </Select>
                     break;
                 case "channel":
-                    newOption = "abc"
+                    let DCChannels = JSON.parse(JSON.stringify(channels))
+                    let organisedChannelList = {}
+                    let sortedCategoryList
+                    DCChannels.map(channel => {
+                        if (!schema[option]["filter"]) {
+                            if (getChannelType(channel.type) != "GUILD_CATEGORY") {
+                                if ((channel.parent_id !== null && !organisedChannelList[channel.parent_id]) || (channel.parent_id === null && !organisedChannelList["orphan"])) {
+                                    if (channel.parent_id == null) {
+                                        organisedChannelList["orphan"] = [{ id: channel.id, name: channel.name, position: channel.position, type: getChannelType(channel.type) }]
+                                    } else {
+                                        organisedChannelList[channel.parent_id] = [{ id: channel.id, name: channel.name, position: channel.position, type: getChannelType(channel.type) }]
+                                    }
+                                } else {
+                                    if (channel.parent_id == null) {
+                                        organisedChannelList["orphan"].push({ id: channel.id, name: channel.name, position: channel.position, type: getChannelType(channel.type) })
+                                    } else {
+                                        organisedChannelList[channel.parent_id].push({ id: channel.id, name: channel.name, position: channel.position, type: getChannelType(channel.type) })
+                                    }
+                                }
+                            }
+                        } else if (schema[option]["filter"] == "GUILD_CATEGORY" && !schema[option]["filter"][1] && getChannelType(channel.type) == "GUILD_CATEGORY") {
+                            organisedChannelList[channel.id] = { name: channel.name, position: channel.position }
+                        } else {
+                            let includeInFilter = false
+                            schema[option]["filter"].map(type => {
+                                if (type == getChannelType(channel.type) && type != "GUILD_CATEGORY") {
+                                    includeInFilter = true
+                                }
+                            })
+
+                            if (includeInFilter) {
+                                if ((channel.parent_id !== null && !organisedChannelList[channel.parent_id]) || (channel.parent_id === null && !organisedChannelList["orphan"])) {
+                                    if (channel.parent_id == null) {
+                                        organisedChannelList["orphan"] = [{ id: channel.id, name: channel.name, position: channel.position, type: getChannelType(channel.type) }]
+                                    } else {
+                                        organisedChannelList[channel.parent_id] = [{ id: channel.id, name: channel.name, position: channel.position, type: getChannelType(channel.type) }]
+                                    }
+                                } else {
+                                    if (channel.parent_id == null) {
+                                        organisedChannelList["orphan"].push({ id: channel.id, name: channel.name, position: channel.position, type: getChannelType(channel.type) })
+                                    } else {
+                                        organisedChannelList[channel.parent_id].push({ id: channel.id, name: channel.name, position: channel.position, type: getChannelType(channel.type) })
+                                    }
+                                }
+                            }
+                        }
+                    })
+
+                    let sortedChannels = {}
+                    if (schema[option]["filter"] == "GUILD_CATEGORY" && !schema[option]["filter"][1]) {
+                        sortedCategoryList = Object.entries(organisedChannelList).sort(function (a, b) { // Sort by position
+                            if (a[1].position > b[1].position) { return 1; }
+                            if (a[1].position < b[1].position) { return -1; }
+                            return 0;
+                        })
+                    } else {
+                        Object.keys(organisedChannelList).map(category => {
+                            sortedChannels[category] = organisedChannelList[category].sort(function (a, b) { // Sort by position
+                                if (a.position > b.position) { return 1; }
+                                if (a.position < b.position) { return -1; }
+                                return 0;
+                            })
+                        })
+
+                        sortedCategoryList = Object.entries(sortedChannels).sort(function (a, b) { // Sort by position
+                            if (a[0] == "orphan") { return -1 }
+                            if (b[0] == "orphan") { return 1 }
+                            if (DCChannels.find(element => element.id == a[0]).position > DCChannels.find(element => element.id == b[0]).position) { return 1; }
+                            if (DCChannels.find(element => element.id == a[0]).position < DCChannels.find(element => element.id == b[0]).position) { return -1; }
+                            return 0;
+                        })
+                    }
+
+                    if (config[option]) {
+                        value = config[option]
+                    } else {
+                        value = null
+                    }
+
+                    sortedCategoryList.map(item => {
+                        if (schema[option]["filter"] == "GUILD_CATEGORY" && !schema[option]["filter"][1]) {
+                            checkSetting.push(<Option key={key++} className="channelCategory dropdownValue" value={item[0]}><div style={{ marginLeft: 26 + "px" }}>{item[1].name}</div></Option>)
+                        } else {
+                            if (item[0] != "orphan") {
+                                checkSetting.push(<Option key={key++} className="channelCategory channelCategoryListChannels dropdownValue" value={item[0]}><div style={{ marginLeft: 26 + "px" }}>{DCChannels.find(element => element.id == item[0]).name}</div></Option>)
+                            }
+                            item[1].map(channel => {
+                                let cssClass
+                                switch (channel.type) {
+                                    case "GUILD_TEXT":
+                                        cssClass = "textChannel"
+                                        break;
+                                    case "GUILD_VOICE":
+                                        cssClass = "voiceChannel"
+                                        break;
+                                    case "GUILD_ANNOUNCEMENT":
+                                        cssClass = "announcementChannel"
+                                        break;
+                                    case "GUILD_STAGE_VOICE":
+                                        cssClass = "stageChannel"
+                                        break;
+                                    case "GUILD_FORUM":
+                                        cssClass = "forumChannel"
+                                        break;
+                                    case "GUILD_MEDIA":
+                                        cssClass = "mediaChannel"
+                                        break;
+                                    default:
+                                        cssClass = "unknownChannel"
+                                        break;
+                                }
+                                checkSetting.push(<Option key={key++} className={"dropdownValue " + cssClass} value={channel.id}><div style={{ marginLeft: 26 + "px" }}>{channel.name}</div></Option>)
+                            })
+                        }
+                    })
+
+                    newOption = <Select value={value} onChange={(_, e) => { updateStates(e, decodeURIComponent(props.url[3]), props.menu, option) }} className="customDropdown">
+                        {checkSetting}
+                    </Select>
             }
             let entry = <div key={option}>
                 <Label for={option} required={schema[option]["required"]}>{translate(lang, schema[option]["title"])}</Label>
@@ -252,8 +348,6 @@ function GenerateColumnContents(props) {
             <div className="contents-18-Yxp">{translate(lang, schema["row-schema"].new)}</div>
         </button>)
 
-    } else {
-        console.log("dab")
     }
 
     const mediaQuery = window.matchMedia("(max-width: 600px)") // This is *extremely* janky but it means that the height of the columns differs depending on whether a user is using mobile or desktop
