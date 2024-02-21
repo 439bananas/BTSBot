@@ -20,8 +20,315 @@ const getUserPermissions = require('../../core/getUserPermissions');
 const getChannelType = require('./components/getChannelType')
 
 // WHAT WE NEED TO DO:
-// Implementing custom rows etc
+// No we should not be prepopulating rows with null
+// Implement a "delete row" and "delete column" button
 // And of course commenting our code
+
+function CreateNewRow(props) {
+    const { updateStates, config, schema, rowIndex, newStateG, state, roles, channels, lang, option } = props
+    let key = 0
+    let checkSetting = []
+    let value
+    let newOption
+
+    switch (schema[option]["type"]) {
+        case "shortText":
+            if (config[option] === null || config[option] === undefined) {
+                if (translate(lang, schema[option]["default"]) === null) {
+                    value = ""
+                } else value = translate(lang, schema[option]["default"])
+            } else {
+                if (!rowIndex) {
+                    value = newStateG[decodeURIComponent(props.url[3])][props.menu][props.column][option]
+                } else {
+                    value = newStateG[decodeURIComponent(props.url[3])][props.menu][props.column].rows[rowIndex][option]
+                }
+            }
+            newOption = <input type='text' style={{ width: 100 + "%" }} className="inputDefault-_djjkz input-cIJ7To2 size16-1__VVI" name={option} value={value} onChange={e => updateStates(e.target.value, decodeURIComponent(props.url[3]), props.menu, option, rowIndex)} />
+            break;
+        case "longText":
+            if (config[option] === null || config[option] === undefined) {
+                if (translate(lang, schema[option]["default"]) === null) {
+                    value = ""
+                } else value = translate(lang, schema[option]["default"])
+            } else {
+                if (!rowIndex) {
+                    value = newStateG[decodeURIComponent(props.url[3])][props.menu][props.column][option]
+                } else {
+                    value = newStateG[decodeURIComponent(props.url[3])][props.menu][props.column].rows[rowIndex][option]
+                }
+            }
+            newOption = <textarea rows={2} className="inputDefault-2x input-cIJ7To2 size16-1__VVI" name={option} value={value} onChange={e => updateStates(e.target.value, decodeURIComponent(props.url[3]), props.menu, option, rowIndex)} />
+            break;
+        case "checkbox":
+            if (!rowIndex) {
+                if (!newStateG[decodeURIComponent(props.url[3])][props.menu][props.column][option]) {
+                    newStateG[decodeURIComponent(props.url[3])][props.menu][props.column][option] = {}
+                }
+            } else {
+                if (!newStateG[decodeURIComponent(props.url[3])][props.menu][props.column].rows[rowIndex][option]) {
+                    newStateG[decodeURIComponent(props.url[3])][props.menu][props.column].rows[rowIndex][option] = {}
+                }
+            }
+
+            Object.keys(schema[option]["options"]).map(checkboxOption => {
+                if (!rowIndex && (newStateG[decodeURIComponent(props.url[3])][props.menu][props.column][option][checkboxOption] !== undefined && newStateG[decodeURIComponent(props.url[3])][props.menu][props.column][option][checkboxOption] !== null)) {
+                    value = newStateG[decodeURIComponent(props.url[3])][props.menu][props.column][option][checkboxOption]
+                } else if (rowIndex && (newStateG[decodeURIComponent(props.url[3])][props.menu][props.column].rows[rowIndex][option][checkboxOption] !== undefined && newStateG[decodeURIComponent(props.url[3])][props.menu][props.column].rows[rowIndex][option][checkboxOption] !== null)) {
+                    value = newStateG[decodeURIComponent(props.url[3])][props.menu][props.column].rows[rowIndex][option][checkboxOption]
+                } else if (schema[option]["options"][checkboxOption]["default"] !== undefined && schema[option]["options"][checkboxOption]["default"] !== null) {
+                    value = schema[option]["options"][checkboxOption]["default"]
+                } else {
+                    value = false
+                }
+
+                checkSetting.push(<div className="form-check form-switch" key={key++}>
+                    <input className="form-check-input" type="checkbox" id={props.column + option + rowIndex + checkboxOption} checked={value} onChange={e => updateStates(e.target.checked, decodeURIComponent(props.url[3]), props.menu, option, rowIndex, checkboxOption)} />
+                    <label className="form-check-label" htmlFor={props.column + option + rowIndex + checkboxOption}>
+                        {translate(lang, schema[option]["options"][checkboxOption]["title"])}
+                    </label>
+                </div>)
+            })
+            newOption = checkSetting
+            break;
+        case "radio":
+            Object.keys(schema[option]["options"]).map(checkboxOption => {
+                if (!rowIndex && newStateG[decodeURIComponent(props.url[3])][props.menu][props.column][option] == checkboxOption) {
+                    value = true
+                } else if (!rowIndex && (!newStateG[decodeURIComponent(props.url[3])][props.menu][props.column][option] && checkboxOption == schema[option]["default"])) {
+                    value = true
+                } else if (rowIndex && newStateG[decodeURIComponent(props.url[3])][props.menu][props.column].rows[rowIndex][option] == checkboxOption) {
+                    value = true
+                } else if (rowIndex && (!newStateG[decodeURIComponent(props.url[3])][props.menu][props.column].rows[rowIndex][option] && checkboxOption == schema[option]["default"])) {
+                    value = true
+                } else {
+                    value = false
+                }
+
+                checkSetting.push(<div className="form-check" key={key++}>
+                    <input className="form-check-input" type="radio" id={props.column + option + checkboxOption} checked={value} onChange={e => updateStates(checkboxOption, decodeURIComponent(props.url[3]), props.menu, option, rowIndex)} />
+                    <label className="form-check-label" htmlFor={props.column + option + checkboxOption}>
+                        {translate(lang, schema[option]["options"][checkboxOption]["title"])}
+                    </label>
+                </div>)
+            })
+            newOption = checkSetting
+            break;
+        case "integer":
+            if (config[option] === null || config[option] === undefined) {
+                if (schema[option]["default"] === null) {
+                    value = ""
+                } else value = schema[option]["default"]
+            } else {
+                if (rowIndex) {
+                    value = state[decodeURIComponent(props.url[3])][props.menu][props.column].rows[rowIndex][option]
+                } else {
+                    value = state[decodeURIComponent(props.url[3])][props.menu][props.column][option]
+                }
+            }
+            newOption = <input type='number' style={{ width: 100 + "%" }} className="inputDefault-_djjkz input-cIJ7To2 size16-1__VVI" name={option} value={value} onChange={e => updateStates(e.target.value, decodeURIComponent(props.url[3]), props.menu, option, rowIndex)} />
+            break;
+        case "number":
+            if (config[option] === null || config[option] === undefined) {
+                if (schema[option]["default"] === null) {
+                    value = ""
+                } else value = schema[option]["default"]
+            } else {
+                if (rowIndex) {
+                    value = state[decodeURIComponent(props.url[3])][props.menu][props.column].rows[rowIndex][option]
+                } else {
+                    value = state[decodeURIComponent(props.url[3])][props.menu][props.column][option]
+                }
+            }
+            newOption = <input type='number' style={{ width: 100 + "%" }} className="inputDefault-_djjkz input-cIJ7To2 size16-1__VVI" name={option} value={value} onChange={e => updateStates(e.target.value, decodeURIComponent(props.url[3]), props.menu, option, rowIndex)} />
+            break;
+        case "dropdown":
+            if (config[option]) {
+                value = config[option]
+            } else if (schema[option]["default"]) {
+                value = schema[option]["default"]
+            } else {
+                value = null
+            }
+
+            Object.keys(schema[option]).map(opt => {
+                if (opt != "title" && opt != "type" && opt != "default") {
+                    checkSetting.push(<Option key={key++} className="dropdownValue" value={opt}>{translate(lang, schema[option][opt]["title"])}</Option>)
+                }
+            })
+
+            newOption = <Select value={value} onChange={(_, e) => { updateStates(e, decodeURIComponent(props.url[3]), props.menu, option, rowIndex) }} className="customDropdown">
+                {checkSetting}
+            </Select>
+            break;
+        case "role":
+            let DCRoles = JSON.parse(JSON.stringify(roles))
+            DCRoles.sort(function (a, b) { // Sort by position
+                if (a.position < b.position) { return 1; }
+                if (a.position > b.position) { return -1; }
+                return 0;
+            })
+            let roleDropdown = []
+            DCRoles.map(role => {
+                includeRole = true
+                if (schema[option]["excludeManaged"] !== false && role.managed === true) {
+                    includeRole = false
+                }
+                if (schema[option]["permissionsRequired"]) {
+                    schema[option]["permissionsRequired"].map(permission => {
+                        if (!(getUserPermissions(role).includes(permission) || getUserPermissions(role).includes("ADMINISTRATOR"))) {
+                            includeRole = false
+                        }
+                    })
+                }
+                if (schema[option]["requireMentionable"] && !role.mentionable) {
+                    includeRole = false
+                }
+                if (schema[option]["excludeEveryone"] && role.position === 0) {
+                    includeRole = false
+                }
+                if (includeRole) {
+                    roleDropdown.push(role)
+                }
+            })
+
+            roleDropdown.map(role => {
+                checkSetting.push(<Option key={key++} className="dropdownValue" value={role.id}><div style={{ color: "#" + role.color.toString(16) }}>{role.name}</div></Option>)
+            })
+
+            if (config[option]) {
+                value = config[option]
+            } else {
+                value = null
+            }
+
+            newOption = <Select value={value} onChange={(_, e) => { updateStates(e, decodeURIComponent(props.url[3]), props.menu, option, rowIndex) }} className="customDropdown">
+                {checkSetting}
+            </Select>
+            break;
+        case "channel":
+            let DCChannels = JSON.parse(JSON.stringify(channels))
+            let organisedChannelList = {}
+            let sortedCategoryList
+            DCChannels.map(channel => {
+                if (!schema[option]["filter"]) {
+                    if (getChannelType(channel.type) != "GUILD_CATEGORY") {
+                        if ((channel.parent_id !== null && !organisedChannelList[channel.parent_id]) || (channel.parent_id === null && !organisedChannelList["orphan"])) {
+                            if (channel.parent_id == null) {
+                                organisedChannelList["orphan"] = [{ id: channel.id, name: channel.name, position: channel.position, type: getChannelType(channel.type) }]
+                            } else {
+                                organisedChannelList[channel.parent_id] = [{ id: channel.id, name: channel.name, position: channel.position, type: getChannelType(channel.type) }]
+                            }
+                        } else {
+                            if (channel.parent_id == null) {
+                                organisedChannelList["orphan"].push({ id: channel.id, name: channel.name, position: channel.position, type: getChannelType(channel.type) })
+                            } else {
+                                organisedChannelList[channel.parent_id].push({ id: channel.id, name: channel.name, position: channel.position, type: getChannelType(channel.type) })
+                            }
+                        }
+                    }
+                } else if (schema[option]["filter"] == "GUILD_CATEGORY" && !schema[option]["filter"][1] && getChannelType(channel.type) == "GUILD_CATEGORY") {
+                    organisedChannelList[channel.id] = { name: channel.name, position: channel.position }
+                } else {
+                    let includeInFilter = false
+                    schema[option]["filter"].map(type => {
+                        if (type == getChannelType(channel.type) && type != "GUILD_CATEGORY") {
+                            includeInFilter = true
+                        }
+                    })
+
+                    if (includeInFilter) {
+                        if ((channel.parent_id !== null && !organisedChannelList[channel.parent_id]) || (channel.parent_id === null && !organisedChannelList["orphan"])) {
+                            if (channel.parent_id == null) {
+                                organisedChannelList["orphan"] = [{ id: channel.id, name: channel.name, position: channel.position, type: getChannelType(channel.type) }]
+                            } else {
+                                organisedChannelList[channel.parent_id] = [{ id: channel.id, name: channel.name, position: channel.position, type: getChannelType(channel.type) }]
+                            }
+                        } else {
+                            if (channel.parent_id == null) {
+                                organisedChannelList["orphan"].push({ id: channel.id, name: channel.name, position: channel.position, type: getChannelType(channel.type) })
+                            } else {
+                                organisedChannelList[channel.parent_id].push({ id: channel.id, name: channel.name, position: channel.position, type: getChannelType(channel.type) })
+                            }
+                        }
+                    }
+                }
+            })
+
+            let sortedChannels = {}
+            if (schema[option]["filter"] == "GUILD_CATEGORY" && !schema[option]["filter"][1]) {
+                sortedCategoryList = Object.entries(organisedChannelList).sort(function (a, b) { // Sort by position
+                    if (a[1].position > b[1].position) { return 1; }
+                    if (a[1].position < b[1].position) { return -1; }
+                    return 0;
+                })
+            } else {
+                Object.keys(organisedChannelList).map(category => {
+                    sortedChannels[category] = organisedChannelList[category].sort(function (a, b) { // Sort by position
+                        if (a.position > b.position) { return 1; }
+                        if (a.position < b.position) { return -1; }
+                        return 0;
+                    })
+                })
+
+                sortedCategoryList = Object.entries(sortedChannels).sort(function (a, b) { // Sort by position
+                    if (a[0] == "orphan") { return -1 }
+                    if (b[0] == "orphan") { return 1 }
+                    if (DCChannels.find(element => element.id == a[0]).position > DCChannels.find(element => element.id == b[0]).position) { return 1; }
+                    if (DCChannels.find(element => element.id == a[0]).position < DCChannels.find(element => element.id == b[0]).position) { return -1; }
+                    return 0;
+                })
+            }
+
+            if (config[option]) {
+                value = config[option]
+            } else {
+                value = null
+            }
+
+            sortedCategoryList.map(item => {
+                if (schema[option]["filter"] == "GUILD_CATEGORY" && !schema[option]["filter"][1]) {
+                    checkSetting.push(<Option key={key++} className="channelCategory dropdownValue" value={item[0]}><div style={{ marginLeft: 26 + "px" }}>{item[1].name}</div></Option>)
+                } else {
+                    if (item[0] != "orphan") {
+                        checkSetting.push(<Option key={key++} className="channelCategory channelCategoryListChannels dropdownValue" value={item[0]}><div style={{ marginLeft: 26 + "px" }}>{DCChannels.find(element => element.id == item[0]).name}</div></Option>)
+                    }
+                    item[1].map(channel => {
+                        let cssClass
+                        switch (channel.type) {
+                            case "GUILD_TEXT":
+                                cssClass = "textChannel"
+                                break;
+                            case "GUILD_VOICE":
+                                cssClass = "voiceChannel"
+                                break;
+                            case "GUILD_ANNOUNCEMENT":
+                                cssClass = "announcementChannel"
+                                break;
+                            case "GUILD_STAGE_VOICE":
+                                cssClass = "stageChannel"
+                                break;
+                            case "GUILD_FORUM":
+                                cssClass = "forumChannel"
+                                break;
+                            case "GUILD_MEDIA":
+                                cssClass = "mediaChannel"
+                                break;
+                            default:
+                                cssClass = "unknownChannel"
+                                break;
+                        }
+                        checkSetting.push(<Option key={key++} className={"dropdownValue " + cssClass} value={channel.id}><div style={{ marginLeft: 26 + "px" }}>{channel.name}</div></Option>)
+                    })
+                }
+            })
+
+            newOption = <Select value={value} onChange={(_, e) => { updateStates(e, decodeURIComponent(props.url[3]), props.menu, option, rowIndex) }} className="customDropdown">
+                {checkSetting}
+            </Select>
+    }
+    return newOption
+}
 
 function GenerateColumnContents(props) {
     let { schema, config, key2, url, channels, roles, state, setState, newStateG, lang, killMenu, rowCount } = props
@@ -42,286 +349,24 @@ function GenerateColumnContents(props) {
             }
             setState(JSON.parse(JSON.stringify(newStateG)))
         } else {
-            console.log("abcd")
+            if (checkOption) {
+                newStateG[category][menu][props.column].rows[rowKey][option][checkOption] = newValue
+            } else if (schema["row-schema"][option].type == "integer") {
+                newStateG[category][menu][props.column].rows[rowKey][option] = newValue.replaceAll(".", "")
+            } else {
+                console.log(rowKey)
+                console.log(newStateG[category][menu][props.column].rows)
+                newStateG[category][menu][props.column].rows[rowKey][option] = newValue
+            }
+            setState(JSON.parse(JSON.stringify(newStateG)))
         }
     }
 
     Object.keys(schema).map(option => {
         if (option != "new" && option != "row-schema") {
-            let key = 0
-            let checkSetting = []
             gridRows++
-            let newOption = null
-            let value
+            let newOption = <CreateNewRow updateStates={updateStates} config={config} schema={schema} menu={props.menu} url={props.url} column={props.column} newStateG={newStateG} state={state} roles={roles} channels={channels} lang={lang} option={option} />
 
-            switch (schema[option]["type"]) {
-                case "shortText":
-                    if (config[option] === null || config[option] === undefined) {
-                        if (translate(lang, schema[option]["default"]) === null) {
-                            value = ""
-                        } else value = translate(lang, schema[option]["default"])
-                    } else {
-                        value = state[decodeURIComponent(props.url[3])][props.menu][props.column][option]
-                    }
-                    newOption = <input type='text' style={{ width: 100 + "%" }} className="inputDefault-_djjkz input-cIJ7To2 size16-1__VVI" name={option} value={value} onChange={e => updateStates(e.target.value, decodeURIComponent(props.url[3]), props.menu, option)} />
-                    break;
-                case "longText":
-                    if (config[option] === null || config[option] === undefined) {
-                        if (translate(lang, schema[option]["default"]) === null) {
-                            value = ""
-                        } else value = translate(lang, schema[option]["default"])
-                    } else {
-                        value = state[decodeURIComponent(props.url[3])][props.menu][props.column][option]
-                    }
-                    newOption = <textarea rows={2} className="inputDefault-2x input-cIJ7To2 size16-1__VVI" name={option} value={value} onChange={e => updateStates(e.target.value, decodeURIComponent(props.url[3]), props.menu, option)} />
-                    break;
-                case "checkbox":
-                    if (!state[decodeURIComponent(props.url[3])][props.menu][props.column][option]) {
-                        newStateG[decodeURIComponent(props.url[3])][props.menu][props.column][option] = {}
-                    }
-
-                    Object.keys(schema[option]["options"]).map(checkboxOption => {
-                        if (newStateG[decodeURIComponent(props.url[3])][props.menu][props.column][option][checkboxOption] !== undefined && newStateG[decodeURIComponent(props.url[3])][props.menu][props.column][option][checkboxOption] !== null) {
-                            value = newStateG[decodeURIComponent(props.url[3])][props.menu][props.column][option][checkboxOption]
-                        } else if (schema[option]["options"][checkboxOption]["default"] !== undefined && schema[option]["options"][checkboxOption]["default"] !== null) {
-                            value = schema[option]["options"][checkboxOption]["default"]
-                        } else {
-                            value = false
-                        }
-
-                        checkSetting.push(<div className="form-check form-switch" key={key++}>
-                            <input className="form-check-input" type="checkbox" id={props.column + option + checkboxOption} checked={value} onChange={e => updateStates(e.target.checked, decodeURIComponent(props.url[3]), props.menu, option, undefined, checkboxOption)} />
-                            <label className="form-check-label" htmlFor={props.column + option + checkboxOption}>
-                                {translate(lang, schema[option]["options"][checkboxOption]["title"])}
-                            </label>
-                        </div>)
-                    })
-                    newOption = checkSetting
-                    break;
-                case "radio":
-                    Object.keys(schema[option]["options"]).map(checkboxOption => {
-                        if (newStateG[decodeURIComponent(props.url[3])][props.menu][props.column][option] == checkboxOption) {
-                            value = true
-                        } else if (!newStateG[decodeURIComponent(props.url[3])][props.menu][props.column][option] && checkboxOption == schema[option]["default"]) {
-                            value = true
-                        } else {
-                            value = false
-                        }
-
-                        checkSetting.push(<div className="form-check" key={key++}>
-                            <input className="form-check-input" type="radio" id={props.column + option + checkboxOption} checked={value} onChange={e => updateStates(checkboxOption, decodeURIComponent(props.url[3]), props.menu, option)} />
-                            <label className="form-check-label" htmlFor={props.column + option + checkboxOption}>
-                                {translate(lang, schema[option]["options"][checkboxOption]["title"])}
-                            </label>
-                        </div>)
-                    })
-                    newOption = checkSetting
-                    break;
-                case "integer":
-                    if (config[option] === null || config[option] === undefined) {
-                        if (schema[option]["default"] === null) {
-                            value = ""
-                        } else value = schema[option]["default"]
-                    } else {
-                        value = state[decodeURIComponent(props.url[3])][props.menu][props.column][option]
-                    }
-                    newOption = <input type='number' style={{ width: 100 + "%" }} className="inputDefault-_djjkz input-cIJ7To2 size16-1__VVI" name={option} value={value} onChange={e => updateStates(e.target.value, decodeURIComponent(props.url[3]), props.menu, option)} />
-                    break;
-                case "number":
-                    if (config[option] === null || config[option] === undefined) {
-                        if (schema[option]["default"] === null) {
-                            value = ""
-                        } else lang, schema[option]["default"]
-                    } else {
-                        value = state[decodeURIComponent(props.url[3])][props.menu][props.column][option]
-                    }
-                    newOption = <input type='number' style={{ width: 100 + "%" }} className="inputDefault-_djjkz input-cIJ7To2 size16-1__VVI" name={option} value={value} onChange={e => updateStates(e.target.value, decodeURIComponent(props.url[3]), props.menu, option)} />
-                    break;
-                case "dropdown":
-                    if (config[option]) {
-                        value = config[option]
-                    } else if (schema[option]["default"]) {
-                        value = schema[option]["default"]
-                    } else {
-                        value = null
-                    }
-
-                    Object.keys(schema[option]).map(opt => {
-                        if (opt != "title" && opt != "type" && opt != "default") {
-                            checkSetting.push(<Option key={key++} className="dropdownValue" value={opt}>{translate(lang, schema[option][opt]["title"])}</Option>)
-                        }
-                    })
-
-                    newOption = <Select value={value} onChange={(_, e) => { updateStates(e, decodeURIComponent(props.url[3]), props.menu, option) }} className="customDropdown">
-                        {checkSetting}
-                    </Select>
-                    break;
-                case "role":
-                    let DCRoles = JSON.parse(JSON.stringify(roles))
-                    DCRoles.sort(function (a, b) { // Sort by position
-                        if (a.position < b.position) { return 1; }
-                        if (a.position > b.position) { return -1; }
-                        return 0;
-                    })
-                    let roleDropdown = []
-                    DCRoles.map(role => {
-                        includeRole = true
-                        if (schema[option]["excludeManaged"] !== false && role.managed === true) {
-                            includeRole = false
-                        }
-                        if (schema[option]["permissionsRequired"]) {
-                            schema[option]["permissionsRequired"].map(permission => {
-                                if (!(getUserPermissions(role).includes(permission) || getUserPermissions(role).includes("ADMINISTRATOR"))) {
-                                    includeRole = false
-                                }
-                            })
-                        }
-                        if (schema[option]["requireMentionable"] && !role.mentionable) {
-                            includeRole = false
-                        }
-                        if (schema[option]["excludeEveryone"] && role.position === 0) {
-                            includeRole = false
-                        }
-                        if (includeRole) {
-                            roleDropdown.push(role)
-                        }
-                    })
-
-                    roleDropdown.map(role => {
-                        checkSetting.push(<Option key={key++} className="dropdownValue" value={role.id}><div style={{ color: "#" + role.color.toString(16) }}>{role.name}</div></Option>)
-                    })
-
-                    if (config[option]) {
-                        value = config[option]
-                    } else {
-                        value = null
-                    }
-
-                    newOption = <Select value={value} onChange={(_, e) => { updateStates(e, decodeURIComponent(props.url[3]), props.menu, option) }} className="customDropdown">
-                        {checkSetting}
-                    </Select>
-                    break;
-                case "channel":
-                    let DCChannels = JSON.parse(JSON.stringify(channels))
-                    let organisedChannelList = {}
-                    let sortedCategoryList
-                    DCChannels.map(channel => {
-                        if (!schema[option]["filter"]) {
-                            if (getChannelType(channel.type) != "GUILD_CATEGORY") {
-                                if ((channel.parent_id !== null && !organisedChannelList[channel.parent_id]) || (channel.parent_id === null && !organisedChannelList["orphan"])) {
-                                    if (channel.parent_id == null) {
-                                        organisedChannelList["orphan"] = [{ id: channel.id, name: channel.name, position: channel.position, type: getChannelType(channel.type) }]
-                                    } else {
-                                        organisedChannelList[channel.parent_id] = [{ id: channel.id, name: channel.name, position: channel.position, type: getChannelType(channel.type) }]
-                                    }
-                                } else {
-                                    if (channel.parent_id == null) {
-                                        organisedChannelList["orphan"].push({ id: channel.id, name: channel.name, position: channel.position, type: getChannelType(channel.type) })
-                                    } else {
-                                        organisedChannelList[channel.parent_id].push({ id: channel.id, name: channel.name, position: channel.position, type: getChannelType(channel.type) })
-                                    }
-                                }
-                            }
-                        } else if (schema[option]["filter"] == "GUILD_CATEGORY" && !schema[option]["filter"][1] && getChannelType(channel.type) == "GUILD_CATEGORY") {
-                            organisedChannelList[channel.id] = { name: channel.name, position: channel.position }
-                        } else {
-                            let includeInFilter = false
-                            schema[option]["filter"].map(type => {
-                                if (type == getChannelType(channel.type) && type != "GUILD_CATEGORY") {
-                                    includeInFilter = true
-                                }
-                            })
-
-                            if (includeInFilter) {
-                                if ((channel.parent_id !== null && !organisedChannelList[channel.parent_id]) || (channel.parent_id === null && !organisedChannelList["orphan"])) {
-                                    if (channel.parent_id == null) {
-                                        organisedChannelList["orphan"] = [{ id: channel.id, name: channel.name, position: channel.position, type: getChannelType(channel.type) }]
-                                    } else {
-                                        organisedChannelList[channel.parent_id] = [{ id: channel.id, name: channel.name, position: channel.position, type: getChannelType(channel.type) }]
-                                    }
-                                } else {
-                                    if (channel.parent_id == null) {
-                                        organisedChannelList["orphan"].push({ id: channel.id, name: channel.name, position: channel.position, type: getChannelType(channel.type) })
-                                    } else {
-                                        organisedChannelList[channel.parent_id].push({ id: channel.id, name: channel.name, position: channel.position, type: getChannelType(channel.type) })
-                                    }
-                                }
-                            }
-                        }
-                    })
-
-                    let sortedChannels = {}
-                    if (schema[option]["filter"] == "GUILD_CATEGORY" && !schema[option]["filter"][1]) {
-                        sortedCategoryList = Object.entries(organisedChannelList).sort(function (a, b) { // Sort by position
-                            if (a[1].position > b[1].position) { return 1; }
-                            if (a[1].position < b[1].position) { return -1; }
-                            return 0;
-                        })
-                    } else {
-                        Object.keys(organisedChannelList).map(category => {
-                            sortedChannels[category] = organisedChannelList[category].sort(function (a, b) { // Sort by position
-                                if (a.position > b.position) { return 1; }
-                                if (a.position < b.position) { return -1; }
-                                return 0;
-                            })
-                        })
-
-                        sortedCategoryList = Object.entries(sortedChannels).sort(function (a, b) { // Sort by position
-                            if (a[0] == "orphan") { return -1 }
-                            if (b[0] == "orphan") { return 1 }
-                            if (DCChannels.find(element => element.id == a[0]).position > DCChannels.find(element => element.id == b[0]).position) { return 1; }
-                            if (DCChannels.find(element => element.id == a[0]).position < DCChannels.find(element => element.id == b[0]).position) { return -1; }
-                            return 0;
-                        })
-                    }
-
-                    if (config[option]) {
-                        value = config[option]
-                    } else {
-                        value = null
-                    }
-
-                    sortedCategoryList.map(item => {
-                        if (schema[option]["filter"] == "GUILD_CATEGORY" && !schema[option]["filter"][1]) {
-                            checkSetting.push(<Option key={key++} className="channelCategory dropdownValue" value={item[0]}><div style={{ marginLeft: 26 + "px" }}>{item[1].name}</div></Option>)
-                        } else {
-                            if (item[0] != "orphan") {
-                                checkSetting.push(<Option key={key++} className="channelCategory channelCategoryListChannels dropdownValue" value={item[0]}><div style={{ marginLeft: 26 + "px" }}>{DCChannels.find(element => element.id == item[0]).name}</div></Option>)
-                            }
-                            item[1].map(channel => {
-                                let cssClass
-                                switch (channel.type) {
-                                    case "GUILD_TEXT":
-                                        cssClass = "textChannel"
-                                        break;
-                                    case "GUILD_VOICE":
-                                        cssClass = "voiceChannel"
-                                        break;
-                                    case "GUILD_ANNOUNCEMENT":
-                                        cssClass = "announcementChannel"
-                                        break;
-                                    case "GUILD_STAGE_VOICE":
-                                        cssClass = "stageChannel"
-                                        break;
-                                    case "GUILD_FORUM":
-                                        cssClass = "forumChannel"
-                                        break;
-                                    case "GUILD_MEDIA":
-                                        cssClass = "mediaChannel"
-                                        break;
-                                    default:
-                                        cssClass = "unknownChannel"
-                                        break;
-                                }
-                                checkSetting.push(<Option key={key++} className={"dropdownValue " + cssClass} value={channel.id}><div style={{ marginLeft: 26 + "px" }}>{channel.name}</div></Option>)
-                            })
-                        }
-                    })
-
-                    newOption = <Select value={value} onChange={(_, e) => { updateStates(e, decodeURIComponent(props.url[3]), props.menu, option) }} className="customDropdown">
-                        {checkSetting}
-                    </Select>
-            }
             let entry = <div key={option}>
                 <Label for={option} required={schema[option]["required"]}>{translate(lang, schema[option]["title"])}</Label>
                 {newOption}
@@ -333,12 +378,40 @@ function GenerateColumnContents(props) {
     // create config entries here, if row schema, then append more
 
     if (schema["row-schema"]) {
+        gridRows++
         function createRow() {
-            // break apart schema
-            // similar to createColumn? not sure
-            // push it along
-            // oh yeah and also update state
+            let newRowSettings = {}
+            for (property of Object.keys(props.schema["row-schema"])) { // Set each each setting in the row to null
+                if (property != "new" && property != "row-schema") {
+                    newRowSettings[property] = null
+                }
+            }
+
+            newStateG[decodeURIComponent(props.url[3])][props.menu][props.column].rows.push(newRowSettings)
+            setState(JSON.parse(JSON.stringify(newStateG)))
+            killMenu()
         }
+
+        const rowSchema = schema["row-schema"]
+        let key = 0
+
+        Object.keys(config.rows).map(rowIndex => {
+            console.warn(props.column + " " + rowIndex)
+            let row = config.rows[rowIndex]
+            Object.keys(rowSchema).map(option => {
+                console.log(option)
+                if (option != "new") {
+                    gridRows++
+                    let newOption = <CreateNewRow rowIndex={rowIndex} updateStates={updateStates} config={row} schema={rowSchema} menu={props.menu} url={props.url} column={props.column} newStateG={newStateG} state={state} roles={roles} channels={channels} lang={lang} option={option} />
+
+                    let entry = <div key={key++}>
+                        <Label for={option} required={rowSchema[option]["required"]}>{translate(lang, rowSchema[option]["title"])}</Label>
+                        {newOption}
+                    </div>
+                    rows.push(entry)
+                }
+            })
+        })
 
         console.log("yeet")
         console.log(schema)
@@ -372,9 +445,6 @@ function GenerateColumnContents(props) {
     // we also need to update state whenever a change is made
     // hold on we also need to amend css? what the-
     // defaults also need to be countered in here...
-    return <div className={"cat-link column-card"}>
-        c
-    </div>
 }
 
 function DashboardMenu(props) {
@@ -406,13 +476,14 @@ function DashboardMenu(props) {
             })
         } else {
             if (schema["column-schema"]["row-schema"]) { // If there's row schema:
+                console.log(Object.keys(schema["column-schema"]).length - 2)
                 config.map(column => { // Get each column
                     if ((column.rows.length * (Object.keys(schema["column-schema"]["row-schema"]).length - 1)) > maxCount) { // If the number of rows multiplied by the length of the row schema (subtract one for "new") is greater than maxCount
                         maxCount = column.rows.length * (Object.keys(schema["column-schema"]["row-schema"]).length - 1) // Set the maxCount to it
                     }
                 })
 
-                rowCount += maxCount + 1 // Add 1 for the button
+                rowCount += maxCount + Object.keys(schema["column-schema"]).length - 1 // Add 1 for the button, but subtract two for "new" and "row-schema" within column-schema
             }
         }
 

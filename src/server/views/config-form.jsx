@@ -251,7 +251,7 @@ function ConfigForm(props) {
                                     <div className="row">
                                         <div className="col">
                                             <label htmlFor='language' className="required label-fppI2a marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz">{translate(props.language, 'page_defaultlanguagelabel')}</label>
-                                            <select className="size16-1__VVI form-select input-cIJ7To" name="language" id="language" value={language} onChange={e => setLanguage(e.target.value)}> {/* REMEMBER TO CREATE DEFAULTS FOR LANG*/}
+                                            <select className="size16-1__VVI form-select input-cIJ7To" name="language" id="language" value={language} onChange={e => setLanguage(e.target.value)}>
                                                 <Languages langs={props.languages} />
                                             </select>
                                         </div>
