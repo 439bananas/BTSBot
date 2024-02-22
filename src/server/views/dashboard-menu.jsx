@@ -19,21 +19,21 @@ const Label = require('./components/label');
 const getUserPermissions = require('../../core/getUserPermissions');
 const getChannelType = require('./components/getChannelType')
 
-function CreateNewRow(props) {
+function CreateNewRow(props) { // Display a different option deending on the type
     const { updateStates, config, schema, rowIndex, newStateG, state, roles, channels, lang, option } = props
     let key = 0
     let checkSetting = []
     let value
     let newOption
 
-    switch (schema[option]["type"]) {
+    switch (schema[option]["type"]) { // Switch between the type of the option
         case "shortText":
-            if (config[option] === null || config[option] === undefined) {
-                if (translate(lang, schema[option]["default"]) === null) {
+            if (config[option] === null || config[option] === undefined) { // If this is not in the guild config:
+                if (translate(lang, schema[option]["default"]) === null) { // If the default value is null, the value is blank
                     value = ""
-                } else value = translate(lang, schema[option]["default"])
+                } else value = translate(lang, schema[option]["default"]) // Else, use the default
             } else {
-                if (!rowIndex) {
+                if (!rowIndex) { // Then set to the option within the row (or column), depending on whether there's rowIndex
                     value = newStateG[decodeURIComponent(props.url[3])][props.menu][props.column][option]
                 } else {
                     value = newStateG[decodeURIComponent(props.url[3])][props.menu][props.column].rows[rowIndex][option]
@@ -41,7 +41,7 @@ function CreateNewRow(props) {
             }
             newOption = <input type='text' style={{ width: 100 + "%" }} className="inputDefault-_djjkz input-cIJ7To2 size16-1__VVI" name={option} value={value} onChange={e => updateStates(e.target.value, decodeURIComponent(props.url[3]), props.menu, option, rowIndex)} />
             break;
-        case "longText":
+        case "longText": // All the same as above
             if (config[option] === null || config[option] === undefined) {
                 if (translate(lang, schema[option]["default"]) === null) {
                     value = ""
@@ -55,9 +55,9 @@ function CreateNewRow(props) {
             }
             newOption = <textarea rows={2} className="inputDefault-2x input-cIJ7To2 size16-1__VVI" name={option} value={value} onChange={e => updateStates(e.target.value, decodeURIComponent(props.url[3]), props.menu, option, rowIndex)} />
             break;
-        case "checkbox":
+        case "checkbox": // And by checkbox, I mean a slider toggle
             if (!rowIndex) {
-                if (!newStateG[decodeURIComponent(props.url[3])][props.menu][props.column][option]) {
+                if (!newStateG[decodeURIComponent(props.url[3])][props.menu][props.column][option]) { // If this is not in config, create an object in newStateG (not yet committed) and make it blank
                     newStateG[decodeURIComponent(props.url[3])][props.menu][props.column][option] = {}
                 }
             } else {
@@ -66,7 +66,7 @@ function CreateNewRow(props) {
                 }
             }
 
-            Object.keys(schema[option]["options"]).map(checkboxOption => {
+            Object.keys(schema[option]["options"]).map(checkboxOption => { // Set our value depending on what state/defaults say
                 if (!rowIndex && (newStateG[decodeURIComponent(props.url[3])][props.menu][props.column][option][checkboxOption] !== undefined && newStateG[decodeURIComponent(props.url[3])][props.menu][props.column][option][checkboxOption] !== null)) {
                     value = newStateG[decodeURIComponent(props.url[3])][props.menu][props.column][option][checkboxOption]
                 } else if (rowIndex && (newStateG[decodeURIComponent(props.url[3])][props.menu][props.column].rows[rowIndex][option][checkboxOption] !== undefined && newStateG[decodeURIComponent(props.url[3])][props.menu][props.column].rows[rowIndex][option][checkboxOption] !== null)) {
@@ -82,11 +82,11 @@ function CreateNewRow(props) {
                     <label className="form-check-label" htmlFor={props.column + option + rowIndex + checkboxOption}>
                         {translate(lang, schema[option]["options"][checkboxOption]["title"])}
                     </label>
-                </div>)
+                </div>) // Push the setting along
             })
             newOption = checkSetting
             break;
-        case "radio":
+        case "radio": // Pretty similar to above ngl
             Object.keys(schema[option]["options"]).map(checkboxOption => {
                 if (!rowIndex && newStateG[decodeURIComponent(props.url[3])][props.menu][props.column][option] == checkboxOption) {
                     value = true
@@ -109,7 +109,7 @@ function CreateNewRow(props) {
             })
             newOption = checkSetting
             break;
-        case "integer":
+        case "integer": // Similar to shortText
             if (config[option] === null || config[option] === undefined) {
                 if (schema[option]["default"] === null) {
                     value = ""
@@ -123,7 +123,7 @@ function CreateNewRow(props) {
             }
             newOption = <input type='number' style={{ width: 100 + "%" }} className="inputDefault-_djjkz input-cIJ7To2 size16-1__VVI" name={option} value={value} onChange={e => updateStates(e.target.value, decodeURIComponent(props.url[3]), props.menu, option, rowIndex)} />
             break;
-        case "number":
+        case "number": // Similar to shortText
             if (config[option] === null || config[option] === undefined) {
                 if (schema[option]["default"] === null) {
                     value = ""
@@ -137,8 +137,8 @@ function CreateNewRow(props) {
             }
             newOption = <input type='number' style={{ width: 100 + "%" }} className="inputDefault-_djjkz input-cIJ7To2 size16-1__VVI" name={option} value={value} onChange={e => updateStates(e.target.value, decodeURIComponent(props.url[3]), props.menu, option, rowIndex)} />
             break;
-        case "dropdown":
-            if (config[option]) {
+        case "dropdown": // Dropdowns!!!
+            if (config[option]) { // Thankfully MUI saved my backside so all I have to do is set a defined value
                 value = config[option]
             } else if (schema[option]["default"]) {
                 value = schema[option]["default"]
@@ -146,19 +146,20 @@ function CreateNewRow(props) {
                 value = null
             }
 
-            Object.keys(schema[option]).map(opt => {
+            Object.keys(schema[option]).map(opt => { // For each in schema, add the option as per YAML
                 if (opt != "title" && opt != "type" && opt != "default") {
                     checkSetting.push(<Option key={key++} className="dropdownValue" value={opt}>{translate(lang, schema[option][opt]["title"])}</Option>)
                 }
             })
 
+            // Return the select
             newOption = <Select value={value} onChange={(_, e) => { updateStates(e, decodeURIComponent(props.url[3]), props.menu, option, rowIndex) }} className="customDropdown">
                 {checkSetting}
             </Select>
             break;
         case "role":
-            let DCRoles = JSON.parse(JSON.stringify(roles))
-            DCRoles.sort(function (a, b) { // Sort by position
+            let DCRoles = JSON.parse(JSON.stringify(roles)) // Deep copy roles so that we don't have any funky problems
+            DCRoles.sort(function (a, b) { // Sort by position of roles
                 if (a.position < b.position) { return 1; }
                 if (a.position > b.position) { return -1; }
                 return 0;
@@ -166,32 +167,36 @@ function CreateNewRow(props) {
             let roleDropdown = []
             DCRoles.map(role => {
                 includeRole = true
-                if (schema[option]["excludeManaged"] !== false && role.managed === true) {
+                if (schema[option]["excludeManaged"] !== false && role.managed === true) { // Enforce constraints
                     includeRole = false
                 }
+
                 if (schema[option]["permissionsRequired"]) {
                     schema[option]["permissionsRequired"].map(permission => {
-                        if (!(getUserPermissions(role).includes(permission) || getUserPermissions(role).includes("ADMINISTRATOR"))) {
-                            includeRole = false
+                        if (!(getUserPermissions(role).includes(permission) || getUserPermissions(role).includes("ADMINISTRATOR"))) { // Get the permissions of the role and see if they include administrator or any of mentioned permissions
+                            includeRole = false // If not, do not include the role
                         }
                     })
                 }
-                if (schema[option]["requireMentionable"] && !role.mentionable) {
+
+                if (schema[option]["requireMentionable"] && !role.mentionable) { // Enforce role being mentionable by everyone if so configured in YAML
                     includeRole = false
                 }
-                if (schema[option]["excludeEveryone"] && role.position === 0) {
+
+                if (schema[option]["excludeEveryone"] && role.position === 0) { // Role position for @everyone is always 0
                     includeRole = false
                 }
-                if (includeRole) {
+
+                if (includeRole) { // If we survive the purge, push the role onto the array
                     roleDropdown.push(role)
                 }
             })
 
-            roleDropdown.map(role => {
+            roleDropdown.map(role => { // For each item in above array, create a new gropdown option
                 checkSetting.push(<Option key={key++} className="dropdownValue" value={role.id}><div style={{ color: "#" + role.color.toString(16) }}>{role.name}</div></Option>)
             })
 
-            if (config[option]) {
+            if (config[option]) { // Basically like above
                 value = config[option]
             } else {
                 value = null
@@ -201,15 +206,15 @@ function CreateNewRow(props) {
                 {checkSetting}
             </Select>
             break;
-        case "channel":
-            let DCChannels = JSON.parse(JSON.stringify(channels))
+        case "channel": // Man am I gonna scream again
+            let DCChannels = JSON.parse(JSON.stringify(channels)) // Deep copy the channel list
             let organisedChannelList = {}
             let sortedCategoryList
-            DCChannels.map(channel => {
-                if (!schema[option]["filter"]) {
-                    if (getChannelType(channel.type) != "GUILD_CATEGORY") {
+            DCChannels.map(channel => { // For each in the list:
+                if (!schema[option]["filter"]) { // If there's no filter, show all channels
+                    if (getChannelType(channel.type) != "GUILD_CATEGORY") { // No we should not sort guild categories yet
                         if ((channel.parent_id !== null && !organisedChannelList[channel.parent_id]) || (channel.parent_id === null && !organisedChannelList["orphan"])) {
-                            if (channel.parent_id == null) {
+                            if (channel.parent_id == null) { // This small block until the next comment is responsible for putting channels into their own categories' objects
                                 organisedChannelList["orphan"] = [{ id: channel.id, name: channel.name, position: channel.position, type: getChannelType(channel.type) }]
                             } else {
                                 organisedChannelList[channel.parent_id] = [{ id: channel.id, name: channel.name, position: channel.position, type: getChannelType(channel.type) }]
@@ -222,17 +227,17 @@ function CreateNewRow(props) {
                             }
                         }
                     }
-                } else if (schema[option]["filter"] == "GUILD_CATEGORY" && !schema[option]["filter"][1] && getChannelType(channel.type) == "GUILD_CATEGORY") {
+                } else if (schema[option]["filter"] == "GUILD_CATEGORY" && !schema[option]["filter"][1] && getChannelType(channel.type) == "GUILD_CATEGORY") { // Only show guild categories if so configured
                     organisedChannelList[channel.id] = { name: channel.name, position: channel.position }
-                } else {
+                } else { // If we have a filter...
                     let includeInFilter = false
                     schema[option]["filter"].map(type => {
-                        if (type == getChannelType(channel.type) && type != "GUILD_CATEGORY") {
+                        if (type == getChannelType(channel.type) && type != "GUILD_CATEGORY") { // If the type matches as above and the type is not guild category, include in list
                             includeInFilter = true
                         }
                     })
 
-                    if (includeInFilter) {
+                    if (includeInFilter) { // If includes, then let's put into the organised channel list
                         if ((channel.parent_id !== null && !organisedChannelList[channel.parent_id]) || (channel.parent_id === null && !organisedChannelList["orphan"])) {
                             if (channel.parent_id == null) {
                                 organisedChannelList["orphan"] = [{ id: channel.id, name: channel.name, position: channel.position, type: getChannelType(channel.type) }]
@@ -250,23 +255,23 @@ function CreateNewRow(props) {
                 }
             })
 
-            let sortedChannels = {}
+            let sortedChannels = {} 
             if (schema[option]["filter"] == "GUILD_CATEGORY" && !schema[option]["filter"][1]) {
-                sortedCategoryList = Object.entries(organisedChannelList).sort(function (a, b) { // Sort by position
+                sortedCategoryList = Object.entries(organisedChannelList).sort(function (a, b) { // Sort categories by position
                     if (a[1].position > b[1].position) { return 1; }
                     if (a[1].position < b[1].position) { return -1; }
                     return 0;
                 })
             } else {
                 Object.keys(organisedChannelList).map(category => {
-                    sortedChannels[category] = organisedChannelList[category].sort(function (a, b) { // Sort by position
+                    sortedChannels[category] = organisedChannelList[category].sort(function (a, b) { // Sort each channel in each category by position
                         if (a.position > b.position) { return 1; }
                         if (a.position < b.position) { return -1; }
                         return 0;
                     })
                 })
 
-                sortedCategoryList = Object.entries(sortedChannels).sort(function (a, b) { // Sort by position
+                sortedCategoryList = Object.entries(sortedChannels).sort(function (a, b) { // Sort each category (which includes each channel in order) by position now
                     if (a[0] == "orphan") { return -1 }
                     if (b[0] == "orphan") { return 1 }
                     if (DCChannels.find(element => element.id == a[0]).position > DCChannels.find(element => element.id == b[0]).position) { return 1; }
@@ -275,20 +280,20 @@ function CreateNewRow(props) {
                 })
             }
 
-            if (config[option]) {
+            if (config[option]) { // Set the value
                 value = config[option]
             } else {
                 value = null
             }
 
-            sortedCategoryList.map(item => {
+            sortedCategoryList.map(item => { // Begin pushing categories and channels
                 if (schema[option]["filter"] == "GUILD_CATEGORY" && !schema[option]["filter"][1]) {
                     checkSetting.push(<Option key={key++} className="channelCategory dropdownValue" value={item[0]}><div style={{ marginLeft: 26 + "px" }}>{item[1].name}</div></Option>)
                 } else {
                     if (item[0] != "orphan") {
                         checkSetting.push(<Option key={key++} className="channelCategory channelCategoryListChannels dropdownValue" value={item[0]}><div style={{ marginLeft: 26 + "px" }}>{DCChannels.find(element => element.id == item[0]).name}</div></Option>)
                     }
-                    item[1].map(channel => {
+                    item[1].map(channel => { // Select the CSS class depending on the channel type - this determines what icon to show
                         let cssClass
                         switch (channel.type) {
                             case "GUILD_TEXT":
@@ -318,6 +323,7 @@ function CreateNewRow(props) {
                 }
             })
 
+            // And now we return the dropdown!
             newOption = <Select value={value} onChange={(_, e) => { updateStates(e, decodeURIComponent(props.url[3]), props.menu, option, rowIndex) }} className="customDropdown">
                 {checkSetting}
             </Select>
@@ -326,7 +332,7 @@ function CreateNewRow(props) {
     return newOption
 }
 
-function DeleteButtonRow(props) {
+function DeleteButtonRow(props) { // Component that shows the "delete" button for rows
     const { rowIndex, lang, deleteRow, rowSchema } = props
     return (
         <div className="deleteButtonWrapper">
@@ -355,7 +361,7 @@ function DeleteButtonRow(props) {
     )
 }
 
-function DeleteButtonColumn(props) {
+function DeleteButtonColumn(props) { // Component that shows the "delete" button for components
     const { lang, deleteColumn, schema } = props
     return (
         <div className="deleteButtonWrapper">
@@ -384,24 +390,23 @@ function DeleteButtonColumn(props) {
     )
 }
 
-function GenerateColumnContents(props) {
+function GenerateColumnContents(props) { // Generate the contents for each column
     let { schema, config, key2, url, channels, roles, state, setState, newStateG, lang, killMenu, rowCount } = props
     let rows = [null]
     let gridRows = 0
-    let newRow
 
     function updateStates(newValue, category, menu, option, rowKey, checkOption) {
-        killMenu()
+        killMenu() // Immediately, kill menu options so that user cannot accidentally navigate away
 
-        if (!rowKey) {
+        if (!rowKey) { // Depending on whether there's row-schema, decide what we want to set in state
             if (checkOption) {
                 newStateG[category][menu][props.column][option][checkOption] = newValue
             } else if (schema[option].type == "integer") {
-                newStateG[category][menu][props.column][option] = newValue.replaceAll(".", "")
+                newStateG[category][menu][props.column][option] = newValue.replaceAll(".", "") // If the type of what we're setting is an integer, remove all full stops
             } else {
                 newStateG[category][menu][props.column][option] = newValue
             }
-            setState(JSON.parse(JSON.stringify(newStateG)))
+            setState(JSON.parse(JSON.stringify(newStateG))) // Deep copy time!!
         } else {
             if (checkOption) {
                 newStateG[category][menu][props.column].rows[rowKey][option][checkOption] = newValue
@@ -414,7 +419,7 @@ function GenerateColumnContents(props) {
         }
     }
 
-    function deleteRow(column, row) {
+    function deleteRow(column, row) { // Functions to delete rows and columns
         newStateG[decodeURIComponent(props.url[3])][props.menu][column].rows.splice(row, 1)
         setState(JSON.parse(JSON.stringify(newStateG)))
         killMenu()
@@ -426,7 +431,7 @@ function GenerateColumnContents(props) {
         killMenu()
     }
 
-    Object.keys(schema).map(option => {
+    Object.keys(schema).map(option => { // For each option, create new row element
         if (option != "new" && option != "row-schema" && option != "deleteColumnHeader" && option != "deleteColumnBody") {
             gridRows++
             let newOption = <CreateNewRow updateStates={updateStates} config={config} schema={schema} menu={props.menu} url={props.url} column={props.column} newStateG={newStateG} state={state} roles={roles} channels={channels} lang={lang} option={option} />
@@ -439,15 +444,11 @@ function GenerateColumnContents(props) {
         }
     })
 
-    console.log(schema)
-
-    if (schema["row-schema"]) {
+    if (schema["row-schema"]) { // And if we have row schema:
         gridRows++
         function createRow() {
             let newRowSettings = {}
-            for (property of Object.keys(props.schema["row-schema"])) { // Set each each setting in the row to null
-                console.log(property)
-                console.log(newRowSettings)
+            for (property of Object.keys(props.schema["row-schema"])) { // Set each each setting in the new row to default or null
                 if (property != "new" && property != "row-schema") {
                     if (props.schema["row-schema"][property].default) {
                         newRowSettings[property] = translate(lang, props.schema["row-schema"][property].default)
@@ -465,19 +466,19 @@ function GenerateColumnContents(props) {
         const rowSchema = schema["row-schema"]
         let key = 0
 
-        Object.keys(config.rows).map(rowIndex => {
+        Object.keys(config.rows).map(rowIndex => { // For each row (yes this is janky but it's the only way I could see):
             let row = config.rows[rowIndex]
             let newRowBeginning = true
-            Object.keys(rowSchema).map(option => {
-                if (option != "new" && option != "deleteRowHeader" && option != "deleteRowBody") {
-                    gridRows++
+            Object.keys(rowSchema).map(option => { // For each member of row-schema:
+                if (option != "new" && option != "deleteRowHeader" && option != "deleteRowBody") { // Create a new row!!
+                    gridRows++ // This exists for mobile users
                     let newOption = <CreateNewRow rowIndex={rowIndex} updateStates={updateStates} config={row} schema={rowSchema} menu={props.menu} url={props.url} column={props.column} newStateG={newStateG} state={state} roles={roles} channels={channels} lang={lang} option={option} />
 
                     let deleteButton = null
-                    if (newRowBeginning) {
+                    if (newRowBeginning) { // Add a delete button
                         deleteButton = <DeleteButtonRow column={props.column} rowIndex={rowIndex} rowSchema={rowSchema} lang={lang} deleteRow={deleteRow} />
-                    } else {
-                        deleteButton = <div style={{height: 20 + "px", width: 1 + "px"}}></div>
+                    } else { // Even out spacing
+                        deleteButton = <div style={{ height: 20 + "px", width: 1 + "px" }}></div>
                     }
 
                     let entry = <div key={key++} className="marginBottom20">
@@ -495,15 +496,16 @@ function GenerateColumnContents(props) {
 
         rows[0] = (<div key={"#newRow"} className="marginBottom20 columnOptions">
             <button type="button" onClick={createRow} style={{ marginTop: 5 + "px" }} className="button-1x2ahC button-38aScr lookFilled-1Gx00P colorGreen-29iAKY sizeSmall-2cSMqn grow-q77ONN">
-            <div className="contents-18-Yxp">{translate(lang, schema["row-schema"].new)}</div>
-        </button>
+                <div className="contents-18-Yxp">{translate(lang, schema["row-schema"].new)}</div>
+            </button>
             <DeleteButtonColumn column={props.column} lang={lang} deleteColumn={deleteColumn} schema={schema} />
-            </div>)
-    } else if (schema["deleteColumnHeader"]) [
+        </div>)
+    } else if (schema["deleteColumnHeader"]) {
+        gridRows++
         rows[0] = <div key={"#newRow"} className="marginBottom20 columnOptions">
             <DeleteButtonColumn column={props.column} lang={lang} deleteColumn={deleteColumn} schema={schema} />
         </div>
-    ]
+    }
 
     const mediaQuery = window.matchMedia("(max-width: 600px)") // This is *extremely* janky but it means that the height of the columns differs depending on whether a user is using mobile or desktop
     let gridHeight
