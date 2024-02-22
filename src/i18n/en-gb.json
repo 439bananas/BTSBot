@@ -315,5 +315,10 @@
   "page_dashboardcatnewitemmenu2setting5option1": "Option 1",
   "page_dashboardcatnewitemmenu2setting5option2": "Option 2",
   "page_dashboardcatnewitemmenu2setting5option3": "Option 3",
-  "page_dashboardcatnewitemmenu3colschemaoption1": "Option 1"
+  "page_dashboardcatnewitemmenu3colschemaoption1": "Option 1",
+  "page_dashboardcatnewitemmenu3setting1default": "New default 1",
+  "page_translatedashboardnewitemmenu3deleterowhead": "Delete row",
+  "page_translatedashboardnewitemmenu3deleterowbody": "Are you sure you wish to delete this row?",
+  "page_dashboarddeletecolorrowmodalcancel": "Cancel",
+  "page_dashboarddeletecolorrowmodaldelete": "Delete"
 }

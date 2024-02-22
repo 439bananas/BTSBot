@@ -97,9 +97,12 @@ menu3:
                 - GUILD_CATEGORY # If this is the only item in the array, then only categories will be shown, else, no category will be shown
         row-schema:
             new: page_translatedashboardnewitemmenu3newrow # Button text to create a new row
+            deleteRowHeader: page_translatedashboardnewitemmenu3deleterowhead # Translation string to use for the "delete row" prompt header
+            deleteRowBody: page_translatedashboardnewitemmenu3deleterowbody # Translation string to use for the "delete row" prompt body
             name:
                 title: page_dashboardcatnewitemmenu3setting1
                 type: shortText
+                default: page_dashboardcatnewitemmenu3setting1default
             action:
                 title: page_dashboardcatnewitemmenu3setting2
                 type: shortText

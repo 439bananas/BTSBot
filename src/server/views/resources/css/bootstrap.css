@@ -5719,7 +5719,7 @@ textarea.form-control-lg {
 
 .modal.fade .modal-dialog {
     transition: transform 0.3s ease-out;
-    transform: scale(0.5);
+    transform: scale(0.2);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -5788,12 +5788,12 @@ textarea.form-control-lg {
     }
 
 .modal-header {
+    background-color: #2f3136;
     display: flex;
     flex-shrink: 0;
     align-items: center;
     justify-content: space-between;
     padding: 1rem 1rem;
-    border-bottom: 1px solid #dee2e6;
     border-top-left-radius: calc(0.3rem - 1px);
     border-top-right-radius: calc(0.3rem - 1px);
 }
@@ -5821,7 +5821,6 @@ textarea.form-control-lg {
     align-items: center;
     justify-content: flex-end;
     padding: 0.75rem;
-    border-top: 1px solid #dee2e6;
     border-bottom-right-radius: calc(0.3rem - 1px);
     border-bottom-left-radius: calc(0.3rem - 1px);
 }

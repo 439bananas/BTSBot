@@ -20,7 +20,6 @@ const getUserPermissions = require('../../core/getUserPermissions');
 const getChannelType = require('./components/getChannelType')
 
 // WHAT WE NEED TO DO:
-// No we should not be prepopulating rows with null
 // Implement a "delete row" and "delete column" button
 // And of course commenting our code
 
@@ -354,8 +353,6 @@ function GenerateColumnContents(props) {
             } else if (schema["row-schema"][option].type == "integer") {
                 newStateG[category][menu][props.column].rows[rowKey][option] = newValue.replaceAll(".", "")
             } else {
-                console.log(rowKey)
-                console.log(newStateG[category][menu][props.column].rows)
                 newStateG[category][menu][props.column].rows[rowKey][option] = newValue
             }
             setState(JSON.parse(JSON.stringify(newStateG)))
@@ -367,7 +364,7 @@ function GenerateColumnContents(props) {
             gridRows++
             let newOption = <CreateNewRow updateStates={updateStates} config={config} schema={schema} menu={props.menu} url={props.url} column={props.column} newStateG={newStateG} state={state} roles={roles} channels={channels} lang={lang} option={option} />
 
-            let entry = <div key={option}>
+            let entry = <div key={option} className="marginBottom20">
                 <Label for={option} required={schema[option]["required"]}>{translate(lang, schema[option]["title"])}</Label>
                 {newOption}
             </div>
@@ -375,15 +372,19 @@ function GenerateColumnContents(props) {
         }
     })
 
-    // create config entries here, if row schema, then append more
-
     if (schema["row-schema"]) {
         gridRows++
         function createRow() {
             let newRowSettings = {}
             for (property of Object.keys(props.schema["row-schema"])) { // Set each each setting in the row to null
+                console.log(property)
+                console.log(newRowSettings)
                 if (property != "new" && property != "row-schema") {
-                    newRowSettings[property] = null
+                    if (props.schema["row-schema"][property].default) {
+                        newRowSettings[property] = translate(lang, props.schema["row-schema"][property].default)
+                    } else {
+                        newRowSettings[property] = null
+                    }
                 }
             }
 
@@ -395,31 +396,74 @@ function GenerateColumnContents(props) {
         const rowSchema = schema["row-schema"]
         let key = 0
 
+        function deleteRow(column, row) {
+            newStateG[decodeURIComponent(props.url[3])][props.menu][column].rows.splice(row, 1)
+            setState(JSON.parse(JSON.stringify(newStateG)))
+            killMenu()
+        }
+
+        function showDeleteColumnModal(column) {
+            console.log(column)
+        }
+
         Object.keys(config.rows).map(rowIndex => {
-            console.warn(props.column + " " + rowIndex)
             let row = config.rows[rowIndex]
+            let newRowBeginning = true
             Object.keys(rowSchema).map(option => {
-                console.log(option)
-                if (option != "new") {
+                if (option != "new" && option != "deleteRowHeader" && option != "deleteRowBody") {
                     gridRows++
                     let newOption = <CreateNewRow rowIndex={rowIndex} updateStates={updateStates} config={row} schema={rowSchema} menu={props.menu} url={props.url} column={props.column} newStateG={newStateG} state={state} roles={roles} channels={channels} lang={lang} option={option} />
 
-                    let entry = <div key={key++}>
-                        <Label for={option} required={rowSchema[option]["required"]}>{translate(lang, rowSchema[option]["title"])}</Label>
+                    let deleteButton = null
+                    if (newRowBeginning) {
+                        deleteButton = <div className="deleteButtonWrapper"><button type="button" key={key++} data-bs-toggle="modal" data-bs-target={"#ModalDeleteColumn" + props.column + "Row" + rowIndex} className="deleteButton button-1x2ahC button-38aScr lookFilled-1Gx00P colorGreen-29iAKY grow-q77ONN">
+                            <div className="contents-18-Yxp deleteIconRow"></div>
+                        </button>
+                            <div className="modal fade" id={"ModalDeleteColumn" + props.column + "Row" + rowIndex} tabIndex="-1" aria-hidden="true">
+                                <div className="modal-dialog modal-dialog-centered">
+                                    <div className="modal-content">
+                                        <div className="modal-header">
+                                            <h3>{translate(lang, rowSchema.deleteRowHeader)}</h3>
+                                        </div>
+                                        <div className="modal-body">
+                                            <p>{translate(lang, rowSchema.deleteRowBody)}</p>
+                                        </div>
+                                        <div className="modal-footer">
+                                            <a href="#" data-bs-dismiss="modal" aria-label="Close">{translate(lang, "page_dashboarddeletecolorrowmodalcancel")}</a>
+                                            <button type="button" data-bs-dismiss="modal" onClick={() => deleteRow(props.column, rowIndex)} className="dangerButton button-1x2ahC button-38aScr lookFilled-1Gx00P colorGreen-29iAKY sizeLarge grow-q77ONN">
+                                                <div className="contents_fb6220">{translate(lang, "page_dashboarddeletecolorrowmodaldelete")}</div>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    } else {
+                        deleteButton = <div style={{height: 20 + "px", width: 1 + "px"}}></div>
+                    }
+
+                    let entry = <div key={key++} className="marginBottom20">
+                        <Label for={option} required={rowSchema[option]["required"]}>
+                            {translate(lang, rowSchema[option]["title"])}
+                            {deleteButton}
+                        </Label>
                         {newOption}
                     </div>
                     rows.push(entry)
+                    newRowBeginning = false
                 }
             })
         })
 
-        console.log("yeet")
-        console.log(schema)
-        // WE NEED TO CREATE ROW
-        // also we need to increase gridRows every for every new row
-        rows[0] = (<button type="button" key={"#newRow"} onClick={createRow} style={{ marginTop: 5 + "px" }} className="button-1x2ahC button-38aScr lookFilled-1Gx00P colorGreen-29iAKY sizeSmall-2cSMqn grow-q77ONN">
+        rows[0] = (<div key={"#newRow"} className="marginBottom20 columnOptions">
+            <button type="button" onClick={createRow} style={{ marginTop: 5 + "px" }} className="button-1x2ahC button-38aScr lookFilled-1Gx00P colorGreen-29iAKY sizeSmall-2cSMqn grow-q77ONN">
             <div className="contents-18-Yxp">{translate(lang, schema["row-schema"].new)}</div>
-        </button>)
+        </button>
+            <button type="button" onClick={showDeleteColumnModal} style={{ marginTop: 5 + "px" }} className="deleteButton button-1x2ahC button-38aScr lookFilled-1Gx00P colorGreen-29iAKY grow-q77ONN">
+            <div className="contents-18-Yxp deleteIcon"></div>
+            </button>
+        </div>)
 
     }
 
@@ -432,19 +476,11 @@ function GenerateColumnContents(props) {
         gridHeight = rowCount
     }
 
-    console.log(rowCount)
-
     return <div className={"cat-link column-card"} style={{
         gridRow: "auto/span " + gridHeight
     }}>
         {rows}
     </div>
-
-    // remember that column-schema exists, we might have to deal with that too...
-    // remember that we also have to deal with row-schema
-    // we also need to update state whenever a change is made
-    // hold on we also need to amend css? what the-
-    // defaults also need to be countered in here...
 }
 
 function DashboardMenu(props) {
@@ -476,10 +512,9 @@ function DashboardMenu(props) {
             })
         } else {
             if (schema["column-schema"]["row-schema"]) { // If there's row schema:
-                console.log(Object.keys(schema["column-schema"]).length - 2)
                 config.map(column => { // Get each column
-                    if ((column.rows.length * (Object.keys(schema["column-schema"]["row-schema"]).length - 1)) > maxCount) { // If the number of rows multiplied by the length of the row schema (subtract one for "new") is greater than maxCount
-                        maxCount = column.rows.length * (Object.keys(schema["column-schema"]["row-schema"]).length - 1) // Set the maxCount to it
+                    if (((column.rows.length) * (Object.keys(schema["column-schema"]["row-schema"]).length - 3)) > maxCount) { // If the number of rows multiplied by the length of the row schema is greater than maxCount
+                        maxCount = (column.rows.length) * (Object.keys(schema["column-schema"]["row-schema"]).length - 3) // Set the maxCount to it
                     }
                 })
 
@@ -499,7 +534,6 @@ function DashboardMenu(props) {
         let columns = []
         let key = 0
         if (state[decodeURIComponent(props.url[3])][props.menu]) {
-            console.log(state[decodeURIComponent(props.url[3])][props.menu])
             if (props.schema["column-schema"]) {
                 function createColumn() { // Create a new column
                     let newColumnSettings = {}
@@ -530,13 +564,11 @@ function DashboardMenu(props) {
 
                 for (columnIndex in state[decodeURIComponent(props.url[3])][props.menu]) { // Add another column for each entry within the database
                     let column = state[decodeURIComponent(props.url[3])][props.menu][columnIndex]
-                    console.log(state[decodeURIComponent(props.url[3])][props.menu])
-                    console.log(columnIndex)
                     columns.push(<GenerateColumnContents key={key} roles={props.settings.roles} channels={props.settings.channels} config={column} column={columnIndex} rowCount={determineRowCount(props.schema, state[decodeURIComponent(props.url[3])][props.menu])} schema={props.schema["column-schema"]} key2={key++} url={props.url} menu={props.menu} state={state} setState={setState} newStateG={newStateG} lang={lang} killMenu={killMenu} />)
                 }
 
                 return (
-                    <div>
+                    <div className="marginBottom20">
                         <button type="button" onClick={createColumn} className="margin8 button-1x2ahC button-38aScr lookFilled-1Gx00P colorGreen-29iAKY sizeSmall-2cSMqn grow-q77ONN">
                             <div className="contents-18-Yxp">{translate(lang, props.schema["column-schema"].new)}</div>
                         </button>

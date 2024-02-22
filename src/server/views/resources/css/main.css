@@ -87,7 +87,7 @@ input[type=button], input[type=submit] {
     position: relative;
     display: -webkit-box;
     display: -ms-flexbox;
-    display: flex;
+    display: inline-flex;
     -webkit-box-pack: center;
     -ms-flex-pack: center;
     justify-content: center;
@@ -108,6 +108,17 @@ input[type=button], input[type=submit] {
     -ms-user-select: none;
     user-select: none;
 }
+
+.deleteButton {
+    margin-left: auto;
+    background-color: #da373c !important;
+    padding: 2px !important;
+}
+
+    .deleteButton:hover {
+        margin-left: auto;
+        background-color: #a12828 !important;
+    }
 
 .lookFilled-1Gx00P.colorGreen-29iAKY {
     color: #fff;
@@ -131,6 +142,28 @@ input[type=button], input[type=submit] {
     min-width: 60px;
     min-height: 32px;
 }
+
+.sizeLarge {
+    height: 38px !important;
+    min-width: 64px;
+    min-height: 38px;
+    padding: 2px 16px;
+}
+
+.contents_fb6220 {
+    margin: 0 12.188px;
+    font-size: 16px;
+    height: 16px;
+}
+
+.dangerButton {
+    margin-left: 16px !important;
+    background-color: #da373c !important;
+}
+
+    .dangerButton:hover {
+        background-color: #a12828 !important;
+    }
 
 button {
     text-rendering: auto;
@@ -246,6 +279,10 @@ button {
 
 .marginBottom8-1wldKw {
     margin-bottom: 8px;
+}
+
+.marginBottom20 {
+    margin-bottom: 20px;
 }
 
 .margin8 {
@@ -565,7 +602,7 @@ pre {
 .config-grid {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    grid-auto-rows: 1fr 1fr 1fr;
+    grid-auto-rows: auto;
     grid-gap: 20px;
     grid-row-gap: 20px;
     padding: 10px;
@@ -803,7 +840,56 @@ pre {
 .unknownChannel {
     background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36"><path fill="rgba(255, 255, 255, 0.75)" d="M17 27c-1.657 0-3-1.343-3-3v-4c0-1.657 1.343-3 3-3 .603-.006 6-1 6-5 0-2-2-4-5-4-2.441 0-4 2-4 3 0 1.657-1.343 3-3 3s-3-1.343-3-3c0-4.878 4.58-9 10-9 8 0 11 5.982 11 11 0 4.145-2.277 7.313-6.413 8.92-.9.351-1.79.587-2.587.747V24c0 1.657-1.343 3-3 3z"/><circle fill="rgba(255, 255, 255, 0.75)" cx="17" cy="32" r="3"/><script xmlns="" id="bw-fido2-page-script"/></svg>');
     background-repeat: no-repeat;
-    background-repeat: no-repeat;
     background-position: left .75rem center;
     background-size: 16px;
+}
+
+.columnOptions {
+    display: flex;
+}
+
+.deleteIcon {
+    background-image: url('data:image/svg+xml,<svg class="icon_f09dde" aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path fill="rgb(255,255,255)" d="M14.25 1c.41 0 .75.34.75.75V3h5.25c.41 0 .75.34.75.75v.5c0 .41-.34.75-.75.75H3.75A.75.75 0 0 1 3 4.25v-.5c0-.41.34-.75.75-.75H9V1.75c0-.41.34-.75.75-.75h4.5Z" class=""></path><path fill="rgb(255,255,255)" fill-rule="evenodd" d="M5.06 7a1 1 0 0 0-1 1.06l.76 12.13a3 3 0 0 0 3 2.81h8.36a3 3 0 0 0 3-2.81l.75-12.13a1 1 0 0 0-1-1.06H5.07ZM11 12a1 1 0 1 0-2 0v6a1 1 0 1 0 2 0v-6Zm3-1a1 1 0 0 1 1 1v6a1 1 0 1 1-2 0v-6a1 1 0 0 1 1-1Z" clip-rule="evenodd" class=""></path></svg>');
+    background-repeat: no-repeat;
+    background-size: 16px;
+    width: 16px;
+    margin: 6px !important;
+    height: 16px;
+}
+
+.deleteIconRow {
+    background-image: url('data:image/svg+xml,<svg class="icon_f09dde" aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path fill="rgb(255,255,255)" d="M14.25 1c.41 0 .75.34.75.75V3h5.25c.41 0 .75.34.75.75v.5c0 .41-.34.75-.75.75H3.75A.75.75 0 0 1 3 4.25v-.5c0-.41.34-.75.75-.75H9V1.75c0-.41.34-.75.75-.75h4.5Z" class=""></path><path fill="rgb(255,255,255)" fill-rule="evenodd" d="M5.06 7a1 1 0 0 0-1 1.06l.76 12.13a3 3 0 0 0 3 2.81h8.36a3 3 0 0 0 3-2.81l.75-12.13a1 1 0 0 0-1-1.06H5.07ZM11 12a1 1 0 1 0-2 0v6a1 1 0 1 0 2 0v-6Zm3-1a1 1 0 0 1 1 1v6a1 1 0 1 1-2 0v-6a1 1 0 0 1 1-1Z" clip-rule="evenodd" class=""></path></svg>');
+    background-repeat: no-repeat;
+    background-size: 12px;
+    width: 12px !important;
+    margin: 2px !important;
+    height: 12px !important;
+}
+
+.deleteButtonWrapper {
+    margin: auto;
+    margin-right: 0;
+}
+
+.modal-content {
+    text-transform: none !important;
+    color: #fff;
+    line-height: 1.5;
+    cursor: initial;
+    text-align: left !important;
+    font-weight: 400 !important;
+    font-family: var(--bs-font-sans-serif) !important;
+    font-size: 1rem !important;
+}
+
+.modal-body {
+    padding: 16px !important;
+}
+
+.modal-footer a {
+    color: #fff;
+}
+
+.modal-footer a:hover {
+    color: #fff;
 }
