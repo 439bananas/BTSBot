@@ -88,6 +88,8 @@ menu3:
     title: page_dashboardcatnewitemmenu3
     column-schema: # Let's say the user wanted to make multiple, say, logs, or even forms. We can allow the user to add a new column per log
         new: page_translatedashboardnewitemmenu3newcolumn # Button text to create a new column
+        deleteColumnHeader: page_translatedashboardnewitemmenu3deletecolumnhead
+        deleteColumnBody: page_translatedashboardnewitemmenu3deletecolumnbody
         channel:
             title: page_dashboardcatnewitemmenu3colschemaoption1
             type: channel # Role and channel types will ignore the default value
@@ -111,6 +113,8 @@ menu4:
     title: page_dashboardcatnewitemmenu4
     column-schema:
         new: page_translatedashboardnewitemmenu3newcolumn
+        deleteColumnHeader: page_translatedashboardnewitemmenu3deletecolumnhead
+        deleteColumnBody: page_translatedashboardnewitemmenu3deletecolumnbody
         setting1:
             title: page_dashboardcatnewitemmenu3setting1
             type: shortText

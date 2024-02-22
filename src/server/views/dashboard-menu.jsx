@@ -19,10 +19,6 @@ const Label = require('./components/label');
 const getUserPermissions = require('../../core/getUserPermissions');
 const getChannelType = require('./components/getChannelType')
 
-// WHAT WE NEED TO DO:
-// Implement a "delete row" and "delete column" button
-// And of course commenting our code
-
 function CreateNewRow(props) {
     const { updateStates, config, schema, rowIndex, newStateG, state, roles, channels, lang, option } = props
     let key = 0
@@ -326,7 +322,66 @@ function CreateNewRow(props) {
                 {checkSetting}
             </Select>
     }
+
     return newOption
+}
+
+function DeleteButtonRow(props) {
+    const { rowIndex, lang, deleteRow, rowSchema } = props
+    return (
+        <div className="deleteButtonWrapper">
+            <button type="button" data-bs-toggle="modal" data-bs-target={"#ModalDeleteColumn" + props.column + "Row" + rowIndex} className="deleteButton button-1x2ahC button-38aScr lookFilled-1Gx00P colorGreen-29iAKY grow-q77ONN">
+                <div className="contents-18-Yxp deleteIconRow"></div>
+            </button>
+            <div className="modal fade" id={"ModalDeleteColumn" + props.column + "Row" + rowIndex} tabIndex="-1" aria-hidden="true">
+                <div className="modal-dialog modal-dialog-centered">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h3>{translate(lang, rowSchema.deleteRowHeader)}</h3>
+                        </div>
+                        <div className="modal-body">
+                            <p>{translate(lang, rowSchema.deleteRowBody)}</p>
+                        </div>
+                        <div className="modal-footer">
+                            <a href="#" data-bs-dismiss="modal" aria-label="Close">{translate(lang, "page_dashboarddeletecolorrowmodalcancel")}</a>
+                            <button type="button" data-bs-dismiss="modal" onClick={() => deleteRow(props.column, rowIndex)} className="dangerButton button-1x2ahC button-38aScr lookFilled-1Gx00P colorGreen-29iAKY sizeLarge grow-q77ONN">
+                                <div className="contents_fb6220">{translate(lang, "page_dashboarddeletecolorrowmodaldelete")}</div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+function DeleteButtonColumn(props) {
+    const { lang, deleteColumn, schema } = props
+    return (
+        <div className="deleteButtonWrapper">
+            <button type="button" style={{ marginTop: 5 + "px" }} data-bs-toggle="modal" data-bs-target={"#ModalDeleteColumn" + props.column} className="deleteButton button-1x2ahC button-38aScr lookFilled-1Gx00P colorGreen-29iAKY grow-q77ONN">
+                <div className="contents-18-Yxp deleteIcon"></div>
+            </button>
+            <div className="modal fade" id={"ModalDeleteColumn" + props.column} tabIndex="-1" aria-hidden="true">
+                <div className="modal-dialog modal-dialog-centered">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h3>{translate(lang, schema.deleteColumnHeader)}</h3>
+                        </div>
+                        <div className="modal-body">
+                            <p>{translate(lang, schema.deleteColumnBody)}</p>
+                        </div>
+                        <div className="modal-footer">
+                            <a href="#" data-bs-dismiss="modal" aria-label="Close">{translate(lang, "page_dashboarddeletecolorrowmodalcancel")}</a>
+                            <button type="button" data-bs-dismiss="modal" onClick={() => deleteColumn(props.column)} className="dangerButton button-1x2ahC button-38aScr lookFilled-1Gx00P colorGreen-29iAKY sizeLarge grow-q77ONN">
+                                <div className="contents_fb6220">{translate(lang, "page_dashboarddeletecolorrowmodaldelete")}</div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
 }
 
 function GenerateColumnContents(props) {
@@ -359,8 +414,20 @@ function GenerateColumnContents(props) {
         }
     }
 
+    function deleteRow(column, row) {
+        newStateG[decodeURIComponent(props.url[3])][props.menu][column].rows.splice(row, 1)
+        setState(JSON.parse(JSON.stringify(newStateG)))
+        killMenu()
+    }
+
+    function deleteColumn(column) {
+        newStateG[decodeURIComponent(props.url[3])][props.menu].splice(column, 1)
+        setState(JSON.parse(JSON.stringify(newStateG)))
+        killMenu()
+    }
+
     Object.keys(schema).map(option => {
-        if (option != "new" && option != "row-schema") {
+        if (option != "new" && option != "row-schema" && option != "deleteColumnHeader" && option != "deleteColumnBody") {
             gridRows++
             let newOption = <CreateNewRow updateStates={updateStates} config={config} schema={schema} menu={props.menu} url={props.url} column={props.column} newStateG={newStateG} state={state} roles={roles} channels={channels} lang={lang} option={option} />
 
@@ -371,6 +438,8 @@ function GenerateColumnContents(props) {
             rows.push(entry)
         }
     })
+
+    console.log(schema)
 
     if (schema["row-schema"]) {
         gridRows++
@@ -396,16 +465,6 @@ function GenerateColumnContents(props) {
         const rowSchema = schema["row-schema"]
         let key = 0
 
-        function deleteRow(column, row) {
-            newStateG[decodeURIComponent(props.url[3])][props.menu][column].rows.splice(row, 1)
-            setState(JSON.parse(JSON.stringify(newStateG)))
-            killMenu()
-        }
-
-        function showDeleteColumnModal(column) {
-            console.log(column)
-        }
-
         Object.keys(config.rows).map(rowIndex => {
             let row = config.rows[rowIndex]
             let newRowBeginning = true
@@ -416,29 +475,7 @@ function GenerateColumnContents(props) {
 
                     let deleteButton = null
                     if (newRowBeginning) {
-                        deleteButton = <div className="deleteButtonWrapper"><button type="button" key={key++} data-bs-toggle="modal" data-bs-target={"#ModalDeleteColumn" + props.column + "Row" + rowIndex} className="deleteButton button-1x2ahC button-38aScr lookFilled-1Gx00P colorGreen-29iAKY grow-q77ONN">
-                            <div className="contents-18-Yxp deleteIconRow"></div>
-                        </button>
-                            <div className="modal fade" id={"ModalDeleteColumn" + props.column + "Row" + rowIndex} tabIndex="-1" aria-hidden="true">
-                                <div className="modal-dialog modal-dialog-centered">
-                                    <div className="modal-content">
-                                        <div className="modal-header">
-                                            <h3>{translate(lang, rowSchema.deleteRowHeader)}</h3>
-                                        </div>
-                                        <div className="modal-body">
-                                            <p>{translate(lang, rowSchema.deleteRowBody)}</p>
-                                        </div>
-                                        <div className="modal-footer">
-                                            <a href="#" data-bs-dismiss="modal" aria-label="Close">{translate(lang, "page_dashboarddeletecolorrowmodalcancel")}</a>
-                                            <button type="button" data-bs-dismiss="modal" onClick={() => deleteRow(props.column, rowIndex)} className="dangerButton button-1x2ahC button-38aScr lookFilled-1Gx00P colorGreen-29iAKY sizeLarge grow-q77ONN">
-                                                <div className="contents_fb6220">{translate(lang, "page_dashboarddeletecolorrowmodaldelete")}</div>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
+                        deleteButton = <DeleteButtonRow column={props.column} rowIndex={rowIndex} rowSchema={rowSchema} lang={lang} deleteRow={deleteRow} />
                     } else {
                         deleteButton = <div style={{height: 20 + "px", width: 1 + "px"}}></div>
                     }
@@ -460,12 +497,13 @@ function GenerateColumnContents(props) {
             <button type="button" onClick={createRow} style={{ marginTop: 5 + "px" }} className="button-1x2ahC button-38aScr lookFilled-1Gx00P colorGreen-29iAKY sizeSmall-2cSMqn grow-q77ONN">
             <div className="contents-18-Yxp">{translate(lang, schema["row-schema"].new)}</div>
         </button>
-            <button type="button" onClick={showDeleteColumnModal} style={{ marginTop: 5 + "px" }} className="deleteButton button-1x2ahC button-38aScr lookFilled-1Gx00P colorGreen-29iAKY grow-q77ONN">
-            <div className="contents-18-Yxp deleteIcon"></div>
-            </button>
-        </div>)
-
-    }
+            <DeleteButtonColumn column={props.column} lang={lang} deleteColumn={deleteColumn} schema={schema} />
+            </div>)
+    } else if (schema["deleteColumnHeader"]) [
+        rows[0] = <div key={"#newRow"} className="marginBottom20 columnOptions">
+            <DeleteButtonColumn column={props.column} lang={lang} deleteColumn={deleteColumn} schema={schema} />
+        </div>
+    ]
 
     const mediaQuery = window.matchMedia("(max-width: 600px)") // This is *extremely* janky but it means that the height of the columns differs depending on whether a user is using mobile or desktop
     let gridHeight
@@ -538,7 +576,7 @@ function DashboardMenu(props) {
                 function createColumn() { // Create a new column
                     let newColumnSettings = {}
                     for (property of Object.keys(props.schema["column-schema"])) { // Set each each setting in the row to null
-                        if (property != "new" && property != "row-schema") {
+                        if (property != "new" && property != "row-schema" && property != "deleteColumnBody" && property != "deleteColumnHeader") {
                             newColumnSettings[property] = null
                         }
                     }
@@ -548,7 +586,7 @@ function DashboardMenu(props) {
                         let initialRow = {}
 
                         for (property of Object.keys(props.schema["column-schema"]["row-schema"])) { // For each property, set it as null (which would show default)
-                            if (property != "new") {
+                            if (property != "new" && property != "deleteRowHeader" && property != "deleteRowBody") {
                                 initialRow[property] = null
                             }
                         }
