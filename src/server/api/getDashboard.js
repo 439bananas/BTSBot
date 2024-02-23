@@ -57,10 +57,8 @@ router.get('/*', async (req, res, next) => { // Get all dashboard settings
                     }
 
                     let permissions = await getUserPermissions(guild)
-                    console.log(permissions)
 
                     if (!(permissions.includes("ADMINISTRATOR") || permissions.includes("MANAGE_GUILD")) && !(await isMod(request.user.id))) { // Mandate that the user has the correct permissions
-                        log.temp(isMod(request.user.id))
                         return { error: "MISSING_PERMS" }
                     } else {
                         let inGuild = await botInGuild(guild.id, true)
