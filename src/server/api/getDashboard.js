@@ -47,7 +47,7 @@ router.get('/*', async (req, res, next) => { // Get all dashboard settings
             } else {
                 try {
                     let guilds = await getGuilds(request.cookies.discordbearertoken) // Get guild in question
-                    let guild = await getGuild(url[1], guilds, isMod(req.user.id))
+                    let guild = await getGuild(url[1], guilds, await isMod(request.user.id))
 
                     let icon
                     if (guild.icon == null) {
@@ -57,7 +57,9 @@ router.get('/*', async (req, res, next) => { // Get all dashboard settings
                     }
 
                     let permissions = await getUserPermissions(guild)
-                    if (!(permissions.includes("ADMINISTRATOR") || permissions.includes("MANAGE_GUILD")) && !isMod(request.user.id)) { // Mandate that the user has the correct permissions
+                    console.log(permissions)
+
+                    if (!(permissions.includes("ADMINISTRATOR") || permissions.includes("MANAGE_GUILD")) && !(await isMod(request.user.id))) { // Mandate that the user has the correct permissions
                         log.temp(isMod(request.user.id))
                         return { error: "MISSING_PERMS" }
                     } else {
