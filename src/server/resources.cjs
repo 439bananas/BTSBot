@@ -17,20 +17,8 @@ const path = require('path')
 
 // There are three copies of the same image file to signify the intent of the instance, this all depends on "mode" in package.json
 
-router.get('/main.css', (req, res) => { // CSS file
-    res.sendFile(path.resolve('./src/server/views/resources/css/main.css'));
-});
-
-router.get('/bootstrap.css', (req, res) => { // Bootstrap
-    res.sendFile(path.resolve('./src/server/views/resources/css/bootstrap.css'));
-});
-
 router.get('/btsfrown.png', (req, res) => { // Image for if user uses Internet Explorer
     res.sendFile(path.resolve('./src/server/views/resources/img/btsfrown.png'));
-});
-
-router.get('/bootstrap.css.map', (req, res) => { // Edge yelled at me for forgetting this
-    res.sendFile(path.resolve('./src/server/views/resources/css/bootstrap.css.map'));
 });
 
 router.get('/logo.png', (req, res) => { // Can't forget the iconic BTS robot that I totally did not steal from the Scratch Wiki
@@ -73,18 +61,13 @@ router.get('/h1.woff', (req, res) => { // A very poggers font
     res.sendFile(path.resolve('./src/server/views/resources/fonts/h1.woff'));
 });
 
-router.get('/twemoji-amazing.css', (req, res) => { // Allows for emojis
-    res.sendFile(path.resolve('./src/server/views/resources/css/twemoji-amazing.css'));
-});
-
 router.get('/bundle.js', (req, res) => { // Bundler
     res.sendFile(path.resolve('./build/bundle.js'));
 });
 
-router.get('/buttons.js', (req, res) => { // Enable buttons
-    res.writeHead(200, { "Content-Type": "application/javascript" })
-    res.sendFile(path.resolve('./src/server/views/resources/js/buttons.js'));
-});
+router.use(express.static(path.join(__dirname, '..', 'src', 'server', 'views', 'resources', 'js')))
+router.use(express.static(path.join(__dirname, '..', 'src', 'server', 'views', 'resources', 'css')))
+router.use(express.static(path.join(__dirname, '..', 'src', 'server', 'views', 'resources', 'emojis')))
 
 router.get('/btsthonk.png', (req, res) => { // 404s
     res.sendFile(path.resolve('./src/server/views/resources/img/btsthonk.png'));

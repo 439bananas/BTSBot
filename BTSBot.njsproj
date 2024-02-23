@@ -47,7 +47,6 @@
     <Content Include="configs\configpasswordhash.json" />
     <Content Include="configs\confinterim.json" />
     <Content Include="configs\logintokens.json" />
-    <Content Include="install\emojigen.py" />
     <Content Include="install\resources-original.js" />
     <Content Include="install\strip-comments.js" />
     <Content Include="LICENSE" />
