@@ -27,8 +27,8 @@ const getLanguagesRoutes = require('./api/getAllLanguages.cjs');
 const getUserRoutes = require('./api/getUser.cjs');
 const getContactLinkRoutes = require('./api/getContactLink.cjs');
 const getSpaInfoRoutes = require('./api/getSpaInfo.cjs');
-const getBotInGuildRoutes = require('./api/botInGuild.cjs');
-const getDashboardRoutes = require('./api/getDashboard.cjs');
+const getBotInGuildRoutes = require('./api/botInGuild.js').default;
+const getDashboardRoutes = require('./api/getDashboard.js').default;
 const getDashboardSchemaRoutes = require('./api/getDashboardSchema.cjs');
 
 router.use('/submit-config', submitConfigRoutes)

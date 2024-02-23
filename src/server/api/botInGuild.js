@@ -2,7 +2,7 @@
 //                                                         //
 //                         BTS Bot                         //
 //                                                         //
-//                  File: botInGuild.cjs                   //
+//                   File: botInGuild.js                   //
 //                                                         //
 //               Author: Thomas (439bananas)               //
 //                                                         //
@@ -10,10 +10,10 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-const express = require('express');
-const botInGuild = require('../../core/checkBotInGuild.cjs');
-const router = express.Router();
-const jsonParser = express.json()
+import { Router, json } from 'express';
+import botInGuild from '../../core/checkBotInGuild';
+const router = Router();
+const jsonParser = json()
 
 router.post('/*', jsonParser, async (req, res, next) => { // See if the bot is in a guild
     try {
@@ -43,8 +43,9 @@ router.post('/*', jsonParser, async (req, res, next) => { // See if the bot is i
             }
         }
     } catch (err) {
+        log.temp(err)
         res.status(200).json({ botInGuild: false }) // Send object to client
     }
 })
 
-module.exports = router;
+export default router;

@@ -2,7 +2,7 @@
 //                                                         //
 //                         BTS Bot                         //
 //                                                         //
-//               File: checkBotInfGuild.cjs                //
+//                File: checkBotInGuild.js                 //
 //                                                         //
 //               Author: Thomas (439bananas)               //
 //                                                         //
@@ -10,7 +10,7 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-async function getGuildPresence(guildId) {
+export async function getGuildPresence(guildId) {
     try {
         let rawResponse = await fetch('https://discord.com/api/v10/guilds/' + guildId, {
             headers: {
@@ -36,7 +36,7 @@ async function getGuildPresence(guildId) {
  * 
  * let inGuild = await botInGuild(361233849847644160)
 */
-async function botInGuild(guildId, bypassCache) { // If bot in specified guild, return true, else or if error, return false
+export default async function botInGuild(guildId, bypassCache) { // If bot in specified guild, return true, else or if error, return false
     if (bypassCache) { // Let's bypass cache, especially if the number of guilds we need to check the bot is in is one or a small number
         try { // Sadly the fastest we can make it is if we don't check conf (which isn't necessary anyway), and even that can be slow when the guild presences are uncached
             let guildPresence = await getGuildPresence(guildId)
@@ -74,5 +74,3 @@ async function botInGuild(guildId, bypassCache) { // If bot in specified guild, 
     }
 
 }
-
-module.exports = { botInGuild, getGuildPresence }

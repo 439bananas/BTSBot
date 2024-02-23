@@ -59,7 +59,7 @@
     <Content Include="src\configs\databaseTables.json" />
     <Content Include="src\configs\features.json" />
     <Content Include="src\configs\uniconf.json" />
-    <Content Include="src\core\checkBotInGuild.cjs" />
+    <Content Include="src\core\checkBotInGuild.js" />
     <Content Include="src\core\checkConfExists.cjs" />
     <Content Include="src\core\checkDb.cjs" />
     <Content Include="src\core\checkDiscord.cjs" />
@@ -106,14 +106,14 @@
     <Content Include="src\i18n\en-gb.json" />
     <Content Include="src\i18n\fr-fr.json" />
     <Content Include="src\i18n\test.json" />
-    <Content Include="src\server\api\botInGuild.cjs" />
+    <Content Include="src\server\api\botInGuild.js" />
     <Content Include="src\server\api\configPassword.cjs" />
     <Content Include="src\server\api\getAllLanguages.cjs" />
     <Content Include="src\server\api\getConf.cjs" />
     <Content Include="src\server\api\getConfPath.cjs" />
     <Content Include="src\server\api\getConfValues.cjs" />
     <Content Include="src\server\api\getContactLink.cjs" />
-    <Content Include="src\server\api\getDashboard.cjs" />
+    <Content Include="src\server\api\getDashboard.js" />
     <Content Include="src\server\api\getDashboardSchema.cjs" />
     <Content Include="src\server\api\getLanguages.cjs" />
     <Content Include="src\server\api\getOAuth2Status.cjs" />
@@ -135,7 +135,6 @@
     <Content Include="src\server\logout.cjs" />
     <Content Include="src\server\resources.cjs" />
     <Content Include="src\server\routes.cjs" />
-    <Content Include="src\server\serverConfigRoutes.cjs" />
     <Content Include="src\server\serverListener.cjs" />
     <Content Include="src\server\validateConf.cjs" />
     <Content Include="src\server\views\categories.jsx" />

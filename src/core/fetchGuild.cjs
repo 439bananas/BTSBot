@@ -10,19 +10,11 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
+import botInGuild, { getGuildPresence } from './checkBotInGuild.js'
+
 async function fetchGuild(id) { // Fetch the guild by its ID
-    
     try {
-        const rawResponse = await fetch('https://discord.com/api/v10/guilds/' + id, {
-            headers: {
-
-            }
-        })
-        const response = await rawResponse.json()
-
-        console.log(id)
-
-        console.log(response)
+        return (await getGuildPresence(id))
     } catch (err) {
         return { id: "0", permissions: 0 }
     }

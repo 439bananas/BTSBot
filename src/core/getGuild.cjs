@@ -12,14 +12,14 @@
 
 const fetchGuild = require("./fetchGuild.cjs");
 
-function getGuild(id, guilds, isMod) {
+async function getGuild(id, guilds, isMod) {
     let guildJSON = {id: "0", permissions: 0}
     guilds.forEach(guild => {
         if (guild.id == id) guildJSON = guild;
     })
 
     if (guildJSON.id == 0 && isMod) {
-        guildJSON = fetchGuild(id)
+        guildJSON = await fetchGuild(id)
     }
 
     return guildJSON

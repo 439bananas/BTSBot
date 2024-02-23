@@ -2,7 +2,7 @@
 //                                                         //
 //                         BTS Bot                         //
 //                                                         //
-//                 File: getDashboard.cjs                  //
+//                  File: getDashboard.js                  //
 //                                                         //
 //               Author: Thomas (439bananas)               //
 //                                                         //
@@ -10,17 +10,16 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-const pkg = require('../../../package.json')
-const express = require('express');
-const validateConf = require('../validateConf.cjs');
-const getGuilds = require('../../core/getUserGuilds.cjs');
-const getGuild = require('../../core/getGuild.cjs');
-const getUserPermissions = require('../../core/getUserPermissions.cjs');
-const botInGuild = require('../../core/checkBotInGuild.cjs');
-const isMod = require('../../core/getUserModStatus.cjs');
-const fetchGuild = require('../../core/fetchGuild.cjs');
-const router = express.Router()
-const jsonParser = express.json()
+import { Router, json } from 'express';
+import validateConf from '../validateConf.cjs';
+import getGuilds from '../../core/getUserGuilds.cjs';
+import getGuild from '../../core/getGuild.cjs';
+import getUserPermissions from '../../core/getUserPermissions.cjs';
+import botInGuild from '../../core/checkBotInGuild';
+import isMod from '../../core/getUserModStatus.cjs';
+import fetchGuild from '../../core/fetchGuild.cjs';
+const router = Router()
+const jsonParser = json()
 
 async function getChannels(guildId) {
     try {
@@ -48,11 +47,7 @@ router.get('/*', async (req, res, next) => { // Get all dashboard settings
             } else {
                 try {
                     let guilds = await getGuilds(request.cookies.discordbearertoken) // Get guild in question
-                    let guild = getGuild(url[1], guilds, isMod(req.user.id))
-
-                    if (guild.id === 0 && isMod(req.user.id)) {
-                        guild = await fetchGuild(url[1])
-                    }
+                    let guild = await getGuild(url[1], guilds, isMod(req.user.id))
 
                     let icon
                     if (guild.icon == null) {
@@ -166,4 +161,4 @@ router.post('/*', jsonParser, async (req, res, next) => {
     // Go on to validate config
 })
 
-module.exports = router;
+export default router;
