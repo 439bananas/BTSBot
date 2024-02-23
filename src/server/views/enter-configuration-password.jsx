@@ -10,8 +10,8 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-const React = require('react')
-const translate = require('./components/getLanguageString')
+import React from 'react';
+import translate from './components/getLanguageString.cjs';
 
 async function submitPassword() {
     try {
@@ -96,4 +96,4 @@ function RequestConfigPassword(props) {
     </div>
 }
 
-module.exports = RequestConfigPassword
+export default RequestConfigPassword

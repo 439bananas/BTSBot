@@ -10,23 +10,23 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-const express = require('express');
-const router = express.Router();
-const ReactDOMServer = require("react-dom/server");
-const { StaticRouter } = require("react-router-dom/server");
-const App = require("./views/ReactApp");
-const React = require('react');
-const getUserLang = require('../core/getUserLang');
-const getlang = require('../core/getLanguageJSON');
-const isMod = require('../core/getUserModStatus');
-const getLangFile = require('./views/components/getLanguageJSON');
-const Head = require('./views/components/head');
-const getContactLink = require('../core/getContactLink');
-const getaddress = require('../core/getReqAddress');
-const getid = require('../core/getApplicationId');
-const validateConf = require('./validateConf');
+import { Router } from 'express';
+const router = Router();
+import { renderToString } from "react-dom/server";
+import { StaticRouter } from "react-router-dom/server";
+import App from "./views/ReactApp.jsx";
+import React from 'react';
+import getUserLang from '../core/getUserLang.cjs';
+import getlang from '../core/getLanguageJSON.cjs';
+import isMod from '../core/getUserModStatus.cjs';
+import getLangFile from './views/components/getLanguageJSON.cjs';
+import Head from './views/components/head.jsx';
+import getContactLink from '../core/getContactLink.cjs';
+import getaddress from '../core/getReqAddress.cjs';
+import getid from '../core/getApplicationId.cjs';
+import validateConf from './validateConf.cjs';
 
-router.get("*", async (req, res) => {
+router.get("*", async (req, res, next) => {
     let re = await validateConf(req)
     let conf
     let id
@@ -37,7 +37,7 @@ router.get("*", async (req, res) => {
         conf = require('../../configs/conf.json')
         id = getid(conf.token)
     }
-    let html = ReactDOMServer.renderToString( // Passing every possibly required language here means that translate() further down the line does not require await, nor does not bog down the entire SPA
+    let html = renderToString( // Passing every possibly required language here means that translate() further down the line does not require await, nor does not bog down the entire SPA
         <StaticRouter location={req.originalUrl}>
             <Head language={{ preferred: getLangFile(await getUserLang(req)), fallback: getLangFile(await getlang()), default: getLangFile(uniconf.defaultlanguage) }} uniconf={uniconf} />
             <App addToServerLink={{ address: getaddress(req), clientid: id }} confExists={re.confExists} confErr={re.confErr} language={{ preferred: getLangFile(await getUserLang(req)), fallback: getLangFile(await getlang()), default: getLangFile(uniconf.defaultlanguage) }} DiscordUser={req.user} userIsMod={await isMod(req.user.id)} uniconf={uniconf} confPath={path.join(__dirname, '..', 'configs')} queryString={req.query} contactLink={await getContactLink()} />
@@ -46,4 +46,4 @@ router.get("*", async (req, res) => {
     res.send("<!DOCTYPE html>" + html);
 });
 
-module.exports = router;
+export default router;

@@ -10,14 +10,14 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-const { useState, useEffect } = require('react');
-const React = require('react')
-const translate = require('./components/getLanguageString');
-const ConfigComplete = require('./config-complete');
-const ErrorPage = require('./error-page-spa');
-const CreateConfigPassword = require('./create-configuration-password');
-const RequestConfigPassword = require('./enter-configuration-password');
-const ConfigForm = require('./config-form');
+import { useState, useEffect } from 'react';
+import React from 'react';
+import translate from './components/getLanguageString.cjs';
+import ConfigComplete from './config-complete';
+import ErrorPage from './error-page-spa';
+import CreateConfigPassword from './create-configuration-password';
+import RequestConfigPassword from './enter-configuration-password';
+import ConfigForm from './config-form';
 
 function getOauthStatus(query) { // See if OAuth is ok, and if not, return any errors
     const [oauthStatus, setOauthStatus] = useState([])
@@ -144,4 +144,4 @@ function Config(props) {
     return returnedValue
 }
 
-module.exports = Config;
+export default Config;

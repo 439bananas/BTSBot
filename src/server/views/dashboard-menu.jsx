@@ -10,14 +10,14 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-const { useState } = require('react')
-const { Select } = require('@mui/base/Select');
-const { Option } = require('@mui/base/Option');
-const React = require('react')
-const translate = require('./components/getLanguageString')
-const Label = require('./components/label');
-const getUserPermissions = require('../../core/getUserPermissions');
-const getChannelType = require('./components/getChannelType')
+import { useState, useReducer } from 'react';
+import { Select } from '@mui/base/Select';
+import { Option } from '@mui/base/Option';
+import React from 'react';
+import translate from './components/getLanguageString.cjs';
+import Label from './components/label';
+import getUserPermissions from '../../core/getUserPermissions.cjs';
+import getChannelType from './components/getChannelType.cjs';
 
 function CreateNewRow(props) { // Display a different option deending on the type
     const { updateStates, config, schema, rowIndex, newStateG, state, roles, channels, lang, option } = props
@@ -523,7 +523,24 @@ function GenerateColumnContents(props) { // Generate the contents for each colum
     </div>
 }
 
+async function commitChanges(state, guild) {
+    console.log(state)
+    let rawResponse = await fetch('/api/dashboard/' + guild, {
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        method: "POST",
+        body: JSON.stringify(state)
+    })
+
+    let response = await rawResponse.json()
+    return response
+}
+
 function DashboardMenu(props) {
+    console.log(props)
+    const [saving, setSaving] = useState(false)
     let { lang } = props
 
     function killMenu() { // Prevent the menu list from being interacted with
@@ -607,16 +624,42 @@ function DashboardMenu(props) {
                     columns.push(<GenerateColumnContents key={key} roles={props.settings.roles} channels={props.settings.channels} config={column} column={columnIndex} rowCount={determineRowCount(props.schema, state[decodeURIComponent(props.url[3])][props.menu])} schema={props.schema["column-schema"]} key2={key++} url={props.url} menu={props.menu} state={state} setState={setState} newStateG={newStateG} lang={lang} killMenu={killMenu} />)
                 }
 
-                return (
-                    <div className="marginBottom20">
-                        <button type="button" onClick={createColumn} className="margin8 button-1x2ahC button-38aScr lookFilled-1Gx00P colorGreen-29iAKY sizeSmall-2cSMqn grow-q77ONN">
-                            <div className="contents-18-Yxp">{translate(lang, props.schema["column-schema"].new)}</div>
-                        </button>
-                        <div className="config-grid" style={{ gridRowGap: 0 }}>
-                            {columns}
+                let saveButton
+
+                if (!saving) {
+                        saveButton = <div>
+                            <button
+                                type="button"
+                                onClick={async () => {
+                                    setSaving(true)
+                                    let re = await commitChanges(state, props.url[2])
+                                    console.log(re)
+                                }}
+                                className="margin8 button-1x2ahC button-38aScr lookFilled-1Gx00P colorGreen-29iAKY sizeSmall-2cSMqn grow-q77ONN">
+                                <div className="contents-18-Yxp">{translate(lang, "page_dashboardsave")}</div>
+                            </button>
                         </div>
+                } else {
+                    saveButton = <div>
+                            <button type="button" className="margin8 button-1x2ahC button-38aScr lookFilled-1Gx00P colorGreen-29iAKY sizeSmall-2cSMqn grow-q77ONN">
+                                <div className="contents-18-Yxp">{translate(lang, "page_dashboardsaving")}</div>
+                            </button>
+                        </div>
+                }
+                return (
+                    <div>
+                        <div className="marginBottom20">
+                            <button type="button" onClick={createColumn} className="margin8 button-1x2ahC button-38aScr lookFilled-1Gx00P colorGreen-29iAKY sizeSmall-2cSMqn grow-q77ONN">
+                                <div className="contents-18-Yxp">{translate(lang, props.schema["column-schema"].new)}</div>
+                            </button>
+                            <div className="config-grid" style={{ gridRowGap: 0 }}>
+                                {columns}
+                            </div>
+                        </div>
+                        {saveButton}
                     </div>
                 )
+
             } else if (props.schema["row-schema"]) {
                 return <div className="alert-box danger text-wrap">
                     {translate(lang, "page_columnbeforerow")}
@@ -652,4 +695,4 @@ function DashboardMenu(props) {
     }
 }
 
-module.exports = DashboardMenu
+export default DashboardMenu

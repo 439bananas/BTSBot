@@ -12,9 +12,9 @@
 
 // NOTES: nbsp: " "
 
-const React = require('react');
-const translate = require('./getLanguageString');
-const { Link } = require('react-router-dom');
+import React from 'react';
+import translate from './getLanguageString.cjs';
+import { Link } from 'react-router-dom';
 
 function Footer(props) {
     let contactLinkElement
@@ -54,4 +54,4 @@ function Footer(props) {
     )
 }
 
-module.exports = Footer;
+export default Footer;

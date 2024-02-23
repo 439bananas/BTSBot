@@ -10,12 +10,12 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-const React = require('react');
-const { useEffect, useState } = require('react');
-const translate = require('./components/getLanguageString');
-const GuildLink = require('./components/guildLlink');
-const { Routes, Route } = require("react-router-dom");
-const Server = require('./server')
+import React from 'react';
+import { useEffect, useState } from 'react';
+import translate from './components/getLanguageString.cjs';
+import GuildLink from './components/guildLlink';
+import { Routes, Route } from "react-router-dom";
+import Server from './server';
 
 function getGuilds() { // useEffect to get all guilds the user is a part of
     const [guilds, setGuilds] = useState(null)
@@ -145,4 +145,4 @@ function Servers(props) {
     )
 }
 
-module.exports = Servers
+export default Servers

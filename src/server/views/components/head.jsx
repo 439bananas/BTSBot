@@ -10,8 +10,8 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-const React = require('react');
-import translate from './getLanguageString';
+import React from 'react';
+import translate from './getLanguageString.cjs';
 
 function Head(props) {
     return (
@@ -39,4 +39,4 @@ function Head(props) {
     )
 }
 
-module.exports = Head;
+export default Head;

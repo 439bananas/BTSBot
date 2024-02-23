@@ -10,13 +10,13 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-const React = require('react')
-const { useState, useEffect } = require('react')
-const { useLocation } = require('react-router-dom')
-let getUserPermissions = require('../../core/getUserPermissions') // I know I shouldn't be calling something in core but to be fair, the API doesn't call any sensitive functions
-const translate = require('./components/getLanguageString')
-const Dashboard = require('./dashboard')
-const ErrorPage = require('./error-page-spa')
+import React from 'react'
+import { useState, useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
+import getUserPermissions from '../../core/getUserPermissions.cjs' // I know I shouldn't be calling something in core but to be fair, the API doesn't call any sensitive functions
+import translate from './components/getLanguageString.cjs'
+import Dashboard from './dashboard'
+import ErrorPage from './error-page-spa'
 
 function getDashboard(id, all) { // useEffect to get all guilds the user is a part of
     const [dashboard, setDashboard] = useState(null)
@@ -86,4 +86,4 @@ function Server(props) {
 
 }
 
-module.exports = Server
+export default Server

@@ -10,9 +10,9 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-const React = require('react');
-const { useState, useEffect } = require('react');
-const translate = require('./components/getLanguageString');
+import React from 'react';
+import { useState } from 'react';
+import translate from './components/getLanguageString.cjs';
 
 function Languages(props) { // Add languages to list of languages
     let { langs } = props
@@ -492,4 +492,4 @@ function ConfigForm(props) {
     </div>
 }
 
-module.exports = ConfigForm
+export default ConfigForm

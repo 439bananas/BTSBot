@@ -10,8 +10,8 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-const React = require('react')
-const translate = require('./components/getLanguageString')
+import React from 'react'
+import translate from './components/getLanguageString.cjs'
 
 function Error(props) {
     if (props.errorInfo) {
@@ -34,4 +34,4 @@ function ErrorPage(props) {
     )
 }
 
-module.exports = ErrorPage
+export default ErrorPage

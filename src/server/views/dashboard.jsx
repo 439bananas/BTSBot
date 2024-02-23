@@ -10,11 +10,11 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-const { useState, useEffect } = require('react');
-const React = require('react');
-const { Routes, Route, useLocation, Link } = require('react-router-dom');
-const Categories = require('./categories');
-const DashboardCategory = require('./dashboard-category');
+import { useState, useEffect } from 'react';
+import React from 'react';
+import { Routes, Route, useLocation, Link } from 'react-router-dom';
+import Categories from './categories';
+import DashboardCategory from './dashboard-category';
 
 function Dashboard(props) {
     function getDashboardSchema() { // useEffect to get all guilds the user is a part of
@@ -66,4 +66,4 @@ function Dashboard(props) {
     )
 }
 
-module.exports = Dashboard
+export default Dashboard

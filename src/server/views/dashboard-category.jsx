@@ -10,11 +10,11 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-const { useState } = require('react')
-const React = require('react')
-const { Link, useLocation } = require('react-router-dom')
-const translate = require('./components/getLanguageString')
-const DashboardMenu = require('./dashboard-menu')
+import { useState } from 'react'
+import React from 'react'
+import { Link, useLocation } from 'react-router-dom'
+import translate from './components/getLanguageString.cjs'
+import DashboardMenu from './dashboard-menu'
 
 function DashboardCategory(props) {
     let { schema, lang } = props
@@ -99,4 +99,4 @@ function DashboardCategory(props) {
     )
 }
 
-module.exports = DashboardCategory;
+export default DashboardCategory;

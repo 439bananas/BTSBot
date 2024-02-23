@@ -10,8 +10,8 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-const translate = require('./getLanguageString');
-const React = require('react');
+import translate from './getLanguageString.cjs';
+import React from 'react';
 
 function PrereleaseWarning(props) {
     return (
@@ -23,4 +23,4 @@ function PrereleaseWarning(props) {
     )
 }
 
-module.exports = PrereleaseWarning;
+export default PrereleaseWarning;

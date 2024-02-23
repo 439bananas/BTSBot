@@ -10,8 +10,8 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-const translate = require('./components/getLanguageString');
-const React = require('react');
+import translate from './components/getLanguageString.cjs';
+import React from 'react';
 
 function redirectHome() {
     window.location.href = '/';
@@ -31,4 +31,4 @@ function ConfigComplete(props) {
     )
 }
 
-module.exports = ConfigComplete;
+export default ConfigComplete;

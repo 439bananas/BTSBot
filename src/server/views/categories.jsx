@@ -10,9 +10,9 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-const React = require('react');
-const { Link } = require('react-router-dom');
-const translate = require('./components/getLanguageString');
+import React from 'react';
+import { Link } from 'react-router-dom';
+import translate from './components/getLanguageString.cjs';
 
 function Categories(props) {
     let cards = []
@@ -43,4 +43,4 @@ function Categories(props) {
     )
 }
 
-module.exports = Categories
+export default Categories

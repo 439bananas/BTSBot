@@ -32,17 +32,14 @@ menu2:
             title: page_dashboardcatnewitemmenu2setting1
             type: radio
             default: option1 # Default is once again optional
-            option1:
-                title: page_dashboardcatnewitemmenu2setting1option1
-            option2:
-                title: page_dashboardcatnewitemmenu2setting1option2
-            option3:
-                title: page_dashboardcatnewitemmenu2setting1option3
+            options:
+                option1:
+                    title: page_dashboardcatnewitemmenu2setting1option1
+                option2:
+                    title: page_dashboardcatnewitemmenu2setting1option2
+                option3:
+                    title: page_dashboardcatnewitemmenu2setting1option3
     col2:
-        setting2:
-            title: page_dashboardcatnewitemmenu2setting2
-            type: toggle
-            default: true
         setting3:
             title: page_dashboardcatnewitemmenu2setting3
             type: integer
@@ -62,8 +59,7 @@ menu2:
                 title: page_dashboardcatnewitemmenu2setting5option3
         setting6:
             title: page_dashboardcatnewitemmenu2setting5
-            type: dropdown
-            use-options: role ## The intention is to have preset lists of options, e.g. role, channel, etc
+            type: role
 menu3:
     title: page_dashboardcatnewitemmenu3
     column-schema: # Let's say the user wanted to make multiple, say, logs, or even forms. We can allow the user to add a new column per log

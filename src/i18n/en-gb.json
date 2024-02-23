@@ -322,5 +322,7 @@
   "page_dashboarddeletecolorrowmodalcancel": "Cancel",
   "page_dashboarddeletecolorrowmodaldelete": "Delete",
   "page_translatedashboardnewitemmenu3deletecolumnhead": "Delete column",
-  "page_translatedashboardnewitemmenu3deletecolumnbody": "Are you sure you wish to delete this column?"
+  "page_translatedashboardnewitemmenu3deletecolumnbody": "Are you sure you wish to delete this column?",
+  "page_dashboardsave": "Save",
+  "page_dashboardsaving": "Saving..."
 }

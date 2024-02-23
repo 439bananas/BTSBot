@@ -10,7 +10,7 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-const React = require('react')
+import React from 'react'
 
 function FeatureCard(props) {
     return <div className="col feature">
@@ -31,4 +31,4 @@ function FeatureCard(props) {
     </div>
 }
 
-module.exports = FeatureCard
+export default FeatureCard

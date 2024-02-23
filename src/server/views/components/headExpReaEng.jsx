@@ -10,7 +10,7 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-import translate from '../../../core/getLanguageString';
+import translate from '../../../core/getLanguageString.cjs';
 
 <head>
     <link rel='stylesheet' href='/resources/main.css' />

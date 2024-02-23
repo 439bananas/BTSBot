@@ -10,7 +10,7 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-const React = require('react')
+import React from 'react'
 
 function Label(props) {
     let required
@@ -22,4 +22,4 @@ function Label(props) {
     return <label htmlFor={props.for} className={required + "columnOptions marginBottom8-1wldKw small-29zrCQ size12-DS9Pyp height16-3r2Q2W primary300-qtIOwv weightSemiBold-tctXJ7 uppercase-1K74Lz"}>{props.children}</label>
 }
 
-module.exports = Label
+export default Label

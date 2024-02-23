@@ -10,8 +10,8 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-const React = require('react');
-const { Link } = require('react-router-dom');
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 function GuildLink(props) {
     let guildIconLink
@@ -41,4 +41,4 @@ function GuildLink(props) {
         </div>)
 }
 
-module.exports = GuildLink
+export default GuildLink

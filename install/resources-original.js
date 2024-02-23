@@ -2,7 +2,7 @@
 //                                                         //
 //                         BTS Bot                         //
 //                                                         //
-//       File: resources.js & resources-original.js        //
+//       File: resources.cjs & resources-original.js       //
 //                                                         //
 //               Author: Thomas (439bananas)               //
 //                                                         //
@@ -82,6 +82,7 @@ router.get('/bundle.js', (req, res) => { // Bundler
 });
 
 router.get('/buttons.js', (req, res) => { // Enable buttons
+    res.writeHead(200, { "Content-Type": "application/javascript" })
     res.sendFile(path.resolve('./src/server/views/resources/js/buttons.js'));
 });
 

@@ -10,10 +10,10 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-const translate = require('./getLanguageString')
-const React = require('react');
-const PrereleaseWarning = require('./prerelease-warning');
-const { Link } = require('react-router-dom');
+import translate from './getLanguageString';
+import React from 'react';
+import PrereleaseWarning from './prerelease-warning';
+import { Link } from 'react-router-dom';
 let signinbutton
 let prereleasewarning
 
@@ -62,4 +62,4 @@ function Header(props) {
     )
 }
 
-module.exports = Header;
+export default Header;

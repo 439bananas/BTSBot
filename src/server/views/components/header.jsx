@@ -10,11 +10,11 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-const translate = require('./getLanguageString')
-const React = require('react');
-const PrereleaseWarning = require('./prerelease-warning');
-const pkg = require('../../../../package.json');
-const { Link } = require('react-router-dom');
+import translate from './getLanguageString.cjs';
+import React from 'react';
+import PrereleaseWarning from './prerelease-warning';
+import { mode } from '../../../../package.json';
+import { Link } from 'react-router-dom';
 let modDropdownOptions
 let signinbutton
 let prereleasewarning
@@ -66,7 +66,7 @@ function Header(props) {
         </div>
     }
 
-    if (pkg.mode == "active-development" || pkg.mode == "ad" || pkg.mode == "beta" || pkg.mode == "alpha") { // If we're using the development builds, show the prerelease warning
+    if (mode == "active-development" || mode == "ad" || mode == "beta" || mode == "alpha") { // If we're using the development builds, show the prerelease warning
         prereleasewarning = <PrereleaseWarning />
     } else {
         prereleasewarning = " "
@@ -105,4 +105,4 @@ function Header(props) {
     )
 }
 
-module.exports = Header;
+export default Header;

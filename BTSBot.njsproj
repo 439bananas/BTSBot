@@ -18,7 +18,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>cc7c5a02-0f2e-48cf-bb70-53bbf647fa1c</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>src/core/index.js</StartupFile>
+    <StartupFile>src/core/index.cjs</StartupFile>
     <StartWebBrowser>False</StartWebBrowser>
     <SearchPath>
     </SearchPath>
@@ -60,90 +60,96 @@
     <Content Include="src\configs\databaseTables.json" />
     <Content Include="src\configs\features.json" />
     <Content Include="src\configs\uniconf.json" />
-    <Content Include="src\core\checkBotInGuild.js" />
-    <Content Include="src\core\checkConfExists.js" />
-    <Content Include="src\core\checkDb.js" />
-    <Content Include="src\core\checkDiscord.js" />
-    <Content Include="src\core\checkMySQL.js" />
-    <Content Include="src\core\checkRedis.js" />
-    <Content Include="src\core\checkUserSignedIn.js" />
-    <Content Include="src\core\compileProject.js" />
-    <Content Include="src\core\createConf.js">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="src\core\createElements.js" />
-    <Content Include="src\core\getApplicationId.js" />
-    <Content Include="src\core\getAzureToken.js" />
-    <Content Include="src\core\getContactLink.js" />
-    <Content Include="src\core\getDiscordScopes.js" />
-    <Content Include="src\core\getDiscordUserInfo.js" />
-    <Content Include="src\core\getGoogleToken.js" />
-    <Content Include="src\core\getGuild.js" />
-    <Content Include="src\core\getI18nFiles.js" />
-    <Content Include="src\core\getLanguageJSON.js" />
-    <Content Include="src\core\getLanguageString.js" />
-    <Content Include="src\core\getOwnerID.js">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="src\core\getReqAddress.js" />
-    <Content Include="src\core\getUserGuilds.js" />
-    <Content Include="src\core\getUserLang.js" />
-    <Content Include="src\core\getUserModStatus.js" />
-    <Content Include="src\core\getUserOwnerStatus.js" />
-    <Content Include="src\core\getUserPermissions.js" />
-    <Content Include="src\core\index.js" />
-    <Content Include="src\core\init.js" />
-    <Content Include="src\core\logHandler.js" />
-    <Content Include="src\core\refreshDiscordBearerToken.js" />
-    <Content Include="src\core\restartProcess.js" />
-    <Content Include="src\core\validateConfigToken.js" />
-    <Content Include="src\core\warnUserIfNoConf.js" />
-    <Content Include="src\database\databaseManager.js" />
-    <Content Include="src\database\ensureRedisReady.js" />
-    <Content Include="src\database\mySQLGlobaliser.js" />
-    <Content Include="src\database\redisFailureEvent.js" />
-    <Content Include="src\database\redisGlobaliser.js" />
-    <Content Include="src\database\updateDatabase.js" />
-    <Content Include="src\database\updateDatabaseVersion.js" />
+    <Content Include="src\core\checkBotInGuild.cjs" />
+    <Content Include="src\core\checkConfExists.cjs" />
+    <Content Include="src\core\checkDb.cjs" />
+    <Content Include="src\core\checkDiscord.cjs" />
+    <Content Include="src\core\checkMySQL.cjs" />
+    <Content Include="src\core\checkRedis.cjs" />
+    <Content Include="src\core\checkUserSignedIn.cjs" />
+    <Content Include="src\core\compileProject.cjs" />
+    <Content Include="src\core\createConf.cjs" />
+    <Content Include="src\core\createElements.cjs" />
+    <Content Include="src\core\fetchGuild.cjs" />
+    <Content Include="src\core\getApplicationId.cjs" />
+    <Content Include="src\core\getAzureToken.cjs" />
+    <Content Include="src\core\getContactLink.cjs" />
+    <Content Include="src\core\getDiscordBearerToken.cjs" />
+    <Content Include="src\core\getDiscordScopes.cjs" />
+    <Content Include="src\core\getDiscordUserInfo.cjs" />
+    <Content Include="src\core\getGoogleToken.cjs" />
+    <Content Include="src\core\getGuild.cjs" />
+    <Content Include="src\core\getI18nFiles.cjs" />
+    <Content Include="src\core\getLanguageJSON.cjs" />
+    <Content Include="src\core\getLanguageString.cjs" />
+    <Content Include="src\core\getOwnerID.cjs" />
+    <Content Include="src\core\getReqAddress.cjs" />
+    <Content Include="src\core\getUserGuilds.cjs" />
+    <Content Include="src\core\getUserLang.cjs" />
+    <Content Include="src\core\getUserModStatus.cjs" />
+    <Content Include="src\core\getUserOwnerStatus.cjs" />
+    <Content Include="src\core\getUserPermissions.cjs" />
+    <Content Include="src\core\index.cjs" />
+    <Content Include="src\core\init.cjs" />
+    <Content Include="src\core\logHandler.cjs" />
+    <Content Include="src\core\refreshDiscordBearerToken.cjs" />
+    <Content Include="src\core\restartProcess.cjs" />
+    <Content Include="src\core\validateConfigToken.cjs" />
+    <Content Include="src\core\warnUserIfNoConf.cjs" />
+    <Content Include="src\database\databaseManager.cjs" />
+    <Content Include="src\database\ensureRedisReady.cjs" />
+    <Content Include="src\database\mySQLGlobaliser.cjs" />
+    <Content Include="src\database\redisFailureEvent.cjs" />
+    <Content Include="src\database\redisGlobaliser.cjs" />
+    <Content Include="src\database\updateDatabase.cjs" />
+    <Content Include="src\database\updateDatabaseVersion.cjs" />
     <Content Include="src\i18n\contexts.json" />
     <Content Include="src\i18n\en-gb.json" />
     <Content Include="src\i18n\fr-fr.json" />
     <Content Include="src\i18n\test.json" />
-    <Content Include="src\server\api\botInGuild.js" />
-    <Content Include="src\server\api\configPassword.js" />
-    <Content Include="src\server\api\getAllLanguages.js" />
-    <Content Include="src\server\api\getConf.js" />
-    <Content Include="src\server\api\getConfPath.js" />
-    <Content Include="src\server\api\getConfValues.js" />
-    <Content Include="src\server\api\getContactLink.js" />
-    <Content Include="src\server\api\getDashboard.js" />
-    <Content Include="src\server\api\getDashboardSchema.js" />
-    <Content Include="src\server\api\getLanguages.js" />
-    <Content Include="src\server\api\getOAuth2Status.js" />
-    <Content Include="src\server\api\getSpaInfo.js" />
-    <Content Include="src\server\api\getUser.js" />
-    <Content Include="src\server\api\ready.js" />
+    <Content Include="src\server\api\botInGuild.cjs" />
+    <Content Include="src\server\api\configPassword.cjs" />
+    <Content Include="src\server\api\getAllLanguages.cjs" />
+    <Content Include="src\server\api\getConf.cjs" />
+    <Content Include="src\server\api\getConfPath.cjs" />
+    <Content Include="src\server\api\getConfValues.cjs" />
+    <Content Include="src\server\api\getContactLink.cjs" />
+    <Content Include="src\server\api\getDashboard.cjs" />
+    <Content Include="src\server\api\getDashboardSchema.cjs" />
+    <Content Include="src\server\api\getLanguages.cjs" />
+    <Content Include="src\server\api\getOAuth2Status.cjs" />
+    <Content Include="src\server\api\getSpaInfo.cjs" />
+    <Content Include="src\server\api\getUser.cjs" />
+    <Content Include="src\server\api\ready.cjs" />
+    <Content Include="src\server\api\submitConfig.cjs" />
+    <Content Include="src\server\api\uniconf.cjs" />
+    <Content Include="src\server\api\version.cjs" />
+    <Content Include="src\server\createServer.cjs" />
     <Content Include="src\server\dashboard\test - Copy %282%29.yaml" />
     <Content Include="src\server\dashboard\test - Copy %283%29.yaml" />
     <Content Include="src\server\dashboard\test - Copy %284%29.yaml" />
     <Content Include="src\server\dashboard\test - Copy %285%29.yaml" />
     <Content Include="src\server\dashboard\test - Copy.yaml" />
     <Content Include="src\server\dashboard\test.yaml" />
-    <Content Include="src\server\validateConf.js" />
-    <Content Include="src\server\api\uniconf.js">
-      <SubType>Code</SubType>
-    </Content>
+    <Content Include="src\server\displayWall.cjs" />
+    <Content Include="src\server\login.cjs" />
+    <Content Include="src\server\logout.cjs" />
+    <Content Include="src\server\resources.cjs" />
+    <Content Include="src\server\routes.cjs" />
+    <Content Include="src\server\serverConfigRoutes.cjs" />
+    <Content Include="src\server\serverListener.cjs" />
+    <Content Include="src\server\validateConf.cjs" />
     <Content Include="src\server\views\categories.jsx" />
+    <Content Include="src\server\views\components\convertQueryStringToJSON.cjs" />
     <Content Include="src\server\views\components\featureCard.jsx" />
-    <Content Include="src\server\views\components\convertQueryStringToJSON.js" />
-    <Content Include="src\server\views\components\getChannelType.js" />
-    <Content Include="src\server\views\components\getLanguageJSON.js" />
-    <Content Include="src\server\views\components\getLanguageString.js" />
+    <Content Include="src\server\views\components\getChannelType.cjs" />
+    <Content Include="src\server\views\components\getLanguageJSON.cjs" />
+    <Content Include="src\server\views\components\getLanguageString.cjs" />
     <Content Include="src\server\views\components\guildLlink.jsx" />
     <Content Include="src\server\views\components\headExpReaEng.jsx" />
     <Content Include="src\server\views\components\label.jsx" />
+    <Content Include="src\server\views\components\logHandler.cjs" />
     <Content Include="src\server\views\components\wallHeader.jsx" />
-    <Content Include="src\server\views\components\logHandler.js" />
     <Content Include="src\server\views\config-form.jsx" />
     <Content Include="src\server\views\create-configuration-password.jsx" />
     <Content Include="src\server\views\dashboard-category.jsx" />
@@ -151,19 +157,6 @@
     <Content Include="src\server\views\enter-configuration-password.jsx" />
     <Content Include="src\server\views\error-page-spa.jsx" />
     <Content Include="src\server\interface.jsx" />
-    <Content Include="src\server\login.js" />
-    <Content Include="src\server\logout.js" />
-    <Content Include="src\server\resources.js" />
-    <Content Include="src\server\serverConfigRoutes.js" />
-    <Content Include="src\server\api\submitConfig.js" />
-    <Content Include="src\server\api\version.js" />
-    <Content Include="src\server\createServer.js" />
-    <Content Include="src\server\displayWall.js" />
-    <Content Include="src\core\getDiscordBearerToken.js" />
-    <Content Include="src\server\routes.js">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="src\server\serverListener.js" />
     <Content Include="src\server\views\404.jsx">
       <SubType>Code</SubType>
     </Content>
@@ -3907,7 +3900,7 @@
     <Content Include="src\server\views\resources\img\verifydemo.png" />
     <Content Include="src\server\views\resources\img\voicedemo.png" />
     <Content Include="src\server\views\resources\js\buttons.js" />
-    <Content Include="src\server\views\resources\js\react-client.js" />
+    <Content Include="src\server\views\resources\js\react-client.jsx" />
     <Content Include="src\server\views\server.jsx" />
     <Content Include="src\server\views\servers.jsx">
       <SubType>Code</SubType>

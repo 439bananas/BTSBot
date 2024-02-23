@@ -10,8 +10,8 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-const Head = require('./components/headExpReaEng');
-const Header = require('./components/wallHeader');
+import Head from './components/headExpReaEng';
+import Header from './components/wallHeader';
 
 <div>
     <Head language={lang} uniconf={uniconf} />

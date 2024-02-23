@@ -10,7 +10,7 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-const translate = require('../../core/getLanguageString');
+const translate = require('../../core/getLanguageString.cjs');
 
 <html>
     <head>

@@ -10,9 +10,9 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-const Footer = require('./components/footer');
-const translate = require('./components/getLanguageString');
-const React = require('react');
+import Footer from './components/footer';
+import translate from './components/getLanguageString.cjs';
+import React from 'react';
 
 function FooterIfConfPresent(props) {
     if (props.confExists) {
@@ -43,4 +43,4 @@ function Error404(props) {
     )
 }
 
-module.exports = Error404;
+export default Error404;

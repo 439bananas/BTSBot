@@ -10,10 +10,10 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-const translate = require('./components/getLanguageString');
-const React = require('react');
-const log = require('./components/logHandler')
-const { useState, useEffect } = require('react')
+import translate from './components/getLanguageString.cjs';
+import React from 'react';
+import { error as _error } from './components/logHandler.cjs';
+import { useState, useEffect } from 'react';
 
 function getConfig() {
     const [confInfo, setConfInfo] = useState([])
@@ -100,7 +100,7 @@ function ErrorMessage(props) {
                 error = <p>{translate(props.language, 'page_redisbaddatabasepart1') + translate(props.language, 'page_redisbaddatabasepart2')} <code>redis.conf</code> {translate(props.language, 'page_redisbaddatabasepart3')}<br /><ErrorDiag err={props.err} language={props.language} /></p>
                 break
             default:
-                log.error(props.err, props.language)
+                _error(props.err, props.language)
                 error = <p>{translate(props.language, 'page_noconfintrounknowndiscorderror1') + props.uniconf.projname + translate(props.language, 'page_noconfintrounknowndiscorderror2')}<br /><ErrorDiag err={props.err} language={props.language} uniconf={props.uniconf} /></p>
                 break
         };
@@ -128,4 +128,4 @@ function Noconfintro(props) {
     )
 }
 
-module.exports = Noconfintro
+export default Noconfintro

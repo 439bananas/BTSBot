@@ -10,15 +10,15 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-const React = require("react");
-const { Routes, Route } = require("react-router-dom");
-const Header = require('./components/header');
-const Error404 = require('./404');
-const Noconfintro = require('./no-conf-intro');
-const Footer = require('./components/footer')
-const Config = require('./config');
-const Home = require('./home');
-const Servers = require('./servers');
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+import Header from './components/header';
+import Error404 from './404';
+import Noconfintro from './no-conf-intro';
+import Footer from './components/footer';
+import Config from './config';
+import Home from './home';
+import Servers from './servers';
 
 function App(props) {
     if (!props.confExists) {
@@ -62,4 +62,4 @@ function App(props) {
     }
 }
 
-module.exports = App;
+export default App;

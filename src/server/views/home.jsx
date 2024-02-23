@@ -10,9 +10,9 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-const React = require('react')
-const FeatureCard = require('./components/featureCard');
-const translate = require('./components/getLanguageString');
+import React from 'react';
+import FeatureCard from './components/featureCard';
+import translate from './components/getLanguageString.cjs';
 
 function Home(props) {
     let oauth2link = "https://discord.com/oauth2/authorize?client_id=" + props.addToServerLink.clientid + "&permissions=" + props.uniconf.perms + "&redirect_uri=" + encodeURIComponent(props.addToServerLink.address + "/login") + "&response_type=code&scope=guilds%20email%20identify%20bot%20applications.commands"
@@ -63,4 +63,4 @@ function Home(props) {
     )
 }
 
-module.exports = Home
+export default Home

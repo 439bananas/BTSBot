@@ -34,16 +34,17 @@
   "version": "3.0.0",
   "iteration": "ad",
   "mode": "stable",
+  "type": "module",
   "description": "A utility and moderation Discord bot that focuses around the end user",
-  "main": "src/core/index.js",
+  "main": "src/core/index.cjs",
   "scripts": {
-    "build:server": "esbuild src/core/createElements.js --bundle --outfile=build/server.js --platform=node \"--external:./configs/*.json\" \"--external:./src/configs/conf.json\" \"--external:./src/configs/confinterim.json\" \"--external:./i18n/*.json\" \"--external:express-engine-jsx\" \"--external:argon2\"",
-    "build:client": "esbuild src/server/views/resources/js/react-client.js --bundle --outfile=build/bundle.js --loader:.js=jsx",
+    "build:server": "esbuild src/core/createElements.cjs --bundle --outfile=build/server.cjs --platform=node \"--external:./configs/*.json\" \"--external:./src/configs/conf.json\" \"--external:./src/configs/confinterim.json\" \"--external:./i18n/*.json\" \"--external:express-engine-jsx\" \"--external:argon2\"",
+    "build:client": "esbuild src/server/views/resources/js/react-client.jsx --bundle --outfile=build/bundle.js --loader:.js=jsx",
     "build": "npm run build:server && npm run build:client",
-    "start": "node src/core/index.js",
+    "start": "node src/core/index.cjs",
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "echo \"No clean operating specified\"",
-    "nls": "node src/core/createElements.js"
+    "nls": "node src/core/createElements.cjs"
   },
   "repository": {
     "type": "git",

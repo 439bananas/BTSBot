@@ -7,7 +7,7 @@
 /cache
 /src/server/views/resources/emojis
 /src/server/views/resources/css/twemoji-amazing.css
-/src/server/resources.js
+/src/server/resources.cjs
 /configs
 /logs
 /push.bat
