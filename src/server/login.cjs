@@ -19,7 +19,7 @@ const getaddress = require('../core/getReqAddress.cjs')
 const getid = require('../core/getApplicationId.cjs')
 const getDiscordToken = require('../core/getDiscordBearerToken.cjs')
 const showwall = require('./displayWall.cjs')
-const getUserLang = require('../core/getUserLang.cjs')
+const getUserLang = require('../core/getUserLang')
 const getDiscordScopes = require('../core/getDiscordScopes.cjs')
 const validateConf = require('./validateConf.cjs')
 

@@ -2,7 +2,7 @@
 //                                                         //
 //                         BTS Bot                         //
 //                                                         //
-//                  File: getSpaInfo.cjs                   //
+//                   File: getSpaInfo.js                   //
 //                                                         //
 //               Author: Thomas (439bananas)               //
 //                                                         //
@@ -10,16 +10,16 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-const express = require('express');
-const getid = require('../../core/getApplicationId.cjs');
-const getContactLink = require('../../core/getContactLink.cjs');
-const getlang = require('../../core/getLanguageJSON.cjs');
-const getaddress = require('../../core/getReqAddress.cjs');
-const getUserLang = require('../../core/getUserLang.cjs');
-const isMod = require('../../core/getUserModStatus.cjs');
-const validateConf = require('../validateConf.cjs');
-const getLangFile = require('../views/components/getLanguageJSON.cjs');
-const router = express.Router();
+import { Router } from 'express';
+import getid from '../../core/getApplicationId.cjs';
+import getContactLink from '../../core/getContactLink.cjs';
+import getlang from '../../core/getLanguageJSON.cjs';
+import getaddress from '../../core/getReqAddress.cjs';
+import getUserLang from '../../core/getUserLang';
+import isMod from '../../core/getUserModStatus.cjs';
+import validateConf from '../validateConf.cjs';
+import getLangFile from '../views/components/getLanguageJSON.cjs';
+const router = Router();
 
 router.get('/', async (req, res, next) => { // Get all information required by the SPA
     let re = await validateConf(req)
@@ -52,4 +52,4 @@ router.get('/', async (req, res, next) => { // Get all information required by t
     }
 })
 
-module.exports = router;
+export default router;

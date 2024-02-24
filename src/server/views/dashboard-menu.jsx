@@ -255,7 +255,7 @@ function CreateNewRow(props) { // Display a different option deending on the typ
                 }
             })
 
-            let sortedChannels = {} 
+            let sortedChannels = {}
             if (schema[option]["filter"] == "GUILD_CATEGORY" && !schema[option]["filter"][1]) {
                 sortedCategoryList = Object.entries(organisedChannelList).sort(function (a, b) { // Sort categories by position
                     if (a[1].position > b[1].position) { return 1; }
@@ -449,7 +449,7 @@ function GenerateColumnContents(props) { // Generate the contents for each colum
         function createRow() {
             let newRowSettings = {}
             for (property of Object.keys(props.schema["row-schema"])) { // Set each each setting in the new row to default or null
-                if (property != "new" && property != "row-schema") {
+                if (property != "new" && property != "row-schema" && property != "deleteRowHeader" && property != "deleteRowBody") {
                     if (props.schema["row-schema"][property].default) {
                         newRowSettings[property] = translate(lang, props.schema["row-schema"][property].default)
                     } else {
@@ -591,6 +591,31 @@ function DashboardMenu(props) {
         let columns = []
         let key = 0
         if (state[decodeURIComponent(props.url[3])][props.menu]) {
+            let saveButton
+
+            if (!saving) {
+                saveButton = <div>
+                    <button
+                        type="button"
+                        onClick={async () => {
+                            setSaving(true)
+                            killMenu()
+                            console.log(state)
+                            let re = await commitChanges(state, props.url[2])
+                            console.log(re)
+                        }}
+                        className="margin8 button-1x2ahC button-38aScr lookFilled-1Gx00P colorGreen-29iAKY sizeSmall-2cSMqn grow-q77ONN">
+                        <div className="contents-18-Yxp">{translate(lang, "page_dashboardsave")}</div>
+                    </button>
+                </div>
+            } else {
+                saveButton = <div>
+                    <button type="button" className="margin8 button-1x2ahC button-38aScr lookFilled-1Gx00P colorGreen-29iAKY sizeSmall-2cSMqn grow-q77ONN">
+                        <div className="contents-18-Yxp">{translate(lang, "page_dashboardsaving")}</div>
+                    </button>
+                </div>
+            }
+
             if (props.schema["column-schema"]) {
                 function createColumn() { // Create a new column
                     let newColumnSettings = {}
@@ -624,31 +649,9 @@ function DashboardMenu(props) {
                     columns.push(<GenerateColumnContents key={key} roles={props.settings.roles} channels={props.settings.channels} config={column} column={columnIndex} rowCount={determineRowCount(props.schema, state[decodeURIComponent(props.url[3])][props.menu])} schema={props.schema["column-schema"]} key2={key++} url={props.url} menu={props.menu} state={state} setState={setState} newStateG={newStateG} lang={lang} killMenu={killMenu} />)
                 }
 
-                let saveButton
-
-                if (!saving) {
-                        saveButton = <div>
-                            <button
-                                type="button"
-                                onClick={async () => {
-                                    setSaving(true)
-                                    let re = await commitChanges(state, props.url[2])
-                                    console.log(re)
-                                }}
-                                className="margin8 button-1x2ahC button-38aScr lookFilled-1Gx00P colorGreen-29iAKY sizeSmall-2cSMqn grow-q77ONN">
-                                <div className="contents-18-Yxp">{translate(lang, "page_dashboardsave")}</div>
-                            </button>
-                        </div>
-                } else {
-                    saveButton = <div>
-                            <button type="button" className="margin8 button-1x2ahC button-38aScr lookFilled-1Gx00P colorGreen-29iAKY sizeSmall-2cSMqn grow-q77ONN">
-                                <div className="contents-18-Yxp">{translate(lang, "page_dashboardsaving")}</div>
-                            </button>
-                        </div>
-                }
                 return (
                     <div>
-                        <div className="marginBottom20">
+                        <div className="marginBottom8-1wldKw">
                             <button type="button" onClick={createColumn} className="margin8 button-1x2ahC button-38aScr lookFilled-1Gx00P colorGreen-29iAKY sizeSmall-2cSMqn grow-q77ONN">
                                 <div className="contents-18-Yxp">{translate(lang, props.schema["column-schema"].new)}</div>
                             </button>
@@ -676,8 +679,13 @@ function DashboardMenu(props) {
                         columns.push(<GenerateColumnContents key={key++} roles={props.settings.roles} channels={props.settings.channels} config={passedConfig} rowCount={determineRowCount(props.schema)} schema={props.schema[column]} url={props.url} menu={props.menu} column={column} state={state} setState={setState} newStateG={newStateG} lang={lang} killMenu={killMenu} />)
                     }
                 })
-                return <div className="config-grid" style={{ gridRowGap: 0 }}>
-                    {columns}
+                return <div>
+                    <div className="marginBottom8-1wldKw">
+                        <div className="config-grid" style={{ gridRowGap: 0 }}>
+                            {columns}
+                        </div>
+                    </div>
+                    {saveButton}
                 </div>
             }
 

@@ -10,7 +10,7 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-import botInGuild, { getGuildPresence } from './checkBotInGuild.js'
+import { getGuildPresence } from './checkBotInGuild.js'
 
 async function fetchGuild(id) { // Fetch the guild by its ID
     try {

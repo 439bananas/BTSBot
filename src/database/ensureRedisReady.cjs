@@ -14,7 +14,7 @@ let server = 0
 
 redisConnection.on("ready", (ready) => { // Only when Redis is ready should we start the server
     if (server == 0) { // Make sure that server is only started once
-        require("../server/createServer.cjs")
+        require("../server/createServer")
         server++
     }
 })

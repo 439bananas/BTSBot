@@ -42,7 +42,7 @@
     <Content Include=".vscode\launch.json" />
     <Content Include="BTS Bot.code-workspace" />
     <Content Include="build\bundle.js" />
-    <Content Include="build\server.js" />
+    <Content Include="build\server.cjs" />
     <Content Include="configs\conf.json" />
     <Content Include="configs\configpasswordhash.json" />
     <Content Include="configs\confinterim.json" />
@@ -84,7 +84,7 @@
     <Content Include="src\core\getOwnerID.cjs" />
     <Content Include="src\core\getReqAddress.cjs" />
     <Content Include="src\core\getUserGuilds.cjs" />
-    <Content Include="src\core\getUserLang.cjs" />
+    <Content Include="src\core\getUserLang.js" />
     <Content Include="src\core\getUserModStatus.cjs" />
     <Content Include="src\core\getUserOwnerStatus.cjs" />
     <Content Include="src\core\getUserPermissions.cjs" />
@@ -114,16 +114,16 @@
     <Content Include="src\server\api\getConfValues.cjs" />
     <Content Include="src\server\api\getContactLink.cjs" />
     <Content Include="src\server\api\getDashboard.js" />
-    <Content Include="src\server\api\getDashboardSchema.cjs" />
+    <Content Include="src\server\api\getDashboardSchema.js" />
     <Content Include="src\server\api\getLanguages.cjs" />
     <Content Include="src\server\api\getOAuth2Status.cjs" />
-    <Content Include="src\server\api\getSpaInfo.cjs" />
+    <Content Include="src\server\api\getSpaInfo.js" />
     <Content Include="src\server\api\getUser.cjs" />
     <Content Include="src\server\api\ready.cjs" />
     <Content Include="src\server\api\submitConfig.cjs" />
     <Content Include="src\server\api\uniconf.cjs" />
     <Content Include="src\server\api\version.cjs" />
-    <Content Include="src\server\createServer.cjs" />
+    <Content Include="src\server\createServer.js" />
     <Content Include="src\server\dashboard\test - Copy %282%29.yaml" />
     <Content Include="src\server\dashboard\test - Copy %283%29.yaml" />
     <Content Include="src\server\dashboard\test - Copy %284%29.yaml" />
@@ -135,7 +135,7 @@
     <Content Include="src\server\logout.cjs" />
     <Content Include="src\server\resources.cjs" />
     <Content Include="src\server\routes.cjs" />
-    <Content Include="src\server\serverListener.cjs" />
+    <Content Include="src\server\serverListener.js" />
     <Content Include="src\server\validateConf.cjs" />
     <Content Include="src\server\views\categories.jsx" />
     <Content Include="src\server\views\components\convertQueryStringToJSON.cjs" />

@@ -17,7 +17,8 @@ import getGuild from '../../core/getGuild.cjs';
 import getUserPermissions from '../../core/getUserPermissions.cjs';
 import botInGuild from '../../core/checkBotInGuild';
 import isMod from '../../core/getUserModStatus.cjs';
-import fetchGuild from '../../core/fetchGuild.cjs';
+import { getDashSchema } from './getDashboardSchema';
+import getUserLang from '../../core/getUserLang';
 const router = Router()
 const jsonParser = json()
 
@@ -62,7 +63,6 @@ router.get('/*', async (req, res, next) => { // Get all dashboard settings
                         return { error: "MISSING_PERMS" }
                     } else {
                         let inGuild = await botInGuild(guild.id, true)
-                        log.temp(inGuild + " " + guild.id)
                         if (!inGuild) {
                             return { error: "BOT_NOT_IN_GUILD" } // Send error if the bot is not in the guild
                         } else {
@@ -109,8 +109,8 @@ router.get('/*', async (req, res, next) => { // Get all dashboard settings
 })
 
 router.post('/*', jsonParser, async (req, res, next) => {
-    const url = req.url.split('/')
-    const re = await validateConf()
+    let url = req.url.split('/')
+    let re = await validateConf()
 
     async function setDash(request) {
         if (re.confExists) {
@@ -119,23 +119,50 @@ router.post('/*', jsonParser, async (req, res, next) => {
             } else {
                 try {
                     let guilds = await getGuilds(request.cookies.discordbearertoken) // Get guild in question
-                    let guild = await getGuild(url[1], guilds)
+                    let guild = await getGuild(url[1], guilds, await isMod(request.user.id))
+
                     let permissions = await getUserPermissions(guild)
-                    if (!(permissions.includes("ADMINISTRATOR") || permissions.includes("MANAGE_GUILD"))) { // Mandate that the user has the correct permissions
+
+                    if (!(permissions.includes("ADMINISTRATOR") || permissions.includes("MANAGE_GUILD")) && !(await isMod(request.user.id))) { // Mandate that the user has the correct permissions
                         return { error: "MISSING_PERMS" }
                     } else {
                         let inGuild = await botInGuild(guild.id, true)
                         if (!inGuild) {
                             return { error: "BOT_NOT_IN_GUILD" } // Send error if the bot is not in the guild
                         } else {
-
+                            //console.log(req.body)
+                            const schema = await getDashSchema() 
+                            //console.log(schema)
+                            // Get dashboard schema
+                            Object.keys(req.body).map(category => {
+                                Object.keys(req.body[category]).map(menu => {
+                                    console.log(menu)
+                                    Object.keys(req.body[category][menu]).map(async ind => {
+                                            console.log(req.body[category][menu][ind])
+                                        ///console.log(req.body[category][menu])
+                                        //console.log(req.body[category][menu][ind])
+                                        console.log(await getUserLang(req))
+                                    })
+                                })
+                            })
+                            try {
+                                let int = parseInt("abc")
+                                let int2 = parseInt(12.3)
+                                let int3 = parseInt("12.3")
+                                console.log(int)
+                                console.log(int2)
+                                console.log(int3)
+                                console.log(int === NaN)
+                            } catch (err) {
+                                log.temp(err)
+                            }
                         }
                     }
                 } catch (err) {
                     if (err.name == "RATE_LIMIT_REACHED") { // Perform same process when we are allowed to if we reach ratelimit
                         setTimeout(async () => {
-                            return await setDash(request)
-                        }, timeout * 1000)
+                            return await setDash(req)
+                        }, err.timeout * 1000)
                     }
                     switch (err) {
                         case "BAD_DISCORD_BEARER_TOKEN":
@@ -148,13 +175,14 @@ router.post('/*', jsonParser, async (req, res, next) => {
                     }
                 }
             }
+
         } else {
             return ({ error: "NO_CONF" })
         }
     }
 
-    let dashboardCommit = await setDash(req)
-    res.status(200).json(dashboardCommit)
+    let dashboard = await setDash(req, res)
+    res.status(200).json(dashboard)
 
     // Enforce login
     // Throw error if user not mod and user has no manage server perms in said server

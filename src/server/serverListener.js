@@ -2,7 +2,7 @@
 //                                                         //
 //                         BTS Bot                         //
 //                                                         //
-//                File: serverListener.cjs                 //
+//                 File: serverListener.js                 //
 //                                                         //
 //               Author: Thomas (439bananas)               //
 //                                                         //
@@ -10,22 +10,22 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-const express = require('express')
-const engine = require('express-engine-jsx');
+import express from 'express';
+import engine from 'express-engine-jsx';
 const app = express()
-const favicon = require('serve-favicon')
-const routes = require('./routes.cjs')
-const loginRoutes = require('./login.cjs')
-const logoutRoutes = require('./logout.cjs')
-const resourcesRoutes = require('./resources.cjs')
-const interfaceRoutes = require('./interface.jsx').default
-const pkg = require('../../package.json')
-const cookieParser = require('cookie-parser')
-const createLocaleMiddleware = require('express-locale')
-const getDiscordUser = require('../core/getDiscordUserInfo.cjs')
-const refreshBearerToken = require('../core/refreshDiscordBearerToken.cjs')
-const showwall = require('./displayWall.cjs')
-const getUserLang = require('../core/getUserLang.cjs');
+import favicon from 'serve-favicon';
+import routes from './routes.cjs';
+import loginRoutes from './login.cjs';
+import logoutRoutes from './logout.cjs';
+import resourcesRoutes from './resources.cjs';
+import interfaceRoutes from './interface.jsx';
+import { mode } from '../../package.json';
+import cookieParser from 'cookie-parser';
+import createLocaleMiddleware from 'express-locale';
+import getDiscordUser from '../core/getDiscordUserInfo.cjs';
+import refreshBearerToken from '../core/refreshDiscordBearerToken.cjs';
+import showwall from './displayWall.cjs';
+import getUserLang from '../core/getUserLang';
 let faviconfilename
 let user
 
@@ -33,7 +33,7 @@ app.set('views', path.join(__dirname, '..', 'src', 'server', 'views'))
 app.set('view engine', 'jsx'); // We're using React as the templating engine, at least when the client is Internet Explorer or if a catastrophic error has happened
 app.engine('jsx', engine);
 
-switch (pkg.mode) {
+switch (mode) {
     case 'alpha':
         faviconfilename = 'faviconalpha.ico'
         break;
@@ -207,4 +207,4 @@ app.use(function (req, res, next) {
     })
 });*/
 
-module.exports = app;
+export default app;

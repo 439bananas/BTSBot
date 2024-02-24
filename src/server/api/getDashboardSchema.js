@@ -10,21 +10,21 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-const express = require('express')
-const router = express.Router()
-const fs = require('fs')
-const path = require('path')
-const read = require('read-yaml')
-const { excludedDashboardFiles } = require('../../configs/features.json')
+import { Router } from 'express'
+const router = Router()
+import { readdirSync } from 'fs'
+import { join } from 'path'
+import { sync } from 'read-yaml'
+import { excludedDashboardFiles } from '../../configs/features.json'
 const edf = excludedDashboardFiles
 
-router.get('/', async (req, res, next) => {
-    let listing = await fs.readdirSync(path.join(__dirname, '..', 'src', 'server', 'dashboard')) // Get the directory listing
+export async function getDashSchema() {
+    let listing = await readdirSync(join(__dirname, '..', 'src', 'server', 'dashboard')) // Get the directory listing
     let cats = []
     let menus = {}
     for (configName of listing) { // For each file, read the file and send the metadata back to the user
         if (configName.split('.')[1].toLowerCase() == "yaml" && !edf.includes(configName.split('.')[1].toLowerCase())) {
-            let config = read.sync(path.join(__dirname, '..', 'src', 'server', 'dashboard', configName))
+            let config = sync(join(__dirname, '..', 'src', 'server', 'dashboard', configName))
             cats.push({
                 name: configName.split('.')[0],
                 title: config.title,
@@ -34,11 +34,16 @@ router.get('/', async (req, res, next) => {
             menus[configName.split('.')[0]] = { schema: config } // Send menus along, since React otherwise throws fits
         }
     }
+    return {cats: cats, menus: menus}
+}
+
+router.get('/', async (req, res) => {
+    let schema = await getDashSchema()
 
     res.json({
-        itemDescriptions: cats,
-        items: menus
+        itemDescriptions: schema.cats,
+        items: schema.menus
     })
 })
 
-module.exports = router;
+export default router;

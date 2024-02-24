@@ -16,7 +16,7 @@ import { renderToString } from "react-dom/server";
 import { StaticRouter } from "react-router-dom/server";
 import App from "./views/ReactApp.jsx";
 import React from 'react';
-import getUserLang from '../core/getUserLang.cjs';
+import getUserLang from '../core/getUserLang';
 import getlang from '../core/getLanguageJSON.cjs';
 import isMod from '../core/getUserModStatus.cjs';
 import getLangFile from './views/components/getLanguageJSON.cjs';

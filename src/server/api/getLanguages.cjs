@@ -12,7 +12,7 @@
 
 const express = require('express');
 const getlang = require('../../core/getLanguageJSON.cjs');
-const getUserLang = require('../../core/getUserLang.cjs');
+const getUserLang = require('../../core/getUserLang');
 const getLangFile = require('../views/components/getLanguageJSON.cjs');
 const router = express.Router();
 

@@ -2,7 +2,7 @@
 //                                                         //
 //                         BTS Bot                         //
 //                                                         //
-//                 File: createServer.cjs                  //
+//                  File: createServer.js                  //
 //                                                         //
 //               Author: Thomas (439bananas)               //
 //                                                         //
@@ -14,12 +14,12 @@ getlang().then(lang => {
     log.info(translate(lang, "log_startingserver"))
 })
 
-const express = require('express')
+import express from 'express'
 const e = express()
-const http = require('http')
-const app = require('./serverListener.cjs')
-const { response } = require('./serverListener.cjs')
-const server = http.createServer(app)
+import { createServer } from 'http'
+import app from './serverListener'
+//import { response } from './serverListener'
+const server = createServer(app)
 
 e.use(express.static('public'))
 

@@ -2,7 +2,7 @@
 //                                                         //
 //                         BTS Bot                         //
 //                                                         //
-//                  File: getUserLang.cjs                  //
+//                  File: getUserLang.js                   //
 //                                                         //
 //               Author: Thomas (439bananas)               //
 //                                                         //
@@ -10,7 +10,7 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-const getDiscordUser = require('./getDiscordUserInfo.cjs')
+import getDiscordUser from './getDiscordUserInfo.cjs';
 
 async function getUserLang(user) {
     if (typeof (user) == "object") { // If object, treat as if it was req
@@ -36,4 +36,4 @@ async function getUserLang(user) {
     }
 }
 
-module.exports = getUserLang;
+export default getUserLang;

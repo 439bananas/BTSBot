@@ -18,7 +18,7 @@ getlang().then(async lang => {
         global.conf = require('../../configs/conf.json')
         require('../database/databaseManager.cjs')
     }).catch(err => { // Check the configuration file, if anything other than true is returned, warn the user
-        require('../server/createServer.cjs') // Create server when there is no config; if there is then wait until database updates are complete
+        require('../server/createServer') // Create server when there is no config; if there is then wait until database updates are complete
         switch (err) {
             case false:
                 log.warn(translate(lang, 'log_noconfpart1') + uniconf.projname + translate(lang, 'log_noconfpart2') + "localhost:" + uniconf.port + translate(lang, 'log_noconfpart3'))
