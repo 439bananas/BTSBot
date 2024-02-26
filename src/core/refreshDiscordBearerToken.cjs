@@ -10,7 +10,7 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-const getid = require('./getApplicationId.cjs')
+const getid = require('./getApplicationId.js').default
 
 async function refreshBearerToken(refreshtoken) {
     try {

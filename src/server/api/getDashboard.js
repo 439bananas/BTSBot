@@ -11,7 +11,7 @@
 /////////////////////////////////////////////////////////////
 
 import { Router, json } from 'express';
-import validateConf from '../validateConf.cjs';
+import validateConf from '../validateConf.js';
 import getGuilds from '../../core/getUserGuilds.cjs';
 import getGuild from '../../core/getGuild.cjs';
 import getUserPermissions from '../../core/getUserPermissions.cjs';
@@ -21,6 +21,8 @@ import { getDashSchema } from './getDashboardSchema';
 import getUserLang from '../../core/getUserLang';
 const router = Router()
 const jsonParser = json()
+const schema = (await getDashSchema()).menus
+void schema
 
 async function getChannels(guildId) {
     try {
@@ -57,7 +59,7 @@ router.get('/*', async (req, res, next) => { // Get all dashboard settings
                         icon = "https://cdn.discordapp.com/icons/" + guild.id + "/" + guild.icon
                     }
 
-                    let permissions = await getUserPermissions(guild)
+                    let permissions = getUserPermissions(guild)
 
                     if (!(permissions.includes("ADMINISTRATOR") || permissions.includes("MANAGE_GUILD")) && !(await isMod(request.user.id))) { // Mandate that the user has the correct permissions
                         return { error: "MISSING_PERMS" }
@@ -117,11 +119,12 @@ router.post('/*', jsonParser, async (req, res, next) => {
             if (!request.user.id) {
                 return ({ error: "LOGIN_REQUIRED" }) // If no user then require login
             } else {
+                let lang = await getUserLang(req)
                 try {
+                    let message
                     let guilds = await getGuilds(request.cookies.discordbearertoken) // Get guild in question
                     let guild = await getGuild(url[1], guilds, await isMod(request.user.id))
-
-                    let permissions = await getUserPermissions(guild)
+                    let permissions = getUserPermissions(guild)
 
                     if (!(permissions.includes("ADMINISTRATOR") || permissions.includes("MANAGE_GUILD")) && !(await isMod(request.user.id))) { // Mandate that the user has the correct permissions
                         return { error: "MISSING_PERMS" }
@@ -130,32 +133,111 @@ router.post('/*', jsonParser, async (req, res, next) => {
                         if (!inGuild) {
                             return { error: "BOT_NOT_IN_GUILD" } // Send error if the bot is not in the guild
                         } else {
-                            //console.log(req.body)
-                            const schema = await getDashSchema() 
-                            //console.log(schema)
-                            // Get dashboard schema
-                            Object.keys(req.body).map(category => {
-                                Object.keys(req.body[category]).map(menu => {
-                                    console.log(menu)
-                                    Object.keys(req.body[category][menu]).map(async ind => {
-                                            console.log(req.body[category][menu][ind])
-                                        ///console.log(req.body[category][menu])
-                                        //console.log(req.body[category][menu][ind])
-                                        console.log(await getUserLang(req))
-                                    })
+                            const { category, menu, config } = req.body // Let's break apart the incoming state
+                            // Only getting the category means that we don't have potential funky conflicts when we have a user who is missing two values in two different menus
+                            let requiredMissing = {}
+                            let wrongTypes = {}
+                            Object.keys(config[category][menu]).map(async ind => {
+                                let schemaColIdentifier
+                                if (schema[category].schema[menu]["column-schema"]) { // Determine whether we should use the column name or column-schema when getting the settings from schema
+                                    schemaColIdentifier = "column-schema"
+                                } else {
+                                    schemaColIdentifier = ind
+                                }
+
+                                Object.keys(schema[category].schema[menu][schemaColIdentifier]).map(setting => {
+                                    async function formulateErrors(setSetting, sch, rowIndex) { // Let's formulate the errors regarding missing and wrong types
+                                        if (((!setSetting && !sch.default) || setSetting === "" && sch.default) && sch.required) { // If a setting is missing and it's required (in the shown view), throw a fit
+                                            if (!requiredMissing[ind]) requiredMissing[ind] = [] // Missing options that are required
+                                            if (!rowIndex) {
+                                                requiredMissing[ind].push(await translate(lang, sch.title))
+                                            } else {
+                                                requiredMissing[ind].push({ title: await translate(lang, sch.title), index: rowIndex })
+                                            }
+                                        } else if ((setSetting === undefined || setSetting === null) && sch.default) { // If option not required check its type
+                                            let correctType = true
+                                            switch (sch.type) {
+                                                case "shortText":
+                                                    if (setSetting && (typeof (setSetting) != "string" || setSetting.includes("\n"))) {
+                                                        correctType = false
+                                                    }
+                                                    break;
+                                                case "longText":
+                                                    if (typeof (setSetting) != "string" && setSetting) {
+                                                        correctType = false
+                                                    }
+                                                    break;
+                                                case "checkbox":
+                                                    if (typeof (setSetting) != "object" && setSetting) {
+                                                        correctType = false
+                                                    }
+                                                    break;
+                                                case "radio":
+                                                    if (typeof (setSetting) != "string" && setSetting) {
+                                                        correctType = false
+                                                    }
+                                                    break;
+                                                case "integer":
+                                                    if (parseInt(setSetting) != setSetting && setSetting) { // If we parse any other type (aside from number) as int, then we get NaN, and NaN is literally equal to nothing (not even itself!)
+                                                        correctType = false
+                                                    }
+                                                    break;
+                                                case "number":
+                                                    if (parseFloat(setSetting) != setSetting && setSetting) {
+                                                        correctType = false
+                                                    }
+                                                    break;
+                                                case "dropdown":
+                                                    if (typeof (setSetting) != "string" && setSetting) {
+                                                        correctType = false
+                                                    }
+                                                    break;
+                                                case "role":
+                                                    if (typeof (setSetting) != "string" && setSetting) {
+                                                        correctType = false
+                                                    }
+                                                    break;
+                                                case "channel":
+                                                    if (typeof (setSetting) != "string" && setSetting) {
+                                                        correctType = false
+                                                    }
+                                                    break;
+                                            }
+
+                                            if (!correctType) { // If it's known not to be the correct type then fall into this clause annd add the item to this object
+                                                if (!wrongTypes[ind]) wrongTypes[ind] = []
+                                                if (!rowIndex) {
+                                                    wrongTypes[ind].push(await translate(lang, sch.title))
+                                                } else {
+                                                    wrongTypes[ind].push({ title: await translate(lang, sch.title), index: rowIndex })
+                                                    if (!wrongTypes[ind]) wrongTypes[ind] = []
+                                                    wrongTypes[ind].push(await translate(lang, sch.title))
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                    if (setting != "new" && setting != "row-schema" && setting != "deleteColumnHeader" && setting != "deleteColumnBody") { // Oh how we love quadratic time complexity
+                                        let setSetting = config[category][menu][ind][setting]
+                                        formulateErrors(setSetting, schema[category].schema[menu][schemaColIdentifier][setting])
+                                    } else if (setting == "row-schema") { // Formulate the errors for however many rows we have
+                                        Object.keys(config[category][menu][ind].rows).forEach(rowIndex => {
+                                            Object.keys(schema[category].schema[menu]["column-schema"]["row-schema"]).map(rowSetting => {
+                                                formulateErrors(config[category][menu][ind].rows[rowIndex][rowSetting], schema[category].schema[menu]["column-schema"]["row-schema"][rowSetting], rowIndex)
+                                            })
+                                        })
+                                    }
                                 })
                             })
-                            try {
-                                let int = parseInt("abc")
-                                let int2 = parseInt(12.3)
-                                let int3 = parseInt("12.3")
-                                console.log(int)
-                                console.log(int2)
-                                console.log(int3)
-                                console.log(int === NaN)
-                            } catch (err) {
-                                log.temp(err)
-                            }
+
+                            console.log(wrongTypes)
+                            console.log(requiredMissing)
+                            // NAME is missing
+                            // NAME is of the wrong type, it should be of type TYPE
+                            // NAME of column COLUMN is missing
+                            // NAME of column COLUMN is of the wrong type, it should be of type TYPE
+                            // NAME of column COLUMN, row ROW is missing
+                            // NAME of column COLUMN, row ROW is of the wrong type, it should be of type TYPE
                         }
                     }
                 } catch (err) {

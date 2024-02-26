@@ -14,15 +14,20 @@ import { Router } from 'express'
 const router = Router()
 import { readdirSync } from 'fs'
 import { join } from 'path'
-import { sync } from 'read-yaml'
+import pkg from 'read-yaml';
+const { sync } = pkg;
 import { excludedDashboardFiles } from '../../configs/features.json'
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 const edf = excludedDashboardFiles
 
 export async function getDashSchema() {
     let listing = await readdirSync(join(__dirname, '..', 'src', 'server', 'dashboard')) // Get the directory listing
     let cats = []
     let menus = {}
-    for (configName of listing) { // For each file, read the file and send the metadata back to the user
+    for (let configName of listing) { // For each file, read the file and send the metadata back to the user
         if (configName.split('.')[1].toLowerCase() == "yaml" && !edf.includes(configName.split('.')[1].toLowerCase())) {
             let config = sync(join(__dirname, '..', 'src', 'server', 'dashboard', configName))
             cats.push({
@@ -37,9 +42,10 @@ export async function getDashSchema() {
     return {cats: cats, menus: menus}
 }
 
-router.get('/', async (req, res) => {
-    let schema = await getDashSchema()
+const schema = await getDashSchema()
+void schema
 
+router.get('/', async (req, res) => {
     res.json({
         itemDescriptions: schema.cats,
         items: schema.menus

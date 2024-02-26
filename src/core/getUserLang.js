@@ -10,7 +10,7 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-import getDiscordUser from './getDiscordUserInfo.cjs';
+import getDiscordUser from './getDiscordUserInfo.js';
 
 async function getUserLang(user) {
     if (typeof (user) == "object") { // If object, treat as if it was req
@@ -30,9 +30,9 @@ async function getUserLang(user) {
             }
         }
     } else if (typeof (user) == "number" || typeof (user) == "string") { // If the type is a number or string, treat the parameter as if it was an ID
-        return getlang(true, user) // Use the getlang() API to query the database
+        return await getlang(true, user) // Use the getlang() API to query the database
     } else {
-        return getlang() // Get the default language if undefined
+        return await getlang() // Get the default language if undefined
     }
 }
 

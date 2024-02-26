@@ -10,7 +10,7 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-const getDiscordUser = require('./getDiscordUserInfo.cjs')
+const getDiscordUser = require('./getDiscordUserInfo.js').default
 const refreshBearerToken = require('./refreshDiscordBearerToken.cjs')
 
 async function signedIn(req, res) { // Return a value depending on whether the user is signed in or not

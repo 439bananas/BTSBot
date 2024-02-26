@@ -50,4 +50,4 @@ Installing:
 
 ## Important notes
 * When debugging in Visual Studio or Visual Studio Code, a browser window will open automatically, directing to http://locahost:8082
-* To close BTS Bot, you *must* run the /stop command. If BTS Bot cannot yet log into Discord, then it is safe to close BTS Bot via your task manager by ending server.js. Attempting to close BTS Bot using CTRL + C or closing the terminal window is not enough and will keep BTS Bot running in the background; this is because the console is only an output to BTS Bot and does not host the bot itself.
+* To close BTS Bot, you *must* run the /stop command. If BTS Bot cannot yet log into Discord, then it is safe to close BTS Bot via your task manager by ending server.mjs. Attempting to close BTS Bot using CTRL + C or closing the terminal window is not enough and will keep BTS Bot running in the background; this is because the console is only an output to BTS Bot and does not host the bot itself.

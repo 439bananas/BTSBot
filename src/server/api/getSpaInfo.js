@@ -11,14 +11,14 @@
 /////////////////////////////////////////////////////////////
 
 import { Router } from 'express';
-import getid from '../../core/getApplicationId.cjs';
-import getContactLink from '../../core/getContactLink.cjs';
-import getlang from '../../core/getLanguageJSON.cjs';
+import getid from '../../core/getApplicationId.js';
+import getContactLink from '../../core/getContactLink.js';
+import getlang from '../../core/getLanguageJSON';
 import getaddress from '../../core/getReqAddress.cjs';
 import getUserLang from '../../core/getUserLang';
 import isMod from '../../core/getUserModStatus.cjs';
-import validateConf from '../validateConf.cjs';
-import getLangFile from '../views/components/getLanguageJSON.cjs';
+import validateConf from '../validateConf.js';
+import getLangFile from '../views/components/getLanguageJSON.js';
 const router = Router();
 
 router.get('/', async (req, res, next) => { // Get all information required by the SPA
@@ -29,9 +29,9 @@ router.get('/', async (req, res, next) => { // Get all information required by t
             re: re,
             uniconf: uniconf,
             lang: {
-                preferred: getLangFile(await getUserLang(req)),
-                fallback: getLangFile(await getlang()),
-                default: getLangFile(uniconf.defaultlanguage)
+                preferred: await getLangFile(await getUserLang(req)),
+                fallback: await getLangFile(await getlang()),
+                default: await getLangFile(uniconf.defaultlanguage)
             },
             user: req.user,
             userIsMod: await isMod(req.user.id),
@@ -44,9 +44,9 @@ router.get('/', async (req, res, next) => { // Get all information required by t
             re: re,
             uniconf: uniconf,
             lang: {
-                preferred: getLangFile(await getUserLang(req)),
-                fallback: getLangFile(await getlang()),
-                default: getLangFile(uniconf.defaultlanguage)
+                preferred: await getLangFile(await getUserLang(req)),
+                fallback: await getLangFile(await getlang()),
+                default: await getLangFile(uniconf.defaultlanguage)
             }
         })
     }

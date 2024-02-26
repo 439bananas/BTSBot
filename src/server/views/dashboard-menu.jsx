@@ -11,9 +11,8 @@
 /////////////////////////////////////////////////////////////
 
 import { useState, useReducer } from 'react';
-import { Select } from '@mui/base/Select';
-import { Option } from '@mui/base/Option';
 import React from 'react';
+import { Select, Option } from '@mui/base';
 import translate from './components/getLanguageString.cjs';
 import Label from './components/label';
 import getUserPermissions from '../../core/getUserPermissions.cjs';
@@ -448,7 +447,7 @@ function GenerateColumnContents(props) { // Generate the contents for each colum
         gridRows++
         function createRow() {
             let newRowSettings = {}
-            for (property of Object.keys(props.schema["row-schema"])) { // Set each each setting in the new row to default or null
+            for (let property of Object.keys(props.schema["row-schema"])) { // Set each each setting in the new row to default or null
                 if (property != "new" && property != "row-schema" && property != "deleteRowHeader" && property != "deleteRowBody") {
                     if (props.schema["row-schema"][property].default) {
                         newRowSettings[property] = translate(lang, props.schema["row-schema"][property].default)
@@ -523,7 +522,7 @@ function GenerateColumnContents(props) { // Generate the contents for each colum
     </div>
 }
 
-async function commitChanges(state, guild) {
+async function commitChanges(state, guild, category, menu) {
     console.log(state)
     let rawResponse = await fetch('/api/dashboard/' + guild, {
         headers: {
@@ -531,7 +530,11 @@ async function commitChanges(state, guild) {
             'Content-Type': 'application/json'
         },
         method: "POST",
-        body: JSON.stringify(state)
+        body: JSON.stringify({
+            config: state,
+            menu: menu,
+            category: category
+        })
     })
 
     let response = await rawResponse.json()
@@ -601,7 +604,7 @@ function DashboardMenu(props) {
                             setSaving(true)
                             killMenu()
                             console.log(state)
-                            let re = await commitChanges(state, props.url[2])
+                            let re = await commitChanges(state, props.url[2], decodeURIComponent(props.url[3]), props.menu)
                             console.log(re)
                         }}
                         className="margin8 button-1x2ahC button-38aScr lookFilled-1Gx00P colorGreen-29iAKY sizeSmall-2cSMqn grow-q77ONN">
@@ -619,7 +622,7 @@ function DashboardMenu(props) {
             if (props.schema["column-schema"]) {
                 function createColumn() { // Create a new column
                     let newColumnSettings = {}
-                    for (property of Object.keys(props.schema["column-schema"])) { // Set each each setting in the row to null
+                    for (let property of Object.keys(props.schema["column-schema"])) { // Set each each setting in the row to null
                         if (property != "new" && property != "row-schema" && property != "deleteColumnBody" && property != "deleteColumnHeader") {
                             newColumnSettings[property] = null
                         }
@@ -629,7 +632,7 @@ function DashboardMenu(props) {
                         let rows = []
                         let initialRow = {}
 
-                        for (property of Object.keys(props.schema["column-schema"]["row-schema"])) { // For each property, set it as null (which would show default)
+                        for (let property of Object.keys(props.schema["column-schema"]["row-schema"])) { // For each property, set it as null (which would show default)
                             if (property != "new" && property != "deleteRowHeader" && property != "deleteRowBody") {
                                 initialRow[property] = null
                             }
@@ -644,7 +647,7 @@ function DashboardMenu(props) {
                     killMenu()
                 }
 
-                for (columnIndex in state[decodeURIComponent(props.url[3])][props.menu]) { // Add another column for each entry within the database
+                for (let columnIndex in state[decodeURIComponent(props.url[3])][props.menu]) { // Add another column for each entry within the database
                     let column = state[decodeURIComponent(props.url[3])][props.menu][columnIndex]
                     columns.push(<GenerateColumnContents key={key} roles={props.settings.roles} channels={props.settings.channels} config={column} column={columnIndex} rowCount={determineRowCount(props.schema, state[decodeURIComponent(props.url[3])][props.menu])} schema={props.schema["column-schema"]} key2={key++} url={props.url} menu={props.menu} state={state} setState={setState} newStateG={newStateG} lang={lang} killMenu={killMenu} />)
                 }

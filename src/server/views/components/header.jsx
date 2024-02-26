@@ -20,6 +20,8 @@ let signinbutton
 let prereleasewarning
 
 function Header(props) {
+    let avatarfilename
+    let avatarurl
     if (props.DiscordUser.avatar == null) { // If we have no profile picture, do the magic calculation! https://discord.com/developers/docs/reference#image-formatting
         avatarfilename = (props.DiscordUser.id >> 22) % 6
         avatarurl = 'https://cdn.discordapp.com/embed/avatars/' + avatarfilename + ".png"

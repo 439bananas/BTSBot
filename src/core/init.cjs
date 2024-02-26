@@ -19,7 +19,7 @@ log.initLog().then(file => { // Create logs directory if it doesn't exist and cr
     logFile = file
 })
 
-const child = new (forever.Monitor)('./build/server.cjs', { // Define calling createElements
+const child = new (forever.Monitor)('./build/server.mjs', { // Define calling createElements
     max: 0, // Unlimited times the script should run
     silent: false, // Log every output to the console
     args: [] // No args
@@ -37,22 +37,22 @@ child.on('exit:code', function (code) { // When createElements exits, grab the c
 });
 
 child.on('stdout', function (data) { // Log any output to log file
-    fs.appendFile('logs/' + logFile, strip(data.toString()), (err) => {
+    fs.appendFile('logs/' + logFile, strip(data.toString()), async (err) => {
         if (err) {
             log.error(err);
-            getlang(true).then(lang => {
-                log.warn(translate(lang, 'log_errorsavinglog', "express-engine-jsx"))
+            getlang(true).then(async lang => {
+                log.warn((await translate(lang, 'log_errorsavinglog', "express-engine-jsx")))
             })
         }
     });
 });
 
 child.on('stderr', function (data) {
-    fs.appendFile('logs/' + logFile, strip(data.toString()), (err) => {
+    fs.appendFile('logs/' + logFile, strip(data.toString()), async (err) => {
         if (err) {
             log.error(err);
-            getlang(true).then(lang => {
-                log.warn(translate(lang, 'log_errorsavinglog', "express-engine-jsx"))
+            getlang(true).then(async lang => {
+                log.warn((await translate(lang, 'log_errorsavinglog', "express-engine-jsx")))
             })
         }
     });

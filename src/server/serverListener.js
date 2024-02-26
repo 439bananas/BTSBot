@@ -14,18 +14,23 @@ import express from 'express';
 import engine from 'express-engine-jsx';
 const app = express()
 import favicon from 'serve-favicon';
-import routes from './routes.cjs';
-import loginRoutes from './login.cjs';
-import logoutRoutes from './logout.cjs';
-import resourcesRoutes from './resources.cjs';
+import routes from './routes';
+import loginRoutes from './login.js';
+import logoutRoutes from './logout.js';
+import resourcesRoutes from './resources.js';
 import interfaceRoutes from './interface.jsx';
 import { mode } from '../../package.json';
 import cookieParser from 'cookie-parser';
 import createLocaleMiddleware from 'express-locale';
-import getDiscordUser from '../core/getDiscordUserInfo.cjs';
+import getDiscordUser from '../core/getDiscordUserInfo.js';
 import refreshBearerToken from '../core/refreshDiscordBearerToken.cjs';
-import showwall from './displayWall.cjs';
+import showwall from './displayWall.js';
 import getUserLang from '../core/getUserLang';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+let conffile
 let faviconfilename
 let user
 
@@ -55,11 +60,11 @@ app.use(cookieParser()) // Deal with cookies
 app.use(createLocaleMiddleware())
 
 app.all('/*', async function (req, res, next) { // Log incoming requests
-    getlang().then(lang => {
+    getlang().then(async lang => {
         if (req.headers['x-forwarded-host']) {
-            log.info(req.method + translate(lang, 'log_incominghttprequestpart1') + req.headers['x-forwarded-for'] + translate(lang, 'log_incominghttprequestpart2') + req.headers['x-forwarded-host'] + translate(lang, 'log_incominghttprequestpart3') + req.url + translate(lang, 'log_incominghttprequestrp'))
+            log.info(req.method + await translate(lang, 'log_incominghttprequestpart1') + req.headers['x-forwarded-for'] + await translate(lang, 'log_incominghttprequestpart2') + req.headers['x-forwarded-host'] + await translate(lang, 'log_incominghttprequestpart3') + req.url + await translate(lang, 'log_incominghttprequestrp'))
         } else {
-            log.info(req.method + translate(lang, 'log_incominghttprequestpart1') + req.socket.remoteAddress + translate(lang, 'log_incominghttprequestpart2') + req.headers.host + translate(lang, 'log_incominghttprequestpart3') + req.url)
+            log.info(req.method + await translate(lang, 'log_incominghttprequestpart1') + req.socket.remoteAddress + await translate(lang, 'log_incominghttprequestpart2') + req.headers.host + await translate(lang, 'log_incominghttprequestpart3') + req.url)
         }
         next()
     })
@@ -94,13 +99,13 @@ app.all('/*', async (req, res, next) => { // Block Internet Explorer
                                 next()
                             } catch (err) { // If there is an error, display a wall
                                 if ((err.code == "ER_TABLEACCESS_DENIED_ERROR" || err.code == "ER_DBACCESS_DENIED_ERROR")) {
-                                    showwall(res, lang, uniconf.projname + translate(lang, "page_missingdbperms"), translate(lang, "page_missingdbpermsdiagpart1") + conf.database + translate(lang, "page_missingdbpermsdiagpart2") + '\'' + conf.dbusername + '\'@\'' + conf.hostname + '\'.')
+                                    showwall(res, lang, uniconf.projname + await translate(lang, "page_missingdbperms"), await translate(lang, "page_missingdbpermsdiagpart1") + conf.database + await translate(lang, "page_missingdbpermsdiagpart2") + '\'' + conf.dbusername + '\'@\'' + conf.hostname + '\'.')
                                 } else if (!(err.code == "ER_TABLEACCESS_DENIED_ERROR" || err.code == "ER_DBACCESS_DENIED_ERROR")) {
                                     log.temp(err.code)
                                     log.temp(err)
                                     log.temp(err.name)
                                     log.error(err)
-                                    showwall(res, conf.language, translate(lang, "page_confunknownerror"), translate(lang, "page_wallunknownerrordiag"))
+                                    showwall(res, conf.language, await translate(lang, "page_confunknownerror"), await translate(lang, "page_wallunknownerrordiag"))
                                 } else next()
                             }
                         } else if (userRow[0] != user.email) { // If email is outdated, update in database
@@ -110,19 +115,19 @@ app.all('/*', async (req, res, next) => { // Block Internet Explorer
                                 next()
                             } catch (err) { // error -> display wall
                                 if ((err.code == "ER_TABLEACCESS_DENIED_ERROR" || err.code == "ER_DBACCESS_DENIED_ERROR")) {
-                                    showwall(res, lang, uniconf.projname + translate(lang, "page_missingdbperms"), translate(lang, "page_missingdbpermsdiagpart1") + conf.database + translate(lang, "page_missingdbpermsdiagpart2") + '\'' + conf.dbusername + '\'@\'' + conf.hostname + '\'.')
+                                    showwall(res, lang, uniconf.projname + await translate(lang, "page_missingdbperms"), await translate(lang, "page_missingdbpermsdiagpart1") + conf.database + await translate(lang, "page_missingdbpermsdiagpart2") + '\'' + conf.dbusername + '\'@\'' + conf.hostname + '\'.')
                                 } else if (!(err.code == "ER_TABLEACCESS_DENIED_ERROR" || err.code == "ER_DBACCESS_DENIED_ERROR")) {
                                     log.error(err)
                                     log.temp(err.code)
                                     log.temp(err)
                                     log.temp(err.name)
-                                    showwall(res, conf.language, translate(lang, "page_confunknownerror"), translate(lang, "page_wallunknownerrordiag"))
+                                    showwall(res, conf.language, await translate(lang, "page_confunknownerror"), await translate(lang, "page_wallunknownerrordiag"))
                                 } else next()
                             }
                         }
                     } catch (err) {
                         if ((err.code == "ER_TABLEACCESS_DENIED_ERROR" || err.code == "ER_DBACCESS_DENIED_ERROR")) {
-                            showwall(res, lang, uniconf.projname + translate(lang, "page_missingdbperms"), translate(lang, "page_missingdbpermsdiagpart1") + conf.database + translate(lang, "page_missingdbpermsdiagpart2") + '\'' + conf.dbusername + '\'@\'' + conf.hostname + '\'.')
+                            showwall(res, lang, uniconf.projname + await translate(lang, "page_missingdbperms"), await translate(lang, "page_missingdbpermsdiagpart1") + conf.database + await translate(lang, "page_missingdbpermsdiagpart2") + '\'' + conf.dbusername + '\'@\'' + conf.hostname + '\'.')
                         } else if (err == "Error: Can't add new command when connection is in closed state") {
                             try {
                                 MySQLConnection.connect()
@@ -136,10 +141,10 @@ app.all('/*', async (req, res, next) => { // Block Internet Explorer
                             log.error(err)
                             log.temp("line 131: " + (err == "Error: Can't add new command when connection is in closed state"))
                             console.log(err)
-                            showwall(res, conf.language, translate(lang, "page_confunknownerror"), translate(lang, "page_wallunknownerrordiag"))
+                            showwall(res, conf.language, await translate(lang, "page_confunknownerror"), await translate(lang, "page_wallunknownerrordiag"))
                         } else {
                             log.error(err)
-                            showwall(res, conf.language, translate(lang, "page_confunknownerror"), translate(lang, "page_wallunknownerrordiag"))
+                            showwall(res, conf.language, await translate(lang, "page_confunknownerror"), await translate(lang, "page_wallunknownerrordiag"))
                         }
                     }
                 } catch (err) {
@@ -151,13 +156,13 @@ app.all('/*', async (req, res, next) => { // Block Internet Explorer
                     } catch (err) { // If we can't do that, err
                         switch (err) {
                             case "BAD_CLIENT_SECRET": // Show wall if bad client secret
-                                showwall(res, lang, translate(lang, 'page_loginbadclientsecret'), translate(lang, 'page_loginbadclientsecretdiag'))
+                                showwall(res, lang, await translate(lang, 'page_loginbadclientsecret'), await translate(lang, 'page_loginbadclientsecretdiag'))
                                 break;
                             case "BAD_REFRESH_TOKEN": // Don't worry if bad refresh token
                                 next()
                                 break;
                             default:
-                                showwall(res, conf.language, translate(lang, "page_confunknownerror"), translate(lang, "page_wallunknownerrordiag")) // Show wall if other error
+                                showwall(res, conf.language, await translate(lang, "page_confunknownerror"), await translate(lang, "page_wallunknownerrordiag")) // Show wall if other error
                                 log.error(err)
                                 break;
                         }
@@ -172,7 +177,7 @@ app.all('/*', async (req, res, next) => { // Block Internet Explorer
     app.use('/resources', resourcesRoutes) // Yeah let's get these resources
     app.use(favicon(path.join(__dirname, '..', 'src', 'server', 'views', 'resources', 'img', faviconfilename)))
 
-    re = await serverHousekeeping()
+    let re = await serverHousekeeping()
 
     if (re === undefined) {
         app.use('/api', async (req, res, next) => { req.user = user; next() }, routes) // All API endpoints then begin with "/api"

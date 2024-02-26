@@ -97,6 +97,10 @@ menu3:
                 - GUILD_TEXT # If a filter is imposed, only those listed will be shown
                 - GUILD_ANNOUNCEMENT
                 - GUILD_CATEGORY # If this is the only item in the array, then only categories will be shown, else, no category will be shown
+        text:
+            title: page_dashboardtestcat
+            type: shortText
+            required: true
         row-schema:
             new: page_translatedashboardnewitemmenu3newrow # Button text to create a new row
             deleteRowHeader: page_translatedashboardnewitemmenu3deleterowhead # Translation string to use for the "delete row" prompt header
@@ -108,6 +112,7 @@ menu3:
             action:
                 title: page_dashboardcatnewitemmenu3setting2
                 type: shortText
+                required: true
 
 menu4:
     title: page_dashboardcatnewitemmenu4

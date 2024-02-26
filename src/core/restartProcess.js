@@ -1,0 +1,32 @@
+/////////////////////////////////////////////////////////////
+//                                                         //
+//                         BTS Bot                         //
+//                                                         //
+//                 File: restartProcess.js                 //
+//                                                         //
+//               Author: Thomas (439bananas)               //
+//                                                         //
+// Copyright 439bananas 2024 under the Apache 2.0 license. //
+//                                                         //
+/////////////////////////////////////////////////////////////
+
+import Discord from 'discord.js';
+//const client = new Discord.Client()
+
+/*function closeServer() {
+    console.log('yeet')
+    //server.close()
+}*/
+
+/**
+ * Restarts the process
+ */
+function restart() {
+    getlang(true).then(async lang => {
+        log.info(await translate(lang, 'log_restarting'))
+    })
+    // DESTROY DISCORD BOT SOMEWHERE
+    process.exit(2) // Exit code 2 signifies to forever-monitor that this is a restart, so it restarts the entire script
+};
+
+export default restart;

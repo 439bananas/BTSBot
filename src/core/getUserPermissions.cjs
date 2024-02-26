@@ -21,7 +21,7 @@ function getUserPermissions(guild) {
     if (permissionsint != 0) {
         let reversedPermsInt = parseInt(permissionsint).toString(2).split("") // Let's convert the permissions to binary and reverse them. In Discord, a permissions integer is a bitwise number, in that any single bit will determine a single switch. As such, the integer gets converted to binary. 
         reversedPermsInt = reversedPermsInt.reverse() // It's reversed because permissions integers are different lengths and as such, it's a lot easier to work with a reversed binary number than not, especially when finding permissions by their respective bits is documented by Discord in the manner of bit shifts
-        for (permissionString in reversedPermsInt) { // For each bit in the binary number, check the permission that the bit accords to
+        for (let permissionString in reversedPermsInt) { // For each bit in the binary number, check the permission that the bit accords to
             let permission = +permissionString // Convert to number because for some reason JavaScript is weird
             if (reversedPermsInt[permission] == 1) { // If the permission on this index is true:
                 switch (permission) {

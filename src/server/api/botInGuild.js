@@ -28,7 +28,7 @@ router.post('/*', jsonParser, async (req, res, next) => { // See if the bot is i
             if (Array.isArray(req.body.guilds)) { // If body is array...
                 let guildPresences = {}
                 async function getGuildPresences() {
-                    for (guild of req.body.guilds) { // For each item, check if bot is in the guild and add to object
+                    for (let guild of req.body.guilds) { // For each item, check if bot is in the guild and add to object
                         guildPresences[guild] = await botInGuild(guild)
                     }
 

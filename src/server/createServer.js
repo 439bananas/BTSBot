@@ -10,8 +10,8 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-getlang().then(lang => {
-    log.info(translate(lang, "log_startingserver"))
+getlang().then(async lang => {
+    log.info(await translate(lang, "log_startingserver"))
 })
 
 import express from 'express'
@@ -25,13 +25,13 @@ e.use(express.static('public'))
 
 getlang().then(lang => {
     server.listen(uniconf.port)
-        .once('error', function (err) { // If port in use, crash
+        .once('error', async function (err) { // If port in use, crash
             if (err.code == 'EADDRINUSE') {
-                log.fatal(translate(lang, 'log_EADDRINUSEpart1') + uniconf.port + translate(lang, 'log_EADDRINUSEpart2')) // Fatal function calls always end the process no matter what
+                log.fatal(await translate(lang, 'log_EADDRINUSEpart1') + uniconf.port + await translate(lang, 'log_EADDRINUSEpart2')) // Fatal function calls always end the process no matter what
             }
         })
 
-    setTimeout(function () {
-        log.info(translate(lang, 'log_successfullystartedserverpart1') + uniconf.projname + translate(lang, 'log_successfullystartedserverpart2') + uniconf.port + translate(lang, 'log_successfullystartedserverpart3'))
+    setTimeout(async function () {
+        log.info(await translate(lang, 'log_successfullystartedserverpart1') + uniconf.projname + await translate(lang, 'log_successfullystartedserverpart2') + uniconf.port + await translate(lang, 'log_successfullystartedserverpart3'))
     }, 250) // A timeout is set so this doesn't get logged as the server's checking if the port is in use
 })

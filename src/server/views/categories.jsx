@@ -18,7 +18,7 @@ function Categories(props) {
     let cards = []
     if (props.cats != null) {
         let key = 0
-        for (cat of props.cats) { // Meow
+        for (let cat of props.cats) { // Meow
             cards.push( // Create a new card for each listed category
                 <Link to={props.id + "/" + cat.name} key={key++} className={"cat-link category-card"}>
                     <div style={{margin: 1.25 + "ex", overflowWrap: "anywhere", display: "flex", alignItems: "center"}}>

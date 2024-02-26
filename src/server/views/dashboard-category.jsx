@@ -64,7 +64,7 @@ function DashboardCategory(props) {
         }
     }
 
-    for (menuKey of Object.keys(dashSchema)) { // Add the rest of the menus, as long as each one is an object
+    for (let menuKey of Object.keys(dashSchema)) { // Add the rest of the menus, as long as each one is an object
         if (menuKey != dashSchema.defaultMenu && typeof (dashSchema[menuKey]) == "object") {
             if (!currentlySelected) {
                 currentlySelected = menuKey

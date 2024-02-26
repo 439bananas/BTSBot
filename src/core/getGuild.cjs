@@ -10,7 +10,7 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-const fetchGuild = require("./fetchGuild.cjs");
+const fetchGuild = require("./fetchGuild");
 
 async function getGuild(id, guilds, isMod) {
     let guildJSON = {id: "0", permissions: 0}

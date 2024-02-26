@@ -15,11 +15,11 @@ let lang
 
 async function getlang() {
         let preferredRawResponse = await fetch('/api/language/preferred')
-        preferred = preferredRawResponse.json()
+        let preferred = preferredRawResponse.json()
         let fallbackRawResponse = await fetch('/api/language/fallback')
-        fallback = fallbackRawResponse.json()
+        let fallback = fallbackRawResponse.json()
         let defaultRawResponse = await fetch('/api/language/default')
-        defaultlang = defaultRawResponse.json()
+        let defaultlang = defaultRawResponse.json()
         lang = { preferred: preferred, fallback: fallback, default: defaultlang }
     return lang
 }

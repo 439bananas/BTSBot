@@ -10,8 +10,8 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-const checkMySQL = require('./checkMySQL.cjs')
-const checkRedis = require('./checkRedis.cjs')
+const checkMySQL = require('./checkMySQL').default
+const checkRedis = require('./checkRedis')
 
 async function checkDatabase(mysqlhostname, mysqlusername, mysqlpassword, mysqldb, redishostname, redisusername, redispassword, redisdb) {
     try {
