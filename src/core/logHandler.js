@@ -25,13 +25,8 @@ const __filename = fileURLToPath(import.meta.url);
  * @param {string} message - The message to log
  */
 function info(message) { // Log depending on function called
-
-    let translateMode
-    getlang(true).then(async lang => {
-        if (basename(process.argv[1]) == "index.js") { // Tell translate() where the i18n file is depending on if we're in the server or not
-            translateMode = "express-engine-jsx"
-        } else translateMode = undefined
-        console.info(`${cyan(`${new Date()}`)} - ${`${await translate(lang, 'loghandler_info', translateMode)}:`.green} ${message}`)
+    getlang(true).then(lang => {
+        console.info(`${cyan(`${new Date()}`)} - ${`${translate(lang, 'loghandler_info')}:`.green} ${message}`)
     })
 }
 
@@ -40,12 +35,8 @@ function info(message) { // Log depending on function called
  * @param {string} message - The message to warn with
  */
 function warn(message) {
-      let translateMode
-  getlang(true).then(async lang => {
-        if (basename(process.argv[1]) == "index.js") {
-            translateMode = "express-engine-jsx"
-        } else translateMode = undefined
-        console.warn(`${cyan(`${new Date()}`)} - ${`${await translate(lang, 'loghandler_warn', translateMode)}:`.yellow} ${message}`)
+    getlang(true).then(lang => {
+        console.warn(`${cyan(`${new Date()}`)} - ${`${translate(lang, 'loghandler_warn')}:`.yellow} ${message}`)
     })
 }
 
@@ -54,20 +45,16 @@ function warn(message) {
  * @param {string} message - The message to error with
  */
 function error(message, line) {
-      let translateMode
-  const e = new Error();
+    const e = new Error();
     const regex = /\((.*):(\d+):(\d+)\)$/
     const match = regex.exec(e.stack.split("\n")[2]);
-    getlang(true).then(async lang => {
-        if (basename(process.argv[1]) == "index.js") {
-            translateMode = "express-engine-jsx"
-        } else translateMode = undefined
+    getlang(true).then(lang => {
         if (line) {
-            console.error(`${cyan(`${new Date()}`)} - ${`${await translate(lang, 'loghandler_error', translateMode)}:`.red} ${message} at ${__filename}:${line[2]}:${line[3]}`)
+            console.error(`${cyan(`${new Date()}`)} - ${`${translate(lang, 'loghandler_error')}:`.red} ${message} at ${__filename}:${line[2]}:${line[3]}`)
         } else if (match) {
-            console.error(`${cyan(`${new Date()}`)} - ${`${await translate(lang, 'loghandler_error', translateMode)}:`.red} ${message} at ${__filename}:${match[2]}:${match[3]}`)
+            console.error(`${cyan(`${new Date()}`)} - ${`${translate(lang, 'loghandler_error')}:`.red} ${message} at ${__filename}:${match[2]}:${match[3]}`)
         } else {
-            console.error(`${cyan(`${new Date()}`)} - ${`${await translate(lang, 'loghandler_error', translateMode)}:`.red} ${message}`)
+            console.error(`${cyan(`${new Date()}`)} - ${`${translate(lang, 'loghandler_error')}:`.red} ${message}`)
         }
     })
 }
@@ -80,45 +67,33 @@ function err(message) { // Quick alias for error because I'm an idiot
 }
 
 function temp(message) {  // This is used for assertions and logging information to ensure a function works as intended. Each assertion should NOT end up in final releases
-      let translateMode
-  getlang(true).then(async lang => {
-        if (basename(process.argv[1]) == "index.js") {
-            translateMode = "express-engine-jsx"
-        } else translateMode = undefined
-        console.log(`${cyan(`${new Date()}`)} - ${`${await translate(lang, 'loghandler_temp', translateMode)}:`.brightMagenta} ${message}`)
+    getlang(true).then(lang => {
+        console.log(`${cyan(`${new Date()}`)} - ${`${translate(lang, 'loghandler_temp')}:`.brightMagenta} ${message}`)
     })
 }
 
 function tempinfo(message) { // Tells the user information they may need to know (ie x warning is safe to ignore), where the logging will be removed after the problem is fixed
-      let translateMode
-  getlang(true).then(async lang => {
-        if (basename(process.argv[1]) == "index.js") {
-            translateMode = "express-engine-jsx"
-        } else translateMode = undefined
-        console.log(`${cyan(`${new Date()}`)} - ${`${await translate(lang, 'loghandler_tempinfo', translateMode)}:`.magenta} ${message}`)
+    getlang(true).then(lang => {
+        console.log(`${cyan(`${new Date()}`)} - ${`${translate(lang, 'loghandler_tempinfo')}:`.magenta} ${message}`)
     })
 }
 
 function fatal(message) {
-      let translateMode
-  getlang(true).then(async lang => { // Log and exit
-        if (basename(process.argv[1]) == "index.js") {
-            translateMode = "express-engine-jsx"
-        } else translateMode = undefined
-        console.error(`${cyan(`${new Date()}`)} - ${`${await translate(lang, 'loghandler_fatal', translateMode)}:`.bgRed} ${message}`)
+    getlang(true).then(lang => { // Log and exit
+        console.error(`${cyan(`${new Date()}`)} - ${`${translate(lang, 'loghandler_fatal')}:`.bgRed} ${message}`)
         process.exit(1)
     })
 }
 
 function initLog() { // Create the log file
     return new Promise(function (resolve, reject) {
-        getlang(true).then(async lang => {
-            info(await translate(lang, "log_loghandlercheckingforlogdir", "express-engine-jsx"))
+        getlang(true).then(lang => {
+            info(translate(lang, "log_loghandlercheckingforlogdir"))
             if (!existsSync('./logs')) { // Check for directory named "logs" in the root, if it doesn't exist, create it
-                info(await translate(lang, 'log_nologdir', "express-engine-jsx"))
+                info(translate(lang, 'log_nologdir'))
                 mkdirSync('logs')
             }
-            info(await translate(lang, "log_loghandlercreatinglogfile", "express-engine-jsx"))
+            info(translate(lang, "log_loghandlercreatinglogfile"))
             let iteration = 1 // Start at 1 and if the file exists, continue until incrementing until a file doesn't exist
             let date
             if (new Date().getDate().toString().length == 1) { // Uniform all the dates so if the length of the date or the month is 1 prepend with a 0
@@ -152,7 +127,7 @@ function initLog() { // Create the log file
                     var filename = filename + " //" // Add // to make it look pretty
                     writeFile('./logs/' + logFile, '/////////////////////////////////////////////////////////////\n//                                                         //\n//                         BTS Bot                         //\n//                                                         //\n' + filename + '\n//                                                         //\n//                                                         //\n//                                                         //\n//                                                         //\n//                                                         //\n/////////////////////////////////////////////////////////////\n', async function (err) {
                         if (err) throw err; // ^^ Create the log file with the content including the file name
-                        info((await translate(lang, 'log_filesaved', "express-engine-jsx")) + join(__dirname, '..', '..', 'logs', logFile))
+                        info((translate(lang, 'log_filesaved')) + join(__dirname, '..', '..', 'logs', logFile))
                     })
                 }
             }

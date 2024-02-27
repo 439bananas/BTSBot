@@ -10,11 +10,11 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-async function showwall(res, lang, error, diag) { // Really just useful to prevent people from going any further
+function showwall(res, lang, error, diag) { // Really just useful to prevent people from going any further
     res.status(200)
     res.locals.lang = lang
     res.locals.uniconf = uniconf
-    res.locals.title = " - " + await translate(lang, 'page_configpagetitle')
+    res.locals.title = " - " + translate(lang, 'page_configpagetitle')
     res.locals.conf = false
     res.locals.DiscordUser = {}
     res.locals.pkg = pkg

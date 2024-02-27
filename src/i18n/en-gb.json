@@ -324,5 +324,11 @@
   "page_translatedashboardnewitemmenu3deletecolumnhead": "Delete column",
   "page_translatedashboardnewitemmenu3deletecolumnbody": "Are you sure you wish to delete this column?",
   "page_dashboardsave": "Save",
-  "page_dashboardsaving": "Saving..."
+  "page_dashboardsaving": "Saving...",
+  "page_dashboardrequiredsettingnocolschemamissing": " is missing.",
+  "page_dashboardrequiredsettingcolschemamissingpart1": " of column ",
+  "page_dashboardrequiredsettingcolschemamissingpart2": " is missing.",
+  "page_dashboardrequiredsettingcolrowschemamissingpart1": " of column ",
+  "page_dashboardrequiredsettingcolrowschemamissingpart2": ", row ",
+  "page_dashboardrequiredsettingcolrowschemamissingpart3": " is missing."
 }

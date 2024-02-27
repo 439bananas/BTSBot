@@ -13,13 +13,13 @@
 import getlang from "../core/getLanguageJSON";
 
 redisConnection.on('error', (err) => { // If Redis gets disconnected then reconnect and send out error
-    getlang().then(async lang => {
+    getlang().then(lang => {
         switch (err.message) {
             case "Socket closed unexpectedly":
-                log.warn(await translate(lang, "log_redisconnectionlost"))
+                log.warn(translate(lang, "log_redisconnectionlost"))
                 break;
             case "Connection timeout":
-                log.warn(await translate(lang, "log_redisreconnecting"))
+                log.warn(translate(lang, "log_redisreconnecting"))
                 break;
             default:
                 log.error(err)

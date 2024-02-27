@@ -121,7 +121,7 @@ router.post('/*', jsonParser, async (req, res, next) => {
             } else {
                 let lang = await getUserLang(req)
                 try {
-                    let message
+                    let message = ""
                     let guilds = await getGuilds(request.cookies.discordbearertoken) // Get guild in question
                     let guild = await getGuild(url[1], guilds, await isMod(request.user.id))
                     let permissions = getUserPermissions(guild)
@@ -146,13 +146,13 @@ router.post('/*', jsonParser, async (req, res, next) => {
                                 }
 
                                 Object.keys(schema[category].schema[menu][schemaColIdentifier]).map(setting => {
-                                    async function formulateErrors(setSetting, sch, rowIndex) { // Let's formulate the errors regarding missing and wrong types
+                                    function formulateErrors(setSetting, sch, rowIndex) { // Let's formulate the errors regarding missing and wrong types
                                         if (((!setSetting && !sch.default) || setSetting === "" && sch.default) && sch.required) { // If a setting is missing and it's required (in the shown view), throw a fit
                                             if (!requiredMissing[ind]) requiredMissing[ind] = [] // Missing options that are required
                                             if (!rowIndex) {
-                                                requiredMissing[ind].push(await translate(lang, sch.title))
+                                                requiredMissing[ind].push(translate(lang, sch.title))
                                             } else {
-                                                requiredMissing[ind].push({ title: await translate(lang, sch.title), index: rowIndex })
+                                                requiredMissing[ind].push({ title: translate(lang, sch.title), index: rowIndex })
                                             }
                                         } else if ((setSetting === undefined || setSetting === null) && sch.default) { // If option not required check its type
                                             let correctType = true
@@ -207,11 +207,10 @@ router.post('/*', jsonParser, async (req, res, next) => {
                                             if (!correctType) { // If it's known not to be the correct type then fall into this clause annd add the item to this object
                                                 if (!wrongTypes[ind]) wrongTypes[ind] = []
                                                 if (!rowIndex) {
-                                                    wrongTypes[ind].push(await translate(lang, sch.title))
+                                                    wrongTypes[ind].push(translate(lang, sch.title))
                                                 } else {
-                                                    wrongTypes[ind].push({ title: await translate(lang, sch.title), index: rowIndex })
                                                     if (!wrongTypes[ind]) wrongTypes[ind] = []
-                                                    wrongTypes[ind].push(await translate(lang, sch.title))
+                                                    wrongTypes[ind].push({ title: translate(lang, sch.title), index: rowIndex })
                                                 }
                                             }
                                         }
@@ -230,14 +229,43 @@ router.post('/*', jsonParser, async (req, res, next) => {
                                 })
                             })
 
-                            console.log(wrongTypes)
-                            console.log(requiredMissing)
-                            // NAME is missing
-                            // NAME is of the wrong type, it should be of type TYPE
-                            // NAME of column COLUMN is missing
-                            // NAME of column COLUMN is of the wrong type, it should be of type TYPE
-                            // NAME of column COLUMN, row ROW is missing
-                            // NAME of column COLUMN, row ROW is of the wrong type, it should be of type TYPE
+                            Object.keys(requiredMissing).map(item => { // Now let's build the actual messages
+                                if (schema[category].schema[menu]["column-schema"]) {
+                                    requiredMissing[item].map(missingSetting => {
+                                        if (typeof (missingSetting) == "object") {
+                                            if (!message) {
+                                                message = missingSetting.title + translate(lang, "page_dashboardrequiredsettingcolrowschemamissingpart1") + (parseInt(item) + 1) + translate(lang, "page_dashboardrequiredsettingcolrowschemamissingpart2") + (parseInt(missingSetting.index) + 1) + translate(lang, "page_dashboardrequiredsettingcolrowschemamissingpart3")
+                                            } else {
+                                                message += "\n" + missingSetting.title + translate(lang, "page_dashboardrequiredsettingcolrowschemamissingpart1") + (parseInt(item) + 1) + translate(lang, "page_dashboardrequiredsettingcolrowschemamissingpart2") + (parseInt(missingSetting.index) + 1) + translate(lang, "page_dashboardrequiredsettingcolrowschemamissingpart3")
+                                            }
+                                        } else {
+                                            if (!message) {
+                                                message = missingSetting + translate(lang, "page_dashboardrequiredsettingcolschemamissingpart1") + (parseInt(item) + 1) + translate(lang, "page_dashboardrequiredsettingcolschemamissingpart2")
+                                            } else {
+                                                message += "\n" + missingSetting + translate(lang, "page_dashboardrequiredsettingcolschemamissingpart1") + (parseInt(item) + 1) + translate(lang, "page_dashboardrequiredsettingcolschemamissingpart2")
+                                            }
+                                        }
+                                    })
+                                } else {
+                                    requiredMissing[item].map(missingSetting => {
+                                        if (!message) {
+                                            message = missingSetting + translate(lang, "page_dashboardrequiredsettingnocolschemamissing")
+                                        } else {
+                                            message += "\n" + missingSetting + translate(lang, "page_dashboardrequiredsettingnocolschemamissing")
+                                        }
+                                    })
+                                }
+                            })
+
+                            if (Object.keys(wrongTypes)[0]) {
+                                return { error: "WRONG_TYPES" }
+                            } else {
+                                if (message) {
+                                    return { message: message }
+                                } else {
+                                    log.temp("SAVE CONFIG!!!")
+                                }
+                            }
                         }
                     }
                 } catch (err) {

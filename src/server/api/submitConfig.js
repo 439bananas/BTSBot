@@ -72,8 +72,8 @@ router.post('/', async (req, res) => {
                                                     response: "VERIFY_CLIENT_SECRET"
                                                 })
                                                 const conf = (await import('../../../configs/confinterim.json', { assert: { type: "json" } })).default
-                                                log.info(await translate(conf.language, 'log_mysqlconffilesaved') + path.join(__dirname, '..', '..', 'configs', 'confinterim.json'))
-                                                log.info(await translate(conf.language, 'log_changestakeefect_part1') + uniconf.projname + translate(conf.language, 'log_changestakeefect_part2'))
+                                                log.info(translate(conf.language, 'log_mysqlconffilesaved') + path.join(__dirname, '..', '..', 'configs', 'confinterim.json'))
+                                                log.info(translate(conf.language, 'log_changestakeefect_part1') + uniconf.projname + translate(conf.language, 'log_changestakeefect_part2'))
                                                 restart()
                                             })
                                         } catch (err) {
@@ -92,14 +92,14 @@ router.post('/', async (req, res) => {
                                             response: "VERIFY_CLIENT_SECRET"
                                         })
                                         const conf = (await import('../../../configs/confinterim.json', { assert: { type: "json" } })).default
-                                        log.info(await translate(conf.language, 'log_mysqlconffilesaved') + path.join(__dirname, '..', '..', 'configs', 'confinterim.json'))
-                                        log.info(await translate(conf.language, 'log_changestakeefect_part1') + uniconf.projname + await translate(conf.language, 'log_changestakeefect_part2'))
+                                        log.info(translate(conf.language, 'log_mysqlconffilesaved') + path.join(__dirname, '..', '..', 'configs', 'confinterim.json'))
+                                        log.info(translate(conf.language, 'log_changestakeefect_part1') + uniconf.projname + translate(conf.language, 'log_changestakeefect_part2'))
                                         restart()
                                     })
                                 })
                             } else {
                                 if (!existsSync(path.join(__dirname, '..', 'configs'))) {
-                                    log.info(await translate(fields.language), "log_creatingconfdirectory")
+                                    log.info(translate(fields.language), "log_creatingconfdirectory")
                                     mkdirSync(path.join(__dirname, '..', 'configs'))
                                 }
                                 try {
@@ -109,8 +109,8 @@ router.post('/', async (req, res) => {
                                             response: "VERIFY_CLIENT_SECRET"
                                         })
                                         const conf = (await import('../../../configs/confinterim.json', { assert: { type: "json" } })).default
-                                        log.info(await translate(conf.language, 'log_mysqlconffilesaved') + path.join(__dirname, '..', '..', 'configs', 'confinterim.json'))
-                                        log.info(await translate(conf.language, 'log_changestakeefect_part1') + uniconf.projname + await translate(conf.language, 'log_changestakeefect_part2'))
+                                        log.info(translate(conf.language, 'log_mysqlconffilesaved') + path.join(__dirname, '..', '..', 'configs', 'confinterim.json'))
+                                        log.info(translate(conf.language, 'log_changestakeefect_part1') + uniconf.projname + translate(conf.language, 'log_changestakeefect_part2'))
                                         restart()
                                     })
                                 } catch (err) {

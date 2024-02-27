@@ -22,13 +22,13 @@ async function updateDb() {
             let dbVersion = dbVersionResponse[0][0].value.split('.')
 
             if (dbVersion[0] > version[0] || (dbVersion[0] >= version[0] && dbVersion[1] > version[1]) || (dbVersion[0] >= version[0] && dbVersion[1] >= version[1] && dbVersion[2] > version[2])) {
-                log.fatal(await translate(lang, "log_dbversiongreaterthanpkgpart1") + uniconf.projname + translate(lang, "log_dbversiongreaterthanpkgpart2")) // Fatal if DB version > bot version
+                log.fatal(translate(lang, "log_dbversiongreaterthanpkgpart1") + uniconf.projname + translate(lang, "log_dbversiongreaterthanpkgpart2")) // Fatal if DB version > bot version
             } else if (version[0] == dbVersion[0] && version[1] == dbVersion[1] && version[2] == dbVersion[2]) {
                 import('./ensureRedisReady')
             } else {
-                log.warn(await translate(lang, "log_upgradingdbprecaution")) // Update the database
+                log.warn(translate(lang, "log_upgradingdbprecaution")) // Update the database
                 setTimeout(async function () {
-                    log.warn(await translate(lang, "log_upgradingdb"))
+                    log.warn(translate(lang, "log_upgradingdb"))
                     switch (dbVersionResponse[0][0].value) {
                         /*
                         This is pretty TBD here.
@@ -46,7 +46,7 @@ async function updateDb() {
     } catch (err) {
         log.error("************************************************")
         console.log(err)
-        log.fatal(await translate(lang, "log_queryingdbcolumnsfailedpart1") + err.code + await translate(lang, "log_queryingdbcolumnsfailedpart2"))
+        log.fatal(translate(lang, "log_queryingdbcolumnsfailedpart1") + err.code + translate(lang, "log_queryingdbcolumnsfailedpart2"))
     }
 }
 

@@ -18,7 +18,7 @@ let lang = await getlang()
 
 async function addTables() {
     if (mode == "alpha" || mode == "beta" || mode == "active-development" || mode == "ad") {
-        log.warn(uniconf.projname + await translate(lang, "log_prereleasewarning"))
+        log.warn(uniconf.projname + translate(lang, "log_prereleasewarning"))
     } // Warn user if pre-release version in use. pkg.mode can be anything and BTS Bot would accept it as stable so ad/active-development/beta/alpha are the key words to look out for
 
     let re = await globaliseMySQL() // Initialise the MySQL client
@@ -48,10 +48,10 @@ async function addTables() {
                             let addColumnSuccess = await MySQLConnection.query("ALTER TABLE " + tableName + " ADD COLUMN " + proposedColumn[0] + " " + proposedColumn[1] + ";") // Again, inherently bad but sadly the prepared statement only enters in strings
                             if (addColumnSuccess) {
                                 promises.push(addColumnSuccess)
-                                log.warn(await translate(lang, "log_newcolumncreated") + tableName + ": " + proposedColumn[0]) // Also since when did Node.JS not print a statement with undefined in it and just not print the statement at all if that's the case???
+                                log.warn(translate(lang, "log_newcolumncreated") + tableName + ": " + proposedColumn[0]) // Also since when did Node.JS not print a statement with undefined in it and just not print the statement at all if that's the case???
                             }
                         } catch (err) {
-                            log.error(await translate(lang, "log_tableupdateerror") + tableName + ": " + err.code)
+                            log.error(translate(lang, "log_tableupdateerror") + tableName + ": " + err.code)
                             console.log(err)
                         }
                     } // I doubt there's much point in ensuring the types match to what's in the JSON file
@@ -103,7 +103,7 @@ async function addTables() {
                             let newTableSuccess = await MySQLConnection.query(query) // Create the table
                             if (newTableSuccess) {
                                 promises.push(newTableSuccess)
-                                log.warn(await translate(lang, "log_newtablecreated") + tableName)
+                                log.warn(translate(lang, "log_newtablecreated") + tableName)
                                 if (tableName.toLowerCase() == "botconfig") {
                                     queriesMade++
                                     let newRecordSuccess = await MySQLConnection.query('INSERT INTO BotConfig(property, value) VALUES ("dbVersion", ?), ("lastCheckedGuildCount", 0), ("lastCheckedInstanceCount",0), ("lastCheckedTime", 0)', [version])
@@ -111,15 +111,15 @@ async function addTables() {
                                 }
                             }
                         } catch (error) {
-                            log.error(await translate(lang, "log_newtablecreationerror") + tableName + ": " + error.code)
+                            log.error(translate(lang, "log_newtablecreationerror") + tableName + ": " + error.code)
                             console.log(error)
-                            log.fatal(uniconf.projname + await translate(lang, "log_fatalupdatedb"))
+                            log.fatal(uniconf.projname + translate(lang, "log_fatalupdatedb"))
                         }
                         break
                     default:
                         log.error("************************************************")
                         console.log(err)
-                        log.fatal(await translate(lang, "log_queryingdbcolumnsfailedpart1") + err.code + await translate(lang, "log_queryingdbcolumnsfailedpart2") + uniconf.projname + await translate(lang, "log_queryingdbcolumnsfailedpart2"))
+                        log.fatal(translate(lang, "log_queryingdbcolumnsfailedpart1") + err.code + translate(lang, "log_queryingdbcolumnsfailedpart2") + uniconf.projname + await translate(lang, "log_queryingdbcolumnsfailedpart2"))
                 }
             }
         }

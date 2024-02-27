@@ -12,51 +12,67 @@
 
 // NOTES: Never use logHandler as a dependency in this file as it is a dependent, doing so will create a circular dependency
 
-import { existsSync } from 'fs'
-import { join } from 'path'
+import { existsSync, readdirSync } from 'fs'
+import { basename, join } from 'path'
 import { dirname } from 'path';
 import { fileURLToPath, pathToFileURL } from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 let conf
 let language
-let basePath
 
-async function translate(languagecode, string, reactEngine) { // This function allows the caller to get a translated string
-    switch (reactEngine) {
-        case "express-engine-jsx":
-            basePath = '..'
-            break;
-        default:
-            basePath = '../src'
-            break;
+let languages = {}
+let langsDir
+if (basename(process.argv[1]) === "index.js") {
+    langsDir = join(__dirname, "..", "i18n")
+} else {
+    langsDir = join(__dirname, "..", "src", "i18n")
+}
+
+let langsDirListing = readdirSync(langsDir) // Put each of the language files into an object at the start of runtime, improve performance
+
+langsDirListing.map(file => {
+    let fileName = file.split('.')
+    if (fileName[fileName.length - 1] == "json") {
+        import(pathToFileURL(join(langsDir, file)), { assert: { type: "json" } }).then(mod => {
+            if (mod.default.name) {
+                languages[file.split(".")[0]] = mod.default
+            }
+        })
     }
+})
 
-    let defaultlanguage = (await import(basePath + '/i18n/' + uniconf.defaultlanguage + '.json', { assert: { type: "json" } })).default
-    if (existsSync(join(__dirname, basePath, 'i18n', languagecode + '.json'))) { // If the specified language file exists, check if the string requested exists
-        language = (await import(basePath + '/i18n/' + languagecode + '.json', { assert: { type: "json" } })).default
-    } else if (typeof(conf) != "undefined" && existsSync(join(__dirname, basePath, 'i18n', conf.language + '.json'))) { // Else if the default language has the string, return that, elsse return null
-        language = (await import(basePath + '/i18n/' + conf.language + '.json', { assert: { type: "json" } })).default
+function translate(languagecode, string) { // This function allows the caller to get a translated string
+    let defaultlanguage = languages[uniconf.defaultlanguage]
+    if (languages[languagecode]) { // If the specified language file exists, check if the string requested exists
+        language = languages[languagecode]
+    } else if (typeof (conf) != "undefined" && languages[conf.language]) { // Else if the default language has the string, return that, elsse return null
+        language = languages[conf.language]
     } else {
         language = defaultlanguage
     }
     if (language[string] !== undefined) { // If it exists, return the string
         return language[string]
     } else if (typeof (conf) !== "undefined" && typeof (conf.language) !== "undefined") { /// If language does not exist, if there is a config language defined, use that if possible, else default to default language
-        language = (await import(basePath + '/i18n/' + conf.language + '.json', { assert: { type: "json" } })).default
+        language = languages[conf.language]
         if (language[string] !== undefined) {
             return language[string]
         } else if (defaultlanguage[string] !== undefined) {
             return defaultlanguage[string]
         } else return null
     } else if (existsSync(join(__dirname, '..', 'src', 'configs', 'confinterim.json'))) { // Failing that, confinterim will do
-        let conf = (await import('./configs/confinterim.json', { assert: { type: "json" } })).default
-        language = (await import(basePath + '/i18n/' + conf.language + '.json', { assert: { type: "json" } })).default
-        if (language[string] !== undefined) {
-            return language[string]
-        } else if (defaultlanguage[string] !== undefined) {
-            return defaultlanguage[string]
-        } else return null
+        let returnedValue
+        import('./configs/confinterim.json', { assert: { type: "json" } }).then(mod => {
+            let conf = mod.default
+            language = languages[conf.language]
+            if (language[string] !== undefined) {
+                returnedValue = language[string]
+            } else if (defaultlanguage[string] !== undefined) {
+                returnedValue = defaultlanguage[string]
+            } else returnedValue = null
+        })
+
+        return returnedValue
     } else if (defaultlanguage[string] !== undefined) { // If the string doesn't exist but the string in the default language exists, return that
         return defaultlanguage[string]
     } else return null; // Else, null

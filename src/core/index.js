@@ -19,8 +19,8 @@ import('./getLanguageString.js').then(translateMod => {
 
     import('./getLanguageJSON.js').then((getlangMod) => {
         global.getlang = getlangMod.default
-        getlang(true).then(async lang => { // Get language and then get translation string
-            log.info(`${await translate(lang, "log_startingbtsbot", "express-engine-jsx")}${uniconf.projname}...`)
+        getlang(true).then(lang => { // Get language and then get translation string
+            log.info(`${translate(lang, "log_startingbtsbot")}${uniconf.projname}...`)
         })
 
         import('./compileProject.cjs') // This is where the real magic happens

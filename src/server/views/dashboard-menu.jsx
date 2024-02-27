@@ -590,6 +590,22 @@ function DashboardMenu(props) {
     let [state, setState] = useState(JSON.parse(JSON.stringify(config))) // Doing it this way means that we don't have problems with pointers!!!
     let newStateG = JSON.parse(JSON.stringify(state))
 
+    function undertakeAction(re, guild) {
+        console.log(re)
+        if (re.error) {
+            switch (re.error) {
+                case "MISSING_PERMS":
+                    window.location.href = "/servers" // Go to servers page, they shouldn't be there anymore
+                    break;
+                case "BOT_NOT_IN_GUILD":
+                    window.open("/servers/" + guild, "_blank") // Go to the server link in new tab since that redirects us to Discord OAuth2
+                    break;
+                case "CANNOT_CONNECT_TO_DISCORD":
+                    // display error
+            }
+        }
+    }
+
     if (state[decodeURIComponent(props.url[3])]) {
         let columns = []
         let key = 0
@@ -605,7 +621,7 @@ function DashboardMenu(props) {
                             killMenu()
                             console.log(state)
                             let re = await commitChanges(state, props.url[2], decodeURIComponent(props.url[3]), props.menu)
-                            console.log(re)
+                            undertakeAction(re, props.url[2])
                         }}
                         className="margin8 button-1x2ahC button-38aScr lookFilled-1Gx00P colorGreen-29iAKY sizeSmall-2cSMqn grow-q77ONN">
                         <div className="contents-18-Yxp">{translate(lang, "page_dashboardsave")}</div>

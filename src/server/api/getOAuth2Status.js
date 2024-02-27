@@ -338,13 +338,13 @@ router.get('/', async (req, res, next) => { // Let's validate our OAuth2 with ra
     if (typeof (redisConnection) == "undefined") { // If no Redis connection, such as when the machine is on (or has been when the solution has been run) college wifi and cannot connect to servers outside of HTTP and HTTPS then attempt to connect to Redis
         let lang = await getlang()
 
-        attemptRedisConnectionCreation().then(async r => {
+        attemptRedisConnectionCreation().then(r => {
             if (typeof (redisConnection) != "undefined") {
                 import('../../database/redisFailureEvent.js') // Deal with failures etc
             }
 
             if (r) { // Use r directly
-                log.info(await translate(lang, "log_testresponsefromredis") + r) // -sigh-
+                log.info(translate(lang, "log_testresponsefromredis") + r) // -sigh-
                 validateOAuth2()
             } else {
                 res.status(200).json({ error: "NO_CONF" })

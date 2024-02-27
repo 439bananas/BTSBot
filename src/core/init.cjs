@@ -40,8 +40,8 @@ child.on('stdout', function (data) { // Log any output to log file
     fs.appendFile('logs/' + logFile, strip(data.toString()), async (err) => {
         if (err) {
             log.error(err);
-            getlang(true).then(async lang => {
-                log.warn((await translate(lang, 'log_errorsavinglog', "express-engine-jsx")))
+            getlang(true).then(lang => {
+                log.warn((translate(lang, 'log_errorsavinglog')))
             })
         }
     });
@@ -52,7 +52,7 @@ child.on('stderr', function (data) {
         if (err) {
             log.error(err);
             getlang(true).then(async lang => {
-                log.warn((await translate(lang, 'log_errorsavinglog', "express-engine-jsx")))
+                log.warn((translate(lang, 'log_errorsavinglog')))
             })
         }
     });

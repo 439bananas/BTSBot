@@ -18,7 +18,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>cc7c5a02-0f2e-48cf-bb70-53bbf647fa1c</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>src/core/index.cjs</StartupFile>
+    <StartupFile>src/core/index.js</StartupFile>
     <StartWebBrowser>False</StartWebBrowser>
     <SearchPath>
     </SearchPath>

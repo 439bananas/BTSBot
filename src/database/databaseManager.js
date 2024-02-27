@@ -12,6 +12,6 @@
 
 import addTables from './updateDatabase' // Ensures that the database's content etc is up to date with the current version in pkg.version
 let lang = await getlang()
-log.info(await translate(lang, 'log_initialisingdbm'))
+log.info(translate(lang, 'log_initialisingdbm'))
 
 addTables()

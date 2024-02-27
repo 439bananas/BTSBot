@@ -31,6 +31,7 @@ function checkMySQL(hostname, username, password, database, port) {
         });
         connection.on('error', function(err) { // If there's an error, log and handle it, don't crash
             log.error(err);
+            console.log(err)
         });
     }
     return new Promise(function(resolve, reject) { // Rejections/resolutions will be returned to the caller

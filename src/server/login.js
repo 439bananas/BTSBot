@@ -94,10 +94,10 @@ router.get('/', async (req, res, next) => {
                             res.redirect(signinlink)
                             break;
                         case "BAD_CLIENT_SECRET": // If bad client secret or some other error, show the wall
-                            showwall(res, lang, await translate(lang, 'page_loginbadclientsecret'), await translate(lang, 'page_loginbadclientsecretdiag'))
+                            showwall(res, lang, translate(lang, 'page_loginbadclientsecret'), translate(lang, 'page_loginbadclientsecretdiag'))
                             break;
                         default:
-                            showwall(res, conf.language, await translate(lang, "page_confunknownerror"), await translate(lang, "page_wallunknownerrordiag"))
+                            showwall(res, conf.language, translate(lang, "page_confunknownerror"), translate(lang, "page_wallunknownerrordiag"))
                             log.error(err)
                     }
                 }

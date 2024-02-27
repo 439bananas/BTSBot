@@ -10,7 +10,7 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-const translate = require('../../core/getLanguageString.cjs');
+import translate from '../../core/getLanguageString';
 
 <html>
     <head>
@@ -26,13 +26,13 @@ const translate = require('../../core/getLanguageString.cjs');
         <main>
             <div className="container">
                 <center>
-                    <h2>{translate(lang, "page_iewalltitle", "express-engine-jsx")}</h2>
+                    <h2>{translate(lang, "page_iewalltitle")}</h2>
                     <div style={{ padding: 1 + "rem" }}>
                         <img src="/resources/btsfrown.png" className="img-fluid" />
                     </div>
                     <p>
                         <div style={{ fontSize: 1.25 + "rem" }} >
-                            {translate(lang, "page_iewalldescriptionpart1", "express-engine-jsx")} <a href="https://www.microsoft.com/en-us/edge/download"> {translate(lang, "page_iewalldescriptionpart2", "express-engine-jsx")}</a>{translate(lang, "page_iewalldescriptionpart3", "express-engine-jsx")}<a href="https://www.google.com/chrome/">{translate(lang, "page_iewalldescriptionpart4", "express-engine-jsx")}</a>{translate(lang, "page_iewalldescriptionpart5", "express-engine-jsx")}<a href="https://www.mozilla.org/en-GB/firefox/new/">{translate(lang, "page_iewalldescriptionpart6", "express-engine-jsx")}</a>
+                            {translate(lang, "page_iewalldescriptionpart1")} <a href="https://www.microsoft.com/en-us/edge/download"> {translate(lang, "page_iewalldescriptionpart2", "express-engine-jsx")}</a>{translate(lang, "page_iewalldescriptionpart3", "express-engine-jsx")}<a href="https://www.google.com/chrome/">{translate(lang, "page_iewalldescriptionpart4", "express-engine-jsx")}</a>{translate(lang, "page_iewalldescriptionpart5", "express-engine-jsx")}<a href="https://www.mozilla.org/en-GB/firefox/new/">{translate(lang, "page_iewalldescriptionpart6", "express-engine-jsx")}</a>
                         </div>
                     </p>
                 </center>

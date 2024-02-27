@@ -46,8 +46,8 @@ function getgoogletoken(clientid, clientsecret, scopes, redirecturi, code) { // 
                         reject("BAD_CODE")
                     } else {
                         reject("UNKNOWN_GOOGLE_ERROR")
-                        getlang().then(async lang => {
-                            log.error(await translate(lang, "log_googleoautherrorpart1") + response.error)
+                        getlang().then(lang => {
+                            log.error(translate(lang, "log_googleoautherrorpart1") + response.error)
                         })
                     }
                 }).catch(err => {
