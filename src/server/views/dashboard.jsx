@@ -17,6 +17,7 @@ import Categories from './categories';
 import DashboardCategory from './dashboard-category';
 
 function Dashboard(props) {
+    const [saveError, setSaveError] = useState(null)
     function getDashboardSchema() { // useEffect to get all guilds the user is a part of
         const [dashboardSchema, setDashboardSchema] = useState(null)
 
@@ -43,7 +44,7 @@ function Dashboard(props) {
             returnedElement = <Categories cats={schema.itemDescriptions} language={props.language} id={url[2]} /> // Display list of categories if only in the top level server dashboard
         } else {
             if (schema.items[decodeURIComponent(url[3])]) { // Decode the URI so that we actually recognise it
-                returnedElement = <DashboardCategory schema={schema} url={url} lang={props.language} guild={props.guild} />
+                returnedElement = <DashboardCategory uniconf={props.uniconf} schema={schema} url={url} lang={props.language} guild={props.guild} setSaveError={setSaveError} />
             } else {
                 window.location.href = "/servers/" + url[2] // If not recognised category, redirect up
             }
@@ -55,6 +56,7 @@ function Dashboard(props) {
             <div className="global-intro-section">
                 <div className="container">
                     <center>
+                        {saveError}
                         <h1>{props.guild.name}</h1>
                         <div style={{ paddingTop: 2 + "ex" }} />
                         <img src={props.guild.icon} className="rounded-circle dashboard-guild-icon" />

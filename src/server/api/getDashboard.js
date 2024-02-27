@@ -263,7 +263,25 @@ router.post('/*', jsonParser, async (req, res, next) => {
                                 if (message) {
                                     return { message: message }
                                 } else {
-                                    log.temp("SAVE CONFIG!!!")
+                                    try {
+                                        redisConnection.json.set('Dashboard:' + guild.id, '$', config) // Cache dashboard settings
+                                        let newFetchedDashboardSettings = await MySQLConnection.query("SELECT * FROM GuildConfig WHERE id=?", [guild.id]) // Commit to database
+                                        console.log(newFetchedDashboardSettings[0][0].config)
+                                        if (newFetchedDashboardSettings[0][0]) {
+                                            let updatedDashSettings = await MySQLConnection.query("UPDATE GuildConfig SET config = ? WHERE id=?", [JSON.stringify(config), guild.id]) // If no guild, create one and return it
+                                            void updatedDashSettings
+                                        } else {
+                                            let newDashboardSettings = await MySQLConnection.query("INSERT INTO GuildConfig (id, config) VALUES (?, ?)", [guild.id, JSON.stringify(config)]) // If no guild, create one and return it
+                                            void newDashboardSettings
+                                        }
+                                        return { success: newFetchedDashboardSettings }
+
+                                    } catch (err) {
+                                        log.error("************************************************")
+                                        console.log(err)
+                                        log.error("************************************************")
+                                        return { error: "UNKNOWN_ERROR" }
+                                    }
                                 }
                             }
                         }

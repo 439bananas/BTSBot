@@ -93,7 +93,7 @@ function DashboardCategory(props) {
                 </div>
             </div>
             <div className="container">
-                <DashboardMenu lang={lang} setStates={{ setDisabledMenu: setDisabledMenu, setDisabledSelectedMenu: setDisabledSelectedMenu }} schema={dashSchema[currentlySelected]} settings={props.guild} menu={currentlySelected} url={url} />
+                <DashboardMenu uniconf={props.uniconf} lang={lang} setStates={{ setDisabledMenu: setDisabledMenu, setDisabledSelectedMenu: setDisabledSelectedMenu, setSaveError: props.setSaveError }} schema={dashSchema[currentlySelected]} settings={props.guild} menu={currentlySelected} url={url} />
             </div>
         </div>
     )

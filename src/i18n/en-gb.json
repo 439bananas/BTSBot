@@ -330,5 +330,8 @@
   "page_dashboardrequiredsettingcolschemamissingpart2": " is missing.",
   "page_dashboardrequiredsettingcolrowschemamissingpart1": " of column ",
   "page_dashboardrequiredsettingcolrowschemamissingpart2": ", row ",
-  "page_dashboardrequiredsettingcolrowschemamissingpart3": " is missing."
+  "page_dashboardrequiredsettingcolrowschemamissingpart3": " is missing.",
+  "page_dashboardcannotconnecttodiscord": " cannot connect to Discord. Try again?",
+  "page_dashboardunknownerrorsaving": "An unknown error happened while saving your settings. Try looking in the browser console to see what happened.",
+  "page_dashboardSuccessSavingSettings": "Settings saved!"
 }

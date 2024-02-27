@@ -21,8 +21,6 @@ import ErrorPage from './error-page-spa'
 function getDashboard(id, all) { // useEffect to get all guilds the user is a part of
     const [dashboard, setDashboard] = useState(null)
 
-    console.log(all)
-
     useEffect(() => {
         async function fetchDashboard() {
             if (all) {
@@ -80,7 +78,7 @@ function Server(props) {
         }
     } else {
         if (guild != null) {
-            return <Dashboard language={props.language} guild={guild} />
+            return <Dashboard language={props.language} guild={guild} uniconf={props.uniconf} />
         } else return null
     }
 

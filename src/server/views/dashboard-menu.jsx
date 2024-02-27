@@ -523,7 +523,6 @@ function GenerateColumnContents(props) { // Generate the contents for each colum
 }
 
 async function commitChanges(state, guild, category, menu) {
-    console.log(state)
     let rawResponse = await fetch('/api/dashboard/' + guild, {
         headers: {
             'Accept': 'application/json',
@@ -542,7 +541,6 @@ async function commitChanges(state, guild, category, menu) {
 }
 
 function DashboardMenu(props) {
-    console.log(props)
     const [saving, setSaving] = useState(false)
     let { lang } = props
 
@@ -590,8 +588,9 @@ function DashboardMenu(props) {
     let [state, setState] = useState(JSON.parse(JSON.stringify(config))) // Doing it this way means that we don't have problems with pointers!!!
     let newStateG = JSON.parse(JSON.stringify(state))
 
-    function undertakeAction(re, guild) {
-        console.log(re)
+    function undertakeAction(re, guild, setSaveError) {
+        setSaveError(null)
+        setSaving(false)
         if (re.error) {
             switch (re.error) {
                 case "MISSING_PERMS":
@@ -601,8 +600,39 @@ function DashboardMenu(props) {
                     window.open("/servers/" + guild, "_blank") // Go to the server link in new tab since that redirects us to Discord OAuth2
                     break;
                 case "CANNOT_CONNECT_TO_DISCORD":
-                    // display error
+                    setSaveError(<div className="alert-box danger text-wrap overlay">
+                        {props.uniconf.projname + translate(lang, "page_dashboardcannotconnecttodiscord")}
+                    </div>)
+                    break
+                default:
+                    console.log(re)
+                    setSaveError(<div className="alert-box danger text-wrap overlay">
+                        {props.uniconf.projname + translate(lang, "page_dashboardunknownerrorsaving")}
+                    </div>)
             }
+        }
+
+        if (re.message) {
+            let messageWithoutBreaks = re.message.split('\n')
+            let messageWithBreaks = []
+            if (!messageWithoutBreaks[1]) {
+                messageWithBreaks = messageWithoutBreaks[0]
+            } else {
+                let key = 0
+                messageWithoutBreaks.map(message => {
+                    messageWithBreaks.push(<p style={{marginBottom: 0}} key={ key++ }>{message}</p>)
+                })
+            }
+            setSaveError(<div className="alert-box danger text-wrap overlay">
+                {messageWithBreaks}
+            </div>)
+        }
+
+        if (re.success) {
+            enableMenu()
+            setSaveError(<div className="alert-box danger text-wrap overlaySuccess">
+                {translate(lang, "page_dashboardSuccessSavingSettings")}
+            </div>)
         }
     }
 
@@ -619,9 +649,8 @@ function DashboardMenu(props) {
                         onClick={async () => {
                             setSaving(true)
                             killMenu()
-                            console.log(state)
                             let re = await commitChanges(state, props.url[2], decodeURIComponent(props.url[3]), props.menu)
-                            undertakeAction(re, props.url[2])
+                            undertakeAction(re, props.url[2], props.setStates.setSaveError)
                         }}
                         className="margin8 button-1x2ahC button-38aScr lookFilled-1Gx00P colorGreen-29iAKY sizeSmall-2cSMqn grow-q77ONN">
                         <div className="contents-18-Yxp">{translate(lang, "page_dashboardsave")}</div>
