@@ -75,7 +75,7 @@
     <Content Include="src\core\getDiscordScopes.js" />
     <Content Include="src\core\getDiscordUserInfo.js" />
     <Content Include="src\core\getGoogleToken.js" />
-    <Content Include="src\core\getGuild.cjs" />
+    <Content Include="src\core\getGuild.js" />
     <Content Include="src\core\getI18nFiles.js" />
     <Content Include="src\core\getLanguageJSON.js" />
     <Content Include="src\core\getLanguageString.js" />
