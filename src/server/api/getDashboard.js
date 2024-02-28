@@ -13,7 +13,7 @@
 import { Router, json } from 'express';
 import validateConf from '../validateConf.js';
 import getGuilds from '../../core/getUserGuilds.cjs';
-import getGuild from '../../core/getGuild.cjs';
+import getGuild from '../../core/getGuild';
 import getUserPermissions from '../../core/getUserPermissions.cjs';
 import botInGuild from '../../core/checkBotInGuild';
 import isMod from '../../core/getUserModStatus.cjs';
@@ -311,10 +311,6 @@ router.post('/*', jsonParser, async (req, res, next) => {
 
     let dashboard = await setDash(req, res)
     res.status(200).json(dashboard)
-
-    // Enforce login
-    // Throw error if user not mod and user has no manage server perms in said server
-    // Go on to validate config
 })
 
 export default router;

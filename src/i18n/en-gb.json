@@ -333,5 +333,6 @@
   "page_dashboardrequiredsettingcolrowschemamissingpart3": " is missing.",
   "page_dashboardcannotconnecttodiscord": " cannot connect to Discord. Try again?",
   "page_dashboardunknownerrorsaving": "An unknown error happened while saving your settings. Try looking in the browser console to see what happened.",
-  "page_dashboardSuccessSavingSettings": "Settings saved!"
+  "page_dashboardSuccessSavingSettings": "Settings saved!",
+  "page_allserversplaceholdertext": "Enter a guild ID to jump to that guild's dashboard"
 }

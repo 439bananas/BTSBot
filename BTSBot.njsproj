@@ -122,6 +122,7 @@
     <Content Include="src\server\api\uniconf.js" />
     <Content Include="src\server\api\version.js" />
     <Content Include="src\server\createServer.js" />
+    <Content Include="src\server\views\all-servers.jsx" />
     <Content Include="src\server\dashboard\test - Copy %282%29.yaml" />
     <Content Include="src\server\dashboard\test - Copy %283%29.yaml" />
     <Content Include="src\server\dashboard\test - Copy %284%29.yaml" />

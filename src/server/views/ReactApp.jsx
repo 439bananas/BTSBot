@@ -19,6 +19,7 @@ import Footer from './components/footer';
 import Config from './config';
 import Home from './home';
 import Servers from './servers';
+import AllServers from "./all-servers";
 
 function App(props) {
     if (!props.confExists) {
@@ -49,7 +50,8 @@ function App(props) {
                             <Route path="/">
                                 <Route index element={<Home addToServerLink={props.addToServerLink} language={props.language} uniconf={props.uniconf} />} />
                                 <Route path="servers/*" element={<Servers addToServerLink={props.addToServerLink} language={props.language} uniconf={props.uniconf} user={props.DiscordUser} />} />
-                                <Route path="*" element={<Error404 language={props.language} confErr={props.confErr} uniconf={props.uniconf} />} />
+                                <Route path="all-servers" element={<AllServers userIsMod={props.userIsMod} language={props.language} confErr={props.confErr} uniconf={props.uniconf} />} />
+                                <Route path="*" element={<Error404 language={props.language} confErr={props.confErr} uniconf={props.uniconf} user={props.DiscordUser} />} />
                             </Route>
                         </Routes>
                     </div>

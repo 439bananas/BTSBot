@@ -2,7 +2,7 @@
 //                                                         //
 //                         BTS Bot                         //
 //                                                         //
-//                   File: getGuild.cjs                    //
+//                    File: getGuild.js                    //
 //                                                         //
 //               Author: Thomas (439bananas)               //
 //                                                         //
@@ -10,7 +10,7 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
-const fetchGuild = require("./fetchGuild");
+import fetchGuild from "./fetchGuild";
 
 async function getGuild(id, guilds, isMod) {
     let guildJSON = {id: "0", permissions: 0}
@@ -25,4 +25,4 @@ async function getGuild(id, guilds, isMod) {
     return guildJSON
 }
 
-module.exports = getGuild;
+export default getGuild;
