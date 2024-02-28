@@ -10,15 +10,17 @@
 //                                                         //
 /////////////////////////////////////////////////////////////
 
+import { warnUser } from './warnUserIfNoConf'
+
+global.translate = (await import('./getLanguageString')).default
 global.path = await import('path') // Define anything to be globally used here
 global.uniconf = (await import('../configs/uniconf.json', {assert: {type: "json"}})).default
 global.pkg = (await import('../../package.json'), {assert: {type: "json"}}).default
-global.translate = (await import('./getLanguageString.js')).default
-global.log = (await import('./logHandler.js')).default
-global.restart = await import('./restartProcess.js')
+global.log = (await import('./logHandler')).default
+global.restart = await import('./restartProcess')
 global.getlang = (await import('./getLanguageJSON')).default
 
-import('./warnUserIfNoConf') // Check if conf.json exists and if not, send a warning to the console
+await warnUser()
 
 //require('../bot/createBot.cjs') // Start the bot
 

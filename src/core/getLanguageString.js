@@ -51,13 +51,13 @@ function translate(languagecode, string) { // This function allows the caller to
     } else {
         language = defaultlanguage
     }
-    if (language[string] !== undefined) { // If it exists, return the string
+    if (language && language[string] !== undefined) { // If it exists, return the string
         return language[string]
     } else if (typeof (conf) !== "undefined" && typeof (conf.language) !== "undefined") { /// If language does not exist, if there is a config language defined, use that if possible, else default to default language
         language = languages[conf.language]
-        if (language[string] !== undefined) {
+        if (language && language[string] !== undefined) {
             return language[string]
-        } else if (defaultlanguage[string] !== undefined) {
+        } else if (defaultlanguage && defaultlanguage[string] !== undefined) {
             return defaultlanguage[string]
         } else return null
     } else if (existsSync(join(__dirname, '..', 'src', 'configs', 'confinterim.json'))) { // Failing that, confinterim will do
@@ -65,15 +65,15 @@ function translate(languagecode, string) { // This function allows the caller to
         import('./configs/confinterim.json', { assert: { type: "json" } }).then(mod => {
             let conf = mod.default
             language = languages[conf.language]
-            if (language[string] !== undefined) {
+            if (language && language[string] !== undefined) {
                 returnedValue = language[string]
-            } else if (defaultlanguage[string] !== undefined) {
+            } else if (defaultlanguage && defaultlanguage[string] !== undefined) {
                 returnedValue = defaultlanguage[string]
             } else returnedValue = null
         })
 
         return returnedValue
-    } else if (defaultlanguage[string] !== undefined) { // If the string doesn't exist but the string in the default language exists, return that
+    } else if (defaultlanguage && defaultlanguage[string] !== undefined) { // If the string doesn't exist but the string in the default language exists, return that
         return defaultlanguage[string]
     } else return null; // Else, null
 }

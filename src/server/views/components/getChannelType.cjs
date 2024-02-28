@@ -2,7 +2,7 @@
 //                                                         //
 //                         BTS Bot                         //
 //                                                         //
-//                dFile: getChannelType.cjs                 //
+//                File: getChannelType.cjs                 //
 //                                                         //
 //               Author: Thomas (439bananas)               //
 //                                                         //
