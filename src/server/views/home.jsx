@@ -16,6 +16,9 @@ import translate from './components/getLanguageString.cjs';
 
 function Home(props) {
     let oauth2link = "https://discord.com/oauth2/authorize?client_id=" + props.addToServerLink.clientid + "&permissions=" + props.uniconf.perms + "&redirect_uri=" + encodeURIComponent(props.addToServerLink.address + "/login") + "&response_type=code&scope=guilds%20email%20identify%20bot%20applications.commands"
+    if (typeof (document) != "undefined") {
+        document.title = props.uniconf.projname
+    }
     return (<div>
         <div className="global-intro-section">
             <div className="container">
