@@ -121,7 +121,7 @@
   "page_wallcannotconnecttomicrosoft": " cannot connect to Microsoft Graph.",
   "page_wallcannotconnecttomicrosoftdiagpart2": " can contact the internet and refresh this page. If Microsoft Graph's API is down, you'll need to wait until it is available again.",
   "page_moderatorsroleid": "Moderators role ID",
-  "page_noconfintroheader": "hmmst",
+  "page_noconfintroheader": "oh!",
   "page_noconfintropart1": "It appears that there is not a ",
   "page_noconfintropart2": " file located in ",
   "page_noconfintropart3": " on the server for ",
