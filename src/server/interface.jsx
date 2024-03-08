@@ -33,7 +33,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 router.get("*", async (req, res, next) => {
     let re = await validateConf(req)
     try {
-        const conf = await import("../../configs/conf.json", { assert: { type: "json" } })
+        const conf = (await import("../../configs/conf.json", { assert: { type: "json" } })).default
         const id = getid(conf.token)
         let html = renderToString( // Passing every possibly required language here means that translate() further down the line does not require await, nor does not bog down the entire SPA
             <StaticRouter location={req.originalUrl}>

@@ -43,7 +43,7 @@
     <Content Include="BTS Bot.code-workspace" />
     <Content Include="build\bundle.js" />
     <Content Include="build\server.mjs" />
-    <Content Include="configs\conf.json" />
+    <Content Include="configs\config.json" />
     <Content Include="configs\configpasswordhash.json" />
     <Content Include="configs\confinterim.json" />
     <Content Include="configs\logintokens.json" />
